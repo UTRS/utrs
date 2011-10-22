@@ -1,0 +1,51 @@
+@CHARSET "ISO-8859-1";
+
+/** Colors I picked are recommended by Kuler (http://kuler.adobe.com) 
+	Base color: #3537FF  Mode: Compound
+	I'm open to them being changed. */
+
+a{
+	color: blue;
+	text-decoration: none;	
+}
+
+#header{
+	background-color: #3537FF;
+	background-image: url('https://wiki.toolserver.org/w/images/e/e1/Wikimedia_Community_Logo-Toolserver.png');
+	background-position: right top;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: contain;
+	font-style: italic;
+	font-family: Serif;
+	font-size: 1.4em;
+	font-weight: bold;
+	color: #FFFFFF;
+	width: 100%;
+	border: none;
+}
+
+#subheader{
+	background-color: #FFD875;
+	height: 50px;
+	color: black;
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid gray;
+}
+
+#subheader.a{
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+}
+
+#subheader.a:hover{
+	background-color: #CC8616;
+}
+
+#footer{
+	background-color: #7E5D99;
+	color: black;
+	border: none;
+	text-align: center;
+}

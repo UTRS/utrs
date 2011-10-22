@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<title>Insert title here</title>
+<link rel="stylesheet" href="unblock_styles.css">
+<title>Unblock Ticket Request System</title>
 </head>
 <body>
 <div id="header">

@@ -4,50 +4,96 @@
 	Base color: #4500D6  Mode: Compound
 	I'm open to them being changed. */
 
+body{
+	font-family: sans-serif;
+	overflow-x: hidden;
+}
+
 a{
-	color: blue;
+	color: #0000FF;
 	text-decoration: none;	
 }
 
+a:hover{
+	color: #9900FF !important;
+	text-decoration: none;	
+}
+
+form{
+	white-space:pre-wrap;
+}
+
 #header{
-	background-color: #4500D6;
-	background-image: url('https://wiki.toolserver.org/w/images/e/e1/Wikimedia_Community_Logo-Toolserver.png');
-	background-position: right top;
+	background-color: #3B10A3;
+	background-image: url('http://upload.wikimedia.org/wikipedia/commons/b/be/Wikimedia_Community_Logo-Toolserver.svg');
+	background-position: 99% 2%;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: 70px;
 	font-style: italic;
 	font-family: Serif;
-	font-size: 1.4em;
+	font-size: 2.0em;
 	font-weight: bold;
-	color: #FFFFFF;
+	font-stretch: expanded;
+	color: #EFEFEF;
 	width: 120%;
 	border: none;
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 10px;
 	margin-left: -20px;
+	margin-top: -20px;
 }
 
 #subheader{
 	background-color: #DBC037;
-	height: 50px;
+	height: 40px;
 	color: black;
 	width: 120%;
 	border: none;
 	border-bottom: 1px solid gray;
 	margin-left: -20px;
+	margin-bottom: 10px;
+	padding-left: 20px;
 }
 
-#subheader.a{
+table.subheader_content{
+	border: none;
+	border-collapse: collapse;
+	background: inherit;
+	height: 100%;
+}
+
+table.subheader_content a:link,
+table.subheader_content a:visited, 
+table.subheader_content a:hover,
+table.subheader_content a:active{
+	color: black !important;
+}
+
+table.subheader_content td{
 	border-left: 1px solid gray;
 	border-right: 1px solid gray;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 
-#subheader.a:hover{
-	background-color: #A37C10;
+table.subheader_content td:hover{
+	background-color: #D6A72A !important;
 }
 
 #footer{
-	background-color: #8F10A3;
+	background-color: #BCA742;
 	color: black;
 	border: none;
 	text-align: center;
+	margin-left: -20px;
+	margin-bottom: -20px;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.required{
+	color: red !important;
 }

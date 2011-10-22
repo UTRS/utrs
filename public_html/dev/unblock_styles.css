@@ -1,7 +1,7 @@
 @CHARSET "ISO-8859-1";
 
 /** Colors I picked are recommended by Kuler (http://kuler.adobe.com) 
-	Base color: #3537FF  Mode: Compound
+	Base color: #4500D6  Mode: Compound
 	I'm open to them being changed. */
 
 a{
@@ -10,7 +10,7 @@ a{
 }
 
 #header{
-	background-color: #3537FF;
+	background-color: #4500D6;
 	background-image: url('https://wiki.toolserver.org/w/images/e/e1/Wikimedia_Community_Logo-Toolserver.png');
 	background-position: right top;
 	background-attachment: fixed;
@@ -21,17 +21,19 @@ a{
 	font-size: 1.4em;
 	font-weight: bold;
 	color: #FFFFFF;
-	width: 100%;
+	width: 120%;
 	border: none;
+	margin-left: -20px;
 }
 
 #subheader{
-	background-color: #FFD875;
+	background-color: #DBC037;
 	height: 50px;
 	color: black;
-	width: 100%;
+	width: 120%;
 	border: none;
 	border-bottom: 1px solid gray;
+	margin-left: -20px;
 }
 
 #subheader.a{
@@ -40,11 +42,11 @@ a{
 }
 
 #subheader.a:hover{
-	background-color: #CC8616;
+	background-color: #A37C10;
 }
 
 #footer{
-	background-color: #7E5D99;
+	background-color: #8F10A3;
 	color: black;
 	border: none;
 	text-align: center;

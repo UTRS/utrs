@@ -4,6 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <link rel="stylesheet" href="unblock_styles.css">
 <title>Unblock Ticket Request System</title>
+
+<script type="text/javascript">
+var accountNameInput = "<label id=\"accountNameLabel\" for=\"accountName\" class=\"required\">What is the name of your account?</label> <input id=\"accountName\" type=\"text\" name=\"accountName\" value=\"\"/><br />";
+var autoBlockInput = "<label id=\"autoBlockLabel\" for=\"autoBlock\" class=\"required\">What has been blocked?</label> &#09; <input id=\"autoBlockN\" type=\"radio\" name=\"autoBlock\" value=\"false\" /> My account &#09; <input id=\"autoBlockY\" type=\"radio\" name=\"autoBlock\" value=\"true\" /> My IP address (my account is not blocked)<br />"
+var desiredAccountInput = "<label id=\"desiredAccountNameLabel\" for=\"desiredAccountName\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\"desiredAccountName\" type=\"text\" name=\"desiredAccountName\" value=\"\"/><br />";
+
+function hasAccount(){
+	var span = document.getElementById("variableQuestionSection");
+	span.innerHTML = accountNameInput + "\n" + autoBlockInput;
+}
+
+function noAccount() {
+	var span = document.getElementById("variableQuestionSection");
+	span.innerHTML = desiredAccountInput;
+}
+</script>
 </head>
 <body>
 <div id="header">
@@ -42,17 +58,16 @@ how to receive assistance, please see those links.</p>
 <p><b>For assistance with a block, please complete the form below:</b></p>
 
 <form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">
-<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input type="text" name="email" value=""/><br />
-<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input type="radio" name="registered" value="true" /> Yes &#09; <input type="radio" name="registered" value="false" /> No<br />
-<label id="accountNameLabel" for="accountName" class="required">What is the name of your account?</label> <input type="text" name="accountName" value=""/><br />
-<label id="autoBlockLabel" for="autoBlock" class="required">What has been blocked?</label> &#09; <input type="radio" name="autoBlock" value="false" /> My account &#09; <input type="radio" name="autoBlock" value="true" /> My IP address (my account is not blocked)<br />
+<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br />
+<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="true" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="false" onClick="noAccount()" /> No<br />
+<span id="variableQuestionSection"></span>
 <label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br />
-<textarea name="appeal" rows="5" cols="50"> </textarea><br />
+<textarea id="appeal" name="appeal" rows="5" cols="50"> </textarea><br />
 <label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br />
-<textarea name="edits" rows="5" cols="50"> </textarea><br />
+<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br />
 <label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br />
-<textarea name="otherInfo" rows="3" cols="50"> </textarea><br />
-<label id="desiredAccountNameLabel" for="desiredAccountName">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input type="text" name="desiredAccountName" value=""/><br />
+<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br />
+
 
 CAPTCHA GOES HERE
 

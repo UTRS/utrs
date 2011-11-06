@@ -7,6 +7,7 @@
 body{
 	font-family: sans-serif;
 	overflow-x: hidden;
+	background-color: #EBF4FF;
 }
 
 a{
@@ -24,7 +25,7 @@ form{
 }
 
 #header{
-	background-color: #3B10A3;
+	background-color: #93A1B2;
 	background-image: url('http://upload.wikimedia.org/wikipedia/commons/b/be/Wikimedia_Community_Logo-Toolserver.svg');
 	background-position: 99% 2%;
 	background-attachment: fixed;
@@ -46,7 +47,7 @@ form{
 }
 
 #subheader{
-	background-color: #DBC037;
+	background-color: #AFB29C;
 	height: 40px;
 	color: black;
 	width: 120%;
@@ -79,11 +80,11 @@ table.subheader_content td{
 }
 
 table.subheader_content td:hover{
-	background-color: #D6A72A !important;
+	background-color: #C6CCA8 !important;
 }
 
 #footer{
-	background-color: #BCA742;
+	background-color: #FFD6D1;
 	color: black;
 	border: none;
 	text-align: center;

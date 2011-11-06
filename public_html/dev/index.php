@@ -1,3 +1,19 @@
+<?php
+
+require_once('recaptchalib.php');
+
+$publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
+$privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
+$captchaErr = null;
+
+// Confirm captcha
+$resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+	
+if(!$resp->is_valid) {
+	$captchaErr = $resp->error;
+}
+
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
@@ -60,23 +76,25 @@ how to receive assistance, please see those links.</p>
 
 <p><b>For assistance with a block, please complete the form below:</b></p>
 
-<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">
-<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br />
-<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" /> No<br />
-<span id="variableQuestionSection"></span>
-<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, what adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value=""/><br />
-<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br />
-<textarea id="appeal" name="appeal" rows="5" cols="50"> </textarea><br />
-<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br />
-<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br />
-<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br />
-<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br />
+<?php 
 
+echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
+echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br />';
+echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" /> No<br />';
+echo '<span id="variableQuestionSection"></span>';
+echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, what adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value=""/><br />';
+echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br />';
+echo '<textarea id="appeal" name="appeal" rows="5" cols="50"> </textarea><br />';
+echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br />';
+echo '<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br />';
+echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br />';
+echo '<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br />';
 
-CAPTCHA GOES HERE
+echo recaptcha_get_html($publickey, $captchaErr);
 
-<input type="submit" value="Submit Appeal"/>
-</form>
+echo '<input type="submit" value="Submit Appeal"/>';
+echo '</form>';
+?>
 
 <p>Please remember that Wikipedia adminstrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will meet with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page. Be sure to replace "your reason here" with your appeal: <b><tt>{{unblock|1=your reason here}}</tt></b></p>
 </div>

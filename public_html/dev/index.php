@@ -79,16 +79,16 @@ how to receive assistance, please see those links.</p>
 <?php 
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
-echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br />';
-echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" /> No<br />';
-echo '<span id="variableQuestionSection"></span>';
-echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, what adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value=""/><br />';
-echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br />';
-echo '<textarea id="appeal" name="appeal" rows="5" cols="50"> </textarea><br />';
-echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br />';
-echo '<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br />';
-echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br />';
-echo '<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br />';
+echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br /><br />';
+echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" /> No<br /><br />';
+echo '<span id="variableQuestionSection"></span><br />';
+echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, what adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value=""/><br /><br />';
+echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
+echo '<textarea id="appeal" name="appeal" rows="5" cols="50"> </textarea><br /><br />';
+echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br /><br />';
+echo '<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br /><br />';
+echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
+echo '<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br /><br />';
 
 echo recaptcha_get_html($publickey, $captchaErr);
 

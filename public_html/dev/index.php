@@ -90,6 +90,8 @@ echo '<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br /><br
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
 echo '<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br /><br />';
 
+echo '<span class="required">' . $captchaErr . '</span><br />';
+
 echo '<span class="overridePre">';
 if($captchaErr == null){
 	echo recaptcha_get_html($publickey);

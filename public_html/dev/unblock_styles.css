@@ -24,6 +24,10 @@ form{
 	white-space:pre-wrap;
 }
 
+.overridePre{
+	white-space:normal !important;
+}
+
 #header{
 	background-color: #93A1B2;
 	background-image: url('http://upload.wikimedia.org/wikipedia/commons/b/be/Wikimedia_Community_Logo-Toolserver.svg');

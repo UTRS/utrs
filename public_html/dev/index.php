@@ -7,8 +7,9 @@
 
 <script type="text/javascript">
 var accountNameInput = "<label id=\"accountNameLabel\" for=\"accountName\" class=\"required\">What is the name of your account?</label> <input id=\"accountName\" type=\"text\" name=\"accountName\" value=\"\"/><br />";
-var autoBlockInput = "<label id=\"autoBlockLabel\" for=\"autoBlock\" class=\"required\">What has been blocked?</label> &#09; <input id=\"autoBlockN\" type=\"radio\" name=\"autoBlock\" value=\"false\" /> My account &#09; <input id=\"autoBlockY\" type=\"radio\" name=\"autoBlock\" value=\"true\" /> My IP address (my account is not blocked)<br />"
-var desiredAccountInput = "<label id=\"desiredAccountNameLabel\" for=\"desiredAccountName\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\"desiredAccountName\" type=\"text\" name=\"desiredAccountName\" value=\"\"/><br />";
+var autoBlockInput = "<label id=\"autoBlockLabel\" for=\"autoBlock\" class=\"required\">What has been blocked?</label> &#09; <input id=\"autoBlockN\" type=\"radio\" name=\"autoBlock\" value=\"0\" /> My account &#09; <input id=\"autoBlockY\" type=\"radio\" name=\"autoBlock\" value=\"1\" /> My IP address or range (my account is not blocked)<br />"
+var desiredAccountInput = "<label id=\"accountNameLabel\" for=\"accountName\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\"accountName\" type=\"text\" name=\"accountName\" value=\"\"/><br />";
+var autoBlock = false;
 
 function hasAccount(){
 	var span = document.getElementById("variableQuestionSection");
@@ -16,9 +17,11 @@ function hasAccount(){
 }
 
 function noAccount() {
+	autoBlock = false;
 	var span = document.getElementById("variableQuestionSection");
 	span.innerHTML = desiredAccountInput;
 }
+
 </script>
 </head>
 <body>
@@ -59,8 +62,9 @@ how to receive assistance, please see those links.</p>
 
 <form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">
 <label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br />
-<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="true" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="false" onClick="noAccount()" /> No<br />
+<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" /> No<br />
 <span id="variableQuestionSection"></span>
+<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, what adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value=""/><br />
 <label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br />
 <textarea id="appeal" name="appeal" rows="5" cols="50"> </textarea><br />
 <label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br />

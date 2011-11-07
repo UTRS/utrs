@@ -36,7 +36,7 @@ if(isset($_POST["submit"])){
 		echo 'object created';
 	}
 	catch(UTRSValidationException $ex){
-		echo 'exception thrown'
+		echo 'exception thrown';
 		$errorMessages = $ex->getMessage() . $errorMessages;
 	}
 }

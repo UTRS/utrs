@@ -22,7 +22,7 @@ if(isset($_POST["submit"])){
 									
 	if(!$resp->is_valid) {
 		$captchaErr = $resp->error;
-		$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
+		$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
 	}
 	
 	require_once('../src/exceptions.php');
@@ -128,8 +128,6 @@ echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, 
 echo '<textarea id="edits" name="edits" rows="5" cols="50"> </textarea><br /><br />';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
 echo '<textarea id="otherInfo" name="otherInfo" rows="3" cols="50"> </textarea><br /><br />';
-
-echo '<span class="required">' . $captchaErr . '</span><br />';
 
 echo '<span class="overridePre">';
 if($captchaErr == null){

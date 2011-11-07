@@ -129,13 +129,13 @@ class Appeal{
 		if($hasAccount && !isset($postVars["autoBlock"])){
 			$errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
 		}
-		if(!isset($postVars["blockingAdmin"])){
-			$errorMsgs = $errorMsgs . "<br />We need to know which administrator placed your block.";
+		if(!isset($postVars["blockingAdmin"]) || $postVars["blockingAdmin"]){
+			$errorMsgs .= "<br />We need to know which administrator placed your block.";
 		}
-		if(!isset($postVars["appeal"])){
+		if(!isset($postVars["appeal"]) || $postVars["appeal"]){
 			$errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
 		}
-		if(!isset($postVars["edits"])){
+		if(!isset($postVars["edits"]) || $postVars["edits"]){
 			$errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
 		}
 		

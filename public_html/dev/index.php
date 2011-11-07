@@ -1,13 +1,11 @@
 <?php
-echo ' marco ';
+
+error_reporting(E_ALL);
 
 require_once('recaptchalib.php');
-echo ' test ';
 require_once('../src/appealObject.php');
-echo ' test2 ';
 require_once('../src/exceptions.php');
 
-echo ' polo ';
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -15,40 +13,28 @@ $captchaErr = null;
 $errorMessages = '';
 $appeal = null;
 
-echo ' was ';
-
 // Handle submitted form
 if(isset($_POST["submit"])){
-	echo ' venetian ';
 	
 	// verify captcha
 	$resp = recaptcha_check_answer($privatekey, 
 									$_SERVER["REMOTE_ADDR"], 
 									$_POST["recaptcha_challenge_field"], 
 									$_POST["recaptcha_response_field"]);
-	
-	echo ' and ';
 									
 	if(!$resp->is_valid) {
 		$captchaErr = $resp->error;
 		$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
 	}
 	
-	echo ' explored ';
-	
 	try{
 		Appeal.validate($_POST);
-		echo ' china ';
 		$appeal = new Appeal($_POST);
-		echo ' for ';
 	}
 	catch(UTRSValidationException $ex){
-		echo ' europe ';
 		$errorMessages = $ex->getMessage() . $errorMessages;
-		echo ' so ';
 	}
 }
-echo ' yay ';
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">

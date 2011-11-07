@@ -11,28 +11,28 @@ class Appeal{
 	/**
 	 * The appeal is new and has not yet been addressed
 	 */
-	public static final $STATUS_NEW = 'NEW';
+	public static $STATUS_NEW = 'NEW';
 	/**
 	 * A response has been sent to the user, and a reply is expected
 	 */
-	public static final $STATUS_AWAITING_USER = 'AWAITING_USER';
+	public static $STATUS_AWAITING_USER = 'AWAITING_USER';
 	/**
 	 * The user has replied to a response, and the appeal is ready for further
 	 * action from the handling administrator
 	 */
-	public static final $STATUS_AWAITING_ADMIN = 'AWAITING_ADMIN';
+	public static $STATUS_AWAITING_ADMIN = 'AWAITING_ADMIN';
 	/**
 	 * The appeal needs to be reviewed by a checkuser before it can proceed
 	 */
-	public static final $STATUS_AWAITING_CHECKUSER = 'AWAITING_CHECKUSER';
+	public static $STATUS_AWAITING_CHECKUSER = 'AWAITING_CHECKUSER';
 	/**
 	 * The appeal needs to be reviewed by OPP before it can proceed
 	 */
-	public static final $STATUS_AWAITING_PROXY = 'AWAITING_PROXY';
+	public static $STATUS_AWAITING_PROXY = 'AWAITING_PROXY';
 	/**
 	 * The appeal in question has been resolved
 	 */
-	public static final $STATUS_CLOSED = 'CLOSED';
+	public static $STATUS_CLOSED = 'CLOSED';
 	
 	/**
 	 * Database ID number

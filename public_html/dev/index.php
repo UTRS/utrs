@@ -4,6 +4,7 @@
 error_reporting(E_ALL);
 
 require_once('recaptchalib.php');
+echo 'recaptcha imported';
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -26,7 +27,9 @@ if(isset($_POST["submit"])){
 	}
 	
 	require_once('../src/exceptions.php');
+	echo 'exceptions imported';
 	require_once('../src/appealObject.php');
+	echo 'appeals imported';
 	
 	try{
 		Appeal.validate($_POST);

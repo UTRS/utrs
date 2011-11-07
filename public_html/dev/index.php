@@ -32,7 +32,7 @@ if(isset($_POST["submit"])){
 	echo 'appeals imported';
 	
 	try{
-		Appeal.validate($_POST);
+		Appeal::validate($_POST);
 		$appeal = new Appeal($_POST);
 	}
 	catch(UTRSValidationException $ex){

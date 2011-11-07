@@ -89,7 +89,7 @@ class Appeal{
 	private $status;
 	
 	public function __construct(array $postVars){
-		validate($postVars); // may throw an exception
+		Appeal::validate($postVars); // may throw an exception
 		
 		$this->ipAddress = $_SERVER['REMOTE_ADDR'];
 		$this->emailAddress = $postVars['email'];

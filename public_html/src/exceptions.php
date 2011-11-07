@@ -1,32 +1,20 @@
 <?php
 
-class UTRSValidationException{
+class UTRSValidationException extends Exception{
 	
-	private $message;
-	
-	public final $defaultMessage = "<b>There were errors processing your unblock appeal: </b>";
+	public static final $defaultMessage = "<b>There were errors processing your unblock appeal: </b>";
 	
 	public function __construct($errorMsg){
-		$this->message = $defaultMessage.concat($errorMsg);
-	}
-	
-	public function getMessage(){
-		return $this->message;
+		parent::__construct($defaultMessage.concat($errorMsg), 10001, null);
 	}
 }
 
-class UTRSIllegalModificationException{
+class UTRSIllegalModificationException extends Exception{
 	
-	private $message;
-	
-	public final $defaultMessage = "<b>The action you requested could not be performed: </b>";
+	public static final $defaultMessage = "<b>The action you requested could not be performed: </b>";
 	
 	public function __construct($errorMsg){
-		$this->message = $defaultMessage.concat($errorMsg);
-	}
-	
-	public function getMessage(){
-		return $this->message;
+		parent::__construct($defaultMessage.concat($errorMsg), 10002, null);
 	}
 }
 

@@ -25,9 +25,8 @@ if(isset($_POST["submit"])){
 		$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
 	}
 	
-	require_once('../src/foobar.php'); // should throw an error
-	require_once('../src/appealObject.php');
 	require_once('../src/exceptions.php');
+	require_once('../src/appealObject.php');
 	
 	try{
 		Appeal.validate($_POST);

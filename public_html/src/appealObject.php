@@ -98,11 +98,11 @@ class Appeal{
 		$this->isAutoBlock = (boolean) $postVars['autoBlock'];
 		$this->blockingAdmin = $postVars['blockingAdmin'];
 		$this->appeal = $postVars['appeal'];
-		$this->intendedEdits = $postVars['intendedEdits'];
+		$this->intendedEdits = $postVars['edits'];
 		$this->otherInfo = $postVars['otherInfo'];
 		$this->timestamp = date('Y-m-d H:i:s');
 		$this->handlingAdmin = null;
-		$this->status = $STATUS_NEW;
+		$this->status = Appeal::STATUS_NEW;
 		
 		// TODO: insert into database
 		

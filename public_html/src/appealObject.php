@@ -125,7 +125,7 @@ class Appeal{
 		else{
 			$hasAccount = $postVars["registered"];
 		}
-		if($hasAccount && (!isset($postVars["accountName"]) || strcmp(trim($postVars["accountName"]), '') == 0 ){
+		if($hasAccount && (!isset($postVars["accountName"]) || strcmp(trim($postVars["accountName"]), '') == 0 )){
 			$errorMsgs .= "<br />If you have an account, we need to know the name of your account.";
 		}
 		if($hasAccount && !isset($postVars["autoBlock"])){

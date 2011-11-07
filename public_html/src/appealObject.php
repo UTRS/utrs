@@ -1,5 +1,6 @@
 <?php
-require_once 'exceptions.php';
+error_reporting(E_ALL);
+require_once('exceptions.php');
 
 /**
  * This class contains information relevant to a single unblock appeal.

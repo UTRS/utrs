@@ -29,19 +29,13 @@ if(isset($_POST["submit"])){
 	require_once('../src/appealObject.php');
 	
 	try{
-		echo 'about to validate';
 		Appeal::validate($_POST);
-		echo 'done validation';
 		$appeal = new Appeal($_POST);
-		echo 'object created';
 	}
 	catch(UTRSValidationException $ex){
-		echo 'exception thrown';
 		$errorMessages = $ex->getMessage() . $errorMessages;
 	}
 }
-
-echo 'end of initalization block';
 ?>
 <html>
 <head>

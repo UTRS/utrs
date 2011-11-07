@@ -7,7 +7,7 @@ class UTRSValidationException extends Exception{
 	
 	public function __construct($errorMsg){
 		echo 'point 1';
-		parent::__construct($defaultMessage->concat($errorMsg), 10001, null);
+		parent::__construct(UTRSValidationException::defaultMessage . $errorMsg, 10001, null);
 	}
 }
 
@@ -17,7 +17,7 @@ class UTRSIllegalModificationException extends Exception{
 	
 	public function __construct($errorMsg){
 		echo 'point 2';
-		parent::__construct($defaultMessage->concat($errorMsg), 10002, null);
+		parent::__construct(UTRSIllegalModificationException::defaultMessage . $errorMsg, 10002, null);
 	}
 }
 

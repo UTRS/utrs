@@ -2,9 +2,10 @@
 echo ' marco ';
 
 require_once('recaptchalib.php');
-require_once('http://toolserver.org/~unblock/src/appealObject.php');
-require_once('http://toolserver.org/~unblock/src/exceptions.php');
-// TODO: find a way to make those relative
+echo ' test ';
+require_once('../src/appealObject.php');
+echo ' test2 ';
+require_once('../src/exceptions.php');
 
 echo ' polo ';
 

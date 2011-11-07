@@ -114,11 +114,8 @@ class Appeal{
 		$hasAccount = false;
 		$emailErr = false;
 		
-		echo '--' . $postVars["email"] . '--<br/>';
-		echo '--' . $postVars["blockingAdmin"] . '--<br/>';
-		
 		// confirm that all required fields exist
-		if(!isset($postVars["email"]) || trim($postVars["email"])){
+		if(!isset($postVars["email"]) || strcmp(trim($postVars["email"]), '') == 0 ){
 			$emailErr = true;
 			$errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
 		}
@@ -134,7 +131,7 @@ class Appeal{
 		if($hasAccount && !isset($postVars["autoBlock"])){
 			$errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
 		}
-		if(!isset($postVars["blockingAdmin"]) || trim($postVars["blockingAdmin"])){
+		if(!isset($postVars["blockingAdmin"]) || strcmp(trim($postVars["blockingAdmin"]), '') == 0){
 			$errorMsgs .= "<br />We need to know which administrator placed your block.";
 		}
 		if(!isset($postVars["appeal"]) || $postVars["appeal"]){

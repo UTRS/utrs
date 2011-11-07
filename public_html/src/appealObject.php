@@ -112,9 +112,11 @@ class Appeal{
 	public static function validate(array $postVars){
 		$errorMsgs = "";
 		$hasAccount = false;
+		$emailErr = false;
 		
 		// confirm that all required fields exist
-		if(!isset($postVars["email"]) || $postVars["email"]){
+		if(!isset($postVars["email"]) || trim($postVars["email"])){
+			$emailErr = true;
 			$errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
 		}
 		if(!isset($postVars["registered"])){
@@ -129,7 +131,7 @@ class Appeal{
 		if($hasAccount && !isset($postVars["autoBlock"])){
 			$errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
 		}
-		if(!isset($postVars["blockingAdmin"]) || $postVars["blockingAdmin"]){
+		if(!isset($postVars["blockingAdmin"]) || trim($postVars["blockingAdmin"])){
 			$errorMsgs .= "<br />We need to know which administrator placed your block.";
 		}
 		if(!isset($postVars["appeal"]) || $postVars["appeal"]){
@@ -140,7 +142,7 @@ class Appeal{
 		}
 		
 		// validate fields
-		if(isset($postVars["email"])){
+		if(!$emailErr && isset($postVars["email"])){
 			$email = $postVars["email"];
 			if(preg_match("[A-Za-z0-9_-]*@[A-Za-z0-9_-]*\.[a-z]{2,3}(\.[a-z]{2,3})?", $email) != 1){
 				$errorMsgs .= "<br />You have not provided a valid email address.";

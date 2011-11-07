@@ -2,8 +2,8 @@
 echo ' marco ';
 
 require_once('recaptchalib.php');
-require_once('../../src/appealObject.php');
-require_once('../../src/exceptions.php');
+require_once('../src/appealObject.php');
+require_once('../src/exceptions.php');
 
 echo ' polo ';
 

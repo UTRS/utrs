@@ -6,7 +6,8 @@ class UTRSValidationException extends Exception{
 	public static $defaultMessage = "<b>There were errors processing your unblock appeal: </b>";
 	
 	public function __construct($errorMsg){
-		parent::__construct($defaultMessage.concat($errorMsg), 10001, null);
+		echo 'point 1';
+		parent::__construct($defaultMessage->concat($errorMsg), 10001, null);
 	}
 }
 
@@ -15,7 +16,8 @@ class UTRSIllegalModificationException extends Exception{
 	public static $defaultMessage = "<b>The action you requested could not be performed: </b>";
 	
 	public function __construct($errorMsg){
-		parent::__construct($defaultMessage.concat($errorMsg), 10002, null);
+		echo 'point 2';
+		parent::__construct($defaultMessage->concat($errorMsg), 10002, null);
 	}
 }
 

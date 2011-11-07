@@ -99,6 +99,20 @@ how to receive assistance, please see those links.</p>
 if($errorMessages){
 	echo '<div class="error">' . $errorMessages . '</div>';
 }
+if($appeal != null){
+	echo '<p>If this system were actually working, your appeal would have been accepted with the following values:<br/>';
+	echo 'IP Address: ' . $appeal->ipAddress . '<br/>';
+	echo 'Email Address: ' . $appeal->emailAddress . '<br/>';
+	echo 'Do you have an account?: ' . $appeal->hasAccount . '<br/>';
+	echo 'Name of your (desired) account: ' . $appeal->accountName . '<br/>';
+	echo 'Is this an autoblock?: ' . $appeal->isAutoblock . '<br/>';
+	echo 'Blocking admin: ' . $appeal->blockingAdmin . '<br/>';
+	echo 'Appeal: ' . $appeal->appeal . '<br/>';
+	echo 'Intended edits: ' . $appeal->intendedEdits . '<br/>';
+	echo 'Other info: ' . $appeal->otherInfo . '<br/>';
+	echo 'Timestamp: ' . $appeal->timestamp . '<br/>';
+	echo 'Status: ' . $appeal->status . '<br/>';
+}
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
 echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br /><br />';

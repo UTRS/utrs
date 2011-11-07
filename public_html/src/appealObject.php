@@ -113,31 +113,40 @@ class Appeal{
 		$errorMsgs = "";
 		$hasAccount = false;
 		
+		echo 'mark 1';
+		
 		// confirm that all required fields exist
 		if(!isset($postVars["email"])){
 			$errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
 		}
+		echo 'mark 2';
 		if(!isset($postVars["registered"])){
 			$errorMsgs .= "<br />We need to know if you have an account on the English Wikipedia.";
 		}
 		else{
 			$hasAccount = $postVars["registered"];
 		}
+		echo 'mark 3';
 		if($hasAccount && !isset($postVars["accountName"])){
 			$errorMsgs .= "<br />If you have an account, we need to know the name of your account.";
 		}
+		echo 'mark 4';
 		if($hasAccount && !isset($postVars["autoBlock"])){
 			$errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
 		}
+		echo 'mark 5';
 		if(!isset($postVars["blockingAdmin"])){
 			$errorMsgs = $errorMsgs . "<br />We need to know which administrator placed your block.";
 		}
+		echo 'mark 6';
 		if(!isset($postVars["appeal"])){
 			$errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
 		}
+		echo 'mark 7';
 		if(!isset($postVars["edits"])){
 			$errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
 		}
+		echo 'mark 9';
 		
 		// validate fields
 		if(isset($postVars["email"])){
@@ -147,11 +156,15 @@ class Appeal{
 			}
 		}
 		
+		echo 'mark 10';
+		
 		// TODO: add queries to check if account exists or not
 		
 		if($errorMsgs){ // empty string is falsy
+			echo 'mark 10.5';
 			throw new UTRSValidationException($errorMsgs);
 		}
+		echo 'mark 11';
 	}
 	
 	public function getID(){

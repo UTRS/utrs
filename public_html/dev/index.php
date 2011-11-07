@@ -104,17 +104,17 @@ if($errorMessages){
 }
 if($appeal != null){
 	echo '<p>If this system were actually working, your appeal would have been accepted with the following values:<br/>';
-	echo 'IP Address: ' . $appeal->ipAddress . '<br/>';
-	echo 'Email Address: ' . $appeal->emailAddress . '<br/>';
-	echo 'Do you have an account?: ' . $appeal->hasAccount . '<br/>';
-	echo 'Name of your (desired) account: ' . $appeal->accountName . '<br/>';
-	echo 'Is this an autoblock?: ' . $appeal->isAutoblock . '<br/>';
-	echo 'Blocking admin: ' . $appeal->blockingAdmin . '<br/>';
-	echo 'Appeal: ' . $appeal->appeal . '<br/>';
-	echo 'Intended edits: ' . $appeal->intendedEdits . '<br/>';
-	echo 'Other info: ' . $appeal->otherInfo . '<br/>';
-	echo 'Timestamp: ' . $appeal->timestamp . '<br/>';
-	echo 'Status: ' . $appeal->status . '<br/>';
+	echo 'IP Address: ' . $appeal->getIP() . '<br/>';
+	echo 'Email Address: ' . $appeal->getEmail() . '<br/>';
+	echo 'Do you have an account?: ' . $appeal->hasAccount() . '<br/>';
+	echo 'Name of your (desired) account: ' . $appeal->getAccountName() . '<br/>';
+	echo 'Is this an autoblock?: ' . $appeal->isAutoblock() . '<br/>';
+	echo 'Blocking admin: ' . $appeal->getBlockingAdmin() . '<br/>';
+	echo 'Appeal: ' . $appeal->getAppeal() . '<br/>';
+	echo 'Intended edits: ' . $appeal->getIntendedEdits() . '<br/>';
+	echo 'Other info: ' . $appeal->getOtherInfo() . '<br/>';
+	echo 'Timestamp: ' . $appeal->getTimestamp() . '<br/>';
+	echo 'Status: ' . $appeal->getStatus() . '<br/>';
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';

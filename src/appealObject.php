@@ -108,7 +108,7 @@ class Appeal{
 		// TODO: get database's assigned ID number
 	}
 	
-	public function validate(array $postVars){
+	public static function validate(array $postVars){
 		$errorMsgs = "";
 		$hasAccount = false;
 		

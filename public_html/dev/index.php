@@ -1,17 +1,34 @@
 <?php
 
 require_once('recaptchalib.php');
+require_once('../../src/appealObject.php');
+require_once('../../src/exceptions.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
 $captchaErr = null;
+$errorMessages = '';
+$appeal = null;
 
-// Confirm captcha
+// Handle submitted form
 if(isset($_POST["submit"])){
-	$resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+	// verify captcha
+	$resp = recaptcha_check_answer($privatekey, 
+									$_SERVER["REMOTE_ADDR"], 
+									$_POST["recaptcha_challenge_field"], 
+									$_POST["recaptcha_response_field"]);
 		
 	if(!$resp->is_valid) {
 		$captchaErr = $resp->error;
+		$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
+	}
+	
+	try{
+		Appeal.validate($_POST);
+		$appeal = new Appeal($_POST);
+	}
+	catch(UTRSValidationException $ex){
+		$errorMessages = $ex->getMessage() . $errorMessages;
 	}
 }
 
@@ -79,6 +96,9 @@ how to receive assistance, please see those links.</p>
 <p><b>For assistance with a block, please complete the form below:</b></p>
 
 <?php 
+if($errorMessages){
+	echo '<div class="error">' . $errorMessages . '</div>';
+}
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
 echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value=""/><br /><br />';

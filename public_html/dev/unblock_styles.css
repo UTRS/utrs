@@ -106,7 +106,7 @@ table.subheader_content td:hover{
 div.error{
 	color: black;
 	background-color:#FFD6D1;
-	border: 1px solid red;
+	border: 2px solid red;
 	background-image: url('https://upload.wikimedia.org/wikipedia/en/1/15/Ambox_warning_pn.svg');
 	background-position: 10px center;
 	background-size: 50px;

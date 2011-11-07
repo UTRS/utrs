@@ -102,7 +102,7 @@ class Appeal{
 		$this->otherInfo = $postVars['otherInfo'];
 		$this->timestamp = date('Y-m-d H:i:s');
 		$this->handlingAdmin = null;
-		$this->status = Appeal::STATUS_NEW;
+		$this->status = Appeal::$STATUS_NEW;
 		
 		// TODO: insert into database
 		

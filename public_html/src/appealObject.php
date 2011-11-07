@@ -114,7 +114,7 @@ class Appeal{
 		$hasAccount = false;
 		
 		// confirm that all required fields exist
-		if(!isset($postVars["email"])){
+		if(!isset($postVars["email"]) || $postVars["email"]){
 			$errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
 		}
 		if(!isset($postVars["registered"])){
@@ -143,7 +143,7 @@ class Appeal{
 		if(isset($postVars["email"])){
 			$email = $postVars["email"];
 			if(preg_match("[A-Za-z0-9_-]*@[A-Za-z0-9_-]*\.[a-z]{2,3}(\.[a-z]{2,3})?", $email) != 1){
-				$errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
+				$errorMsgs .= "<br />You have not provided a valid email address.";
 			}
 		}
 		

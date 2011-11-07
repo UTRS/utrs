@@ -144,7 +144,8 @@ class Appeal{
 		// validate fields
 		if(!$emailErr && isset($postVars["email"])){
 			$email = $postVars["email"];
-			if(preg_match("[A-Za-z0-9_-]+@[A-Za-z0-9_-]+([.][a-z]{2,3}){1,2}", $email) != 1){
+			preg_match("[A-Za-z0-9_-]+@[A-Za-z0-9_-]+([.][a-z]{2,3}){1,2}", $email, $matches);
+			if(!in_array($email, $matches)){
 				$errorMsgs .= "<br />You have not provided a valid email address.";
 			}
 		}

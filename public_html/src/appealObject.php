@@ -114,6 +114,9 @@ class Appeal{
 		$hasAccount = false;
 		$emailErr = false;
 		
+		echo '--' . $postVars["email"] . '--<br/>';
+		echo '--' . $postVars["blockingAdmin"] . '--<br/>';
+		
 		// confirm that all required fields exist
 		if(!isset($postVars["email"]) || trim($postVars["email"])){
 			$emailErr = true;

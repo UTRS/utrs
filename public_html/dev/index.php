@@ -1,11 +1,9 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <?php
 
 error_reporting(E_ALL);
 
 require_once('recaptchalib.php');
-require_once('../src/appealObject.php');
-require_once('../src/exceptions.php');
-
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -27,6 +25,9 @@ if(isset($_POST["submit"])){
 		$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
 	}
 	
+	require_once('../src/appealObject.php');
+	require_once('../src/exceptions.php');
+	
 	try{
 		Appeal.validate($_POST);
 		$appeal = new Appeal($_POST);
@@ -37,7 +38,6 @@ if(isset($_POST["submit"])){
 }
 
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">

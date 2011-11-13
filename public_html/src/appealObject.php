@@ -121,7 +121,7 @@ class Appeal{
 		$result = mysql_query($query, $db);
 		if(!$result){
 			$error = mysql_error($db);
-			throw new UTRSValidationException('A database error occurred when entering your appeal: ' . $error);
+			throw new UTRSValidationException('<br />A database error occurred when entering your appeal: ' . $error);
 		}
 		
 		$this->idNum = mysql_insert_id($db);

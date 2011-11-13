@@ -7,7 +7,7 @@ function connectToDB(){
 	if($db == false){
 		throw new ErrorException("Failed to connect to database cluster sql-s1-user!");
 	}
-	mysql_select_db("unblock_p", $db);
+	mysql_select_db("p_unblock", $db);
 	return $db;
 }
 

@@ -22,22 +22,25 @@ $otherInfo = null;
 // Handle submitted form
 if(isset($_POST["submit"])){
 	
-	// verify captcha
-	$resp = recaptcha_check_answer($privatekey, 
-									$_SERVER["REMOTE_ADDR"], 
-									$_POST["recaptcha_challenge_field"], 
-									$_POST["recaptcha_response_field"]);
-									
-	if(!$resp->is_valid) {
-		$captchaErr = $resp->error;
-		$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
-	}
-	
 	try{
+		// verify captcha
+		$resp = recaptcha_check_answer($privatekey,
+				$_SERVER["REMOTE_ADDR"],
+				$_POST["recaptcha_challenge_field"],
+				$_POST["recaptcha_response_field"]);
+			
+		if(!$resp->is_valid) {
+			$captchaErr = $resp->error;
+			$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
+		}
+
 		Appeal::validate($_POST);
 		if(!$errorMessages){
 			$db = connectToDB();
 			$appeal = new Appeal($_POST, $db);
+		}
+		else{
+			$errorMessages = "<b>There were errors processing your unblock appeal: </b>" . $errorMessages;
 		}
 	}
 	catch(UTRSValidationException $ex){

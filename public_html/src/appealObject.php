@@ -58,7 +58,7 @@ class Appeal{
 	/**
 	 * If this is an auto- or range-block
 	 */
-	private $isAutoblock;
+	private $isAutoBlock;
 	/**
 	 * The blocking administrator
 	 */
@@ -110,7 +110,7 @@ class Appeal{
 		$query .= '\'' . $this->emailAddress . '\', ';
 		$query .= '\'' . $this->ipAddress . '\', ';
 		$query .= ($this->accountName ? '\'' . mysql_real_escape_string($this->accountName, $db) . '\', ' : '');
-		$query .= ($this->isAutoblock ? '\'1\', ' : '\'0\', ');
+		$query .= ($this->isAutoBlock ? '\'1\', ' : '\'0\', ');
 		$query .= ($this->hasAccount ? '\'1\', ' : '\'0\', ');
 		$query .= '\'' . mysql_real_escape_string($this->blockingAdmin, $db) . '\', ';
 		$query .= '\'' . mysql_real_escape_string($this->appeal, $db) . '\', ';

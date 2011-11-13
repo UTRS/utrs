@@ -4,6 +4,9 @@
 ini_set('error_reporting', -1);
 
 require_once('recaptchalib.php');
+require_once('../src/unblocklib.php');
+require_once('../src/exceptions.php');
+require_once('../src/appealObject.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -30,12 +33,12 @@ if(isset($_POST["submit"])){
 		$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
 	}
 	
-	require_once('../src/exceptions.php');
-	require_once('../src/appealObject.php');
-	
 	try{
 		Appeal::validate($_POST);
-		$appeal = new Appeal($_POST);
+		if(!$errorMessages){
+			$db = connectToDB();
+			$appeal = new Appeal($_POST);
+		}
 	}
 	catch(UTRSValidationException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;
@@ -45,6 +48,14 @@ if(isset($_POST["submit"])){
 		$edits = $_POST["edits"];
 		$otherInfo = $_POST["otherInfo"];
 		// TODO: not sure how to include the other fields due to the javascript
+	}
+	catch(ErrorException $ex){
+		$errorMessages = $ex->getMessage() . $errorMessages;
+		$email = $_POST["email"];
+		$blocker = $_POST["blockingAdmin"];
+		$appealText = $_POST["appeal"];
+		$edits = $_POST["edits"];
+		$otherInfo = $_POST["otherInfo"];
 	}
 }
 ?>

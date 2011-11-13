@@ -88,7 +88,7 @@ class Appeal{
 	 */
 	private $status;
 	
-	public function __construct(array $postVars){
+	public function __construct(array $postVars, $db){
 		Appeal::validate($postVars); // may throw an exception
 		
 		$this->ipAddress = $_SERVER['REMOTE_ADDR'];
@@ -100,13 +100,37 @@ class Appeal{
 		$this->appeal = $postVars['appeal'];
 		$this->intendedEdits = $postVars['edits'];
 		$this->otherInfo = $postVars['otherInfo'];
-		$this->timestamp = date('Y-m-d H:i:s');
 		$this->handlingAdmin = null;
 		$this->status = Appeal::$STATUS_NEW;
 		
-		// TODO: insert into database
+		$query = 'INSERT INTO appeal (email, ip, ';
+		$query .= ($this->accountName ? 'wikiAccountName, ' : '');
+		$query .= 'autoblock, hasAccount, blockingAdmin, appealText, ';
+		$query .= 'intendedEdits, otherInfo, status) VALUES (';
+		$query .= '\'' . $this->emailAddress . '\', ';
+		$query .= '\'' . $this->ipAddress . '\', ';
+		$query .= ($this->accountName ? '\'' . mysql_real_escape_string($this->accountName, $db) . '\', ' : '');
+		$query .= ($this->isAutoblock ? '\'1\', ' : '\'0\', ');
+		$query .= ($this->hasAccount ? '\'1\', ' : '\'0\', ');
+		$query .= '\'' . mysql_real_escape_string($this->blockingAdmin, $db) . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->appeal, $db) . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->intendedEdits, $db) . '\', ');
+		$query .= '\'' . mysql_real_escape_string($this->otherInfo, $db) . '\', ');
+		$query .= '\'' . $this->status . '\')';
 		
-		// TODO: get database's assigned ID number
+		$result = mysql_query($query, $db);
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSValidationException('A database error occurred when entering your appeal: ' . $error);
+		}
+		
+		$this->idNum = mysql_insert_id($db);
+		
+		$query = 'SELECT timestamp FROM appeal WHERE appealID = \'' . $this->idNum . '\'';
+		$result = mysql_query($query, $db);
+		$row = mysql_fetch_assoc($result);
+		
+		$this->timestamp = $row["timestamp"];
 	}
 	
 	public static function validate(array $postVars){

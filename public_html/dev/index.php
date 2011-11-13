@@ -37,7 +37,7 @@ if(isset($_POST["submit"])){
 		Appeal::validate($_POST);
 		if(!$errorMessages){
 			$db = connectToDB();
-			$appeal = new Appeal($_POST);
+			$appeal = new Appeal($_POST, $db);
 		}
 	}
 	catch(UTRSValidationException $ex){

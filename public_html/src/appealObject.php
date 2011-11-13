@@ -114,8 +114,8 @@ class Appeal{
 		$query .= ($this->hasAccount ? '\'1\', ' : '\'0\', ');
 		$query .= '\'' . mysql_real_escape_string($this->blockingAdmin, $db) . '\', ';
 		$query .= '\'' . mysql_real_escape_string($this->appeal, $db) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->intendedEdits, $db) . '\', ');
-		$query .= '\'' . mysql_real_escape_string($this->otherInfo, $db) . '\', ');
+		$query .= '\'' . mysql_real_escape_string($this->intendedEdits, $db) . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->otherInfo, $db) . '\', ';
 		$query .= '\'' . $this->status . '\')';
 		
 		$result = mysql_query($query, $db);

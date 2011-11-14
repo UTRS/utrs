@@ -131,28 +131,6 @@ class Appeal{
 		$row = mysql_fetch_assoc($result);
 		
 		$this->timestamp = $row["timestamp"];
-		
-		// TODO: insert checkuser (useragent) data
-	}
-	
-	/**
-	 * Constructor for getting an appeal from the DB 
-	 */
-	private function __construct($id, $ip, $email, $account, $accountName, $auto, 
-		$blocker, $appeal, $edits, $other, $time, $handler, $status){
-		$this->idNum = $id;
-		$this->ipAddress = $ip;
-		$this->emailAddress = $email;
-		$this->hasAccount = (boolean) $account;
-		$this->accountName = $accountName;
-		$this->isAutoBlock = (boolean) $auto;
-		$this->blockingAdmin = $blocker;
-		$this->appeal = $appeal;
-		$this->intendedEdits = $edits;
-		$this->otherInfo = $other;
-		$this->timestamp = $time;
-		$this->handlingAdmin = $handler;
-		$this->status = $status;
 	}
 	
 	public static function validate(array $postVars){
@@ -202,60 +180,6 @@ class Appeal{
 		}
 	}
 	
-	public static function getAppealFromDB($id, $db){
-		$query = 'SELECT * FROM appeal WHERE appealID = ' . $id;
-		$result = mysql_query($query, $db);
-		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
-		}
-		if(mysql_num_rows($result) == 0){
-			throw new UTRSDatabaseException("No rows were returned for Appeal ID " . $id);
-		}
-		
-		$row = mysql_fetch_assoc($result);
-		
-		$appealObj = new Appeal($row["appealID"], $row["ip"], $row["email"], $row["hasAccount"],
-				$row["wikiAccountName"], $row["autoblock"], $row["blockingAdmin"], $row["appealText"],
-				$row["intendedEdits"], $row["otherInfo"], $row["timestamp"], $row["handlingAdmin"],
-				$row["status"]);
-				
-		return $appealObj;
-	}
-	
-	public static function getAllByStatus($status, $db){
-		if(strcmp($status, $this->STATUS_NEW) == 0 || strcmp($status, $this->STATUS_AWAITING_USER) == 0
-		  || strcmp($status, $this->STATUS_AWAITING_ADMIN) == 0 || strcmp($status, $this->STATUS_AWAITING_CHECKUSER) == 0
-		  || strcmp($status, $this->STATUS_AWAITING_PROXY) == 0 || strcmp($status, $this->STATUS_CLOSED) == 0){
-			$query = 'SELECT * FROM appeal WHERE status = \'' . $status . '\'';
-			$result = mysql_query($query, $db);
-			if(!$result){
-				throw new UTRSDatabaseException(mysql_error($db));
-			}
-			
-			$rowCount = mysql_num_rows($result);
-			
-			if($rowCount == 0){
-				return null;
-			}
-			
-			$array = array();
-		
-			for($i = 0; $i < $rowCount; $i++){
-				$row = mysql_fetch_assoc($result);
-				$appealObj = new Appeal($row["appealID"], $row["ip"], $row["email"], $row["hasAccount"],
-					$row["wikiAccountName"], $row["autoblock"], $row["blockingAdmin"], $row["appealText"],
-					$row["intendedEdits"], $row["otherInfo"], $row["timestamp"], $row["handlingAdmin"],
-					$row["status"]);
-				$array[$i] = $appealObj;
-			}
-			
-			return $array;
-		}
-		else{
-			return null;
-		}
-	}
-	
 	public function getID(){
 		return $this->idNum;
 	}
@@ -276,8 +200,8 @@ class Appeal{
 		return $this->accountName;
 	}
 	
-	public function isAutoBlock(){
-		return $this->isAutoBlock;
+	public function isAutoblock(){
+		return $this->isAutoblock;
 	}
 	
 	public function getBlockingAdmin(){

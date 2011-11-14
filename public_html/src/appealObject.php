@@ -2,6 +2,9 @@
 ini_set('error_reporting', -1);
 require_once('exceptions.php');
 
+// TODO: Add static methods to get objects from database by ID and status
+// Can't overload the constructor, so the existing one may need to be modified
+
 /**
  * This class contains information relevant to a single unblock appeal.
  * 
@@ -131,28 +134,6 @@ class Appeal{
 		$row = mysql_fetch_assoc($result);
 		
 		$this->timestamp = $row["timestamp"];
-		
-		// TODO: insert checkuser (useragent) data
-	}
-	
-	/**
-	 * Constructor for getting an appeal from the DB 
-	 */
-	private function __construct($id, $ip, $email, $account, $accountName, $auto, 
-		$blocker, $appeal, $edits, $other, $time, $handler, $status){
-		$this->idNum = $id;
-		$this->ipAddress = $ip;
-		$this->emailAddress = $email;
-		$this->hasAccount = (boolean) $account;
-		$this->accountName = $accountName;
-		$this->isAutoBlock = (boolean) $auto;
-		$this->blockingAdmin = $blocker;
-		$this->appeal = $appeal;
-		$this->intendedEdits = $edits;
-		$this->otherInfo = $other;
-		$this->timestamp = $time;
-		$this->handlingAdmin = $handler;
-		$this->status = $status;
 	}
 	
 	public static function validate(array $postVars){

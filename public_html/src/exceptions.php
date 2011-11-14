@@ -15,4 +15,11 @@ class UTRSIllegalModificationException extends Exception{
 	}
 }
 
+class UTRSDatabaseException extends Exception{
+	public function __construct($errorMsg){
+		$message = "<b>A database error occured when attempting to process your request: </b><br />" . $errorMsg;
+		parent::__construct($message, 10003, null);
+	}
+}
+
 ?>

@@ -133,7 +133,7 @@ if($appeal != null){
 	echo 'Email Address: ' . $appeal->getEmail() . '<br/>';
 	echo 'Do you have an account?: ' . $appeal->hasAccount() . '<br/>';
 	echo 'Name of your (desired) account: ' . $appeal->getAccountName() . '<br/>';
-	echo 'Is this an autoblock?: ' . $appeal->isAutoblock() . '<br/>';
+	echo 'Is this an autoblock?: ' . $appeal->isAutoBlock() . '<br/>';
 	echo 'Blocking admin: ' . $appeal->getBlockingAdmin() . '<br/>';
 	echo 'Appeal: ' . $appeal->getAppeal() . '<br/>';
 	echo 'Intended edits: ' . $appeal->getIntendedEdits() . '<br/>';

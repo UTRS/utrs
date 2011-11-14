@@ -131,6 +131,28 @@ class Appeal{
 		$row = mysql_fetch_assoc($result);
 		
 		$this->timestamp = $row["timestamp"];
+		
+		// TODO: insert checkuser (useragent) data
+	}
+	
+	/**
+	 * Constructor for getting an appeal from the DB 
+	 */
+	private function __construct($id, $ip, $email, $account, $accountName, $auto, 
+		$blocker, $appeal, $edits, $other, $time, $handler, $status){
+		$this->idNum = $id;
+		$this->ipAddress = $ip;
+		$this->emailAddress = $email;
+		$this->hasAccount = (boolean) $account;
+		$this->accountName = $accountName;
+		$this->isAutoBlock = (boolean) $auto;
+		$this->blockingAdmin = $blocker;
+		$this->appeal = $appeal;
+		$this->intendedEdits = $edits;
+		$this->otherInfo = $other;
+		$this->timestamp = $time;
+		$this->handlingAdmin = $handler;
+		$this->status = $status;
 	}
 	
 	public static function validate(array $postVars){

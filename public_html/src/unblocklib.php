@@ -1,8 +1,8 @@
 <?php
 
-echo 'entering unblocklib';
+echo 'entering unblocklib <br/>';
 require_once('exceptions.php');
-echo 'import done';
+echo 'import done <br/>';
 
 $DEBUG_MODE = false;
 

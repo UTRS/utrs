@@ -22,6 +22,8 @@ $otherInfo = null;
 // Handle submitted form
 if(isset($_POST["submit"])){
 	
+	echo 'form submitted <br/>';
+	
 	try{
 		// verify captcha
 		$resp = recaptcha_check_answer($privatekey,
@@ -33,11 +35,17 @@ if(isset($_POST["submit"])){
 			$captchaErr = $resp->error;
 			$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
 		}
+		
+		echo 'captcha valid <br/>';
 
 		Appeal::validate($_POST);
+		
+		echo 'validation done <br/>';
+		
 		if(!$errorMessages){
 			try{
 				$appeal = new Appeal($_POST, false);
+				echo 'object created <br/>';
 			}
 			// could still have DB or other issues
 			catch(UTRSException $e){

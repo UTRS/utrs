@@ -13,11 +13,6 @@ require_once('unblocklib.php');
 class Appeal{
 	
 	/**
-	 * true to enable debugging echo messages
-	 */
-	public static $DEBUG_MODE = false;
-	
-	/**
 	 * The appeal is new and has not yet been addressed
 	 */
 	public static $STATUS_NEW = 'NEW';
@@ -96,12 +91,6 @@ class Appeal{
 	 * Status of the appeal
 	 */
 	private $status;
-	
-	private function debug($message){
-		if($DEBUG_MODE){
-			echo $message;
-		}
-	}
 	
 	/**
 	 * Build a Appeal object. If $fromDB is true, the mappings in $values

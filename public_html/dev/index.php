@@ -36,8 +36,13 @@ if(isset($_POST["submit"])){
 
 		Appeal::validate($_POST);
 		if(!$errorMessages){
-			$db = connectToDB();
-			$appeal = new Appeal($_POST, $db);
+			try{
+				$appeal = new Appeal($_POST, false);
+			}
+			// could still have DB or other issues
+			catch(UTRSException $e){
+				$errorMessages = $e->getMessage();
+			}
 		}
 		else{
 			$errorMessages = "<b>There were errors processing your unblock appeal: </b>" . $errorMessages;

@@ -1,6 +1,7 @@
 <?php
 ini_set('error_reporting', -1);
 require_once('exceptions.php');
+require_once('unblocklib.php');
 
 // TODO: Add static methods to get objects from database by ID and status
 // Can't overload the constructor, so the existing one may need to be modified
@@ -91,20 +92,79 @@ class Appeal{
 	 */
 	private $status;
 	
-	public function __construct(array $postVars, $db){
-		Appeal::validate($postVars); // may throw an exception
+	/**
+	 * Build a Appeal object. If $fromDB is true, the mappings in $values
+	 * will be assumed to be those from the database; additionally,
+	 * the values will not be validated and the object will not be inserted
+	 * the DB. Otherwise, the mappings in $values will be assumed to be those
+	 * from the appeals form; values will be validated, and the object
+	 * will be inserted into the DB on completion.
+	 * 
+	 * @param array $values the information to include in this appeal
+	 * @param boolean $fromDB is this from the database?
+	 */
+	public function __construct(array $values, $fromDB){
+		if(!$fromDB){
+			Appeal::validate($values); // may throw an exception
 		
-		$this->ipAddress = $_SERVER['REMOTE_ADDR'];
-		$this->emailAddress = $postVars['email'];
-		$this->hasAccount = (boolean) $postVars['registered'];
-		$this->accountName = $postVars['accountName'];
-		$this->isAutoBlock = (boolean) $postVars['autoBlock'];
-		$this->blockingAdmin = $postVars['blockingAdmin'];
-		$this->appeal = $postVars['appeal'];
-		$this->intendedEdits = $postVars['edits'];
-		$this->otherInfo = $postVars['otherInfo'];
-		$this->handlingAdmin = null;
-		$this->status = Appeal::$STATUS_NEW;
+			$this->ipAddress = $_SERVER['REMOTE_ADDR'];
+			$this->emailAddress = $values['email'];
+			$this->hasAccount = (boolean) $values['registered'];
+			$this->accountName = $values['accountName'];
+			$this->isAutoBlock = (boolean) $values['autoBlock'];
+			$this->blockingAdmin = $values['blockingAdmin'];
+			$this->appeal = $values['appeal'];
+			$this->intendedEdits = $values['edits'];
+			$this->otherInfo = $values['otherInfo'];
+			$this->handlingAdmin = null;
+			$this->status = Appeal::$STATUS_NEW;
+			
+			insert();
+		}
+		else{
+			$this->appealID = $values['appealID'];
+			$this->ipAddress = $values['ip'];
+			$this->emailAddress = $values['email'];
+			$this->hasAccount = $values['hasAccount'];
+			$this->accountName = $values['wikiAccountName'];
+			$this->isAutoBlock = $values['autoblock'];
+			$this->blockingAdmin = $values['blockingAdmin'];
+			$this->appeal = $values['appealText'];
+			$this->intendedEdits = $values['intendedEdits'];
+			$this->otherInfo = $values['otherInfo'];
+			$this->timestamp = $values['timestamp'];
+			$this->handlingAdmin = $values['handlingAdmin'];
+			$this->status = $values['status'];
+		}
+	}
+	
+	public static function getAppealByID($id){
+		$db = connectToDB();
+		
+		$query = 'SELECT * FROM appeal ';
+		$query .= 'WHERE appealID = \'' . $id . '\'';
+		
+		$result = mysql_query($query, $db);
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSDatabaseException($error);
+		}
+		if(mysql_num_rows($result) == 0){
+			throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
+		}
+		if(mysql_num_rows($result) != 1){
+			throw new UTRSDatabaseException('Please contact a tool developer. More '
+				. 'than one result was returned for appeal ID ' . $id);
+		}
+		
+		$values = mysql_fetch_assoc($result);
+		
+		return new Appeal($values, true);
+	}
+	
+	public function insert(){
+		
+		$db = connectToDB();
 		
 		$query = 'INSERT INTO appeal (email, ip, ';
 		$query .= ($this->accountName ? 'wikiAccountName, ' : '');
@@ -124,7 +184,7 @@ class Appeal{
 		$result = mysql_query($query, $db);
 		if(!$result){
 			$error = mysql_error($db);
-			throw new UTRSValidationException('<br />A database error occurred when entering your appeal: ' . $error);
+			throw new UTRSDatabaseException($error);
 		}
 		
 		$this->idNum = mysql_insert_id($db);

@@ -13,6 +13,11 @@ require_once('unblocklib.php');
 class Appeal{
 	
 	/**
+	 * true to enable debugging echo messages
+	 */
+	public static $DEBUG_MODE = true;
+	
+	/**
 	 * The appeal is new and has not yet been addressed
 	 */
 	public static $STATUS_NEW = 'NEW';
@@ -92,6 +97,12 @@ class Appeal{
 	 */
 	private $status;
 	
+	private function debug($message){
+		if($DEBUG_MODE){
+			echo $message;
+		}
+	}
+	
 	/**
 	 * Build a Appeal object. If $fromDB is true, the mappings in $values
 	 * will be assumed to be those from the database; additionally,
@@ -104,7 +115,9 @@ class Appeal{
 	 * @param boolean $fromDB is this from the database?
 	 */
 	public function __construct(array $values, $fromDB){
+		debug('In constuctor for Appeal <br/>');
 		if(!$fromDB){
+			debug('Obtaining values from form <br/>');
 			Appeal::validate($values); // may throw an exception
 		
 			$this->ipAddress = $_SERVER['REMOTE_ADDR'];
@@ -119,9 +132,12 @@ class Appeal{
 			$this->handlingAdmin = null;
 			$this->status = Appeal::$STATUS_NEW;
 			
+			debug('Setting values complete <br/>');
+			
 			insert();
 		}
 		else{
+			debug('Obtaining values from DB <br/>');
 			$this->appealID = $values['appealID'];
 			$this->ipAddress = $values['ip'];
 			$this->emailAddress = $values['email'];
@@ -136,6 +152,7 @@ class Appeal{
 			$this->handlingAdmin = $values['handlingAdmin'];
 			$this->status = $values['status'];
 		}
+		debug('Exiting constuctor <br/>');
 	}
 	
 	public static function getAppealByID($id){
@@ -163,8 +180,11 @@ class Appeal{
 	}
 	
 	public function insert(){
+		debug('In insert for Appeal <br/>');
 		
 		$db = connectToDB();
+		
+		debug('Database connected <br/>');
 		
 		$query = 'INSERT INTO appeal (email, ip, ';
 		$query .= ($this->accountName ? 'wikiAccountName, ' : '');
@@ -181,22 +201,31 @@ class Appeal{
 		$query .= '\'' . mysql_real_escape_string($this->otherInfo, $db) . '\', ';
 		$query .= '\'' . $this->status . '\')';
 		
+		debug($query . ' <br/>');
+		
 		$result = mysql_query($query, $db);
 		if(!$result){
 			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
+		debug('Insert complete <br/>');
+		
 		$this->idNum = mysql_insert_id($db);
+		
+		debug('Getting timestamp <br/>');
 		
 		$query = 'SELECT timestamp FROM appeal WHERE appealID = \'' . $this->idNum . '\'';
 		$result = mysql_query($query, $db);
 		$row = mysql_fetch_assoc($result);
 		
 		$this->timestamp = $row["timestamp"];
+		debug('Exiting insert <br/>');
 	}
 	
 	public static function validate(array $postVars){
+		debug('Entering validate for Appeal <br/>');
 		$errorMsgs = "";
 		$hasAccount = false;
 		$emailErr = false;
@@ -239,8 +268,11 @@ class Appeal{
 		// TODO: add queries to check if account exists or not
 		
 		if($errorMsgs){ // empty string is falsy
+			debug('Validation errors: ' . $errorMsgs . ' <br/>');
 			throw new UTRSValidationException($errorMsgs);
 		}
+		
+		debug('Exiting Appeal <br/>');
 	}
 	
 	public function getID(){

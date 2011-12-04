@@ -15,7 +15,7 @@ class Appeal{
 	/**
 	 * true to enable debugging echo messages
 	 */
-	public static $DEBUG_MODE = true;
+	public static $DEBUG_MODE = false;
 	
 	/**
 	 * The appeal is new and has not yet been addressed

@@ -1,5 +1,7 @@
 <?php
 
+require_once('exceptions.php');
+
 function connectToDB(){
 	$ts_pw = posix_getpwuid(posix_getuid());
 	$ts_mycnf = parse_ini_file($ts_pw['dir'] . "/.my.cnf");

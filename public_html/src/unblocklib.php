@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 
 echo 'entering unblocklib <br/>';
 require_once('exceptions.php');

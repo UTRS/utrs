@@ -235,6 +235,22 @@ class Appeal{
 		$row = mysql_fetch_assoc($result);
 		
 		$this->timestamp = $row["timestamp"];
+		
+		debug('Primary insert complete. Beginning useragent retrieval.<br/>');
+		
+		$query = 'INSERT INTO cuData (appealID, useragent) VALUES (\'';
+		$query .= $this->idNum;
+		$query .= '\', \'';
+		$query .= $_SERVER['HTTP_USER_AGENT'];
+		$query .= '\')';
+		
+		$result = mysql_query($query, $db);
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
 		debug('Exiting insert <br/>');
 	}
 	

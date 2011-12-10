@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 
 echo 'entering unblocklib <br/>';
 require_once('exceptions.php');

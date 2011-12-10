@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', -1);
+error_reporting(E_ALL);
 
 class UTRSException extends Exception{
 	public function __construct($errorMsg, $code, $previous){

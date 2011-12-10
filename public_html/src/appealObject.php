@@ -1,7 +1,7 @@
 <?php
-ini_set('error_reporting', -1);
-require_once('exceptions.php');
-require_once('unblocklib.php');
+
+require_once('../src/exceptions.php');
+require_once('../src/unblocklib.php');
 
 debug('in class file<br/>');
 

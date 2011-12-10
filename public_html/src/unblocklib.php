@@ -6,9 +6,8 @@ echo 'entering unblocklib <br/>';
 require_once('exceptions.php');
 echo 'import done <br/>';
 
-$DEBUG_MODE = false;
-
 function debug($message){
+	$DEBUG_MODE = false;
 	if($DEBUG_MODE){
 		echo $message;
 	}

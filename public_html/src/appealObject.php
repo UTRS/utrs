@@ -156,7 +156,7 @@ class Appeal{
 		$ip = $_SERVER["REMOTE_ADDR"]; // default address
 		
 		// if the IP is one of the toolserver's IPs...
-		if(!(strpos($TOOLSERVER_IPS, $ip) === false)){
+		if(!(strpos(Appeal::$TOOLSERVER_IPS, $ip) === false)){
 			// code in this if block stolen from ACC - thanks, guys
 			$xffheader = explode(",", getenv("HTTP_X_FORWARDED_FOR"));
 			$sourceip = trim($xffheader[sizeof($xffheader)-1]);

@@ -193,7 +193,7 @@ class Appeal{
 		return new Appeal($values, true);
 	}
 	
-	public static function insert(){
+	public function insert(){
 		debug('In insert for Appeal <br/>');
 		
 		$db = connectToDB();

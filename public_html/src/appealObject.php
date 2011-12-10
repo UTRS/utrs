@@ -126,7 +126,7 @@ class Appeal{
 			
 			debug('Setting values complete <br/>');
 			
-			this::insert();
+			Appeal::insert();
 		}
 		else{
 			debug('Obtaining values from DB <br/>');

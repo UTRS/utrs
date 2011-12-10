@@ -23,7 +23,7 @@ $otherInfo = null;
 // Handle submitted form
 if(isset($_POST["submit"])){
 	
-	echo 'form submitted <br/>';
+	debug('form submitted <br/>');
 	
 	try{
 		// verify captcha
@@ -37,16 +37,16 @@ if(isset($_POST["submit"])){
 			$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
 		}
 		
-		echo 'captcha valid <br/>';
+		debug('captcha valid <br/>');
 
 		Appeal::validate($_POST);
 		
-		echo 'validation done <br/>';
+		debug('validation done <br/>');
 		
 		if(!$errorMessages){
 			try{
 				$appeal = new Appeal($_POST, false);
-				echo 'object created <br/>';
+				debug('object created <br/>');
 			}
 			// could still have DB or other issues
 			catch(UTRSException $e){

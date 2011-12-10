@@ -16,6 +16,11 @@ debug('in class file<br/>');
 class Appeal{
 	
 	/**
+	 * IP addresses belonging to the Toolserver that may get in the way
+	 * of identifying the requestor's IP
+	 */
+	public static $TOOLSERVER_IPS = '91.198.174.197,91.198.174.204';
+	/**
 	 * The appeal is new and has not yet been addressed
 	 */
 	public static $STATUS_NEW = 'NEW';
@@ -112,7 +117,7 @@ class Appeal{
 			debug('Obtaining values from form <br/>');
 			Appeal::validate($values); // may throw an exception
 		
-			$this->ipAddress = $_SERVER['REMOTE_ADDR'];
+			$this->ipAddress = Appeal::getIPFromServer();
 			$this->emailAddress = $values['email'];
 			$this->hasAccount = (boolean) $values['registered'];
 			$this->accountName = $values['accountName'];
@@ -147,6 +152,23 @@ class Appeal{
 		debug('Exiting constuctor <br/>');
 	}
 	
+	public static function getIPFromServer(){
+		$ip = $_SERVER["REMOTE_ADDR"]; // default address
+		
+		// if the IP is one of the toolserver's IPs...
+		if(!(strpos($TOOLSERVER_IPS, $ip) === false)){
+			// code in this if block stolen from ACC - thanks, guys
+			$xffheader = explode(",", getenv("HTTP_X_FORWARDED_FOR"));
+			$sourceip = trim($xffheader[sizeof($xffheader)-1]);
+			if (preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $sourceip)) {
+				// $proxyip = $ip; // ignoring proxy IP for now
+				$ip = $sourceip;
+			}
+		}
+		
+		return $ip;
+	}
+	
 	public static function getAppealByID($id){
 		$db = connectToDB();
 		
@@ -171,7 +193,7 @@ class Appeal{
 		return new Appeal($values, true);
 	}
 	
-	public function insert(){
+	public static function insert(){
 		debug('In insert for Appeal <br/>');
 		
 		$db = connectToDB();
@@ -288,7 +310,7 @@ class Appeal{
 	}
 	
 	public function isAutoblock(){
-		return $this->isAutoblock;
+		return $this->isAutoBlock;
 	}
 	
 	public function getBlockingAdmin(){

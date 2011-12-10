@@ -2,9 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-echo 'entering unblocklib <br/>';
+debug('entering unblocklib <br/>');
 require_once('exceptions.php');
-echo 'import done <br/>';
+debug('import done <br/>');
 
 function debug($message){
 	$DEBUG_MODE = false;

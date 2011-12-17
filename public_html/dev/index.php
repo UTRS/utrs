@@ -116,7 +116,10 @@ Unblock Ticket Request System
 <a id="loginLink" href="login.php">Admins: Log in to review requests</a>
 </td>
 <td>
-<a id="loginLink" href="register.php">Admins: Request an account</a>
+<a id="register" href="register.php">Admins: Request an account</a>
+</td>
+<td>
+<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
 </td>
 </tr>
 </table>
@@ -176,6 +179,11 @@ else{
 	echo recaptcha_get_html($publickey, $captchaErr);
 }
 echo '</span>';
+
+echo '<p>By submitting this unblock request, you are consenting to allow us to collect information about ' .
+     'your computer that will in most cases allow us to distinguish you from any vandals editing from ' .
+     'the same location. We do not store this information any longer than necessary, and do not share it ' .
+     'with any third party. For more information, please see our <a href="privacy.html">Privacy Policy.</a></p>';
 
 echo '<input type="submit" name="submit" value="Submit Appeal"/>';
 echo '</form>';

@@ -159,7 +159,7 @@ else{
 	echo '<p>Fields in red are required. Passwords must be at least four characters in length.</p>';
 	echo '<form name="accountRegister" id="accountRegister" action="register.php" method="POST">';
 	echo '<label id="usernameLabel" for="username" class="required">Username:</label> <input id="username" type="text" name="username" value="' . $username . '"/><br/><br/>';
-	echo '<label id="passwordLabel" for="password" class="required">Password:</label> <input id="password" type="password" name="password" value="' . $password . '"/><br/><br/>';
+	echo '<label id="passwordLabel" for="password" class="required">Password:</label> <input id="password" type="password" name="password" "/><br/><br/>';
 	echo '<label id="wikiAccountLabel" for="wikiAccount" class="required">Wikipedia username:</label> <input id="wikiAccount" type="text" name="wikiAccount" value="' . $wikiAccount . '"/><br/><br/>';
 	echo '<label id="emailLabel" for="email" class="required">Email address:</label> <input id="email" type="text" name="email" value="' . $email . '"/><br/><br/>';
 	echo '<label id="useSecureLabel" for="useSecure">Do you want links to Wikipedia to use the secure server?</label> <input id="useSecure" type="checkbox" name="useSecure" ' . ($useSecure ? 'checked="true"' : '') . '/><br/><br/>';

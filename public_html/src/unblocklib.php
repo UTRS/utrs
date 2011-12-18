@@ -6,6 +6,10 @@ debug('entering unblocklib <br/>');
 require_once('exceptions.php');
 debug('import done <br/>');
 
+/**
+ * echo's a debugging string if $DEBUG_MODE is set to true
+ * @param String $message the message to echo
+ */
 function debug($message){
 	$DEBUG_MODE = false;
 	if($DEBUG_MODE){
@@ -13,6 +17,10 @@ function debug($message){
 	}
 }
 
+/**
+ * Connects to and returns a resource link to the UTRS database
+ * @throws UTRSDatabaseException
+ */
 function connectToDB(){
 	debug('connectToDB <br />');
 	$ts_pw = posix_getpwuid(posix_getuid());
@@ -25,6 +33,31 @@ function connectToDB(){
 	mysql_select_db("p_unblock", $db);
 	debug('exiting connectToDB');
 	return $db;
+}
+
+/**
+ * Returns a URL to the given page on the English Wikipedia.
+ * @param String $page the page to link to, including namespace
+ * @param boolean $useSecure true to use the secure server
+ * @param String $queryOptions query options, such as used on some log pages,
+ *  separated by (but not starting with) &'s.
+ */
+function getWikiLink($page, $useSecure, $queryOptions){
+	$url = "http";
+	if($useSecure){
+		$url .= "s://secure.wikimedia.org/wikipedia/en/";
+	}
+	else{
+		$url .= "://en.wikipedia.org/";
+	}
+	if($queryOptions){
+		$url .= "w/index.php?title=" . $page . "&" . $queryOptions;
+	}
+	else{
+		$url .= 'wiki/' . $page;
+	}
+	
+	return $url;
 }
 
 ?>

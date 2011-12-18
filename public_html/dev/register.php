@@ -14,7 +14,6 @@ $captchaErr = null;
 $errorMessages = '';
 
 $username = null;
-$password = null;
 $email = null;
 $wikiAccount = null;
 $useSecure = null;
@@ -51,13 +50,13 @@ if(isset($_POST["submit"])){
 			}
 			$errorMessages .= 'Username is required.';
 		}
-		if($password === '' || $password == null){
+		if($_POST['password'] === '' || $_POST['password'] == null){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}
 			$errorMessages .= 'A password is required.';
 		}
-		else if(strlen($password) < 4){
+		else if(strlen($_POST['password']) < 4){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}

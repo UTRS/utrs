@@ -76,7 +76,7 @@ if(isset($_POST["submit"])){
 		}
 		
 		if(!$errorMessages){
-			$user = new User($_POST);
+			$user = new User($_POST, false);
 			debug('object created<br/>');
 		}
 	}

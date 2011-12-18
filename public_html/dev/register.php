@@ -18,6 +18,7 @@ $password = null;
 $email = null;
 $wikiAccount = null;
 $useSecure = null;
+$user = null;
 
 // Handle submitted form
 if(isset($_POST["submit"])){
@@ -127,8 +128,7 @@ Unblock Ticket Request System
 an account here. Your account must be approved by a tool administrator before it may 
 be used on this site. If you have already requested an account, but it has gone unapproved
 for some time, please email the development team at 
-<a href="mailto:unblock@toolserver.org?subject=Account approval">unblock@toolserver.org</a>
-.</p>
+<a href="mailto:unblock@toolserver.org?subject=Account approval">unblock@toolserver.org</a>.</p>
 
 <p>After completing this form, please add a new section to your user talk page, with the
 heading "UTRS Account Request", while logged into your administrator account in order
@@ -159,15 +159,11 @@ if($user != null){
 else{
 	echo '<p>Fields in red are required. Passwords must be at least four characters in length.</p>';
 	echo '<form name="accountRegister" id="accountRegister" action="register.php" method="POST">';
-	echo '<label id="usernameLabel" for="username" class="required">Username:</label><input id="username" type="text" name="username" value="' . $username . '"/><br/><br/>';
-	echo '<label id="passwordLabel" for="password" class="required">Password:</label><input id="password" type="password" name="password" value="' . $password . '"/><br/><br/>';
-	echo '<label id="wikiAccountLabel" for="wikiAccount" class="required">Wikipedia username:</label><input id="wikiAccount" type="text" name="wikiAccount" value="' . $wikiAccount . '"/><br/><br/>';
-	echo '<label id="emailLabel" for="email" class="required">Wikipedia username:</label><input id="email" type="text" name="email" value="' . $email . '"/><br/><br/>';
-	echo '<label id="useSecureLabel" for="useSecure">Do you want links to Wikipedia to use the secure server?</label><input id="useSecure" type="checkbox" name="useSecure" ' . ($useSecure ? 'checked="true"' : '') . '/><br/><br/>';
-	
-	echo '<p>By registering an account, you are consenting to allow us to collect and store your email ' .
-	 'address. We will not share it with any third party. For more information, please see our ' .
-	 '<a href="privacy.html">Privacy Policy.</a></p>';
+	echo '<label id="usernameLabel" for="username" class="required">Username:</label> <input id="username" type="text" name="username" value="' . $username . '"/><br/><br/>';
+	echo '<label id="passwordLabel" for="password" class="required">Password:</label> <input id="password" type="password" name="password" value="' . $password . '"/><br/><br/>';
+	echo '<label id="wikiAccountLabel" for="wikiAccount" class="required">Wikipedia username:</label> <input id="wikiAccount" type="text" name="wikiAccount" value="' . $wikiAccount . '"/><br/><br/>';
+	echo '<label id="emailLabel" for="email" class="required">Email address:</label> <input id="email" type="text" name="email" value="' . $email . '"/><br/><br/>';
+	echo '<label id="useSecureLabel" for="useSecure">Do you want links to Wikipedia to use the secure server?</label> <input id="useSecure" type="checkbox" name="useSecure" ' . ($useSecure ? 'checked="true"' : '') . '/><br/><br/>';
 	
 	echo '<span class="overridePre">';
 	if($captchaErr == null){
@@ -177,6 +173,10 @@ else{
 		echo recaptcha_get_html($publickey, $captchaErr);
 	}
 	echo '</span>';
+	
+	echo '<p>By registering an account, you are consenting to allow us to collect and store your email ' .
+	 'address. We will not share it with any third party. For more information, please see our ' .
+	 '<a href="privacy.html">Privacy Policy.</a></p>';
 
 	echo '<input type="submit" name="submit" value="Register"/>';
 	echo '</form>';

@@ -182,6 +182,7 @@ else{
 	echo '</form>';
 }
 ?>
+<br />
 
 </div>
 <div id="footer">

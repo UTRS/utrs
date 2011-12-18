@@ -110,6 +110,7 @@ div.error{
 	background-position: 10px center;
 	background-size: 50px;
 	background-repeat: no-repeat;
+	min-height: 50px;
 	padding: 5px;
 	padding-left: 70px;
 	width: 80%;

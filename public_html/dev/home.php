@@ -30,7 +30,7 @@ $edits = null;
 $otherInfo = null;
 
 //Template header()
-header();
+skinHeader();
 ?>
 
 <h2>New Requests</h2>
@@ -48,7 +48,7 @@ header();
 <?php 
 
 //Template footer()
-footer();
+skinFooter();
 //This bracket closes the logged in conditional
 }
 

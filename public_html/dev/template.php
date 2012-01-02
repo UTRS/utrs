@@ -1,5 +1,5 @@
 <?php
-function header() {
+function skinHeader() {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
@@ -36,7 +36,7 @@ Unblock Ticket Request System
 <?php
 }
 
-function footer() {
+function skinFooter() {
 ?>
 <br />
 

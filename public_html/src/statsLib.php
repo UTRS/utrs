@@ -5,6 +5,12 @@ ini_set('display_errors', 'On');
 require_once('../src/exceptions.php');
 require_once('../src/unblocklib.php');
 
+/**
+* Returns a list in an HTML table
+* @param Array $criteria the column and value to filter by
+* @param integer $limit optional the number of items to return
+* @param String $orderby optional order of the results and direction
+*/
 function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
 	
 	
@@ -25,7 +31,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 		$query .= " LIMIT 0," . $limit;
 	}
 	
-	debug($query);
+	echo $query;
 	
 	$result = mysql_query($query, $db);
 	

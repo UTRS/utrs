@@ -17,18 +17,42 @@ Unblock Ticket Request System
 <div id="subheader">
 <table class="subheader_content">
 <tr>
-<td>
-<a id="appealForm" href="index.php">Appeal a Block</a>
-</td>
-<td>
-<a id="GAB" href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
-</td>
-<td>
-<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
-</td>
-<td>
-<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
-</td>
+<?php if ($_SESSION['loggedin'] == TRUE) { ?>
+	<td>
+		<a id="homePage" href="home.php">Home</a>
+	</td>
+	<td>
+		<a id="stats" href="statistics.php">Statistics</a>
+	</td>
+	<td>
+		<a id="mgmtTemp" href="mgmt.php?page=template">Manage Templates</a>
+	</td>
+	<td>
+		<a id="mgmtUser" href="mgmt.php?page=user">Manage Users</a>
+	</td>
+	<td>
+		<a id="preferences" href="mgmt.php?page=user&id=">Preferences</a>
+	</td>
+	<td>
+		<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
+	</td>
+	<td>
+		<a id="logout" href="logout.php">Logout</a>
+	</td>
+<?php } ELSE { ?>
+	<td>
+		<a id="appealForm" href="index.php">Appeal a Block</a>
+	</td>
+	<td>
+		<a id="GAB" href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
+	</td>
+	<td>
+		<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
+	</td>
+	<td>
+		<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
+	</td>
+<?php } ?>
 </tr>
 </table>
 </div>

@@ -24,14 +24,14 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 	}
 	//If there is an order, use it.
 	if ($orderby != "") {
-		$query .= " ORDER BY " . $limit;
+		$query .= " ORDER BY " . $orderby;
 	}
 	//If there is a limit, use it.
 	if ($limit != "") {
 		$query .= " LIMIT 0," . $limit;
 	}
 	
-	echo $query;
+	debug($query);
 	
 	$result = mysql_query($query, $db);
 	

@@ -17,11 +17,11 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 		$query .= " " . $item . " = '" . $value . "'";
 	}
 	//If there is an order, use it.
-	if ($orderby == "") {
+	if ($orderby != "") {
 		$query .= " ORDER BY " . $limit;
 	}
 	//If there is a limit, use it.
-	if ($limit == "") {
+	if ($limit != "") {
 		$query .= " LIMIT 0," . $limit;
 	}
 	

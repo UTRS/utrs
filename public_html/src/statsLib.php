@@ -74,6 +74,8 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			$requests .= "\t</tr>\n";
 		}
 		
+		$requests .= "</table>";
+		
 		return $requests;
 	}
 }

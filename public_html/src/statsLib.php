@@ -16,7 +16,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 	
 	$db = connectToDB();
 	
-	$query = "SELECT appeal_id, ip, wikiAccountName, timestamp FROM appeal";
+	$query = "SELECT appealID, ip, wikiAccountName, timestamp FROM appeal";
 	$query .= " WHERE";
 	//Parse all of the criteria
 	foreach($criteria as $item => $value) {

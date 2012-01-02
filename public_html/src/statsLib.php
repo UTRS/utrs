@@ -69,8 +69,8 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			}
 			
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td style=\"color:green\"><small><a href='requests.php?id=" . $data['appealID'] . "'>Zoom</a></small></td>\n";
-			$requests .= "\t\t<td style=\"color:blue\"><small><a href='" . $wpLink . $identity . "'>" . $identity . "</a></small></td>\n";
+			$requests .= "\t\t<td><small><a style=\"color:green\" href='requests.php?id=" . $data['appealID'] . "'>Zoom</a></small></td>\n";
+			$requests .= "\t\t<td><small><a style=\"color:blue\" href='" . $wpLink . $identity . "'>" . $identity . "</a></small></td>\n";
 			$requests .= "\t</tr>\n";
 		}
 		

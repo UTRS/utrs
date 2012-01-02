@@ -54,11 +54,11 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			//Grab the rowset
 			$data = mysql_fetch_array($result);
 			//Determine how we identify the user.  Use username if possible, IP if not
-			if ($result['wikiAccountName'] == NULL) {
-				$identity = $result['ip'];
+			if ($data['wikiAccountName'] == NULL) {
+				$identity = $data['ip'];
 				$wpLink = "http://en.wikipedia.org/wiki/Special:Contributions/";
 			} else {
-				$identity = $result['wikiAccountName'];
+				$identity = $data['wikiAccountName'];
 				$wpLink = "http://en.wikipedia.org/wiki/User:";
 			}
 			//Determine if it's an odd or even row for formatting
@@ -69,7 +69,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			}
 			
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td style=\"color:green\"><small><a href='requests.php?id=" . $result['appeal_id'] . "'>Zoom</a></small></td>\n";
+			$requests .= "\t\t<td style=\"color:green\"><small><a href='requests.php?id=" . $data['appeal_id'] . "'>Zoom</a></small></td>\n";
 			$requests .= "\t\t<td style=\"color:blue\"><small><a href='" . $wpLink . $identity . "'>" . $identity . "</a></small></td>\n";
 			$requests .= "\t</tr>\n";
 		}

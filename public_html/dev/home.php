@@ -16,7 +16,7 @@ require_once('recaptchalib.php');
 require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
-require_once('../src/statsObject.php');
+require_once('../src/statsLib.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -58,17 +58,17 @@ $otherInfo = null;
 </div>
 <div id="content">
 
-<h2>Open Requests</h2>
-<?php echo Stats::printOpenRequests(); ?>
+<h2>New Requests</h2>
+<?php echo printNewRequests(); ?>
 
 <h2>Flagged Requests</h2>
-<?php echo Stats::printFlaggedRequests(); ?>
+<?php echo printFlaggedRequests(); ?>
 
 <h2>Checkuser Needed</h2>
-<?php echo Stats::printCheckuserNeeded(); ?>
+<?php echo printCheckuserNeeded(); ?>
 
 <h2>Last 5 closed requests</h2>
-<?php echo Stats::printRecentClosed(); ?>
+<?php echo printRecentClosed(); ?>
 
 </div>
 </body>

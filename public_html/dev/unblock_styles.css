@@ -118,6 +118,6 @@ div.error{
 	margin-right: auto;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	display: table-cell;
+	display: table;
 	vertical-align: middle;
 }

@@ -5,9 +5,7 @@ ini_set('display_errors', 'On');
 require_once('exceptions.php');
 
 function loggedIn(){
-	session_id('UTRSLogin');
-	session_name('UTRSLogin');
-	session_start();
+	
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];

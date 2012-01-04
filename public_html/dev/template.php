@@ -2,6 +2,8 @@
 require_once('../src/unblocklib.php');
 
 function skinHeader() {
+
+$loggedIn = loggedIn();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
@@ -19,7 +21,7 @@ Unblock Ticket Request System
 <div id="subheader">
 <table class="subheader_content">
 <tr>
-<?php if (loggedIn()) { ?>
+<?php if ($loggedIn) { ?>
 	<td>
 		<a id="homePage" href="home.php">Home</a>
 	</td>

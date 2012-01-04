@@ -20,7 +20,7 @@ else{
 	$destination = getRootURL() . 'home.php';
 }
 
-if(isset($_POST)){
+if(isset($_POST['login'])){
 	// all checks here will be conducted without the use of objects, so as to avoid
 	// inadvertent output to the screen
 	$user = $_POST['username'];

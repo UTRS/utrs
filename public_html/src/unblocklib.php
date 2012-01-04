@@ -4,6 +4,43 @@ ini_set('display_errors', 'On');
 
 require_once('exceptions.php');
 
+function loggedIn(){
+	session_id('UTRSLogin');
+	session_name('UTRSLogin');
+	session_start();
+	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
+		// presumably good, but confirming that the cookie is valid...
+		$user = $_SESSION['user'];
+		$password = $_SESSION['passwordHash'];
+		$db = connectToDB(true);
+		$query = 'SELECT username FROM user WHERE username=\'' . $user . '\' AND passwordHash=\'' . $password . '\'';
+		$result = mysql_query($query, $db);
+		if($result === false){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		if(mysql_num_rows($result) == 1){
+			return true;
+		}
+		if(mysql_num_rows($result) > 1){
+			throw new UTRSDatabaseException('There is more than one record for your username. '
+			. 'Please contact a tool developer immediately.');
+		}
+	}
+	return false;
+}
+
+/**
+ * Confirm user is logged in; if not, kick them out to the login page.
+ * @param string $destination the page to go to once logged in ('home.php', 'mgmt.php', etc.)
+ */
+function verifyLogin($destination){
+	if(!loggedIn()){
+		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);
+	}
+}
+
 function getRootURL(){
 	return 'http://toolserver.org/~unblock/dev/';
 }

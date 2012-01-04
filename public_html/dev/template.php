@@ -1,4 +1,6 @@
 <?php
+require_once('../src/unblocklib.php');
+
 function skinHeader() {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
@@ -17,7 +19,7 @@ Unblock Ticket Request System
 <div id="subheader">
 <table class="subheader_content">
 <tr>
-<?php if ($_SESSION['loggedin'] == TRUE) { ?>
+<?php if (loggedIn()) { ?>
 	<td>
 		<a id="homePage" href="home.php">Home</a>
 	</td>
@@ -31,7 +33,7 @@ Unblock Ticket Request System
 		<a id="mgmtUser" href="mgmt.php?page=user">Manage Users</a>
 	</td>
 	<td>
-		<a id="preferences" href="mgmt.php?page=user&id=">Preferences</a>
+		<a id="preferences" href="prefs.php">Preferences</a>
 	</td>
 	<td>
 		<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>

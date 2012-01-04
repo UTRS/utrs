@@ -88,7 +88,7 @@ echo '<form name="loginForm" id="loginForm" action="login.php" method="POST">';
 echo '<input type="hidden" id="destination" name="destination" value="' . $destination . '" />';
 echo '<label for="username" id="usernameLabel">Username: </label> <input type="text" id="username" name="username" value="' . $user . '" /><br />';
 echo '<label for="password" id="passwordLabel">Password: </label> <input type="password" id="password" name="password" /><br />';
-echo '<input type="submit" id="login" name="Login" value="Login" />';
+echo '<input type="submit" id="login" name="login" value="Login" />';
 echo '</form>';
 ?>
 

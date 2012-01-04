@@ -11,28 +11,28 @@ class UTRSException extends Exception{
 class UTRSValidationException extends UTRSException{	
 	public function __construct($errorMsg){
 		$message = "<b>There were errors processing your unblock appeal: </b>" . $errorMsg;
-		parent::__construct($message, 10001);
+		parent::__construct($message, 10001, null);
 	}
 }
 
 class UTRSIllegalModificationException extends UTRSException{
 	public function __construct($errorMsg){
 		$message = "<b>The action you requested could not be performed: </b>" . $errorMsg;
-		parent::__construct($message, 10002);
+		parent::__construct($message, 10002, null);
 	}
 }
 
 class UTRSDatabaseException extends UTRSException{
 	public function __construct($errorMsg){
 		$message = "<b>A database error occured when attempting to process your request: </b><br />" . $errorMsg;
-		parent::__construct($message, 10003);
+		parent::__construct($message, 10003, null);
 	}
 }
 
 class UTRSCredentialsException extends UTRSException{
 	public function __construct($errorMsg){
 		$message = "<b>Access denied: </b>" . $errorMsg;
-		parent::__construct($message, 10004);
+		parent::__construct($message, 10004, null);
 	}
 }
 

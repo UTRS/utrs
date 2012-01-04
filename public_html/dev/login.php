@@ -12,6 +12,10 @@ require_once('template.php');
 $user = '';
 $destination = '';
 $errors = '';
+$logout = '';
+if(isset($_GET['logout'])){
+	$logout = true;
+}
 if(isset($_POST['destination'])){
 	$destination = $_POST['destination'];
 }
@@ -77,6 +81,12 @@ skinHeader();
 ?>
 
 <center><b>Unblock Ticket Request System Login</b></center>
+
+<?php 
+if($logout){
+	echo '<p><b>You have been logged out.</b></p>';
+}
+?>
 
 <p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
 

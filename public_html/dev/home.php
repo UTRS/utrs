@@ -1,13 +1,4 @@
 <?php
-session_start();
-
-//For development purposes.  Obviously remove once the login system is developed
-$_SESSION['loggedin'] = true;
-
-//Check that the user is logged in before displaying page
-if ($_SESSION['loggedin'] == TRUE) {
-
-
 //Created by the unblock-en-l dev team (test commit)
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
@@ -18,6 +9,9 @@ require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
 require_once('../src/statsLib.php');
 require_once('template.php');
+
+// make sure user is logged in, if not, kick them out
+verifyLogin('home.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -31,6 +25,8 @@ $otherInfo = null;
 
 //Template header()
 skinHeader();
+
+echo '<p>Welcome, ' . $_SESSION['username'] . '.</p>';
 ?>
 
 <h2>New Requests</h2>
@@ -49,7 +45,5 @@ skinHeader();
 
 //Template footer()
 skinFooter();
-//This bracket closes the logged in conditional
-}
 
 ?>

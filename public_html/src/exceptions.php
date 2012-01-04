@@ -29,4 +29,11 @@ class UTRSDatabaseException extends UTRSException{
 	}
 }
 
+class UTRSCredentialsException extends UTRSException{
+	public function __construct($errorMsg){
+		$message = "<b>Access denied: </b>" . $errorMsg;
+		parent::__construct($message, 10004);
+	}
+}
+
 ?>

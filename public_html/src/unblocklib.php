@@ -2,9 +2,11 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-debug('entering unblocklib <br/>');
 require_once('exceptions.php');
-debug('import done <br/>');
+
+function getRootURL(){
+	return 'http://toolserver.org/~unblock/dev/';
+}
 
 /**
  * echo's a debugging string if $DEBUG_MODE is set to true
@@ -19,10 +21,14 @@ function debug($message){
 
 /**
  * Connects to and returns a resource link to the UTRS database
+ * @param boolean suppressOutput - true to disable debug statements, should be used
+ * 				only on redirection pages.
  * @throws UTRSDatabaseException
  */
-function connectToDB(){
-	debug('connectToDB <br />');
+function connectToDB($suppressOutput){
+	if(!$suppressOutput){
+		debug('connectToDB <br />');
+	}
 	$ts_pw = posix_getpwuid(posix_getuid());
 	$ts_mycnf = parse_ini_file($ts_pw['dir'] . "/.my.cnf");
 	$db = mysql_connect("sql-s1-user.toolserver.org", $ts_mycnf['user'], $ts_mycnf['password'], true);
@@ -31,7 +37,9 @@ function connectToDB(){
 		throw new UTRSDatabaseException("Failed to connect to database cluster sql-s1-user!");
 	}
 	mysql_select_db("p_unblock", $db);
-	debug('exiting connectToDB');
+	if(!$suppressOutput){
+		debug('exiting connectToDB');
+	}
 	return $db;
 }
 

@@ -50,6 +50,9 @@ Unblock Ticket Request System
 		<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
 	</td>
 	<td>
+		<a id="register" href="register.php">Admins: Request an account</a>
+	</td>
+	<td>
 		<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
 	</td>
 <?php } ?>

@@ -6,7 +6,6 @@ require_once('../src/exceptions.php');
 require_once('../src/unblocklib.php');
 require_once('../src/userMgmtLogObject.php');
 
-debug('in user class file<br/>');
 
 class User{
 	

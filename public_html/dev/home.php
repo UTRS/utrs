@@ -2,6 +2,7 @@
 //Created by the unblock-en-l dev team (test commit)
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
+ini_set('session.use_cookies', '1');
 
 require_once('recaptchalib.php');
 require_once('../src/unblocklib.php');

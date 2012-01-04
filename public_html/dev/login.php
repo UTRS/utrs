@@ -11,6 +11,7 @@ require_once('template.php');
 
 $user = '';
 $destination = '';
+$errors = '';
 if(isset($_POST['destination'])){
 	$destination = $_POST['destination'];
 }
@@ -27,8 +28,6 @@ if(isset($_POST['login'])){
 	$user = $_POST['username'];
 	$password = hash('sha512', $_POST['password']);
 
-
-	$errors = '';
 
 	try{
 		$db = connectToDB(true);

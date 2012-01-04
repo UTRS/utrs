@@ -120,3 +120,12 @@ div.error{
 	vertical-align: middle;
 	height: 60px;
 }
+
+div.errorInner{
+	color: black;
+	background-color: transparent;
+	border: none;
+	margin-top: auto;
+	margin-bottom: auto;
+	width: 100%;
+}

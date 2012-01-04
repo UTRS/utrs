@@ -33,7 +33,7 @@ function loggedIn(){
  * Confirm user is logged in; if not, kick them out to the login page.
  * @param string $destination the page to go to once logged in ('home.php', 'mgmt.php', etc.)
  */
-function verifyLogin($destination){
+function verifyLogin($destination = 'home.php'){
 	if(!loggedIn()){
 		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);
 	}
@@ -60,7 +60,7 @@ function debug($message){
  * 				only on redirection pages.
  * @throws UTRSDatabaseException
  */
-function connectToDB($suppressOutput){
+function connectToDB($suppressOutput = false){
 	if(!$suppressOutput){
 		debug('connectToDB <br />');
 	}
@@ -85,7 +85,7 @@ function connectToDB($suppressOutput){
  * @param String $queryOptions query options, such as used on some log pages,
  *  separated by (but not starting with) &'s.
  */
-function getWikiLink($page, $useSecure, $queryOptions){
+function getWikiLink($page, $useSecure = false, $queryOptions = ''){
 	$url = "http";
 	if($useSecure){
 		$url .= "s://secure.wikimedia.org/wikipedia/en/";

@@ -102,6 +102,8 @@ table.subheader_content td:hover{
 	color: red !important;
 }
 
+/* # type code here should only impact internet exploder, according to this site I yanked it from:
+	http://www.jakpsatweb.cz/css/css-vertical-center-solution.html */
 div.error{
 	color: black;
 	background-color:#FFD6D1;
@@ -117,15 +119,21 @@ div.error{
 	margin-right: auto;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	vertical-align: middle;
 	height: 60px;
+	display: table; 
+	#position: relative; 
+	overflow: hidden;
 }
 
 div.errorInner{
 	color: black;
+	display-table: table-cell;
+	vertical-align: middle;
 	background-color: transparent;
 	border: none;
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 100%;
+	#position: absolute;
+	#top: 50%;
 }

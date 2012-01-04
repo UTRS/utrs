@@ -82,6 +82,9 @@ skinHeader();
 <p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
 
 <?php 
+if($errors){
+	echo '<div class="error">' . $errors . '</div>';
+}
 echo '<form name="loginForm" id="loginForm" action="login.php" method="POST">';
 echo '<input type="hidden" id="destination" name="destination" value="' . $destination . '" />';
 echo '<label for="username" id="usernameLabel">Username: </label> <input type="text" id="username" name="username" value="' . $user . '" /><br />';

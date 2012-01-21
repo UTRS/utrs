@@ -27,7 +27,7 @@ $otherInfo = null;
 //Template header()
 skinHeader();
 
-echo '<p>Welcome, ' . $_SESSION['username'] . '.</p>';
+echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 ?>
 
 <h2>New Requests</h2>

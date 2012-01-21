@@ -107,8 +107,6 @@ table.error, table.success{
 	background-position: 10px center;
 	background-size: 50px;
 	background-repeat: no-repeat;
-	padding: 5px;
-	padding-left: 70px;
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
@@ -118,11 +116,13 @@ table.error, table.success{
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px; 
 	border-radius: 8px;
-	border-collapse: collapse;
 }
 
 table.error td, table.success td{
+	border: none;
 	vertical-align: middle;
+	padding: 5px;
+	padding-left: 70px;
 }
 
 table.error{

@@ -6,6 +6,12 @@ ini_set('session.use_cookies', '1');
 require_once('exceptions.php');
 
 function loggedIn(){	
+	if(!isset($_SESSION)){
+		session_id('UTRSLogin');
+		session_name('UTRSLogin');
+		session_start();
+	}
+	
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];
@@ -34,11 +40,6 @@ function loggedIn(){
  * @param string $destination the page to go to once logged in ('home.php', 'mgmt.php', etc.)
  */
 function verifyLogin($destination = 'home.php'){
-	if(!isset($_SESSION)){
-		session_id('UTRSLogin');
-		session_name('UTRSLogin');
-		session_start();
-	}
 	if(!loggedIn()){
 		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);
 	}

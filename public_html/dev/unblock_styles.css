@@ -102,11 +102,8 @@ table.subheader_content td:hover{
 	color: red !important;
 }
 
-div.error{
+div.error, div.success{
 	color: black;
-	background-color:#FFD6D1;
-	border: 2px solid red;
-	background-image: url('https://upload.wikimedia.org/wikipedia/en/1/15/Ambox_warning_pn.svg');
 	background-position: 10px center;
 	background-size: 50px;
 	background-repeat: no-repeat;
@@ -118,6 +115,21 @@ div.error{
 	margin-top: 10px;
 	margin-bottom: 10px;
 	height: 60px;
+	-moz-border-radius: 8px; 
+	-webkit-border-radius: 8px; 
+	border-radius: 8px;
+}
+
+div.error{
+	background-color:#FFD6D1;
+	border: 2px solid red;
+	background-image: url('https://upload.wikimedia.org/wikipedia/en/1/15/Ambox_warning_pn.svg');
+}
+
+div.success{
+	background-color:#D6FFD1;
+	border: 2px solid green;
+	background-image: url('http://upload.wikimedia.org/wikipedia/commons/e/e5/Art%C3%ADculo_bueno.svg');
 }
 
 table.appealList{
@@ -127,7 +139,7 @@ table.appealList{
 }
 
 table.appealList td{
-	padding-right: 2px;
+	padding-right: 3px;
 }
 
 tr.odd{

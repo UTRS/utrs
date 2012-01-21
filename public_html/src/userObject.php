@@ -141,6 +141,59 @@ class User{
 	public function getEmail(){
 		return $this->email;
 	}
+	
+	public function getPasswordHash(){
+		return $this->passwordHash;
+	}
+	
+	public function setNewPreferences($newSecure, $newEmail){
+		if($newEmail != null & !validEmail($newEmail)){
+			throw new UTRSValidationException('The email address you have entered (' . $newEmail . ') is invalid.');
+		}
+		if(($newEmail == null | ($newEmail != null & $newEmail == $this->email)) & $newSecure == $this->useSecure){
+			throw new UTRSIllegalModificationException('You have not changed any of your preferences.');
+		}
+		
+		// ok to change	
+		$secureInt = 0;	
+		if($newSecure){
+			$secureInt = 1;
+		}
+		$query = "UPDATE user SET useSecure='" . $secureInt . "', email='" . $newEmail . "' ";
+		$query .= "WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->email = $newEmail;
+		$this->useSecure = $newSecure;
+	}
+	
+	public function setNewPassword($oldpass, $newpass){
+		if($oldpass == null | $oldpass != $this->passwordHash){
+			throw new UTRSValidationException("Your current password is incorrect.");
+		}
+		
+		// ok to update
+		$query = "UPDATE user SET passwordHash='" . $newpass . "' WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+	}
 }
 
 ?>

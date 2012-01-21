@@ -55,7 +55,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
 	
 	$currentUser = getCurrentUser();
-	$secure = $currentUser->useSecure();
+	$secure = $currentUser->getUseSecure();
 	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = queryAppeals($criteria, $limit, $orderby);

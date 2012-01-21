@@ -126,6 +126,10 @@ table.appealList{
 	font-size: small;
 }
 
+table.appealList td{
+	padding-right: 2px;
+}
+
 tr.odd{
 	background: inherit;
 }

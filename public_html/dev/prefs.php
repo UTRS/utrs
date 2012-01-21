@@ -98,12 +98,12 @@ your Wikipedia username changed in the database.</p>
 <h2>Change your password</h2>
 
 <?php 
-echo '<form name="pwdChange" id="pwdChange" action="prefs.php" method="POST">\n';
-echo '<label for="oldPass" id="oldPassLabel">Your current password:</label> <input type="password" name="oldPass" id="oldPass" /><br/>\n';
-echo '<label for="newPass" id="newPassLabel">Your new password:</label> <input type="password" name="newPass" id="newPass" /><br/>\n';
-echo '<label for="confirm" id="confirmLabel">Confirm your new password:</label> <input type="password" name="confirm" id="confirm" /><br/>\n';
-echo '<input type="submit" id="changePass" name="changePass" value="Change Password" /> <input type="reset" name="reset" id="reset" value="Reset" />\n';
-echo '</form>';
+echo "<form name=\"pwdChange\" id=\"pwdChange\" action=\"prefs.php\" method=\"POST\">\n";
+echo "<label for=\"oldPass\" id=\"oldPassLabel\">Your current password:</label> <input type=\"password\" name=\"oldPass\" id=\"oldPass\" /><br/>\n";
+echo "<label for=\"newPass\" id=\"newPassLabel\">Your new password:</label> <input type=\"password\" name=\"newPass\" id=\"newPass\" /><br/>\n";
+echo "<label for=\"confirm\" id=\"confirmLabel\">Confirm your new password:</label> <input type=\"password\" name=\"confirm\" id=\"confirm\" /><br/>\n";
+echo "<input type=\"submit\" id=\"changePass\" name=\"changePass\" value=\"Change Password\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
+echo "</form>";
 
 skinFooter();
 

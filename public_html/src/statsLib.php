@@ -2,8 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-require_once('../src/exceptions.php');
-require_once('../src/unblocklib.php');
+require_once('./exceptions.php');
+require_once('./unblocklib.php');
+require_once('./appealObject.php');
 
 /**
 * Returns a list in an HTML table
@@ -79,22 +80,52 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 		return $requests;
 	}
 }
+
+/**
+ * Returns a list of all new appeals
+ */
 function printNewRequests() {
-	$criteria =  array('status' => 'NEW');
-	return printAppealList($criteria);
-}
-function printFlaggedRequests() {
-	$criteria =  array('status' => 'AWAITING_ADMIN', 'OR status' => 'AWAITING_PROXY');
+	$criteria =  array('status' => Appeal::$STATUS_NEW);
 	return printAppealList($criteria);
 }
 
+/**
+ * Return a list of all appeals where the appealer has replied to a question, and is awaiting further review
+ */
+function printUserReplied() {
+	$criteria =  array('status' => Appeal::$STATUS_AWAITING_ADMIN);
+	return printAppealList($criteria);
+}
+
+/**
+ * Return a list of all appeals where the appealer has replied to a question, and is awaiting further review
+ */
+function printUserReplyNeeded() {
+	$criteria =  array('status' => Appeal::$STATUS_AWAITING_USER);
+	return printAppealList($criteria);
+}
+
+/**
+ * Return a list of all appeals that have been flagged for checkuser attention
+ */
+function printProxyNeededNeeded() {
+	$criteria =  array('status' => Appeal::$STATUS_AWAITING_PROXY);
+	return printAppealList($criteria);
+}
+
+/**
+ * Return a list of all appeals that have been flagged for checkuser attention
+ */
 function printCheckuserNeeded() {
-	$criteria =  array('status' => 'AWAITING_CHECKUSER');
+	$criteria =  array('status' => Appeal::$STATUS_AWAITING_CHECKUSER);
 	return printAppealList($criteria);
 }
 
+/**
+ * Return a list of the last five appeals to be closed
+ */
 function printRecentClosed() {
-	$criteria =  array('status' => 'CLOSED');
+	$criteria =  array('status' => Appeal::$STATUS_CLOSED);
 	return printAppealList($criteria, 5, "timestamp DESC");
 }
 ?>

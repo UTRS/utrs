@@ -35,7 +35,7 @@ if(isset($_POST['login'])){
 	$user = $_POST['username'];
 	$password = hash('sha512', $_POST['password']);
 
-	debug('User: ' . $user . '  Password hash: ' . $password . '</br>');
+	debug('User: ' . $user . '  Password hash: ' . $password . '<br/>');
 	
 	try{
 		$db = connectToDB(true);
@@ -62,7 +62,7 @@ if(isset($_POST['login'])){
 			$row = mysql_fetch_assoc($result);
 
 			if(strcmp($password, $row['passwordHash']) === 0){
-				debug('Building session, password is a match</br>');
+				debug('Building session, password is a match<br/>');
 				session_id('UTRSLogin');
 				session_name('UTRSLogin');
 				session_start();

@@ -30,17 +30,32 @@ skinHeader();
 echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 ?>
 
+<table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
+<tr>
+<td style="width:50%">
 <h2>New Requests</h2>
 <?php echo printNewRequests(); ?>
 
-<h2>Flagged Requests</h2>
-<?php echo printFlaggedRequests(); ?>
+<h2>Awaiting feedback from WP:OPP</h2>
+<?php echo printProxyCheckNeeded(); ?>
+
+<h2>Last 5 closed requests</h2>
+<?php echo printRecentClosed(); ?>
+
+</td>
+<td style="width:50%">
+
+<h2>User replied - awaiting reviewer response</h2>
+<?php echo printUserReplied();?>
 
 <h2>Checkuser Needed</h2>
 <?php echo printCheckuserNeeded(); ?>
 
-<h2>Last 5 closed requests</h2>
-<?php echo printRecentClosed(); ?>
+<h2>Awaiting user response</h2>
+<?php echo printUserReplyNeeded(); ?>
+</td>
+</tr>
+</table>
 
 <?php 
 

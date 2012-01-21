@@ -67,7 +67,10 @@ catch(UTRSException $e){
 
 // will grab new values if there are new values
 $secure = $user->getUseSecure();
-$secureString = 'checked="' . $secure . '"';
+$secureString = '';
+if($secure){
+	$secureString = 'checked="true"';
+}
 $email = $user->getEmail();
 
 //Template header()

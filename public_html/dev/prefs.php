@@ -84,12 +84,12 @@ else if($success){
 <h2>General settings</h2>
 
 <?php 
-echo '<form name="generalPrefs" id="generalPrefs" action="prefs.php" method="POST">\n';
-echo '<input type="checkbox" name="secure" id="secure" ' . $secureString . 
-	' /> <label for="secure" id="secureLabel">Enable use of the (new) secure server</label><br/>\n';
-echo '<label for="email" id="emailLabel">Your email address:</label> <input type="text" name="email" id="email" value="' . $email . '" /><br/>\n';
-echo '<input type="submit" id="submit" name="submit" value="Submit" /> <input type="reset" name="reset" id="reset" value="Reset" />\n';
-echo '</form>';
+echo "<form name=\"generalPrefs\" id=\"generalPrefs\" action=\"prefs.php\" method=\"POST\">\n";
+echo "<input type=\"checkbox\" name=\"secure\" id=\"secure\" " . $secureString . 
+	" /> <label for=\"secure\" id=\"secureLabel\">Enable use of the (new) secure server</label><br/>\n";
+echo "<label for=\"email\" id=\"emailLabel\">Your email address:</label> <input type=\"text\" name=\"email\" id=\"email\" value=\"" . $email . "\" /><br/>\n";
+echo "<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
+echo "</form>";
 ?>
 
 <p>Note: If your Wikipedia account is renamed, you must create a new UTRS account or contact a tool developer to have

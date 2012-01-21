@@ -37,7 +37,7 @@ function verifyLogin($destination = 'home.php'){
 	if(!isset($_SESSION)){
 		session_id('UTRSLogin');
 		session_name('UTRSLogin');
-		start_session();
+		session_start();
 	}
 	if(!loggedIn()){
 		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);

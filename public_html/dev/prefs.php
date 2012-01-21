@@ -90,7 +90,7 @@ else if($success){
 echo "<form name=\"generalPrefs\" id=\"generalPrefs\" action=\"prefs.php\" method=\"POST\">";
 echo "<input type=\"checkbox\" name=\"secure\" id=\"secure\" " . $secureString . 
 	" /> <label for=\"secure\" id=\"secureLabel\">Enable use of the (new) secure server</label><br/>\n";
-echo "<label for=\"email\" id=\"emailLabel\">Your email address:</label> <input type=\"text\" name=\"email\" id=\"email\" width=\"40\" value=\"" . $email . "\" /><br/>\n";
+echo "<label for=\"email\" id=\"emailLabel\">Your email address:</label> <input type=\"text\" name=\"email\" id=\"email\" size=\"40\" value=\"" . $email . "\" /><br/>\n";
 echo "<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 echo "</form>";
 ?>

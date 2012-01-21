@@ -38,7 +38,7 @@ Unblock Ticket Request System
 		<a id="preferences" href="prefs.php">Preferences</a>
 	</td>
 	<td>
-		<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
+		<a id="privacyPolicy" href="privacy.php">Privacy Policy</a>
 	</td>
 	<td>
 		<a id="logout" href="logout.php">Logout</a>
@@ -57,7 +57,7 @@ Unblock Ticket Request System
 		<a id="register" href="register.php">Admins: Request an account</a>
 	</td>
 	<td>
-		<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
+		<a id="privacyPolicy" href="privacy.php">Privacy Policy</a>
 	</td>
 <?php } ?>
 </tr>

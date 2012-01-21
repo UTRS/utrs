@@ -1,34 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<link rel="stylesheet" href="unblock_styles.css">
-<title>Unblock Ticket Request System - Privacy Policy</title>
-</head>
-<body>
-<div id="header">
-English Wikipedia<br />
-Unblock Ticket Request System
-</div>
-<div id="subheader">
-<table class="subheader_content">
-<tr>
-<td>
-<a id="appealForm" href="index.php">Appeal a Block</a>
-</td>
-<td>
-<a id="GAB" href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
-</td>
-<td>
-<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
-</td>
-<td>
-<a id="register" href="register.php">Admins: Request an account</a>
-</td>
-</tr>
-</table>
-</div>
-<div id="main">
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+ini_set('session.use_cookies', '1');
+
+require_once('../src/unblocklib.php');
+
+//Template header()
+skinHeader();
+
+?>
 <center><b>Unblock Ticket Request System Privacy Policy</b></center>
 <p>Welcome to the Unblock Ticket Request System. We recognize that you are a volunteer working to contribute
 towards the world's largest free online encyclopedia. As such, we recognize that there may be some information
@@ -133,14 +114,8 @@ removed one week after your appeal is resolved.</p>
 
 If you have any questions about this policy, please contact the development team at 
 <a href="mailto:unblock@toolserver.org?subject=Privacy%20questions">unblock@toolserver.org</a>.
-</div>
-<div id="footer">
-The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
-users with the unblock process on the English Wikipedia. <br />
-This project is licensed under the 
-<a id="GPL" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License Version 3 or Later.</a><br />
-For questions or assistance with the Unblock Ticket Request System, please email our development team at 
-<a href="mailto:unblock@toolserver.org">unblock AT toolserver DOT org</a><br />
-</div>
-</body>
-</html>
+<?php 
+
+skinFooter();
+
+?>

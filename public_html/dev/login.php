@@ -10,6 +10,8 @@ ini_set('session.use_cookies', '1');
 require_once('../src/unblocklib.php');
 require_once('template.php');
 
+var_dump($_GET, $_POST, $_SESSION);
+
 $user = '';
 $destination = '';
 $errors = '';
@@ -27,13 +29,16 @@ else{
 	$destination = getRootURL() . 'home.php';
 }
 
+debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');
+
 if(isset($_POST['login'])){
 	// all checks here will be conducted without the use of objects, so as to avoid
 	// inadvertent output to the screen
 	$user = $_POST['username'];
 	$password = hash('sha512', $_POST['password']);
 
-
+	debug('User: ' . $user . '  Password hash: ' . $password . '</br>');
+	
 	try{
 		$db = connectToDB(true);
 
@@ -59,11 +64,13 @@ if(isset($_POST['login'])){
 			$row = mysql_fetch_assoc($result);
 
 			if(strcmp($password, $row['passwordHash']) === 0){
+				debug('Building session, password is a match</br>');
 				session_id('UTRSLogin');
 				session_name('UTRSLogin');
 				session_start();
 				$_SESSION['user'] = $user;
 				$_SESSION['passwordHash'] = $password;
+				var_dump($_SESSION);
 
 				header("Location: " . $destination);
 				exit;

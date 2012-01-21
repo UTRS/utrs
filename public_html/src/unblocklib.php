@@ -50,7 +50,7 @@ function getRootURL(){
  * @param String $message the message to echo
  */
 function debug($message){
-	$DEBUG_MODE = false;
+	$DEBUG_MODE = true;
 	if($DEBUG_MODE){
 		echo $message;
 	}

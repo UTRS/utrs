@@ -32,7 +32,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 
 <table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
 <tr>
-<td style="width:50%">
+<td style="width:50%" valign="top">
 <h2>New Requests</h2>
 <?php echo printNewRequests(); ?>
 
@@ -43,7 +43,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <?php echo printRecentClosed(); ?>
 
 </td>
-<td style="width:50%">
+<td style="width:50%" valign="top">
 
 <h2>User replied - awaiting reviewer response</h2>
 <?php echo printUserReplied();?>

@@ -162,6 +162,8 @@ class User{
 		$query = "UPDATE user SET useSecure='" . $secureInt . "', email='" . $newEmail . "' ";
 		$query .= "WHERE userID='" . $this->userId . "'";
 		
+		debug($query);
+		
 		$db = connectToDB();
 		
 		$result = mysql_query($query, $db);
@@ -183,6 +185,8 @@ class User{
 		
 		// ok to update
 		$query = "UPDATE user SET passwordHash='" . $newpass . "' WHERE userID='" . $this->userId . "'";
+		
+		debug($query);
 		
 		$db = connectToDB();
 		

@@ -108,7 +108,7 @@ function printUserReplyNeeded() {
 /**
  * Return a list of all appeals that have been flagged for checkuser attention
  */
-function printProxyNeededNeeded() {
+function printProxyCheckNeeded() {
 	$criteria =  array('status' => Appeal::$STATUS_AWAITING_PROXY);
 	return printAppealList($criteria);
 }

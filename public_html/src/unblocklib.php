@@ -55,7 +55,7 @@ function getRootURL(){
  * @param String $message the message to echo
  */
 function debug($message){
-	$DEBUG_MODE = true;
+	$DEBUG_MODE = false;
 	if($DEBUG_MODE){
 		echo $message;
 	}
@@ -189,6 +189,20 @@ function validEmail($email)
 		}
 	}
 	return $isValid;
+}
+
+/**
+ * Displays a pretty error box
+ */
+function displayError($errorMsg){
+	echo "<table class=\"error\"><tr><td>" . $errorMsg . "</td></tr></table>";
+}
+
+/**
+ * Displays a pretty success box
+ */
+function displaySuccess($successMsg){
+	echo "<table class=\"success\"><tr><td>" . $successMsg . "</td></tr></table>";
 }
 
 ?>

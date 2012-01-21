@@ -142,21 +142,10 @@ how to receive assistance, please see those links.</p>
 
 <?php 
 if($errorMessages){
-	echo '<div class="error">' . $errorMessages . '</div>';
+	displayError($errorMessages);
 }
 if($appeal != null){
-	echo '<p>If this system were actually working, your appeal would have been accepted with the following values:<br/>';
-	echo 'IP Address: ' . $appeal->getIP() . '<br/>';
-	echo 'Email Address: ' . $appeal->getEmail() . '<br/>';
-	echo 'Do you have an account?: ' . $appeal->hasAccount() . '<br/>';
-	echo 'Name of your (desired) account: ' . $appeal->getAccountName() . '<br/>';
-	echo 'Is this an autoblock?: ' . $appeal->isAutoBlock() . '<br/>';
-	echo 'Blocking admin: ' . $appeal->getBlockingAdmin() . '<br/>';
-	echo 'Appeal: ' . $appeal->getAppeal() . '<br/>';
-	echo 'Intended edits: ' . $appeal->getIntendedEdits() . '<br/>';
-	echo 'Other info: ' . $appeal->getOtherInfo() . '<br/>';
-	echo 'Timestamp: ' . $appeal->getTimestamp() . '<br/>';
-	echo 'Status: ' . $appeal->getStatus() . '<br/>';
+	displaySuccess("Thank you! <s>Your appeal has been accepted and will be reviewed soon.</s> <b>PLEASE NOTE THIS SYSTEM IS NOT ACTIVE AND YOUR APPEAL WILL NOT BE REVIEWED.</b>");
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';

@@ -136,7 +136,7 @@ purpose once your account has been created. Thank you.</p>
 
 <?php 
 if($errorMessages){
-	echo '<div class="error">' . $errorMessages . '</div>';
+	displayError($errorMessages);
 }
 if($user != null){
 	echo '<center><b>Thank you, ' . $user->getUsername() . '. Your account has been created ';

@@ -74,10 +74,10 @@ $email = $user->getEmail();
 skinHeader();
 
 if($errors){
-	echo '<div class="error">' . $errors . '<br/><b>Your preferences have NOT been updated.</b></div>';
+	displayError($errors . '<br/><b>Your preferences have NOT been updated.</b>');
 }
 else if($success){
-	echo '<div class="success">Your preferences have been updated.</div>';
+	displaySuccess('Your preferences have been updated.');
 }
 ?>
 

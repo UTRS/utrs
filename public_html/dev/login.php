@@ -89,7 +89,7 @@ skinHeader();
 
 <?php 
 if($logout){
-	echo '<p><b>You have been logged out.</b></p>';
+	displaySuccess('You have been logged out.');
 }
 ?>
 
@@ -97,7 +97,7 @@ if($logout){
 
 <?php 
 if($errors){
-	echo '<div class="error">' . $errors . '</div>';
+	displayError($errors);
 }
 echo '<form name="loginForm" id="loginForm" action="login.php" method="POST">';
 echo '<input type="hidden" id="destination" name="destination" value="' . $destination . '" />';

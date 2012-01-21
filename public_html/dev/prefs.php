@@ -87,7 +87,7 @@ else if($success){
 echo "<form name=\"generalPrefs\" id=\"generalPrefs\" action=\"prefs.php\" method=\"POST\">\n";
 echo "<input type=\"checkbox\" name=\"secure\" id=\"secure\" " . $secureString . 
 	" /> <label for=\"secure\" id=\"secureLabel\">Enable use of the (new) secure server</label><br/>\n";
-echo "<label for=\"email\" id=\"emailLabel\">Your email address:</label> <input type=\"text\" name=\"email\" id=\"email\" value=\"" . $email . "\" /><br/>\n";
+echo "<label for=\"email\" id=\"emailLabel\">Your email address:</label> <input type=\"text\" name=\"email\" id=\"email\" width=\"40\" value=\"" . $email . "\" /><br/>\n";
 echo "<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 echo "</form>";
 ?>
@@ -99,9 +99,9 @@ your Wikipedia username changed in the database.</p>
 
 <?php 
 echo "<form name=\"pwdChange\" id=\"pwdChange\" action=\"prefs.php\" method=\"POST\">\n";
-echo "<label for=\"oldPass\" id=\"oldPassLabel\">Your current password:</label> <input type=\"password\" name=\"oldPass\" id=\"oldPass\" /><br/>\n";
-echo "<label for=\"newPass\" id=\"newPassLabel\">Your new password:</label> <input type=\"password\" name=\"newPass\" id=\"newPass\" /><br/>\n";
-echo "<label for=\"confirm\" id=\"confirmLabel\">Confirm your new password:</label> <input type=\"password\" name=\"confirm\" id=\"confirm\" /><br/>\n";
+echo "<label for=\"oldPass\" id=\"oldPassLabel\">Your current password:</label> &#09; <input type=\"password\" name=\"oldPass\" id=\"oldPass\" />\n";
+echo "<label for=\"newPass\" id=\"newPassLabel\">Your new password:</label> &#09; <input type=\"password\" name=\"newPass\" id=\"newPass\" />\n";
+echo "<label for=\"confirm\" id=\"confirmLabel\">Confirm your new password:</label> &#09; <input type=\"password\" name=\"confirm\" id=\"confirm\" />\n";
 echo "<input type=\"submit\" id=\"changePass\" name=\"changePass\" value=\"Change Password\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 echo "</form>";
 

@@ -6,6 +6,7 @@ ini_set('session.use_cookies', '1');
 require_once('exceptions.php');
 
 function loggedIn(){
+	var_dump($_SESSION);
 	
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...

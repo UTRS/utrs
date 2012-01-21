@@ -7,17 +7,17 @@ require_once('../src/unblocklib.php');
 require_once('../src/appealObject.php');
 
 /**
-* Returns a list in an HTML table
-* @param Array $criteria the column and value to filter by
-* @param integer $limit optional the number of items to return
-* @param String $orderby optional order of the results and direction
-*/
-function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
-	
-	
+ * Get an array containing database rows representing the desired appeals.
+ * @param array $criteria an array of strings that is converted to a WHERE clause.
+ * {"columnName" => "value", " AND columnName2" => "value2", ... }
+ * @param int $limit the maximum number to return
+ * @param string $orderby the column name to sort by
+ * @return an array containing the database rows returned, or 0 if no rows meet the query
+ */
+function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 	$db = connectToDB();
 	
-	$query = "SELECT appealID, ip, wikiAccountName, timestamp FROM appeal";
+	$query = "SELECT * FROM appeal";
 	$query .= " WHERE";
 	//Parse all of the criteria
 	foreach($criteria as $item => $value) {
@@ -44,16 +44,31 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 	
 	$rows = mysql_num_rows($result);
 	
+	return $rows;
+}
+
+/**
+* Returns a list in an HTML table
+* @param Array $criteria the column and value to filter by
+* @param integer $limit optional the number of items to return
+* @param String $orderby optional order of the results and direction
+*/
+function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
+	
+	// get rows from DB. Throws UTRSDatabaseException
+	$rows = queryAppeals($criteria, $limit, $orderby);
+	
 	//If there are no new unblock requests
 	if ($rows == 0) {
 		$norequests = "<b>No unblock requests in queue</b>";
 		return $norequests;
 	} else {
-		$requests = "<table cellspacing=\"0\">";
+		$requests = "<table class=\"appealList\">";
 		//Begin formatting the unblock requests
 		for ($i=0; $i < $rows; $i++) {
 			//Grab the rowset
 			$data = mysql_fetch_array($result);
+			$appealId = $data['appealID'];
 			//Determine how we identify the user.  Use username if possible, IP if not
 			if ($data['wikiAccountName'] == NULL) {
 				$identity = $data['ip'];
@@ -70,8 +85,9 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			}
 			
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td><small><a style=\"color:green\" href='appeal.php?id=" . $data['appealID'] . "'>Zoom</a></small></td>\n";
-			$requests .= "\t\t<td><small><a style=\"color:blue\" href='" . $wpLink . $identity . "'>" . $identity . "</a></small></td>\n";
+			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
+			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . $wpLink . $identity . "'>" . $identity . "</a></td>\n";
 			$requests .= "\t</tr>\n";
 		}
 		

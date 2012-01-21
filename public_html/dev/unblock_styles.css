@@ -119,3 +119,18 @@ div.error{
 	margin-bottom: 10px;
 	height: 60px;
 }
+
+table.appealList{
+	border-collapse: collapse;
+	border: none;
+	font-size: small;
+	width: 100%;
+}
+
+tr.odd{
+	background: inherit;
+}
+
+tr.even{
+	background: #EBEBEB !important;
+}

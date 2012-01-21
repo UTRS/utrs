@@ -102,7 +102,7 @@ echo "<form name=\"pwdChange\" id=\"pwdChange\" action=\"prefs.php\" method=\"PO
 echo "<label for=\"oldPass\" id=\"oldPassLabel\">Your current password:</label> &#09;&#09; <input type=\"password\" name=\"oldPass\" id=\"oldPass\" />\n";
 echo "<label for=\"newPass\" id=\"newPassLabel\">Your new password:</label> &#09;&#09; <input type=\"password\" name=\"newPass\" id=\"newPass\" />\n";
 echo "<label for=\"confirm\" id=\"confirmLabel\">Confirm your new password:</label> &#09; <input type=\"password\" name=\"confirm\" id=\"confirm\" />\n";
-echo "<input type=\"submit\" id=\"changePass\" name=\"changePass\" value=\"Change Password\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
+echo "<input type=\"submit\" id=\"changePass\" name=\"changePass\" value=\"Change Password\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" /><br />\n";
 echo "</form>";
 
 skinFooter();

@@ -95,11 +95,11 @@ function connectToDB($suppressOutput = false){
 function getWikiLink($page, $useSecure = false, $queryOptions = ''){
 	$url = "http";
 	if($useSecure){
-		$url .= "s://secure.wikimedia.org/wikipedia/en/";
+		$url .= "s";
 	}
-	else{
-		$url .= "://en.wikipedia.org/";
-	}
+	
+	$url .= "://en.wikipedia.org/";
+	
 	if($queryOptions){
 		$url .= "w/index.php?title=" . $page . "&" . $queryOptions;
 	}

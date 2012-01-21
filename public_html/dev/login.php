@@ -10,8 +10,6 @@ ini_set('session.use_cookies', '1');
 require_once('../src/unblocklib.php');
 require_once('template.php');
 
-var_dump($_GET, $_POST, $_SESSION);
-
 $user = '';
 $destination = '';
 $errors = '';
@@ -70,7 +68,6 @@ if(isset($_POST['login'])){
 				session_start();
 				$_SESSION['user'] = $user;
 				$_SESSION['passwordHash'] = $password;
-				var_dump($_SESSION);
 
 				header("Location: " . $destination);
 				exit;

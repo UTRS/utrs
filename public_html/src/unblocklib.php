@@ -5,9 +5,7 @@ ini_set('session.use_cookies', '1');
 
 require_once('exceptions.php');
 
-function loggedIn(){
-	var_dump($_SESSION);
-	
+function loggedIn(){	
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];
@@ -36,6 +34,11 @@ function loggedIn(){
  * @param string $destination the page to go to once logged in ('home.php', 'mgmt.php', etc.)
  */
 function verifyLogin($destination = 'home.php'){
+	if(!isset($_SESSION)){
+		session_id('UTRSLogin');
+		session_name('UTRSLogin');
+		start_session();
+	}
 	if(!loggedIn()){
 		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);
 	}
@@ -50,7 +53,7 @@ function getRootURL(){
  * @param String $message the message to echo
  */
 function debug($message){
-	$DEBUG_MODE = true;
+	$DEBUG_MODE = false;
 	if($DEBUG_MODE){
 		echo $message;
 	}

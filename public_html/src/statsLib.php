@@ -12,7 +12,7 @@ require_once('../src/appealObject.php');
  * {"columnName" => "value", " AND columnName2" => "value2", ... }
  * @param int $limit the maximum number to return
  * @param string $orderby the column name to sort by
- * @return an array containing the database rows returned, or 0 if no rows meet the query
+ * @return a reference to the result of the query
  */
 function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 	$db = connectToDB();
@@ -42,9 +42,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 		throw new UTRSDatabaseException($error);
 	}
 	
-	$rows = mysql_num_rows($result);
-	
-	return $rows;
+	return $result;
 }
 
 /**
@@ -56,7 +54,9 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
 	
 	// get rows from DB. Throws UTRSDatabaseException
-	$rows = queryAppeals($criteria, $limit, $orderby);
+	$result = queryAppeals($criteria, $limit, $orderby);
+	
+	$rows = mysql_num_rows($result);
 	
 	//If there are no new unblock requests
 	if ($rows == 0) {

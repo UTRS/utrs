@@ -24,7 +24,7 @@ class User{
 		debug('in constructor for user <br/>');
 		if($fromDB){
 			$this->username = $vars['username'];
-			$this->userID = $vars['userID'];
+			$this->userId = $vars['userID'];
 			$this->email = $vars['email'];
 			$this->wikiAccount = $vars['wikiAccount'];
 			$this->approved = ($vars['approved'] == 1 || $vars['approved'] == '1' ? true : false);

@@ -4,6 +4,7 @@ ini_set('display_errors', 'On');
 ini_set('session.use_cookies', '1');
 
 require_once('exceptions.php');
+require_once('userObject.php');
 
 function loggedIn(){	
 	if(!isset($_SESSION)){

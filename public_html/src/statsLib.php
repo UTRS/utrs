@@ -53,6 +53,9 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 */
 function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
 	
+	$currentUser = getCurrentUser();
+	$secure = $currentUser->useSecure();
+	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = queryAppeals($criteria, $limit, $orderby);
 	
@@ -72,10 +75,10 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			//Determine how we identify the user.  Use username if possible, IP if not
 			if ($data['wikiAccountName'] == NULL) {
 				$identity = $data['ip'];
-				$wpLink = "http://en.wikipedia.org/wiki/Special:Contributions/";
+				$wpLink = "Special:Contributions/";
 			} else {
 				$identity = $data['wikiAccountName'];
-				$wpLink = "http://en.wikipedia.org/wiki/User:";
+				$wpLink = "User:";
 			}
 			//Determine if it's an odd or even row for formatting
 			if ($i % 2) {
@@ -87,7 +90,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . $wpLink . $identity . "'>" . $identity . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "'>" . $identity . "</a></td>\n";
 			$requests .= "\t</tr>\n";
 		}
 		

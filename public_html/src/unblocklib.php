@@ -109,4 +109,11 @@ function getWikiLink($page, $useSecure = false, $queryOptions = ''){
 	return $url;
 }
 
+function getCurrentUser(){
+	if(loggedIn()){
+		return User::getUserByUsername($_SESSION['user']);
+	}
+	return null;
+}
+
 ?>

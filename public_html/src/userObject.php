@@ -103,6 +103,29 @@ class User{
 		return new User($values, true);
 	}
 	
+	public static function getUserByUsername($username){
+		$db = connectToDB();
+		
+		$query = 'SELECT * FROM user WHERE username=\'' . $username . '\'';
+		
+		$result = mysql_query($query, $db);
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSDatabaseException($error);
+		}
+		if(mysql_num_rows($result) == 0){
+			throw new UTRSDatabaseException('No results were returned for username ' . $username);
+		}
+		if(mysql_num_rows($result) != 1){
+			throw new UTRSDatabaseException('Please contact a tool developer. More '
+				. 'than one result was returned for user ID ' . $id);
+		}
+		
+		$values = mysql_fetch_assoc($result);
+		
+		return new User($values, true);
+	}
+	
 	public function getUsername(){
 		return $this->username;
 	}

@@ -8,7 +8,6 @@ require_once('userObject.php');
 
 function loggedIn(){	
 	if(!isset($_SESSION)){
-		session_id('UTRSLogin');
 		session_name('UTRSLogin');
 		session_start();
 	}

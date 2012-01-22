@@ -63,7 +63,7 @@ if(isset($_POST['login'])){
 
 			if(strcmp($password, $row['passwordHash']) === 0){
 				debug('Building session, password is a match<br/>');
-				session_id('UTRSLogin');
+				session_id('UTRSLogin'. time());
 				session_name('UTRSLogin');
 				session_start();
 				$_SESSION['user'] = $user;

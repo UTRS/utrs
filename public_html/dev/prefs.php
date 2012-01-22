@@ -41,7 +41,7 @@ try{
 	}
 	else if(isset($_POST['changePass'])){
 		if(strlen($_POST['newPass']) < 4){
-			throw new UTRSValidationException('Passwords must be at least 4 characters long.');
+			throw new UTRSIllegalModificationException('Passwords must be at least 4 characters long.');
 		}
 		
 		$newPass = hash('sha512', $_POST['newPass']);
@@ -57,7 +57,7 @@ try{
 			$success = true;
 		}
 		else{
-			throw new UTRSValidationException('Your new password does not match the confirmation password.');
+			throw new UTRSIllegalModificationException('Your new password does not match the confirmation password.');
 		}
 	}
 }

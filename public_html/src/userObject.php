@@ -148,7 +148,7 @@ class User{
 	
 	public function setNewPreferences($newSecure, $newEmail){
 		if($newEmail != null & !validEmail($newEmail)){
-			throw new UTRSValidationException('The email address you have entered (' . $newEmail . ') is invalid.');
+			throw new UTRSIllegalModificationException('The email address you have entered (' . $newEmail . ') is invalid.');
 		}
 		if(($newEmail == null | ($newEmail != null & $newEmail == $this->email)) & $newSecure == $this->useSecure){
 			throw new UTRSIllegalModificationException('You have not changed any of your preferences.');
@@ -180,7 +180,7 @@ class User{
 	
 	public function setNewPassword($oldpass, $newpass){
 		if($oldpass == null | $oldpass != $this->passwordHash){
-			throw new UTRSValidationException("Your current password is incorrect.");
+			throw new UTRSIllegalModificationException("Your current password is incorrect.");
 		}
 		
 		// ok to update

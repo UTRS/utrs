@@ -54,6 +54,9 @@ try{
 			// assume it works here.
 			$user->setNewPassword($oldPass, $newPass);
 			
+			// Set new password hash on session cookie, otherwise user gets logged out
+			$_SESSION['passwordHash'] = $newPass;
+			
 			$success = true;
 		}
 		else{

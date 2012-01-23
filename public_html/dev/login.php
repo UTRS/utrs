@@ -68,6 +68,38 @@ if(isset($_POST['login'])){
 				session_start();
 				$_SESSION['user'] = $user;
 				$_SESSION['passwordHash'] = $password;
+				
+				// now that the session has been started, we can check access...
+				if(!verifyAccess($GLOBALS['APPROVED'])){
+					// force logout
+					$params = session_get_cookie_params();
+					setcookie(session_name(), '', time() - 42000,
+					$params["path"], $params["domain"],
+					$params["secure"], $params["httponly"]
+					);
+
+					session_destroy();
+					// send error message
+					throw new UTRSCredentialsException('Your account has not yet been approved. All '
+					  . 'accounts must be approved by a tool administator for security reasons. '
+					  . 'If you have not yet made an edit to your Wikipedia talk page to confirm '
+					  . 'your identity, please do so now.');
+				}
+				if(!verifyAccess($GLOBALS['ACTIVE'])){
+					$user = getCurrentUser();
+					// force logout
+					$params = session_get_cookie_params();
+					setcookie(session_name(), '', time() - 42000,
+					$params["path"], $params["domain"],
+					$params["secure"], $params["httponly"]
+					);
+
+					session_destroy();
+					// send error message
+					throw new UTRSCredentialsException('Your account is currently listed as inactive. '
+					  . 'The reason given for disabling your account is: ' . $user->getComments() 
+					  . ' Please contact a tool administrator to have your account reactivated.');
+				}
 
 				header("Location: " . $destination);
 				exit;

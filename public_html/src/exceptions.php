@@ -36,4 +36,13 @@ class UTRSCredentialsException extends UTRSException{
 	}
 }
 
+class UTRSIllegalArgumentException extends UTRSException{
+	public function __construct($arg, $expected, $function){
+		$message = "Argument " . $arg . " was provided to " . $function . " when " . $expected . " was expected.<br/>";
+		$message .= "To UTRS users/appellants: This is likely not your fault, but an error on the part of a tool developer.<br/>";
+		$message .= "Please try again later; if the problem persists, contact a tool developer with this message. Thanks!";
+		parent::__construct($message, 10005, null);
+	}
+}
+
 ?>

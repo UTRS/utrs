@@ -6,6 +6,12 @@ ini_set('session.use_cookies', '1');
 require_once('exceptions.php');
 require_once('userObject.php');
 
+$GLOBALS['CHECKUSER'] = -1;
+$GLOBALS['APPROVED'] = 0;
+$GLOBALS['ACTIVE'] = 1;
+$GLOBALS['ADMIN'] = 2;
+$GLOBALS['DEVELOPER'] = 3;
+
 function loggedIn(){	
 	if(!isset($_SESSION)){
 		session_name('UTRSLogin');
@@ -45,6 +51,42 @@ function verifyLogin($destination = 'home.php'){
 	}
 }
 
+/**
+ * Confirm user is logged in AND has the necessary access level to proceed
+ * @param $level int - the access level required:
+ * VALID ARGUMENTS:
+ * -1 - Only checkusers may view this
+ *  0 - Any approved user, including inactive ones, can view (or above)
+ *  1 - Only active users may view this (or above)
+ *  2 - Only tool administrators may view this (or above)
+ *  3 - Only tool developers may view this
+ * Invalid arguments will result in an exception.
+ * @return true if the user has at least the specified access level
+ */
+function verifyAccess($level){
+	// validate
+	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] & 
+			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER']){
+		throw new UTRSIllegalArgumentException($level, '-1, 0, 1, 2, or 3', 'verifyAccess()');
+	}
+	
+	$user = getCurrentUser();
+	if($user == null){
+		return false;
+	}
+	
+	switch($level){
+		case $GLOBALS['CHECKUSER']: return $user->isCheckuser(); // doesn't cascase up like others
+		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
+		case $GLOBALS['ACTIVE']: return ($user->isActive() | $user->isAdmin() | $user->isDeveloper());
+		case $GLOBALS['ADMIN']: return ($user->isAdmin() | $user->isDeveloper());
+		case $GLOBALS['DEVELOPER']: return $user->isDeveloper();
+	}
+}
+
+/**
+ * Returns http://toolserver.org/~unblock/dev/
+ */
 function getRootURL(){
 	return 'http://toolserver.org/~unblock/dev/';
 }

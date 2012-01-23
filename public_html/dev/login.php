@@ -88,7 +88,7 @@ if(isset($_POST['login'])){
 					  . 'your identity, please do so now.');
 				}
 				if(!verifyAccess($GLOBALS['ACTIVE'])){
-					$user = getCurrentUser();
+					$userObj = getCurrentUser();
 					// force logout
 					$_SESSION['user'] = null;
 					$_SESSION['passwordHash'] = null;
@@ -101,8 +101,8 @@ if(isset($_POST['login'])){
 					session_destroy();
 					// send error message
 					throw new UTRSCredentialsException('Your account is currently listed as inactive. '
-					  . 'The reason given for disabling your account is: ' . $user->getComments() 
-					  . ' Please contact a tool administrator to have your account reactivated.');
+					  . 'The reason given for disabling your account is: "' . $userObj->getComments() 
+					  . '" Please contact a tool administrator to have your account reactivated.');
 				}
 
 				header("Location: " . $destination);

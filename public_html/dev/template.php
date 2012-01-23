@@ -14,7 +14,7 @@ $loggedIn = loggedIn();
 
 </head>
 <body>
-<div id="header">
+<div id="header" href="<?php if($loggedIn) { ?>home.php<?php }else{ ?>index.php<?php } ?>">
 English Wikipedia<br />
 Unblock Ticket Request System
 </div>

@@ -29,11 +29,13 @@ Unblock Ticket Request System
 		<a id="stats" href="statistics.php">Statistics</a>
 	</td>
 	<td>
-		<a id="mgmtTemp" href="mgmt.php?page=template">Manage Templates</a>
+		<a id="mgmtTemp" href="tempMgmt.php">Manage/View Templates</a>
 	</td>
+	<?php if(verifyAccess($GLOBALS['ADMIN'])) { ?>
 	<td>
-		<a id="mgmtUser" href="mgmt.php?page=user">Manage Users</a>
+		<a id="mgmtUser" href="userMgmt.php">Manage Users</a>
 	</td>
+	<?php } ?>
 	<td>
 		<a id="preferences" href="prefs.php">Preferences</a>
 	</td>

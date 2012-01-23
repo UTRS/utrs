@@ -2,9 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-require_once('../src/exceptions.php');
-require_once('../src/unblocklib.php');
-require_once('../src/userMgmtLogObject.php');
+require_once('exceptions.php');
+require_once('unblocklib.php');
+require_once('userMgmtLogObject.php');
 
 
 class User{

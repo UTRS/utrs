@@ -72,6 +72,8 @@ if(isset($_POST['login'])){
 				// now that the session has been started, we can check access...
 				if(!verifyAccess($GLOBALS['APPROVED'])){
 					// force logout
+					$_SESSION['user'] = null;
+					$_SESSION['passwordHash'] = null;
 					$params = session_get_cookie_params();
 					setcookie(session_name(), '', time() - 42000,
 					$params["path"], $params["domain"],
@@ -88,6 +90,8 @@ if(isset($_POST['login'])){
 				if(!verifyAccess($GLOBALS['ACTIVE'])){
 					$user = getCurrentUser();
 					// force logout
+					$_SESSION['user'] = null;
+					$_SESSION['passwordHash'] = null;
 					$params = session_get_cookie_params();
 					setcookie(session_name(), '', time() - 42000,
 					$params["path"], $params["domain"],

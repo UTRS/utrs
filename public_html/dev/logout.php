@@ -8,8 +8,8 @@ require_once('../src/unblocklib.php');
 
 session_name('UTRSLogin');
 session_start();
-$_SESSION['username'] = null;
-$_SESSION['password'] = null;
+$_SESSION['user'] = null;
+$_SESSION['passwordHash'] = null;
 
 // destroy the cookie
 $params = session_get_cookie_params();

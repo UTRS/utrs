@@ -14,10 +14,10 @@ $loggedIn = loggedIn();
 
 </head>
 <body>
-<div id="header" href="<?php if($loggedIn) { ?>home.php<?php }else{ ?>index.php<?php } ?>">
+<div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >
 English Wikipedia<br />
 Unblock Ticket Request System
-</div>
+</a></div>
 <div id="subheader">
 <table class="subheader_content">
 <tr>

@@ -99,6 +99,15 @@ else{
 				if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
 					$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
 				}
+				// reset variables
+				if(!$approved & $newApproved){
+					$approved = $newApproved;
+				}
+				$active = $newActive;
+				$comments = $newComments;
+				$admin = $newAdmin;
+				$developer = $newDeveloper;
+				$checkuser = $newCheckuser;
 			}
 			catch(UTRSException $e){
 				$errors = $e->getMessage();

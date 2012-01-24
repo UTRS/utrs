@@ -284,6 +284,14 @@ class User{
 		$this->comments = $comments;
 		
 		UserMgmtLog::insert("disabled account", $comments, $this->userId, $admin->userId);
+		
+		$emailBody = "Hello " . $this->username . ",\n\nThis is to notify you that your account on the Unblock " .
+		    "Ticket Request System has been disabled by " . $admin->getUsername() . ". The reason given for this " .
+		    "action is: \"" . $comments . "\". You may contact any tool administrator to have your account " .
+		    "reactivated.\n\nSincerely,\nThe UTRS Development Team";
+		
+		// notify user
+		mail($this->email, "UTRS account disabled", $emailBody, "From: UTRS Development Team <unblock@toolserver.org>");
 	}
 	
 	public function enable($admin){

@@ -77,19 +77,19 @@ echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\
 // if not approved, require that the account be approved before any other changes are made
 if(!$approved){
 	echo "<label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
-		 "</label><input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
+		 "</label> &#09; <input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
 }
-echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label><input name=\"active\" " .
+echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> &#09; <input name=\"active\" " .
      "id=\"active\" type=\"checkbox\" onclick=\"toggleRequired()\" " . ($active ? "checked=\"true\"" : "" ) . " />\n";
 echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for deactivating this account:</label>\n";
-echo "<input name=\"comments\" id=\"comments\" type=\"textbox\" rows=\"3\" cols=\"30\" />";
-echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label><input name=\"admin\" " .
+echo "<input name=\"comments\" id=\"comments\" type=\"textbox\" rows=\"3\" cols=\"30\" />\n";
+echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> &#09; <input name=\"admin\" " .
 	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";
-echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> " .
+echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> &#09; " .
      "<input name=\"active\" id=\"active\" type=\"checkbox\" " . ($developer ? "checked=\"true\" " : " " ) . 
      ($user->isDeveloper() ? "" : "readonly=\"true\"") . " />\n";
-echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> " .
+echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> &#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"true\" " : " " ) . 
      ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"true\"") . " />\n";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";

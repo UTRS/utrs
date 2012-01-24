@@ -80,7 +80,7 @@ if(!$approved){
 		 "</label> &#09; <input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
 }
 echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> &#09; <input name=\"active\" " .
-     "id=\"active\" type=\"checkbox\" onclick=\"toggleRequired()\" " . ($active ? "checked=\"true\"" : "" ) . " />\n";
+     "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"true\"" : "" ) . " />\n";
 echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for deactivating this account:</label>\n";
 echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $comments . "</textarea>\n";

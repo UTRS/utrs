@@ -223,9 +223,9 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 			$list .= "\t</tr>\n";
 		}
 		
-		$requests .= "</table>";
+		$list .= "</table>";
 		
-		return $requests;
+		return $list;
 	}
 }
 

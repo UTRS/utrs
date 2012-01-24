@@ -83,7 +83,7 @@ echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate acc
      "id=\"active\" type=\"checkbox\" onclick=\"toggleRequired()\" " . ($active ? "checked=\"true\"" : "" ) . " />\n";
 echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for deactivating this account:</label>\n";
-echo "<input name=\"comments\" id=\"comments\" type=\"textarea\" rows=\"3\" cols=\"30\" />\n";
+echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $comments . "</textarea>\n";
 echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> &#09; <input name=\"admin\" " .
 	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";
 echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> &#09; " .

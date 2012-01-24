@@ -48,6 +48,13 @@ function loggedIn(){
 function verifyLogin($destination = 'home.php'){
 	if(!loggedIn()){
 		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);
+		exit;
+	}
+	// if user has somehow lost access, kick them out
+	$user = User::getUserByUsername($_SESSION['user']);
+	if(!$user->isApproved() | !$user->isActive()){
+		header("Location: " . getRootURL() . 'logout.php');
+		exit;
 	}
 }
 

@@ -116,8 +116,21 @@ else{
 		}
 		
 		// IMPORTANT - In case the user is modifying themselves, recheck permissions
-		verifyLogin('userMgmt.php');
-		if(!verifyAccess($GLOBALS['ADMIN'])){
+		if(!verifyAccess($GLOBALS['ACTIVE'])){
+			// force logout - headers will still display incorrectly, but not much to be done about that
+			// at this particular moment
+			$_SESSION['user'] = null;
+			$_SESSION['passwordHash'] = null;
+
+			// destroy the cookie
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000,
+				$params["path"], $params["domain"],
+				$params["secure"], $params["httponly"]);
+
+			session_destroy();
+		}
+		else if(!verifyAccess($GLOBALS['ADMIN'])){
 			displayError("<b>Access denied:</a> User management is only available to tool administrators. "
 			. "Please click on one of the links above to return to another page.");
 		}

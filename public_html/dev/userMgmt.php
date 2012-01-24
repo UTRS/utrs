@@ -132,7 +132,7 @@ else{
 
 <table style="border:none; background: none;">
 	<tr>
-		<td style="width:60%">
+		<td style="width:40%" valign="top">
 			<table style="border: none; background: none;">
 				<tr>
 					<th style="text-align: left">User ID:</th>
@@ -182,7 +182,7 @@ echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=
 echo "</form>\n";
 ?>
 		</td>
-		<td style="width:40%">
+		<td style="width:60%;" valign="top">
 			<h4>Logs for this user</h4>
 			<?php echo printUserLogs($userId); ?>
 		</td>

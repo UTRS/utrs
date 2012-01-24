@@ -67,7 +67,7 @@ else{
 	</tr>
 	<tr>
 		<th style="text-align:left">Registered:</th>
-		<td><?php echo $registered; ?></td>
+		<td><?php echo $registered; ?> UTC</td>
 	</tr>
 </table>
 
@@ -76,9 +76,9 @@ else{
 
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
 // if not approved, require that the account be approved before any other changes are made
-if($approved){
+if(!$approved){
 	echo "<label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
-		 "<input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
+		 "</label><input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
 }
 echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label><input name=\"active\" " .
      "id=\"active\" type=\"checkbox\"" . ($active ? "checked=\"true\"" : "" ) . " />\n";

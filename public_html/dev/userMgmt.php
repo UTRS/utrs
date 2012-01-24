@@ -122,7 +122,6 @@ else{
 		else{
 		
 			echo "<h3>" . $requestedUser->getUsername() . "</h3>";
-		
 			if($errors){
 				displayError($errors);
 			}
@@ -133,24 +132,31 @@ else{
 
 <table style="border:none; background: none;">
 	<tr>
-		<th style="text-align:left">User ID:</th>
-		<td><?php echo $userId; ?></td>
-	</tr>
-	<tr>
-		<th style="text-align:left">Wikipedia account:</th>
-		<td><a href="<?php echo getWikiLink($wikiAccount, $secure); ?>"><?php echo $wikiAccount; ?></a></td>
-	</tr>
-	<tr>
-		<th style="text-align:left">Number of closed appeals:</th>
-		<td><?php echo $numClosed; ?></td>
-	</tr>
-	<tr>
-		<th style="text-align:left">Registered:</th>
-		<td><?php echo $registered; ?> UTC</td>
-	</tr>
-</table>
+		<td style="width:60%">
+			<table style="border: none; background: none;">
+				<tr>
+					<th style="text-align: left">User ID:</th>
+					<td><?php echo $userId; ?>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Wikipedia account:</th>
+					<td><a href="<?php echo getWikiLink($wikiAccount, $secure); ?>"><?php echo $wikiAccount; ?>
+					</a>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Number of closed appeals:</th>
+					<td><?php echo $numClosed; ?>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Registered:</th>
+					<td><?php echo $registered; ?> UTC</td>
+				</tr>
+			</table>
 
-<h4>Access levels</h4>
+			<h4>Access levels</h4>
 <?php 
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
 // if not approved, require that the account be approved before any other changes are made
@@ -174,6 +180,16 @@ echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Che
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";
+?>
+		</td>
+		<td style="width:40%">
+			<h4>Logs for this user</h4>
+			<?php echo printUserLogs($userId); ?>
+		</td>
+	</tr>
+</table>
+
+<?php 
 		} // closes else from second if(!$verifyAccess($GLOBALS['ADMIN'])){
 
 	} // closes if(isset($_GET['userId']))

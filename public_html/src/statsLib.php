@@ -271,4 +271,61 @@ function getNumberAppealsClosedByUser($userId){
 	
 	return $data['numClosed'];
 }
+
+function printUserLogs($userId){
+	if(!$userId){
+		throw new UTRSIllegalArgumentException($userId, "A valid userID", "printUserLogs()");
+	}
+	
+	$db = connectToDB();
+	
+	$query = "SELECT * FROM userMgmtLog WHERE target='" . $userId . "'";
+	
+	debug($query);
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	$rows = mysql_num_rows($result);
+	
+	// shouldn't happen, but meh
+	if($rows == 0){
+		echo "<b>No logs exist for this user.</b>";
+	}
+	else{
+		$target = User::getUserById($userId);
+		$list = "<table class=\"appealList\">";
+		//Begin formatting the logs
+		for ($i=0; $i < $rows; $i++) {
+			//Grab the rowset
+			$data = mysql_fetch_array($result);
+			$doneById = $data['doneBy'];
+			$doneBy = User::getUserById($doneById);
+			$timestamp = $data['timestamp'];
+			$action = $data['action'];
+			$reason = $data['reason'];
+			//Determine if it's an odd or even row for formatting
+			if ($i % 2) {
+				$rowformat = "even";
+			} else {
+				$rowformat = "odd";
+			}
+			
+			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
+			$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . " " . $target->getUsername() . 
+						($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
+			$list .= "\t</tr>\n";
+		}
+		
+		$list .= "</table>";
+		
+		return $list;
+	}
+}
 ?>

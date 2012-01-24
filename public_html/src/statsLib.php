@@ -215,12 +215,12 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 				$rowformat = "odd";
 			}
 			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $userId . ".</td>\n";
-			$requests .- "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
-			$requests .= "\t\t<td>" . $username . "</td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "'>" . $wikiAccount . "</a></td>\n";
-			$requests .= "\t</tr>\n";
+			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$list .= "\t\t<td>" . $userId . ".</td>\n";
+			$list .- "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
+			$list .= "\t\t<td>" . $username . "</td>\n";
+			$list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "'>" . $wikiAccount . "</a></td>\n";
+			$list .= "\t</tr>\n";
 		}
 		
 		$requests .= "</table>";

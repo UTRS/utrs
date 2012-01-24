@@ -148,4 +148,108 @@ function printRecentClosed() {
 	$criteria =  array('status' => Appeal::$STATUS_CLOSED);
 	return printAppealList($criteria, 5, "timestamp DESC");
 }
+
+/**
+ * Get an array containing database rows representing the desired users.
+ * @param array $criteria an array of strings that is converted to a WHERE clause.
+ * {"columnName" => "value", " AND columnName2" => "value2", ... }
+ * @param int $limit the maximum number to return
+ * @param string $orderby the column name to sort by
+ * @return a reference to the result of the query
+ */
+function queryUsers(array $criteria = array(), $limit = "", $orderby = ""){
+	$db = connectToDB();
+	
+	$query = "SELECT * FROM user";
+	$query .= " WHERE";
+	//Parse all of the criteria
+	foreach($criteria as $item => $value) {
+		$query .= " " . $item . " = '" . $value . "'";
+	}
+	//If there is an order, use it.
+	if ($orderby != "") {
+		$query .= " ORDER BY " . $orderby;
+	}
+	//If there is a limit, use it.
+	if ($limit != "") {
+		$query .= " LIMIT 0," . $limit;
+	}
+	
+	debug($query);
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	return $result;
+}
+
+function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
+	$currentUser = getCurrentUser();
+	$secure = $currentUser->getUseSecure();
+	
+	$result = queryUsers($criteria, $limit, $orderBy);
+	
+	$rows = mysql_num_rows($result);
+	
+	if($rows == 0){
+		echo "<b>No users meet this criteria.</b>";
+	}
+	else{
+		$list = "<table class=\"appealList\">";
+		//Begin formatting the unblock requests
+		for ($i=0; $i < $rows; $i++) {
+			//Grab the rowset
+			$data = mysql_fetch_array($result);
+			$userId = $data['userID'];
+			$username = $data['username'];
+			$wikiAccount = "User:" . $data['wikiAccount'];
+			//Determine if it's an odd or even row for formatting
+			if ($i % 2) {
+				$rowformat = "even";
+			} else {
+				$rowformat = "odd";
+			}
+			
+			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$requests .= "\t\t<td>" . $userId . ".</td>\n";
+			$requests .- "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
+			$requests .= "\t\t<td>" . $username . "</td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "'>" . $wikiAccount . "</a></td>\n";
+			$requests .= "\t</tr>\n";
+		}
+		
+		$requests .= "</table>";
+		
+		return $requests;
+	}
+}
+
+function printUnapprovedAccounts(){
+	return printUserList(array("approved" => "0"), "", "registered ASC");	
+}
+
+function printInactiveAccounts(){
+	return printUserList(array("approved" => "1", " AND active" => "0"), "", "username ASC");	
+}
+
+function printActiveAccounts(){
+	return printUserList(array("approved" => "1", " AND active" => "1", " AND toolAdmin" =>  "0"), "", "username ASC");	
+}
+
+function printAdmins(){
+	return printUserList(array("toolAdmin" => "1", " AND active" => "1"), "", "username ASC");	
+}
+
+function printCheckusers(){
+	return printUserList(array("checkuser" => "1", " AND active" => "1"), "", "username ASC");		
+}
+
+function printDevelopers(){
+	return printUserList(array("developer" => "1"), "", "username ASC");		
+}
 ?>

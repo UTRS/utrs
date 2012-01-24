@@ -12,6 +12,8 @@ require_once('template.php');
 
 // make sure user is logged in, if not, kick them out
 verifyLogin('prefs.php');
+// should be sufficient for checking access; unapproved
+// and inactive accounts can't log in
 
 $user = getCurrentUser();
 

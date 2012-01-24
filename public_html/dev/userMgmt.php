@@ -56,10 +56,70 @@ else{
 		$registered = $requestedUser->getRegistered();
 		$numClosed = getNumberAppealsClosedByUser($userId);
 		$wikiAccount = "User:" . $requestedUser->getWikiAccount();
-
-		echo "<h3>" . $requestedUser->getUsername() . "</h3>";
+		$errors = '';
 		
-		// processing goes here
+		if(isset($_POST['submit'])){
+			try{
+				$newApproved = isset($_POST['approved']);
+				$newActive = isset($_POST['active']);
+				$newComments = $_POST['comments'];
+				$newAdmin = isset($_POST['admin']);
+				$newDeveloper = isset($_POST['developer']);
+				$newCheckuser = isset($_POST['checkuser']);
+					
+				// check required fields
+				if(!$approved & !$newApproved){
+					throw new UTRSIllegalModificationException("You must approve this account in order to " .
+				            "make any other access changes.");
+				}
+				if(!$newActive & !$newComments){
+					throw new UTRSIllegalModificationException("You must provide a reason why this account " .
+					        "has been deactivated.");
+				}
+				// check credentials (unlikely someone will spoof the POST header, but just in case)
+				if(($newCheckuser != $checkuser) & (!$user->isCheckuser() | !$user->isDeveloper())){
+					throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
+					        "changes. The checkuser flag may only be changed by developers who also have the " .
+					        "checkuser flag.");
+				}
+				if(($newDeveloper != $developer) & !$user->isDeveloper()){
+					throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
+					        "changes. The developer flag may only be changed by other developers.");
+				}
+				// carry out changes
+				if(!$approved & $newApproved){
+					$requestedUser->approve($user);
+				}
+				if($active & !$newActive){
+					$requestedUser->disable($user, $newComments);
+				}
+				else if(!$active & $newActive){
+					$requestedUser->enable($user);
+				}
+				if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
+					$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
+				}
+			}
+			catch(UTRSException $e){
+				$errors = $e->getMessage();
+			}
+		}
+		
+		// IMPORTANT - In case the user is modifying themselves, recheck permissions
+		if(!$verifyAccess($GLOBALS['ADMIN'])){
+			displayError("<b>Access denied:</a> User management is only available to tool administrators. "
+			. "Please click on one of the links above to return to another page.");
+		}
+		else{
+		
+			echo "<h3>" . $requestedUser->getUsername() . "</h3>";
+		
+			if($errors){
+				displayError($errors);
+			}
+			else if(isset($_POST['submit'])){
+				displaySuccess("Account successfully updated.");
+			}
 ?>
 
 <table style="border:none; background: none;">
@@ -105,7 +165,7 @@ echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Che
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";
-
+		} // closes else from second if(!$verifyAccess($GLOBALS['ADMIN'])){
 
 	} // closes if(isset($_GET['userId']))
 	else{

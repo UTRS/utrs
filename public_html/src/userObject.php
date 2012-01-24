@@ -244,6 +244,94 @@ class User{
 			throw new UTRSDatabaseException($error);
 		}
 	}
+	
+	public function approve($admin){
+		$query = "UPDATE user SET approved='1' WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->approved = true;
+		
+		UserMgmtLog::insert("approved account", "", $this->userId, $admin->userId);
+	}
+	
+	public function disable($admin, $comments){
+		$query = "UPDATE user SET active='0', comments='" . $comments . "' WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->active = false;
+		$this->comments = $comments;
+		
+		UserMgmtLog::insert("disabled account", $comments, $this->userId, $admin->userId);
+	}
+	
+	public function enable($admin){
+		$query = "UPDATE user SET active='1', comments=NULL WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->active = true;
+		$this->comments = null;
+		
+		UserMgmtLog::insert("enabled account", "", $this->userId, $admin->userId);
+	}
+	
+	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin){
+		$query = "UPDATE user SET toolAdmin='" . ($adminFlag ? "1', " : "0', ") .
+		                         "developer='" . ($devFlag ? "1', " : "0', ") .
+		                         "checkuser='" . ($cuFlag ? "1' " : "0' ") .
+		                         "WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->toolAdmin = $adminFlag;
+		$this->checkuser = $cuFlag;
+		$this->developer = $devFlag;
+		
+		UserMgmtLog::insert("changed permissions", "Admin: " . $adminFlag . 
+		            " Developer: " . $devFlag . " Checkuser: " . $cuFlag, $this->userId, $admin->userId);
+	}
 }
 
 ?>

@@ -175,10 +175,10 @@ echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administra
 	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"checked\"" : "") . " />\n";
 echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> &#09; " .
      "<input name=\"developer\" id=\"developer\" type=\"checkbox\" " . ($developer ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() ? "" : "readonly=\"true\"") . " />\n";
+     ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n";
 echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> &#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\"") . " />\n";
+     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";

@@ -21,6 +21,16 @@ skinHeader("function toggleRequired() {
 	else{
 		label.className='required';
 	}
+}
+
+function setRequired(required) {
+	var label = document.getElementById('commentsLabel');
+	if(!required){
+		label.className = '';
+	}
+	else{
+		label.className='required';
+	}
 }");
 
 
@@ -93,7 +103,7 @@ echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Che
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"true\" " : " " ) . 
      ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"true\"") . " />\n";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
-echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" \>\n";
+echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";
 
 

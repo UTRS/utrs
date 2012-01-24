@@ -106,7 +106,7 @@ else{
 		}
 		
 		// IMPORTANT - In case the user is modifying themselves, recheck permissions
-		if(!$verifyAccess($GLOBALS['ADMIN'])){
+		if(!verifyAccess($GLOBALS['ADMIN'])){
 			displayError("<b>Access denied:</a> User management is only available to tool administrators. "
 			. "Please click on one of the links above to return to another page.");
 		}

@@ -252,4 +252,23 @@ function printCheckusers(){
 function printDevelopers(){
 	return printUserList(array("developer" => "1"), "", "username ASC");		
 }
+
+function getNumberAppealsClosedByUser($userId){
+	$query = "SELECT COUNT(*) AS numClosed FROM appeal WHERE status = '" . Appeal::$STATUS_CLOSED . 
+			 "' AND handlingAdmin = '" . $userId . "'";
+	
+	$db = connectToDB();
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	$data = mysql_fetch_assoc($result);
+	
+	return $data['numClosed'];
+}
 ?>

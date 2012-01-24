@@ -1,7 +1,7 @@
 <?php
 require_once('../src/unblocklib.php');
 
-function skinHeader() {
+function skinHeader($script = '') {
 
 $loggedIn = loggedIn();
 ?>
@@ -11,7 +11,10 @@ $loggedIn = loggedIn();
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <link rel="stylesheet" href="unblock_styles.css">
 <title>Unblock Ticket Request System - Register an Account</title>
-
+<?php if($script){
+	echo "<script type=\"text/javascript\">" . $script . "</script>";
+}
+?>
 </head>
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >

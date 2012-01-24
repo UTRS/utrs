@@ -21,6 +21,7 @@ class User{
 	private $useSecure;
 	private $passwordHash;
 	private $comments;
+	private $registered;
 	
 	public function __construct(array $vars, $fromDB){
 		debug('in constructor for user <br/>');
@@ -37,6 +38,7 @@ class User{
 			$this->passwordHash = $vars['passwordHash'];
 			$this->useSecure = ($vars['useSecure'] == 1 || $vars['useSecure'] == '1' ? true : false);
 			$this->comments = $vars['comments'];
+			$this->registered = $vars['registered'];
 		}
 		else{
 			$this->username = $vars['username'];
@@ -78,7 +80,18 @@ class User{
 		
 		debug('Insert complete <br/>');
 		
-		$this->userId = mysql_insert_id($db);
+		$query = "SELECT userID, registered FROM user WHERE username='" . $this->username . "'";
+		debug($query . '<br/>');
+		$result = mysql_query($query, $db);
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		$row = mysql_fetch_assoc($result);
+		
+		$this->userId = $row['userID'];
+		$this->registered = $row['registered'];		
 		
 		UserMgmtLog::insert('created account', 'New account', $this->userId, $this->userId);
 		
@@ -173,6 +186,10 @@ class User{
 	
 	public function getComments(){
 		return $this->comments;
+	}
+	
+	public function getRegistered(){
+		return $this->registered;
 	}
 	
 	public function setNewPreferences($newSecure, $newEmail){

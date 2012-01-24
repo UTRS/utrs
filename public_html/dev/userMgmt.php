@@ -12,7 +12,19 @@ require_once('template.php');
 
 verifyLogin('userMgmt.php');
 
-skinHeader();
+
+skinHeader("function toggleRequired() {
+	var label = document.getElementById('commentsLabel');
+	if(label.className == 'required'){
+		label.className = '';
+	}
+	else{
+		label.className='required';
+	}
+}");
+
+
+echo "<h2>User management</h2>";
 
 if(!verifyAccess($GLOBALS['ADMIN'])){
 	displayError("<b>Access denied:</a> User management is only available to tool administrators. "
@@ -21,12 +33,74 @@ if(!verifyAccess($GLOBALS['ADMIN'])){
 else{
 	
 	if(isset($_GET['userId'])){
-		displayError("This hasn't been implemented yet. Sorry!");
-	}
+		$user = getCurrentUser();
+		$secure = $user->getUseSecure();
+
+		$approved = $requestedUser->isApproved();
+		$active = $requestedUser->isActive();
+		$admin = $requestedUser->isAdmin();
+		$checkuser = $requestedUser->isCheckuser();
+		$developer = $requestedUser->isDeveloper();
+		$comments = $requestedUser->getComments();
+		$registered = $requestedUser->getRegistered();
+		$numClosed = getNumberAppealsClosedByUser($userId);
+		$wikiAccount = "User:" . $requestedUser->getWikiAccount();
+
+		echo "<h3>" . $requestedUser->getUsername() . "</h3>";
+		
+		// processing goes here
+?>
+
+<table style="border:none; background: none;">
+	<tr>
+		<th style="text-align:left">User ID:</th>
+		<td><?php echo $userId; ?></td>
+	</tr>
+	<tr>
+		<th style="text-align:left">Wikipedia account:</th>
+		<td><a href="<?php echo getWikiLink($wikiAccount, $secure); ?>"><?php echo $wikiAccount; ?></a></td>
+	</tr>
+	<tr>
+		<th style="text-align:left">Number of closed appeals:</th>
+		<td><?php echo $numClosed; ?></td>
+	</tr>
+	<tr>
+		<th style="text-align:left">Registered:</th>
+		<td><?php echo $registered; ?></td>
+	</tr>
+</table>
+
+<h4>Access levels</h4>
+<?php 
+
+echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
+// if not approved, require that the account be approved before any other changes are made
+if($approved){
+	echo "<label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
+		 "<input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
+}
+echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label><input name=\"active\" " .
+     "id=\"active\" type=\"checkbox\"" . ($active ? "checked=\"true\"" : "" ) . " />\n";
+echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . ($active ? "class=\"required\"" : "") . " for=\"comments\" " .
+	 " onClick=\"toggleRequired()\" />Reason for deactivating this account:</label>\n";
+echo "<input name=\"comments\" id=\"comments\" type=\"textbox\" rows=\"3\" cols=\"30\" />";
+echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label><input name=\"admin\" " .
+	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";
+echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> " .
+     "<input name=\"active\" id=\"active\" type=\"checkbox\" " . ($developer ? "checked=\"true\" " : " " ) . 
+     ($user->isDeveloper() ? "" : "readonly=\"true\"") . " />\n";
+echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> " .
+     "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"true\" " : " " ) . 
+     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"true\"") . " />\n";
+echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
+echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" \>\n";
+echo "</form>\n";
+
+
+	} // closes if(isset($_GET['userId']))
 	else{
 ?>
 
-<h2>User management</h2>
 
 <table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
 <tr>

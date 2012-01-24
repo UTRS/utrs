@@ -73,7 +73,6 @@ else{
 
 <h4>Access levels</h4>
 <?php 
-
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
 // if not approved, require that the account be approved before any other changes are made
 if(!$approved){
@@ -82,8 +81,8 @@ if(!$approved){
 }
 echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label><input name=\"active\" " .
      "id=\"active\" type=\"checkbox\"" . ($active ? "checked=\"true\"" : "" ) . " />\n";
-echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . ($active ? "class=\"required\"" : "") . " for=\"comments\" " .
-	 " onClick=\"toggleRequired()\" />Reason for deactivating this account:</label>\n";
+echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
+	 " onclick=\"toggleRequired()\" />Reason for deactivating this account:</label>\n";
 echo "<input name=\"comments\" id=\"comments\" type=\"textbox\" rows=\"3\" cols=\"30\" />";
 echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label><input name=\"admin\" " .
 	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";

@@ -35,7 +35,8 @@ else{
 	if(isset($_GET['userId'])){
 		$user = getCurrentUser();
 		$secure = $user->getUseSecure();
-
+		$userId = $_GET['userId'];
+		$requestedUser = User::getUserById($userId);
 		$approved = $requestedUser->isApproved();
 		$active = $requestedUser->isActive();
 		$admin = $requestedUser->isAdmin();

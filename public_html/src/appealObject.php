@@ -311,16 +311,32 @@ class Appeal{
 		return $this->ipAddress;
 	}
 	
+	public function getAccountName(){
+		return $this->accountName;
+	}
+	
+	public function getCommonName() {
+		if ($this->accountName) {
+			return $this->accountName;
+		} else {
+			return $this->ipAddress;
+		}
+	}
+	
+	public function getWikiLink() {
+		if ($this->accountName) {
+			return "Special:Contributions/" . $this->ipAddress;
+		} else {
+			return "User:" . $this->accountName;
+		}
+	}
+	
 	public function getEmail(){
 		return $this->emailAddress;
 	}
 	
 	public function hasAccount(){
 		return $this->hasAccount;
-	}
-	
-	public function getAccountName(){
-		return $this->accountName;
 	}
 	
 	public function isAutoblock(){

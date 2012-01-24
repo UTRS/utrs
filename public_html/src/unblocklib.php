@@ -64,7 +64,7 @@ function verifyLogin($destination = 'home.php'){
  * VALID ARGUMENTS:
  * -1 - Only checkusers may view this
  *  0 - Any approved user, including inactive ones, can view (or above)
- *  1 - Only active users may view this (or above)
+ *  1 - Only active users may view this 
  *  2 - Only tool administrators may view this (or above)
  *  3 - Only tool developers may view this
  * Invalid arguments will result in an exception.
@@ -85,7 +85,7 @@ function verifyAccess($level){
 	switch($level){
 		case $GLOBALS['CHECKUSER']: return $user->isCheckuser(); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
-		case $GLOBALS['ACTIVE']: return ($user->isActive() | $user->isAdmin() | $user->isDeveloper());
+		case $GLOBALS['ACTIVE']: return ($user->isActive()); // on second thought, it should be possible to disable admins and devs too
 		case $GLOBALS['ADMIN']: return ($user->isAdmin() | $user->isDeveloper());
 		case $GLOBALS['DEVELOPER']: return $user->isDeveloper();
 	}

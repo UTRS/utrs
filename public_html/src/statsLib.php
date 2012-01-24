@@ -217,7 +217,7 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 			
 			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$list .= "\t\t<td>" . $userId . ".</td>\n";
-			$list .- "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
+			$list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
 			$list .= "\t\t<td>" . $username . "</td>\n";
 			$list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "'>" . $wikiAccount . "</a></td>\n";
 			$list .= "\t</tr>\n";

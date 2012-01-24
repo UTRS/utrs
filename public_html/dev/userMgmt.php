@@ -172,7 +172,7 @@ echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $
 echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> &#09; <input name=\"admin\" " .
 	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";
 echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> &#09; " .
-     "<input name=\"active\" id=\"active\" type=\"checkbox\" " . ($developer ? "checked=\"true\" " : " " ) . 
+     "<input name=\"developer\" id=\"developer\" type=\"checkbox\" " . ($developer ? "checked=\"true\" " : " " ) . 
      ($user->isDeveloper() ? "" : "readonly=\"true\"") . " />\n";
 echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> &#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"true\" " : " " ) . 

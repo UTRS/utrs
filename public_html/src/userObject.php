@@ -308,6 +308,17 @@ class User{
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin){
+		// safety checks
+		if(!$adminFlag){
+			$adminFlag = false;
+		}
+		if(!$devFlag){
+			$devFlag = false;
+		}
+		if(!$cuFlag){
+			$cuFlag = false;
+		}
+		
 		$query = "UPDATE user SET toolAdmin='" . ($adminFlag ? "1', " : "0', ") .
 		                         "developer='" . ($devFlag ? "1', " : "0', ") .
 		                         "checkuser='" . ($cuFlag ? "1' " : "0' ") .
@@ -329,7 +340,7 @@ class User{
 		$this->checkuser = $cuFlag;
 		$this->developer = $devFlag;
 		
-		UserMgmtLog::insert("changed permissions", "Admin: " . $adminFlag . 
+		UserMgmtLog::insert("changed permissions for", "Admin: " . $adminFlag . 
 		            " Developer: " . $devFlag . " Checkuser: " . $cuFlag, $this->userId, $admin->userId);
 	}
 }

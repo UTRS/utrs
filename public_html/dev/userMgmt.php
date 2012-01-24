@@ -80,9 +80,9 @@ if(!$approved){
 		 "</label><input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
 }
 echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label><input name=\"active\" " .
-     "id=\"active\" type=\"checkbox\"" . ($active ? "checked=\"true\"" : "" ) . " />\n";
+     "id=\"active\" type=\"checkbox\" onclick=\"toggleRequired()\" " . ($active ? "checked=\"true\"" : "" ) . " />\n";
 echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
-	 " onclick=\"toggleRequired()\" />Reason for deactivating this account:</label>\n";
+	 " />Reason for deactivating this account:</label>\n";
 echo "<input name=\"comments\" id=\"comments\" type=\"textbox\" rows=\"3\" cols=\"30\" />";
 echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label><input name=\"admin\" " .
 	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";

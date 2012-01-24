@@ -144,6 +144,10 @@ class User{
 		return new User($values, true);
 	}
 	
+	public function getUserId() {
+		return $this->userId;
+	}
+	
 	public function getUsername(){
 		return $this->username;
 	}

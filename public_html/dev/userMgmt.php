@@ -12,6 +12,70 @@ require_once('template.php');
 
 verifyLogin('userMgmt.php');
 
+$errors = '';
+
+// form processing up here to force log out if needed
+if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADMIN'])){
+	$user = getCurrentUser();
+	$userId = $_GET['userId'];
+	$requestedUser = User::getUserById($userId);
+	$approved = $requestedUser->isApproved();
+	$active = $requestedUser->isActive();
+	$admin = $requestedUser->isAdmin();
+	$checkuser = $requestedUser->isCheckuser();
+	$developer = $requestedUser->isDeveloper();
+	$comments = $requestedUser->getComments();
+
+	try{
+		$newApproved = isset($_POST['approved']);
+		$newActive = isset($_POST['active']);
+		$newComments = $_POST['comments'];
+		$newAdmin = isset($_POST['admin']);
+		$newDeveloper = isset($_POST['developer']);
+		$newCheckuser = isset($_POST['checkuser']);
+			
+		// check required fields
+		if(!$approved & !$newApproved){
+			throw new UTRSIllegalModificationException("You must approve this account in order to " .
+				            "make any other access changes.");
+		}
+		if(!$newActive & !$newComments){
+			throw new UTRSIllegalModificationException("You must provide a reason why this account " .
+					        "has been deactivated.");
+		}
+		// check credentials (unlikely someone will spoof the POST header, but just in case)
+		if(($newCheckuser != $checkuser) & (!$user->isCheckuser() | !$user->isDeveloper())){
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
+					        "changes. The checkuser flag may only be changed by developers who also have the " .
+					        "checkuser flag.");
+		}
+		if(($newDeveloper != $developer) & !$user->isDeveloper()){
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
+					        "changes. The developer flag may only be changed by other developers.");
+		}
+		// carry out changes
+		if(!$approved & $newApproved){
+			$requestedUser->approve($user);
+		}
+		if($active & !$newActive){
+			$requestedUser->disable($user, $newComments);
+		}
+		else if(!$active & $newActive){
+			$requestedUser->enable($user);
+		}
+		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
+			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
+		}
+		// reset current user
+		$user = getCurrentUser();
+	}
+	catch(UTRSException $e){
+		$errors = $e->getMessage();
+	}
+}
+
+// in case user modified their own access, make sure we don't need to log them out
+verifyLogin('userMgmt.php');
 
 skinHeader("function toggleRequired() {
 	var label = document.getElementById('commentsLabel');
@@ -56,93 +120,14 @@ else{
 		$registered = $requestedUser->getRegistered();
 		$numClosed = getNumberAppealsClosedByUser($userId);
 		$wikiAccount = "User:" . $requestedUser->getWikiAccount();
-		$errors = '';
 		
-		if(isset($_POST['submit'])){
-			try{
-				$newApproved = isset($_POST['approved']);
-				$newActive = isset($_POST['active']);
-				$newComments = $_POST['comments'];
-				$newAdmin = isset($_POST['admin']);
-				$newDeveloper = isset($_POST['developer']);
-				$newCheckuser = isset($_POST['checkuser']);
-					
-				// check required fields
-				if(!$approved & !$newApproved){
-					throw new UTRSIllegalModificationException("You must approve this account in order to " .
-				            "make any other access changes.");
-				}
-				if(!$newActive & !$newComments){
-					throw new UTRSIllegalModificationException("You must provide a reason why this account " .
-					        "has been deactivated.");
-				}
-				// check credentials (unlikely someone will spoof the POST header, but just in case)
-				if(($newCheckuser != $checkuser) & (!$user->isCheckuser() | !$user->isDeveloper())){
-					throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					        "changes. The checkuser flag may only be changed by developers who also have the " .
-					        "checkuser flag.");
-				}
-				if(($newDeveloper != $developer) & !$user->isDeveloper()){
-					throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					        "changes. The developer flag may only be changed by other developers.");
-				}
-				// carry out changes
-				if(!$approved & $newApproved){
-					$requestedUser->approve($user);
-				}
-				if($active & !$newActive){
-					$requestedUser->disable($user, $newComments);
-				}
-				else if(!$active & $newActive){
-					$requestedUser->enable($user);
-				}
-				if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
-					$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
-				}
-				// reset variables
-				if(!$approved & $newApproved){
-					$approved = $newApproved;
-				}
-				$active = $newActive;
-				$comments = $newComments;
-				$admin = $newAdmin;
-				$developer = $newDeveloper;
-				$checkuser = $newCheckuser;
-				$user = getCurrentUser();
-			}
-			catch(UTRSException $e){
-				$errors = $e->getMessage();
-			}
+		echo "<h3>" . $requestedUser->getUsername() . "</h3>";
+		if($errors){
+			displayError($errors);
 		}
-		
-		// IMPORTANT - In case the user is modifying themselves, recheck permissions
-		if(!verifyAccess($GLOBALS['ACTIVE'])){
-			// force logout - headers will still display incorrectly, but not much to be done about that
-			// at this particular moment
-			$_SESSION['user'] = null;
-			$_SESSION['passwordHash'] = null;
-
-			// destroy the cookie
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000,
-				$params["path"], $params["domain"],
-				$params["secure"], $params["httponly"]);
-
-			session_destroy();
+		else if(isset($_POST['submit'])){
+			displaySuccess("Account successfully updated.");
 		}
-		else if(!verifyAccess($GLOBALS['ADMIN'])){
-			displayError("<b>Access denied:</a> User management is only available to tool administrators. "
-			. "Please click on one of the links above to return to another page.");
-		}
-		else{
-		
-			echo "<h3>" . $requestedUser->getUsername() . "</h3>";
-			if($errors){
-				displayError($errors);
-			}
-			else if(isset($_POST['submit'])){
-				displaySuccess("Account successfully updated.");
-			}
 ?>
 
 <table style="border:none; background: none;">
@@ -205,8 +190,6 @@ echo "</form>\n";
 </table>
 
 <?php 
-		} // closes else from second if(!$verifyAccess($GLOBALS['ADMIN'])){
-
 	} // closes if(isset($_GET['userId']))
 	else{
 ?>

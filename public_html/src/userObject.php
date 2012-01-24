@@ -160,6 +160,14 @@ class User{
 		return $this->useSecure;
 	}
 	
+	public function getProtocol() {
+		if ($this->useSecure) {
+			return "http";
+		} else {
+			return "https";
+		}
+	}
+	
 	public function getEmail(){
 		return $this->email;
 	}

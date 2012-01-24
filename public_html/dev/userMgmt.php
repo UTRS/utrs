@@ -108,6 +108,7 @@ else{
 				$admin = $newAdmin;
 				$developer = $newDeveloper;
 				$checkuser = $newCheckuser;
+				$user = getCurrentUser();
 			}
 			catch(UTRSException $e){
 				$errors = $e->getMessage();
@@ -166,18 +167,18 @@ if(!$approved){
 		 "</label> &#09; <input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
 }
 echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> &#09; <input name=\"active\" " .
-     "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"true\"" : "" ) . " />\n";
+     "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n";
 echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for deactivating this account:</label>\n";
 echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $comments . "</textarea>\n";
 echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> &#09; <input name=\"admin\" " .
-	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"true\"" : "") . " />\n";
+	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"checked\"" : "") . " />\n";
 echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> &#09; " .
-     "<input name=\"developer\" id=\"developer\" type=\"checkbox\" " . ($developer ? "checked=\"true\" " : " " ) . 
+     "<input name=\"developer\" id=\"developer\" type=\"checkbox\" " . ($developer ? "checked=\"checked\" " : " " ) . 
      ($user->isDeveloper() ? "" : "readonly=\"true\"") . " />\n";
 echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> &#09;&#09; " .
-     "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"true\" " : " " ) . 
-     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"true\"") . " />\n";
+     "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"checked\" " : " " ) . 
+     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\"") . " />\n";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";

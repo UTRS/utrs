@@ -30,7 +30,7 @@ $user = User::getUserByUsername($_SESSION['user']);
 
 //Submitted changes
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
-	if ($_GET['user']) {
+	if (isset($_GET['user'])) {
 		$appeal->setHandlingAdmin($_GET['user']);
 	} else {
 		$appeal->setHandlingAdmin($user->getUserId());

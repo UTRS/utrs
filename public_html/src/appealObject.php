@@ -390,7 +390,7 @@ class Appeal{
 	}
 	
 	public function getHandlingAdmin(){
-		return $this->handingAdmin;
+		return $this->handlingAdmin;
 	}
 	
 	public function getStatus(){

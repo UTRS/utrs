@@ -37,7 +37,7 @@ class Template{
 		$query = "INSERT INTO template (name, text, lastEditUser) VALUES ('";
 		$query .= $this->name . "', '";
 		$query .= $this->text . "', '";
-		$query .= $this->lastEditUser->getId() . "')";
+		$query .= $this->lastEditUser->getUserId() . "')";
 		
 		debug($query);
 		

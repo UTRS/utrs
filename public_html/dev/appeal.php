@@ -29,7 +29,7 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 $user = User::getUserByUsername($_SESSION['user']);
 
 //Submitted changes
-if ($_GET['action'] == "reserve"){
+if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if ($_GET['user']) {
 		$appeal->setHandlingAdmin($_GET['user']);
 	} else {
@@ -38,7 +38,7 @@ if ($_GET['action'] == "reserve"){
 	$appeal->update();
 }
 
-if ($_GET['action'] == "setstatus") {
+if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
 	$appeal->setStatus($_GET['status']);
 }
 ?>

@@ -323,7 +323,7 @@ class Appeal{
 		}
 	}
 	
-	public function getWikiLink() {
+	public function getUserPage() {
 		if ($this->accountName) {
 			return "Special:Contributions/" . $this->ipAddress;
 		} else {

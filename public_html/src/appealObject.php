@@ -325,9 +325,9 @@ class Appeal{
 	
 	public function getUserPage() {
 		if ($this->accountName) {
-			return "Special:Contributions/" . $this->ipAddress;
-		} else {
 			return "User:" . $this->accountName;
+		} else {
+			return "Special:Contributions/" . $this->ipAddress;
 		}
 	}
 	

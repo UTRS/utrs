@@ -27,11 +27,11 @@ class Template{
 			$this->text = $vars['text'];
 			$this->lastEditUser = getCurrentUser();
 			
-			insert();
+			$this->insert();
 		}
 	}
 	
-	public function insert(){
+	private function insert(){
 		$db = connectToDB(true); // going to take place prior to a potential redirection
 		
 		$query = "INSERT INTO template (name, text, lastEditUser) VALUES ('";
@@ -115,7 +115,7 @@ class Template{
 	 * This function grabs that value after we change something.
 	 * @param database_reference $db
 	 */
-	public function updateLastEditTime($db){
+	private function updateLastEditTime($db){
 		
 		$query = "SELECT lastEditTime FROM template WHERE templateID='" . $this->templateID . "'";
 		
@@ -163,7 +163,7 @@ class Template{
 		$this->name = $newName;
 		$this->lastEditUser = $user;
 		
-		updateLastEditTime($db);
+		$this->updateLastEditTime($db);
 	}
 	
 	/**
@@ -195,7 +195,7 @@ class Template{
 		$this->text = $newText;
 		$this->lastEditUser = $user;
 		
-		updateLastEditTime($db);
+		$this->updateLastEditTime($db);
 	}
 }
 

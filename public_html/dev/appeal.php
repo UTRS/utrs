@@ -34,10 +34,13 @@ $user = User::getUserByUsername($_SESSION['user']);
 <br>
 | <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve&user=<?php echo $user->getUserId(); ?>">Mark as being handled</a><br>
 <br>
-Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a>
+Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>
 <br>
-Status: <b><?php echo $appeal->getStatus(); ?></b> | Set Status: <input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close">
-
+Request timestamp: <?php echo date("Y-m-d H:i:s", $appeal->getTimestamp()); ?><br>
+<br>
+Status: <b><?php echo $appeal->getStatus(); ?></b> | Set Status: <input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"><br>
+<br>
+<h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 
 
 

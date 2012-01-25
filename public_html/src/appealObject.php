@@ -252,6 +252,33 @@ class Appeal{
 		debug('Exiting insert <br/>');
 	}
 	
+	public static function update() {
+		debug('In update function');
+		
+		$db = connectToDB();
+		
+		debug('connected to database');
+		
+		$query = "UPDATE appeal SET";
+		$query .= "handlingAdmin = '" . $this->handlingAdmin . "', ";
+		$query .= "status = '" . $this->status . "' ";
+		$query .= "WHERE appealID = " . $this->appealID . ";";
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		debug("Update complete");
+	
+		
+	}
+	
 	public static function validate(array $postVars){
 		debug('Entering validate for Appeal <br/>');
 		$errorMsgs = "";

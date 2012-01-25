@@ -148,5 +148,7 @@ else{
 	} // closes else from if($admin)
 } // closes else from else if(strcmp($_GET['id'], 'new') == 0){
 
+echo "\n\n";
+
 skinFooter();
 ?>

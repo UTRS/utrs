@@ -108,6 +108,8 @@ else if(strcmp($_GET['id'], 'new') == 0){
 else{
 	$template = Template::getTemplateById($_GET['id']);
 	$admin = verifyAccess($GLOBALS['ADMIN']);
+	$name = ($admin & isset($_POST['name']) ? $_POST['name'] : $template->getName());
+	$text = ($admin & isset($_POST['text']) ? $_POST['text'] : $template->getText());
 	
 	if($errors){
 		displayError($errors);
@@ -134,9 +136,9 @@ else{
 		echo "</table>\n";
 		echo "<form name=\"editTemplate\" id=\"editTemplate\" method=\"POST\" target=\"tempMgmt.php?id=" . $template->getId() . "\">\n";
 		echo "<label name=\"nameLabel\" id=\"nameLabel\" for=\"name\" class=\"required\">Name:</label> ";
-		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $template->getName() . "\" />\n";
+		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
-		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $template->getText() . "</textarea>\n";
+		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
 		echo "<input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" />\n";
 		echo "</form>";
 	}

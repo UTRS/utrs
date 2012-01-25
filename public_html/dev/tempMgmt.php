@@ -116,11 +116,11 @@ else{
 		</tr>
 		<tr>
 			<th style="text-align:left;">Last modified by:</th>
-			<td><?php echo $template->getLastEditUser()->getUserId(); ?></td>
+			<td><?php echo $template->getLastEditUser()->getUsername(); ?></td>
 		</tr>
 		<tr>
 			<th style="text-align:left;">Last modified at:</th>
-			<td><?php echo $template->getId(); ?></td>
+			<td><?php echo $template->getLastEditTime(); ?></td>
 		</tr>
 <?php 
 	if($admin){

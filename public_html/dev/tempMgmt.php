@@ -134,7 +134,7 @@ else{
 <?php 
 	if($admin){
 		echo "</table>\n";
-		echo "<form name=\"editTemplate\" id=\"editTemplate\" method=\"POST\" target=\"tempMgmt.php?id=" . $template->getId() . "\">\n";
+		echo "<form name=\"editTemplate\" id=\"editTemplate\" method=\"POST\" action=\"tempMgmt.php?id=" . $template->getId() . "\">\n";
 		echo "<label name=\"nameLabel\" id=\"nameLabel\" for=\"name\" class=\"required\">Name:</label> ";
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";

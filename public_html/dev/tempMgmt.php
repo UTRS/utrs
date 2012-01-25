@@ -96,7 +96,7 @@ else if(strcmp($_GET['id'], 'new') == 0){
 		$name = (isset($_POST['name']) ? $_POST['name'] : null);
 		$text = (isset($_POST['text']) ? $_POST['text'] : null);
 		
-		echo "<form name=\"createTemplate\" id=\"createTemplate\" method=\"POST\" target=\"tempMgmt.php?id=new\">\n";
+		echo "<form name=\"createTemplate\" id=\"createTemplate\" method=\"POST\" action=\"tempMgmt.php?id=new\">\n";
 		echo "<label name=\"nameLabel\" id=\"nameLabel\" for=\"name\" class=\"required\">Name:</label> ";
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";

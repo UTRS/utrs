@@ -31,7 +31,7 @@ class Template{
 		}
 	}
 	
-	private function insert(){
+	public function insert(){
 		$db = connectToDB(true); // going to take place prior to a potential redirection
 		
 		$query = "INSERT INTO template (name, text, lastEditUser) VALUES ('";
@@ -115,7 +115,8 @@ class Template{
 	 * This function grabs that value after we change something.
 	 * @param database_reference $db
 	 */
-	private function updateLastEditTime($db){
+	public function updateLastEditTime($db){
+		
 		$query = "SELECT lastEditTime FROM template WHERE templateID='" . $this->templateID . "'";
 		
 		debug($query);

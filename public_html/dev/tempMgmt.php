@@ -37,7 +37,7 @@ try{
 		
 		// now actually process the request
 		if(strcmp($_GET['id'],'new') == 0){
-			$template = new Template($_POST);
+			$template = new Template($_POST, false);
 			
 			if($template != null){
 				// load the "view/edit" screen

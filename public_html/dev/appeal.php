@@ -23,7 +23,7 @@ if (!is_numeric($_GET['id'])) {
 }
 
 //construct appeal object
-$appeal = Appeal::getAppealByID($_GET['id'])
+$appeal = Appeal::getAppealByID($_GET['id']);
 
 //construct user object
 $user = User::getUserByUsername($_SESSION['user']);

@@ -67,13 +67,15 @@ try{
 			}
 		}
 		else if(isset($_POST['delete'])){
-			$template = Template::getTemplateById($_GET['id']);
+			$id = $_GET['id'];
+			
+			$template = Template::getTemplateById($id);
 
 			$template->delete();
 
 			$template = null;
 
-			header("Location: " . getRootURL() . "tempMgmt.php");
+			header("Location: " . getRootURL() . "tempMgmt.php?deleted=" . $id);
 		}
 	}
 }
@@ -89,6 +91,9 @@ echo "<h2>Template Management</h2>\n";
 if(!isset($_GET['id'])){
 	
 	if(verifyAccess($GLOBALS['ADMIN'])){
+		if(isset($_GET['deleted'])){
+			displaySuccess("Successfully deleted Template #" . $_GET['deleted']);
+		}
 ?>
 <p><a href="tempMgmt.php?id=new">Create a new template</a></p>
 

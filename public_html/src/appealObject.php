@@ -47,7 +47,7 @@ class Appeal{
 	/**
 	 * Database ID number
 	 */
-	private $idNum;
+	private $appealID;
 	/**
 	 * The IP address used to make the request; presumably the blocked one
 	 * if the appealer doesn't have an account or it's an auto or rangeblock.
@@ -224,11 +224,11 @@ class Appeal{
 		
 		debug('Insert complete <br/>');
 		
-		$this->idNum = mysql_insert_id($db);
+		$this->appealID = mysql_insert_id($db);
 		
 		debug('Getting timestamp <br/>');
 		
-		$query = 'SELECT timestamp FROM appeal WHERE appealID = \'' . $this->idNum . '\'';
+		$query = 'SELECT timestamp FROM appeal WHERE appealID = \'' . $this->appealID . '\'';
 		$result = mysql_query($query, $db);
 		$row = mysql_fetch_assoc($result);
 		
@@ -237,7 +237,7 @@ class Appeal{
 		debug('Primary insert complete. Beginning useragent retrieval.<br/>');
 		
 		$query = 'INSERT INTO cuData (appealID, useragent) VALUES (\'';
-		$query .= $this->idNum;
+		$query .= $this->appealID;
 		$query .= '\', \'';
 		$query .= $_SERVER['HTTP_USER_AGENT'];
 		$query .= '\')';
@@ -304,7 +304,7 @@ class Appeal{
 	}
 	
 	public function getID(){
-		return $this->idNum;
+		return $this->appealID;
 	}
 	
 	public function getIP(){

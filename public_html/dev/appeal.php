@@ -43,8 +43,7 @@ if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
 }
 ?>
 <div id='appealContent'>
-<h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1><br>
-<br>
+<h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
 | <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
 <br>
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>
@@ -54,7 +53,6 @@ Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 Status: <b><?php echo $appeal->getStatus(); ?></b> | Set Status: <input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"><br>
 <br>
 Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
-<br>
 <h3>Appeal</h3>
 <div style="border: 1px dotted #000000"><?php echo $appeal->getAppeal(); ?></div>
 <br>

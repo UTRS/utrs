@@ -144,7 +144,7 @@ class Template{
 		$user = getCurrentUser();
 		$sqlName = mysql_real_escape_string($newName);
 		
-		$query = "UPDATE template SET name='" . $sqlName . "', lastEditUser='" . $user->getId() . 
+		$query = "UPDATE template SET name='" . $sqlName . "', lastEditUser='" . $user->getUserId() . 
 					"' WHERE templateID='" . $this->templateID . "'";
 		
 		$db = connectToDB();
@@ -176,7 +176,7 @@ class Template{
 		$user = getCurrentUser();
 		$sqlText = mysql_real_escape_string($newText);
 		
-		$query = "UPDATE template SET text='" . $sqlText . "', lastEditUser='" . $user->getId() . 
+		$query = "UPDATE template SET text='" . $sqlText . "', lastEditUser='" . $user->getUserId() . 
 					"' WHERE templateID='" . $this->templateID . "'";
 		
 		$db = connectToDB();

@@ -259,7 +259,7 @@ class Appeal{
 		
 		debug('connected to database');
 		
-		$query = "UPDATE appeal SET";
+		$query = "UPDATE appeal SET ";
 		$query .= "handlingAdmin = " . $this->handlingAdmin . ", ";
 		$query .= "status = '" . $this->status . "' ";
 		$query .= "WHERE appealID = " . $this->appealID . ";";

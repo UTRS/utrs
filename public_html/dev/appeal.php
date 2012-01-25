@@ -35,10 +35,10 @@ $user->getUserByUsername($_SESSION['user']);
 
 <h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
 
-| <a href="<?php echo $appeal->getWikiLink(); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve&user=<?php echo $user->getUserId(); $?>">Mark as being handled</a>
+| <a href="<?php echo getWikiLink($appeal->getUserPage()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve&user=<?php echo $user->getUserId(); ?>">Mark as being handled</a>
 
 
-Account links: <a href="<?php echo $user->getProtocol; ?>://en.wikipedia.org/<?php echo $appeal->getWikiLink(); ?>" target="_new">User Page</a> | <a href="<?php echo $user->getProtocol(); ?>://en.wikipedia.org/wiki/Special:Block/<?php echo $appea->getCommonName(); ?>" target="_new">Block Log</a> | <a href="<?php echo $user->getProtocol(); ?>://en.wikipedia.org/wiki/Special:Contributions/<?php echo $appea->getCommonName(); ?>" target="_new">Contribs</a>
+Account links: <a href="<?php echo getWikiLink($appeal->getUserPage()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName()); ?>" target="_new">Contribs</a>
 
 
 

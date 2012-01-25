@@ -111,15 +111,15 @@ else{
 ?>
 	<table style="border:none; background:none;">
 		<tr>
-			<th>Template ID:</th>
+			<th style="text-align:left;">Template ID:</th>
 			<td><?php echo $template->getId(); ?></td>
 		</tr>
 		<tr>
-			<th>Last modified by:</th>
-			<td><?php echo $template->getLastEditUser()->getId(); ?></td>
+			<th style="text-align:left;">Last modified by:</th>
+			<td><?php echo $template->getLastEditUser()->getUserId(); ?></td>
 		</tr>
 		<tr>
-			<th>Last modified at:</th>
+			<th style="text-align:left;">Last modified at:</th>
 			<td><?php echo $template->getId(); ?></td>
 		</tr>
 <?php 
@@ -136,11 +136,11 @@ else{
 	else{
 ?>
 		<tr>
-			<th>Template name:</th>
+			<th style="text-align:left;">Template name:</th>
 			<td><?php echo $template->getName(); ?></td>
 		</tr>
 		<tr>
-			<th>Template text:</th>
+			<th style="text-align:left;">Template text:</th>
 			<td><?php echo $template->getText(); ?></td>
 		</tr>
 	</table>

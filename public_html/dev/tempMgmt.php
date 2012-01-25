@@ -108,6 +108,13 @@ else if(strcmp($_GET['id'], 'new') == 0){
 else{
 	$template = Template::getTemplateById($_GET['id']);
 	$admin = verifyAccess($GLOBALS['ADMIN']);
+	
+	if($errors){
+		displayError($errors);
+	}
+	else if(isset($_POST['submit'])){
+		displaySuccess("Template updated successfully.");
+	}
 ?>
 	<table style="border:none; background:none;">
 		<tr>

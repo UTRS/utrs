@@ -197,6 +197,28 @@ class Template{
 		
 		$this->updateLastEditTime($db);
 	}
+	
+	public function delete(){
+		$query = "DELETE FROM template WHERE templateID='" . $this->templateID . "'";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->templateID = null;
+		$this->name = null;
+		$this->text = null;
+		$this->lastEditTime = null;
+		$this->lastEditUser = null;
+	}
 }
 
 ?>

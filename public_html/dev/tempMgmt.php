@@ -16,53 +16,64 @@ verifyLogin('tempMgmt.php');
 $errors = '';
 
 try{
-	if(isset($_POST['submit'])){
-		
-		// validate first
-		if(!isset($_POST['name']) | !isset($_POST['text'])){
-			throw new UTRSIllegalModificationException("All fields are required.");
-		}
-		
-		$name = $_POST['name'];
-		$text = $_POST['text'];
-		
-		if(strlen($name) == 0 | strlen($text) == 0){
-			throw new UTRSIllegalModificationException("All fields are required.");
-		}
-			
-		if(strlen($name) > 40){
-			throw new UTRSIllegalModificationException("The name of a template must be less than 40 characters" .
+	if(verifyAccess($GLOBALS['ADMIN'])){
+		if(isset($_POST['submit'])){
+
+			// validate first
+			if(!isset($_POST['name']) | !isset($_POST['text'])){
+				throw new UTRSIllegalModificationException("All fields are required.");
+			}
+
+			$name = $_POST['name'];
+			$text = $_POST['text'];
+
+			if(strlen($name) == 0 | strlen($text) == 0){
+				throw new UTRSIllegalModificationException("All fields are required.");
+			}
+				
+			if(strlen($name) > 40){
+				throw new UTRSIllegalModificationException("The name of a template must be less than 40 characters" .
 				   " long. The name you have entered is " . strlen($name) . " characters in length.");
-		}
-		if(strlen($text) > 2048){
-			throw new UTRSIllegalModificationException("The text of a template must be less than 2048 characters" .
+			}
+			if(strlen($text) > 2048){
+				throw new UTRSIllegalModificationException("The text of a template must be less than 2048 characters" .
 				   " long. The text you have entered is " . strlen($text) . " characters in length.");
-		}
-		
-		// now actually process the request
-		if(strcmp($_GET['id'],'new') == 0){
-			$template = new Template($_POST, false);
-			
-			if($template != null){
-				// load the "view/edit" screen
-				header("Location: " . getRootURL() . 'tempMgmt.php?id=' . $template->getId());
+			}
+
+			// now actually process the request
+			if(strcmp($_GET['id'],'new') == 0){
+				$template = new Template($_POST, false);
+					
+				if($template != null){
+					// load the "view/edit" screen
+					header("Location: " . getRootURL() . 'tempMgmt.php?id=' . $template->getId());
+				}
+				else{
+					throw new UTRSException("An unexpected error has occured. Please contact a tool developer.", 10000, null);
+				}
 			}
 			else{
-				throw new UTRSException("An unexpected error has occured. Please contact a tool developer.", 10000, null);
+				$template = Template::getTemplateById($_GET['id']);
+
+				if(strcmp($name, $template->getName()) == 0 & strcmp($text, $template->getText()) == 0){
+					unset($_POST); // act as though nothing happened
+				}
+				if(strcmp($name, $template->getName()) != 0){
+					$template->setName($name);
+				}
+				if(strcmp($text, $template->getText()) != 0){
+					$template->setText($text);
+				}
 			}
 		}
-		else{
+		else if(isset($_POST['delete'])){
 			$template = Template::getTemplateById($_GET['id']);
 
-			if(strcmp($name, $template->getName()) == 0 & strcmp($text, $template->getText()) == 0){
-				unset($_POST); // act as though nothing happened
-			}
-			if(strcmp($name, $template->getName()) != 0){
-				$template->setName($name);
-			}
-			if(strcmp($text, $template->getText()) != 0){
-				$template->setText($text);
-			}
+			$template->delete();
+
+			$template = null;
+
+			header("Location: " . getRootURL() . "tempMgmt.php");
 		}
 	}
 }
@@ -143,7 +154,10 @@ else{
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
-		echo "<input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" />\n";
+		echo "<table style=\"background:none; border:none; width:500px;\"><tr>\n";
+		echo "<td style=\"text-align:left;\"><input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" /></td>\n";
+		echo "<td style=\"text-align:right;\"><input name=\"delete\" id=\"delete\" type=\"submit\" value=\"Delete\" /></td>\n";
+		echo "</tr></table>\n";
 		echo "</form>";
 	}
 	else{

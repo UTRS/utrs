@@ -19,12 +19,16 @@ try{
 	if(isset($_POST['submit'])){
 		
 		// validate first
-		if(!isset($_POST['name']) & !isset($_POST['text'])){
+		if(!isset($_POST['name']) | !isset($_POST['text'])){
 			throw new UTRSIllegalModificationException("All fields are required.");
 		}
 		
 		$name = $_POST['name'];
 		$text = $_POST['text'];
+		
+		if(strlen($name) == 0 | strlen($text) == 0){
+			throw new UTRSIllegalModificationException("All fields are required.");
+		}
 			
 		if(strlen($name) > 40){
 			throw new UTRSIllegalModificationException("The name of a template must be less than 40 characters" .

@@ -53,7 +53,7 @@ Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 <br>
 Status: <b><?php echo $appeal->getStatus(); ?></b> | Set Status: <input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"><br>
 <br>
-Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
+Assigned: <?php echo $appeal->handlingAdmin(); //$handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <br>
 <h3>Appeal</h3>
 <div style="border: 1px dotted #000000"><?php echo $appeal->getAppeal(); ?></div>

@@ -252,7 +252,7 @@ class Appeal{
 		debug('Exiting insert <br/>');
 	}
 	
-	public static function update() {
+	public function update() {
 		debug('In update function');
 		
 		$db = connectToDB();

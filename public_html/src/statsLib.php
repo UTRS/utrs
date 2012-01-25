@@ -328,4 +328,61 @@ function printUserLogs($userId){
 		return $list;
 	}
 }
+
+function printTemplateList(){
+	
+	$db = connectToDB();
+	
+	$query = "SELECT templateID, name FROM template";
+	
+	debug($query);
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	$rows = mysql_num_rows($result);
+	
+	// shouldn't happen, but meh
+	if($rows == 0){
+		echo "<b>No templates currently exist.</b>";
+	}
+	else{
+		$user = getCurrentUser();
+		$list = "<table class=\"appealList\">";
+		//Begin formatting the logs
+		for ($i=0; $i < $rows; $i++) {
+			//Grab the rowset
+			$data = mysql_fetch_array($result);
+			$id = $data['templateID'];
+			$name = $data['name'];
+			//Determine if it's an odd or even row for formatting
+			if ($i % 2) {
+				$rowformat = "even";
+			} else {
+				$rowformat = "odd";
+			}
+			
+			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$list .= "\t\t<td>" . $id . ".</td>\n";
+			$list .= "\t\t<td>" . $name . "</td>\n";
+			$list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
+			if(verifyAccess($GLOBALS['ADMIN'])){
+				$list .= "Edit";
+			}
+			else{
+				$list .= "View";
+			}
+			$list .= "</a></td>\n\t</tr>\n";
+		}
+		
+		$list .= "</table>";
+		
+		return $list;
+	}
+}
 ?>

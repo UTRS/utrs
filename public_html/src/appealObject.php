@@ -263,7 +263,7 @@ class Appeal{
 		$query .= "handlingAdmin = " . $this->handlingAdmin . ", ";
 		$query .= "status = '" . $this->status . "' ";
 		$query .= "WHERE appealID = " . $this->appealID . ";";
-		echo $query;
+		
 		debug($query);
 		
 		$result = mysql_query($query, $db);
@@ -276,7 +276,6 @@ class Appeal{
 		
 		debug("Update complete");
 	
-		
 	}
 	
 	public static function validate(array $postVars){

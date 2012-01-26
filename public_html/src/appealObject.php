@@ -404,9 +404,9 @@ class Appeal{
 	public function setStatus($newStatus){
 		// TODO: query to check if status is closed; if so, whoever's reopening
 		// should be a tool admin
-		if(strcmp($newStatus, $STATUS_NEW) == 0 || strcmp($newStatus, $STATUS_AWAITING_USER) == 0
-		  || strcmp($newStatus, $STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, $STATUS_AWAITING_CHECKUSER) == 0
-		  || strcmp($newStatus, $STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, $STATUS_CLOSED) == 0){
+		if(strcmp($newStatus, $this::$STATUS_NEW) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_USER) == 0
+		  || strcmp($newStatus, $this::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_CHECKUSER) == 0
+		  || strcmp($newStatus, $this::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, $this::$STATUS_CLOSED) == 0){
 			// TODO: query to modify the row
 			$this->status = $newStatus;
 		}

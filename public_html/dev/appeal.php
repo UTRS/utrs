@@ -43,18 +43,17 @@ if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
 }
 ?>
 <div id='appealContent'>
-<h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
+<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a></h1>
 <table class="appeal">
 <tr>
 <td valign=top class="left">
-| <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
+
 <br>
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>
 <br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 <br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
-<center></center><input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"></center><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
 <br>
 Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
@@ -66,6 +65,11 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 <br>
 </td>
 <td valign=top class="right">
+<h3>Actions</h3>
+<a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
+<br>
+<center><input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"></center><br>
+<br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>
 </tr>

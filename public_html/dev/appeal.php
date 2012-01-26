@@ -28,7 +28,7 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 //construct user object
 $user = User::getUserByUsername($_SESSION['user']);
 
-//Submitted changes
+//Status change
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if (isset($_GET['user'])) {
 		$appeal->setHandlingAdmin($_GET['user']);
@@ -38,8 +38,28 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	$appeal->update();
 }
 
-if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
-	$appeal->setStatus($_GET['status']);
+if (isset($_GET['action']) && $_GET['action'] == "status") {
+	switch ($_GET['value']) {
+		case "checkuser":
+			$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
+			break;
+		case "user":
+			$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
+			break;
+		case "hold":
+			$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
+			break;
+		case "proxy":
+			$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
+			break;
+		case "admin":
+			$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
+			break;
+		case "close":
+			$appeal->setStatus(Appeal::$STATUS_CLOSED);
+			break;
+	}
+	$appeal->update();
 }
 ?>
 <div id='appealContent'>
@@ -73,7 +93,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 	<input type="button" value="Hold" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
 	<input type="button" value="Proxy" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=proxy'">&nbsp;
 	<input type="button" value="Admin" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin'">&nbsp;
-	<input type="button" value="Close">
+	<input type="button" value="Close" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close'">
 </center><br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>

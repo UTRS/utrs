@@ -40,6 +40,10 @@ class Appeal{
 	 */
 	public static $STATUS_AWAITING_PROXY = 'AWAITING_PROXY';
 	/**
+	 * The appeal is on hold
+	 */
+	public static $STATUS_ON_HOLD = 'ON_HOLD';
+	/**
 	 * The appeal in question has been resolved
 	 */
 	public static $STATUS_CLOSED = 'CLOSED';

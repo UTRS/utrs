@@ -45,7 +45,7 @@ if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
 <div id='appealContent'>
 <table>
 <tr>
-<td valign=top style="border: 0px 0px 0px 1px #000000 solid">
+<td valign=top style="border-right: 1px #000000 solid">
 <h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
 | <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
 <br>
@@ -65,7 +65,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 <div style="border: 1px dotted #000000"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>
 </td>
-<td>
+<td valign=top>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>
 </tr>

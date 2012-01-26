@@ -28,7 +28,7 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 //construct user object
 $user = User::getUserByUsername($_SESSION['user']);
 
-//Status change
+//Set the handling admin
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if (isset($_GET['user'])) {
 		$appeal->setHandlingAdmin($_GET['user']);
@@ -38,6 +38,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	$appeal->update();
 }
 
+//Status change
 if (isset($_GET['action']) && $_GET['action'] == "status") {
 	switch ($_GET['value']) {
 		case "checkuser":

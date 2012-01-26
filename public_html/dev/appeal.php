@@ -61,7 +61,6 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 <?php } ?>
 <h3>Appeal</h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
-<br>
 <h3>Other Info</h3>
 <div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>

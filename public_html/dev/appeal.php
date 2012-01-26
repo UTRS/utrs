@@ -68,15 +68,10 @@ if (isset($_GET['action']) && $_GET['action'] == "status") {
 <table class="appeal">
 <tr>
 <td valign=top class="left">
-
-<br>
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>
-<br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
-<br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
-<br>
 Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>
 <h3>Appeal</h3>

@@ -82,7 +82,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 </td>
 <td valign=top class="right">
 <h3>Actions</h3>
-<center>
+<div style="text-align:center;">
 	<input type="button" value="Reserve" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=reserve'">&nbsp;
 	<input type="button" value="Checkuser" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
 	<input type="button" value="User" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
@@ -90,7 +90,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 	<input type="button" value="Proxy" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=proxy'">&nbsp;
 	<input type="button" value="Admin" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin'">&nbsp;
 	<input type="button" value="Close" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close'">
-</center><br>
+</div><br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>
 </tr>

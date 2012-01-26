@@ -42,11 +42,11 @@ if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
 	$appeal->setStatus($_GET['status']);
 }
 ?>
-<div id='appealContent'>
+<div id='appealContent' style="height:100%; width:100%">
+<h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
 <table style="height:100%; width:100%">
 <tr>
 <td valign=top style="border-right: 1px #000000 solid;height:100%; width:50%">
-<h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
 | <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
 <br>
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>

@@ -68,14 +68,13 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 <h3>Actions</h3>
 <center>
 	<input type="button" value="Reserve" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=reserve'">&nbsp;
-	<input type="button" value="Checkuser">&nbsp;
-	<input type="button" value="User">&nbsp;
-	<input type="button" value="Hold">&nbsp;
-	<input type="button" value="Proxy">&nbsp;
-	<input type="button" value="Admin">&nbsp;
+	<input type="button" value="Checkuser" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
+	<input type="button" value="User" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
+	<input type="button" value="Hold" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
+	<input type="button" value="Proxy" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=proxy'">&nbsp;
+	<input type="button" value="Admin" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin'">&nbsp;
 	<input type="button" value="Close">
 </center><br>
-<br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>
 </tr>

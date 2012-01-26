@@ -42,11 +42,11 @@ if (isset($_GET['action']) && $_GET['action'] == "setstatus") {
 	$appeal->setStatus($_GET['status']);
 }
 ?>
-<div id='appealContent' style="height:100%; width:100%">
+<div id='appealContent'>
 <h1>Details for Request #<?php echo $appeal->getID(); ?>:</h1>
-<table style="height:100%; width:100%">
+<table class="appeal">
 <tr>
-<td valign=top style="border-right: 1px #000000 solid;height:100%; width:50%">
+<td valign=top class="left">
 | <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> | <a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
 <br>
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>
@@ -60,13 +60,13 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>
 <h3>Appeal</h3>
-<div style="border: 1px dotted #000000"><?php echo $appeal->getAppeal(); ?></div>
+<div class="info"><?php echo $appeal->getAppeal(); ?></div>
 <br>
 <h3>Other Info</h3>
-<div style="border: 1px dotted #000000"><?php echo $appeal->getOtherInfo(); ?></div>
+<div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>
 </td>
-<td valign=top style="height:100%; width:50%">
+<td valign=top class="right">
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>
 </tr>

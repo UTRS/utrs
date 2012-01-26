@@ -160,7 +160,33 @@ tr.even{
 	background: #EBEBEB !important;
 }
 
+/* Appeal page */
+
 #appealContent {
 	font-size: small;
+	height:100%;
+	width:100%;
 }
+
+div.info {
+	border: 1px dotted #000000;
+	width:95%;
+	height: 50px;
+	overflow: scroll;
+}
+
+table.appeal {
+	height:100%;
+	width:100%;
+}
+
+td.left {
+	border-right: 1px #000000 solid;
+	height:100%;
+	width:50%;
+}
+
+td.right {
+	height:100%;
+	width:50%;
 }

@@ -66,9 +66,15 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 </td>
 <td valign=top class="right">
 <h3>Actions</h3>
-<a href="?id=<?php echo $_GET['id']; ?>&action=reserve">Mark as being handled</a><br>
-<br>
-<center><input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"></center><br>
+<center>
+	<input type="button" value="Reserve" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=reserve'">&nbsp;
+	<input type="button" value="Checkuser">&nbsp;
+	<input type="button" value="User">&nbsp;
+	<input type="button" value="Hold">&nbsp;
+	<input type="button" value="Proxy">&nbsp;
+	<input type="button" value="Admin">&nbsp;
+	<input type="button" value="Close">
+</center><br>
 <br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 </td>

@@ -53,7 +53,8 @@ Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->ge
 <br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 <br>
-Status: <b><?php echo $appeal->getStatus(); ?></b> | Set Status: <input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"><br>
+Status: <b><?php echo $appeal->getStatus(); ?></b><br>
+<center></center><input type="button" value="Checkuser">&nbsp;<input type="button" value="User">&nbsp;<input type="button" value="Hold">&nbsp;<input type="button" value="Proxy">&nbsp;<input type="button" value="Admin">&nbsp;<input type="button" value="Close"></center><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
 <br>
 Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin()); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>

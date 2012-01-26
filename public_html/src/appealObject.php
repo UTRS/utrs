@@ -406,7 +406,8 @@ class Appeal{
 		// should be a tool admin
 		if(strcmp($newStatus, $this::$STATUS_NEW) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_USER) == 0
 		  || strcmp($newStatus, $this::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_CHECKUSER) == 0
-		  || strcmp($newStatus, $this::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, $this::$STATUS_CLOSED) == 0){
+		  || strcmp($newStatus, $this::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, $this::$STATUS_CLOSED) == 0
+		  || strcmp($newStatus, $this::$STATUS_ON_HOLD) == 0){
 			// TODO: query to modify the row
 			$this->status = $newStatus;
 		}

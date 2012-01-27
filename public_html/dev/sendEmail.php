@@ -39,7 +39,9 @@ $success = false;
 			}
 				
 			$email = $appeal->getEmail();
-			$from = "From: Unblock Review Team <noreply-unblock@toolserver.org>";
+			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 			$body = "This is a reply to your Wikipedia unblock appeal from {{adminname}}, a Wikipedia administrator. " .
 			        "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
 					"to send a response, which may be necessary to further your appeal, please click the link below.\n".
@@ -51,7 +53,7 @@ $success = false;
 			$body = str_replace("{{adminname}}", $admin->getUsername(), $body);
 			$body = str_replace("{{username}}", $appeal->getCommonName(), $body);
 				
-			mail($email, $subject, $body, $from);
+			mail($email, $subject, $body, $headers);
 				
 			$success = true;
 		}

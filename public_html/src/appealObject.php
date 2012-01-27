@@ -148,7 +148,7 @@ class Appeal{
 			$this->intendedEdits = $values['intendedEdits'];
 			$this->otherInfo = $values['otherInfo'];
 			$this->timestamp = $values['timestamp'];
-			$this->handlingAdmin = $values['handlingAdmin'];
+			$this->handlingAdmin = User::getUserById($values['handlingAdmin']);
 			$this->status = $values['status'];
 		}
 		debug('Exiting constuctor <br/>');

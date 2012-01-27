@@ -25,7 +25,7 @@ skinHeader();
 
 $appeal = Appeal::getAppealByID($id);
 $admin = getCurrentUser();
-echo "test1";
+
 // confirm you have permission to email
 if ($appeal->getHandlingAdmin() == null ||
 $admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
@@ -71,7 +71,7 @@ $success = false;
 			displayError($errors);
 		}
 
-		echo "test3";
+		
 		$template = null;
 		if(isset($_GET['tid'])){
 			$template = Template::getTemplateById($_GET['tid']);

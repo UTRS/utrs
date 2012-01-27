@@ -27,12 +27,11 @@ $appeal = Appeal::getAppealByID($id);
 $admin = getCurrentUser();
 echo "test1";
 // confirm you have permission to email
-if(!isset($appeal->getHandlingAdmin()) ||
+if (!isset($appeal->getHandlingAdmin()) ||
 $appeal->getHandlingAdmin() == null ||
-$admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()){
+$admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
 	displayError("<b>Access denied:</b> You must hold the reservation on appeal number " . $id . " to send an email to that user.");
-}
-else{
+} else{
 	echo "test2";
 	
 }

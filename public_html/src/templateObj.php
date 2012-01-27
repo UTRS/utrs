@@ -105,7 +105,7 @@ class Template{
 			return null;
 		}
 		
-		return mysql_fetch_assoc($result);	
+		return $result;	
 	}
 	
 	public function getId(){

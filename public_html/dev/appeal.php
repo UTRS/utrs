@@ -109,8 +109,11 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 			
 				echo "<option value='-1'>Please select</option>";
 				
-				foreach ($templates as $template) {
-					echo "<option value='" . $template['id'] . "'>" . $template['name'] . "</option>";
+				$rows = mysql_num_rows($templates);
+				
+				for ($i = 0; $i < $rows; $i++) {
+					$data = mysql_fetch_array($templates);
+					echo "<option value='" . $data['id'] . "'>" . $data['name'] . "</option>";
 				}
 			}
 		

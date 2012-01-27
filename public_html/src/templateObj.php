@@ -90,6 +90,24 @@ class Template{
 		return new Template($values, true);
 	}
 	
+	public static function getTemplateList() {
+		$db = connectToDB();
+		
+		$query = "SELECT id, name FROM template";
+		
+		$result = mysql_query($query);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSDatabaseException($error);
+		}
+		if(mysql_num_rows($result) == 0){
+			return null;
+		}
+		
+		return mysql_fetch_assoc($result);	
+	}
+	
 	public function getId(){
 		return $this->templateID;
 	}

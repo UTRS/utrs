@@ -101,7 +101,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 	<SELECT onChange="if (this.value!=-1) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>}'">
 		<?php 
 			
-			//$templates = Template::getTemplateList();
+			$templates = Template::getTemplateList();
 			
 			if (!$templates) {
 				echo "<option>No templates available</option>";

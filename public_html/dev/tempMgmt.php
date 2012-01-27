@@ -35,7 +35,7 @@ try{
 				throw new UTRSIllegalModificationException("The name of a template must be less than 40 characters" .
 				   " long. The name you have entered is " . strlen($name) . " characters in length.");
 			}
-			if(strlen($text) > 2048){
+			if(strlen($text) > 4096){
 				throw new UTRSIllegalModificationException("The text of a template must be less than 2048 characters" .
 				   " long. The text you have entered is " . strlen($text) . " characters in length.");
 			}

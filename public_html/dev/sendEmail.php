@@ -2,8 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-echo "test5";
-
 require_once('../src/exceptions.php');
 require_once('../src/unblocklib.php');
 require_once('../src/userObject.php');
@@ -25,7 +23,20 @@ verifyLogin("appeal.php?id=" . $id);
 
 skinHeader();
 
-echo "test4";
+$appeal = Appeal::getAppealByID($id);
+$admin = getCurrentUser();
+echo "test1";
+// confirm you have permission to email
+if(!isset($appeal->getHandlingAdmin()) ||
+$appeal->getHandlingAdmin() == null ||
+$admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()){
+	displayError("<b>Access denied:</b> You must hold the reservation on appeal number " . $id . " to send an email to that user.");
+}
+else{
+	echo "test2";
+	
+}
+
 skinFooter();
 
 ?>

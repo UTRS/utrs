@@ -217,7 +217,7 @@ class Appeal{
 			}
 			if(mysql_num_rows($result) != 1){
 				throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for appeal ID ' . $id);
+				. 'than one result was returned for appeal ID ' . $appealID);
 			}
 			
 			$values = mysql_fetch_assoc($result);

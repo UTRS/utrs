@@ -153,7 +153,11 @@ class Appeal{
 			$this->intendedEdits = $values['intendedEdits'];
 			$this->otherInfo = $values['otherInfo'];
 			$this->timestamp = $values['timestamp'];
-			$this->handlingAdmin = User::getUserById($values['handlingAdmin']);
+			if ($values['handlingAdmin']) {
+				$this->handlingAdmin = User::getUserById($values['handlingAdmin']);
+			} else {
+				$this->handlingAdmin = null;
+			}
 			$this->status = $values['status'];
 			$this->useragent = Appeal::getCheckUserData($this->appealID);
 		}

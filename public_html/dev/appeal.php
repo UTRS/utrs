@@ -98,7 +98,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 	<input type="button" value="Need Info" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
 	<input type="button" value="School" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
 	<input type="button" value="Rangeblock" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
-	<SELECT onChange="if (this.value!=-1) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>}'">
+	<SELECT onChange="if (this.options[selectedIndex].value!=-1) { window.location='sendEmail.php?tid=' + this.options[selectedIndex].value + '&id=<?php echo $_GET['id']; ?>}'">
 		<?php 
 			
 			$templates = Template::getTemplateList();

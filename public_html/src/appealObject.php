@@ -103,6 +103,11 @@ class Appeal{
 	private $status;
 	
 	/**
+	 * User agent
+	 */
+	private $useragent;
+	
+	/**
 	 * Build a Appeal object. If $fromDB is true, the mappings in $values
 	 * will be assumed to be those from the database; additionally,
 	 * the values will not be validated and the object will not be inserted
@@ -150,6 +155,7 @@ class Appeal{
 			$this->timestamp = $values['timestamp'];
 			$this->handlingAdmin = User::getUserById($values['handlingAdmin']);
 			$this->status = $values['status'];
+			$this->useragent = Appeal::getCheckUserData($this->appealID);
 		}
 		debug('Exiting constuctor <br/>');
 	}
@@ -193,6 +199,34 @@ class Appeal{
 		$values = mysql_fetch_assoc($result);
 		
 		return new Appeal($values, true);
+	}
+	
+	public static function getCheckUserData($appealID) {
+		if (verifyAccess($GLOBALS['checkuser'])) {
+			$db = connectToDB();
+			
+			$query = "SELECT useragent FROM cuData WHERE appealID = " . $appealID . ";";
+			
+			$result = mysql_query($query, $db);
+			if(!$result){
+				$error = mysql_error($db);
+				throw new UTRSDatabaseException($error);
+			}
+			if(mysql_num_rows($result) == 0){
+				throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
+			}
+			if(mysql_num_rows($result) != 1){
+				throw new UTRSDatabaseException('Please contact a tool developer. More '
+				. 'than one result was returned for appeal ID ' . $id);
+			}
+			
+			$values = mysql_fetch_assoc($result);
+			
+			return $values['useragent'];
+		} else {
+			return null;
+		}
+		
 	}
 	
 	public function insert(){
@@ -245,6 +279,8 @@ class Appeal{
 		$query .= '\', \'';
 		$query .= $_SERVER['HTTP_USER_AGENT'];
 		$query .= '\')';
+		
+		$this->useragent = $_SERVER['HTTP_USER_AGENT'];
 		
 		$result = mysql_query($query, $db);
 		if(!$result){
@@ -399,6 +435,10 @@ class Appeal{
 	
 	public function getStatus(){
 		return $this->status;
+	}
+	
+	public function getUserAgent() {
+		return $this->useragent;
 	}
 	
 	public function setStatus($newStatus){

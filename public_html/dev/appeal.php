@@ -75,6 +75,10 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
 Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>
+<?php if (verifyAccess($GLOBALS['checkuser']) || verifyAccess($GLOBALS['admin'])) {?>
+User Agent:
+<div class="useragent"><?php echo $appeal->getUserAgent(); ?></div>
+<?php }?>
 <h3>Appeal</h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
 <h3>Other Info</h3>

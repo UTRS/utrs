@@ -35,8 +35,8 @@ class Template{
 		$db = connectToDB(true); // going to take place prior to a potential redirection
 		
 		$query = "INSERT INTO template (name, text, lastEditUser) VALUES ('";
-		$query .= $this->name . "', '";
-		$query .= $this->text . "', '";
+		$query .= mysql_real_escape_string($this->name) . "', '";
+		$query .= mysql_real_escape_string($this->text) . "', '";
 		$query .= $this->lastEditUser->getUserId() . "')";
 		
 		debug($query);

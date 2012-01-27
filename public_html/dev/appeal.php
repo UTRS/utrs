@@ -8,6 +8,7 @@ require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
 require_once('../src/userObject.php');
+require_once('../src/templateObj.php')
 require_once('template.php');
 
 // make sure user is logged in, if not, kick them out
@@ -96,9 +97,28 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 	<input type="button" value="Username" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=reserve'">&nbsp;
 	<input type="button" value="Need Info" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
 	<input type="button" value="School" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
-	<input type="button" value="Tor" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
 	<input type="button" value="Rangeblock" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
-	<input type="button" value="Other" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=proxy'">&nbsp;
+	<SELECT onChange="if (this.value!=-1) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>}'">&nbsp;
+		<?php 
+			
+			$templates = Template::getTemplateList();
+			
+			if (!$templates) {
+				echo "<option>No templates available</option>";
+			} else {
+			
+				echo "<option value='-1'>Please select</option>"
+				
+				$rows = mysql_num_rows($templates);
+				
+				for ($i = 0; $i < $rows; $i++) {
+					$data = mysql_fetch_array($templates);
+					echo "<option value='" . $data['id'] . "'>" . $data['name'] . "</option>";
+				}
+			}
+		
+		?>
+	</SELECT>
 </div>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">

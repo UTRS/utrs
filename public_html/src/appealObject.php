@@ -213,7 +213,7 @@ class Appeal{
 				throw new UTRSDatabaseException($error);
 			}
 			if(mysql_num_rows($result) == 0){
-				throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
+				return null;
 			}
 			if(mysql_num_rows($result) != 1){
 				throw new UTRSDatabaseException('Please contact a tool developer. More '

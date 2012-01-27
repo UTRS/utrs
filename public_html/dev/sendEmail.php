@@ -25,7 +25,7 @@ skinHeader();
 
 $appeal = Appeal::getAppealByID($id);
 $admin = getCurrentUser();
-
+echo "test1";
 // confirm you have permission to email
 if(!isset($appeal->getHandlingAdmin()) ||
 	$appeal->getHandlingAdmin() == null ||
@@ -33,6 +33,7 @@ if(!isset($appeal->getHandlingAdmin()) ||
 	displayError("<b>Access denied:</b> You must hold the reservation on appeal number " . $id . " to send an email to that user.");
 }
 else{
+echo "test2";
 	$success = false;
 	if(isset($_POST['submit'])){
 		try{
@@ -73,6 +74,7 @@ else{
 			displayError($errors);
 		}
 		
+		echo "test3";
 		$template = null;
 		if(isset($_GET['tid'])){
 			$template = Template::getTemplateById($_GET['tid']);
@@ -99,6 +101,7 @@ else{
 	}
 }
 
+echo "test4";
 skinFooter();
 
 ?>

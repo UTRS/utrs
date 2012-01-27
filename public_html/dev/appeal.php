@@ -92,7 +92,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 	<input type="button" value="Close" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close'">
 </div><br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
-<div class="comments">
+<div class="comments">&nbsp;
 </div>
 <form><input type="text" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 </td>

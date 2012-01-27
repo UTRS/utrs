@@ -94,7 +94,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 </div>
 <h3>Responses</h3>
 <div style="text-align:center;">
-	<input type="button" value="Username" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=reserve'">&nbsp;
+	<input type="button" value="Username" onClick="window.location='sendEmail.php?tid=7&id=<?php echo $_GET['id']; ?>'">&nbsp;
 	<input type="button" value="Need Info" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
 	<input type="button" value="School" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
 	<input type="button" value="Rangeblock" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
@@ -113,7 +113,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 				
 				for ($i = 0; $i < $rows; $i++) {
 					$data = mysql_fetch_array($templates);
-					echo "<option value='" . $data['id'] . "'>" . $data['name'] . "</option>";
+					echo "<option value='" . $data['templateID'] . "'>" . $data['name'] . "</option>";
 				}
 			}
 		

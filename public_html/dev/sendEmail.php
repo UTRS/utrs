@@ -7,6 +7,7 @@ require_once('../src/unblocklib.php');
 require_once('../src/userObject.php');
 require_once('../src/templateObject.php');
 require_once('../src/appealObject.php');
+require_once('template.php');
 
 $errors = '';
 

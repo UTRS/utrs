@@ -91,6 +91,15 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 	<input type="button" value="Admin" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin'">&nbsp;
 	<input type="button" value="Close" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close'">
 </div><br>
+<h3>Responses</h3>
+<div style="text-align:center;">
+	<input type="button" value="Username" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=reserve'">&nbsp;
+	<input type="button" value="Need Info" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
+	<input type="button" value="School" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
+	<input type="button" value="Tor" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
+	<input type="button" value="Rangeblock" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
+	<input type="button" value="Other" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=proxy'">&nbsp;
+</div><br>
 <h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 </div>

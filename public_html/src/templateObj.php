@@ -93,7 +93,7 @@ class Template{
 	public static function getTemplateList() {
 		$db = connectToDB();
 		
-		$query = "SELECT id, name FROM template";
+		$query = "SELECT templateID, name FROM template";
 		
 		$result = mysql_query($query);
 		

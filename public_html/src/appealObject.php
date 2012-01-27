@@ -202,7 +202,7 @@ class Appeal{
 	}
 	
 	public static function getCheckUserData($appealID) {
-		if (verifyAccess($GLOBALS['CHECKUSER'])) {
+		if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {
 			$db = connectToDB();
 			
 			$query = "SELECT useragent FROM cuData WHERE appealID = " . $appealID . ";";

@@ -8,7 +8,7 @@ require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
 require_once('../src/userObject.php');
-require_once('../src/templateObj.php')
+require_once('../src/templateObj.php');
 require_once('template.php');
 
 // make sure user is logged in, if not, kick them out
@@ -98,7 +98,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 	<input type="button" value="Need Info" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser'">&nbsp;
 	<input type="button" value="School" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=user'">&nbsp;
 	<input type="button" value="Rangeblock" onClick="window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=hold'">&nbsp;
-	<SELECT onChange="if (this.value!=-1) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>}'">&nbsp;
+	<SELECT onChange="if (this.value!=-1) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>}'">
 		<?php 
 			
 			$templates = Template::getTemplateList();
@@ -107,7 +107,7 @@ Assigned: <?php $handlingAdmin = User::getUserById($appeal->getHandlingAdmin());
 				echo "<option>No templates available</option>";
 			} else {
 			
-				echo "<option value='-1'>Please select</option>"
+				echo "<option value='-1'>Please select</option>";
 				
 				$rows = mysql_num_rows($templates);
 				

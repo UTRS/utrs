@@ -472,7 +472,7 @@ class Appeal{
 		
 		// TODO: query to modify the row
 		
-		$this->handlingAdmin = $admin;
+		$this->handlingAdmin = User::getUserById($admin);
 	}
 	
 }

@@ -307,7 +307,7 @@ class Appeal{
 		$query .= "handlingAdmin = " . $this->handlingAdmin->getUserId() . ", ";
 		$query .= "status = '" . $this->status . "' ";
 		$query .= "WHERE appealID = " . $this->appealID . ";";
-		echo $query;
+		
 		debug($query);
 		
 		$result = mysql_query($query, $db);
@@ -454,7 +454,6 @@ class Appeal{
 		  || strcmp($newStatus, $this::$STATUS_ON_HOLD) == 0){
 			// TODO: query to modify the row
 			$this->status = $newStatus;
-			echo $this->status;
 		}
 		else{
 			// Note: this shouldn't happen

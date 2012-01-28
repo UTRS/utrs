@@ -208,7 +208,7 @@ div.useragent {
 #contextWindow {
 	border: 1px solid #AFB29C;
 	width: 700px;
-	height: 600px;
+	height: 500px;
 	background-color: #EBF4FF;
 	position: absolute;
 	visibility: hidden;
@@ -222,7 +222,7 @@ div.useragent {
 }
 
 #contextContent {
-	height: 580px;
+	height: 480px;
 	width: 700px;
 	overflow-y: scroll;	
 }

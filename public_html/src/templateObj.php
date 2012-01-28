@@ -16,6 +16,7 @@ class Template{
 	private $statusClose;
 	
 	public function __construct(array $vars, $fromDB){
+		echo $vars['statusUser'];
 		debug('in constructor for MgmtLog');
 		if($fromDB){
 			$this->templateID = $vars['templateID'];

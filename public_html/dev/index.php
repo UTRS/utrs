@@ -155,7 +155,7 @@ echo '<span id="variableQuestionSection"></span><br />';
 echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, which adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value="' . $blocker . '"/><br /><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
 echo '<textarea id="appeal" name="appeal" rows="5" cols="50">' . $appealText . '</textarea><br /><br />';
-echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles to you intend to edit?</label><br /><br />';
+echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
 echo '<textarea id="edits" name="edits" rows="5" cols="50">' . $edits . '</textarea><br /><br />';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
 echo '<textarea id="otherInfo" name="otherInfo" rows="3" cols="50">' . $otherInfo . '</textarea><br /><br />';

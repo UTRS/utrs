@@ -153,7 +153,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		//Assigned and not CU or Admin
 		!($appeal->getHandlingAdmin() == $user && (verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
 		//Awaiting admin and not admin
-		$appeal->getStatus() && !verifyAccess($GLOBALS['ADMIN'])
+		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])
 		) {
 		$disabled = "disabled='disabled'";
 	}

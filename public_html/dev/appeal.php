@@ -225,7 +225,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {?>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getUserAgent()); ?>')">User Agent</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getIPFromServer() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
 <div class="useragent"><?php echo $appeal->getIP() . " " . $appeal->getIPFromServer() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Appeal</a></h3>

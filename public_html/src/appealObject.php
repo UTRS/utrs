@@ -462,7 +462,7 @@ class Appeal{
 	}
 	
 	public function setHandlingAdmin($admin){
-		if($this->handlingAdmin != null){
+		if($this->handlingAdmin != null && $admin != null){
 			throw new UTRSIllegalModificationException("This request is already reserved. "
 			  . "If the person holding this ticket seems to be unavailable, ask a tool "
 			  . "admin to break their reservation.");

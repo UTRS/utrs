@@ -28,12 +28,12 @@ try{
 			$text = $_POST['text'];
 			
 			if (isset($_POST['statusUser'])) {
-				$statusUser = true;
+			$statusUser = true;
 			} else {
-				$statusUser = false;
-			}			
+			$statusUser = false;
+			}
 			if (isset($_POST['statusClose'])) {
-				$statusClose= true;
+			$statusClose= true;
 			} else {
 				$statusClose = false;
 			}
@@ -75,6 +75,7 @@ try{
 				if(strcmp($text, $template->getText()) != 0){
 					$template->setText($text);
 				}
+				echo ":" . $statusClose . ":";
 				$template->setStatus($statusUser, $statusClose);
 			}
 		}

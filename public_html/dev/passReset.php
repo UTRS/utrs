@@ -24,7 +24,8 @@ if(isset($_POST['submit'])){
 		!isset($_POST['email']) | strlen($_POST['email']) == 0){
 			throw new UTRSIllegalModificationException("All fields are required.");
 		}
-
+		
+		connectToDB(); // for benefit of call below
 		$username = mysql_real_escape_string($_POST['username']);
 		$email = $_POST['email'];
 		// throws exception if username is invalid

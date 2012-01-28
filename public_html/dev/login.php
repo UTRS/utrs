@@ -32,7 +32,7 @@ debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');
 if(isset($_POST['login'])){
 	// all checks here will be conducted without the use of objects, so as to avoid
 	// inadvertent output to the screen
-	$user = $_POST['username'];
+	$user = mysql_real_escape_string($_POST['username']);
 	$password = hash('sha512', $_POST['password']);
 
 	debug('User: ' . $user . '  Password hash: ' . $password . '<br/>');

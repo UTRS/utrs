@@ -214,7 +214,7 @@ function hideContextWindow() {
 	<div id='contextContent'></div>
 </div>
 <div id='appealContent'>
-<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php substr($appeal->getEmail(), strpos($appeal->getEmail(), "@"))?></h1>
+<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
 <table class="appeal">
 <tr>
 <td valign=top class="left">

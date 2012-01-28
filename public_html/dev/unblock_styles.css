@@ -204,3 +204,20 @@ div.useragent {
 	height: 60px;
 	overflow-y: scroll;	
 }
+
+div.contextWindow {
+	border: 1px solid #AFB29C;
+	width: 50%;
+	height: 50%;
+	overflow-y: scroll;
+	background-color: #EBF4FF;
+	position: absolute;
+	visibility: hidden;
+}
+
+div.contextHeader {
+	width: 100%;
+	background-color: #93A1B2;
+	height: 15px;
+	text-align: right;	
+}

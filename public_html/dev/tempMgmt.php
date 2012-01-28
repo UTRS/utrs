@@ -165,7 +165,7 @@ else{
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
-		
+		echo $template->getStatusUser();
 		$checked = "";
 		if ($template->getStatusUser()) {
 			$checked = "CHECKED";

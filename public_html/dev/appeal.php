@@ -228,9 +228,9 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getUserAgent(); ?>')">User Agent</a></h3>
 <div class="useragent"><?php echo $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3>Appeal</h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getAppeal(); ?>')">Appeal</a></h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
-<h3>Other Info</h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getOtherInfo(); ?>')">Other Info</a></h3>
 <div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>
 </td>
@@ -395,7 +395,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		?>
 	</SELECT>
 </div>
-<h3>Logs for this request (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('')">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 </div>
 <form><input type="text" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>

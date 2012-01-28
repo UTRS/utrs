@@ -116,10 +116,10 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		}
 		echo "<input type=\"button\" " . $disabled . " value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
 	} else {
-		if ($appeal->getStatus != Appeal::STATUS_AWAITING_CHECKUSER && !verifyAccess("CHECKUSER")) {
+		if ($appeal->getStatus() != Appeal::STATUS_AWAITING_CHECKUSER && !verifyAccess("CHECKUSER")) {
 			$disabled = " disabled = 'disabled' ";
 		}
-		if ($appeal->getStatus != Appeal::STATUS_AWAITING_ADMIN && !verifyAccess("ADMIN")) {
+		if ($appeal->getStatus() != Appeal::STATUS_AWAITING_ADMIN && !verifyAccess("ADMIN")) {
 			$disabled = " disabled = 'disabled' ";
 		}
 		echo "<input type=\"button\" " . $disabled . " value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";

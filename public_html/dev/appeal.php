@@ -66,7 +66,7 @@ if (isset($_GET['action']) && $_GET['action'] == "status") {
 ?>
 <script language="Javascript" type="text/javascript">
 
-function doCLose() {
+function doClose() {
 	var response = confirm("Do you want to send a response to the user?")
 	if (response) {
 		window.location='sendEmail.php?tid=7&id=<?php echo $_GET['id']; ?>';

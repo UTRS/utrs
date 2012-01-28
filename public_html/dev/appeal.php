@@ -39,6 +39,11 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	$appeal->update();
 }
 
+if (isset($_GET['action']) && $_GET['action'] == "release"){
+	$appeal->setHandlingAdmin(null);
+	$appeal->update();
+}
+
 //Status change
 if (isset($_GET['action']) && $_GET['action'] == "status") {
 	switch ($_GET['value']) {

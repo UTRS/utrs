@@ -238,7 +238,7 @@ class Template{
 		$query = "UPDATE template SET statusUser=" . $statusUser . ", statusClose=" . $statusClose . ", lastEditUser='" . $user->getUserId() .
 							"' WHERE templateID='" . $this->templateID . "'";
 		
-		echo $query;
+		
 		$db = connectToDB();
 		
 		debug($query);

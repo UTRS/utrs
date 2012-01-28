@@ -75,7 +75,7 @@ Toolserver account as a whole.</p>
 <form name="sendEmail" id="sendEmail" method="POST" action="massEmail.php">
 <label for="subject" id="subjectLabel" class="required">Subject: </label><input type="text" name="subject" id="subject" /><br />
 <label for="emailBody" id="emailBodyLabel" class="required">Body:</label><br/>
-<textarea name="emailBody" id="emailBody" rows="60" cols="15"></textarea><br />
+<textarea name="emailBody" id="emailBody" rows="15" cols="60"></textarea><br />
 <input type="submit" name="submit" id="submit" value="Send Email" /><br />
 </form>
 

@@ -157,7 +157,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" value=\"Checkuser\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=checkuser'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=checkuser'\">&nbsp;";
 	//Awaiting user button
 	$disabled = "";
 	if (
@@ -174,7 +174,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . " value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
 	//On Hold button
 	$disabled = "";
 	if (
@@ -191,7 +191,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" value=\"Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (
@@ -208,7 +208,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" value=\"Proxy\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Proxy\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
 	//Awaiting admin
 	$disabled = "";
 	if (
@@ -218,7 +218,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" value=\"Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=admin'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=admin'\">&nbsp;";
 	//Close button
 	$disabled = "";
 	if (

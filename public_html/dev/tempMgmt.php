@@ -35,6 +35,7 @@ try{
 			if (isset($_POST['statusClose'])) {
 			$statusClose= true;
 			} else {
+				echo "spork";
 				$statusClose = false;
 			}
 

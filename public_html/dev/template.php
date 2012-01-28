@@ -1,5 +1,4 @@
 <?php
-//TODO: Template is not saving line feeds
 require_once('../src/unblocklib.php');
 
 function skinHeader($script = '') {

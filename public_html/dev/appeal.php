@@ -225,12 +225,12 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {?>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getUserAgent(); ?>')">User Agent</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getUserAgent()); ?>')">User Agent</a></h3>
 <div class="useragent"><?php echo $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getAppeal(); ?>')">Appeal</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Appeal</a></h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getOtherInfo(); ?>')">Other Info</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Other Info</a></h3>
 <div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>
 </td>

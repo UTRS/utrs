@@ -77,7 +77,6 @@ try{
 				}
 				$template->setStatus($statusUser, $statusClose);
 				
-				displaySuccess("Template updated successfully.");
 			}
 		}
 		else if(isset($_POST['delete'])){

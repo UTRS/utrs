@@ -210,7 +210,7 @@ function hideContextWindow() {
 
 </script>
 <div id='contextWindow'>
-	<div id='contextHeader'><div onClick="hideContextWindow()">X</div></div>
+	<div id='contextHeader'><a href="javascript:void()" onClick="hideContextWindow()">X</a></div>
 	<div id='contextContent'></div>
 </div>
 <div id='appealContent'>
@@ -225,7 +225,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {?>
-<h3><div onClick="showContextWindow('<?php echo $appeal->getUserAgent(); ?>')">User Agent</div></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo $appeal->getUserAgent(); ?>')">User Agent</a></h3>
 <div class="useragent"><?php echo $appeal->getUserAgent(); ?></div>
 <?php }?>
 <h3>Appeal</h3>

@@ -55,12 +55,12 @@ $success = false;
 				
 			mail($email, $subject, $body, $headers);
 			
-			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
+			if (isset($_POST['statusUser']) || isset($_POST['statusUser'])) {
 				//Set the appeal status if the template is set up to do that.
 				if (isset($_POST['statusUser']) && $_POST['statusUser']) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
 				}
-				if (isset($_POST['statusClose']) && $_POST['statusUser']) {
+				if (isset($_POST['statusClose']) && $_POST['statusClose']) {
 					$appeal->setStatus(Appeal::$STATUS_CLOSED);
 				}
 				$appeal->update();

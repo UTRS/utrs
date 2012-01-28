@@ -136,9 +136,7 @@ else{
 	$admin = verifyAccess($GLOBALS['ADMIN']);
 	$name = ($admin & isset($_POST['name']) ? $_POST['name'] : $template->getName());
 	$text = ($admin & isset($_POST['text']) ? $_POST['text'] : $template->getText());
-	$text = ($admin & isset($_POST['statusUser']) ? $_POST['statusUser'] : $template->getStatusUser());
-	$text = ($admin & isset($_POST['statusClose']) ? $_POST['statusClose'] : $template->getStatusClose());
-	
+
 	if($errors){
 		displayError($errors);
 	}

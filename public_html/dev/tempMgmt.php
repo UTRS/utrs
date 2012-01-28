@@ -42,6 +42,7 @@ try{
 
 			// now actually process the request
 			if(strcmp($_GET['id'],'new') == 0){
+				echo print_r($_POST);
 				$template = new Template($_POST, false);
 					
 				if($template != null){

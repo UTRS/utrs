@@ -27,12 +27,12 @@ try{
 			$name = $_POST['name'];
 			$text = $_POST['text'];
 			
-			if (isset($_POST['statusUser']) && $_POST['statusUser'] == true) {
-			$statusUser = true;
+			if (isset($_POST['statusUser'])) {
+				$statusUser = true;
 			} else {
-			$statusUser = false;
+				$statusUser = false;
 			}			
-			if (isset($_POST['statusClose']) && $_POST['statusClose'] == true) {
+			if (isset($_POST['statusClose'])) {
 				$statusClose= true;
 			} else {
 				$statusClose = false;

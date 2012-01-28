@@ -27,12 +27,12 @@ class Template{
 			if (isset($vars['statusUser'])) {
 				$this->statusUser = $vars['statusUser'];
 			} else {
-				$this->statsUser = false;
+				$this->statsUser = 0;
 			}
 			if (isset($vars['statusClose'])) {
 				$this->statusClose = $vars['statusClose'];
 			} else {
-				$this->statsClose = false;
+				$this->statsClose = 0;
 			}
 		}
 		else{
@@ -42,12 +42,12 @@ class Template{
 			if (isset($vars['statusUser'])) {
 				$this->statusUser = $vars['statusUser'];
 			} else {
-				$this->statsUser = false;
+				$this->statsUser = 0;
 			}
 			if (isset($vars['statusClose'])) {
 				$this->statusClose = $vars['statusClose'];
 			} else {
-				$this->statsClose = false;
+				$this->statsClose = 0;
 			}
 			
 			$this->insert();

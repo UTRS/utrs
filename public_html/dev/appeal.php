@@ -135,7 +135,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 	}
 	echo "<input type=\"button\" value=\"Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	$disabled = "";
-	if ($appeal->getStatus == Appeal::$STATUS_AWAITING_PROXY || !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) {
+	if ($appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY || !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" value=\"Proxy\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";

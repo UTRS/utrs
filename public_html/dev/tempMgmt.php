@@ -169,14 +169,14 @@ else{
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
 		
 		$checked = "";
-		if ($template->statusUser) {
+		if ($template->getStatusUser()) {
 			$checked = "CHECKED";
 		}
 		echo "<input type=\"checkbox\" " . $checked . " id=\"checkbox\" name=\"statusUser\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label>";
 		
 		$checked = "";
-		if ($template->statusUser) {
+		if ($template->getStatusUser()) {
 			$checked = "CHECKED";
 		}
 		echo "<input type=\"checkbox\" " . $checked . " id=\"checkbox\" name=\"statusClose\">";

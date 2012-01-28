@@ -109,7 +109,8 @@ if(isset($_POST['login'])){
 				exit;
 			}
 			else{
-				throw new UTRSCredentialsException('The username and password you provided do not match.');
+				throw new UTRSCredentialsException('The username and password you provided do not match. ' . 
+						'<a href="passReset.php">Click here</a> to reset your password.');
 			}
 		}
 	}
@@ -144,6 +145,8 @@ echo '</form>';
 ?>
 
 <p>You must have cookies enabled in order to log in.</p>
+
+<p><a href="passReset.php">Forgot your password?</a></p>
 
 <?php 
 skinFooter();

@@ -28,15 +28,14 @@ try{
 			$text = $_POST['text'];
 			
 			if (isset($_POST['statusUser'])) {
-			$statusUser = true;
+				$statusUser = 1;
 			} else {
-			$statusUser = false;
+				$statusUser = 0;
 			}
 			if (isset($_POST['statusClose'])) {
-			$statusClose= true;
+				$statusClose= 1;
 			} else {
-				echo "spork";
-				$statusClose = false;
+				$statusClose = 0;
 			}
 
 			if(strlen($name) == 0 | strlen($text) == 0){
@@ -76,7 +75,6 @@ try{
 				if(strcmp($text, $template->getText()) != 0){
 					$template->setText($text);
 				}
-				echo ":" . $statusClose . ":";
 				$template->setStatus($statusUser, $statusClose);
 			}
 		}

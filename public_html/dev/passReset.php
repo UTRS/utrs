@@ -55,7 +55,7 @@ if(isset($_POST['submit'])){
 		$body .= "Thank you,\nThe UTRS Developement Team";
 		$subject = "UTRS Password Reset";
 		$from = "From: UTRS Development Team <unblock@toolserver.org>";
-		mail($mail, $subject, $body, $from);
+		mail($email, $subject, $body, $from);
 		unset($password);
 		unset($passwordHash);
 		unset($randNum);

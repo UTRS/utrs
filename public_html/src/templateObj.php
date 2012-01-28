@@ -24,12 +24,12 @@ class Template{
 			$this->text = $vars['text'];
 			$this->lastEditTime = $vars['lastEditTime'];
 			$this->lastEditUser = User::getUserById($vars['lastEditUser']);
-			if (isset($vars['statusUser'])) {
+			if (isset($vars['statusUser']) && $vars['statusUser'] == 1) {
 				$this->statusUser = $vars['statusUser'];
 			} else {
 				$this->statsUser = 0;
 			}
-			if (isset($vars['statusClose'])) {
+			if (isset($vars['statusClose']) && $vars['statusClose'] == 1) {
 				$this->statusClose = $vars['statusClose'];
 			} else {
 				$this->statsClose = 0;
@@ -39,12 +39,12 @@ class Template{
 			$this->name = $vars['name'];
 			$this->text = $vars['text'];
 			$this->lastEditUser = getCurrentUser();
-			if (isset($vars['statusUser'])) {
+			if (isset($vars['statusUser']) && $vars['statusUser'] == 1) {
 				$this->statusUser = $vars['statusUser'];
 			} else {
 				$this->statsUser = 0;
 			}
-			if (isset($vars['statusClose'])) {
+			if (isset($vars['statusClose']) && $vars['statusClose'] == 1) {
 				$this->statusClose = $vars['statusClose'];
 			} else {
 				$this->statsClose = 0;

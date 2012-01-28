@@ -207,9 +207,8 @@ div.useragent {
 
 #contextWindow {
 	border: 1px solid #AFB29C;
-	width: 50%;
-	height: 50%;
-	overflow-y: scroll;
+	width: 300px;
+	height: 200px;
 	background-color: #EBF4FF;
 	position: absolute;
 	visibility: hidden;
@@ -218,6 +217,12 @@ div.useragent {
 #contextHeader {
 	width: 100%;
 	background-color: #93A1B2;
-	height: 15px;
+	height: 20px;
 	text-align: right;	
+}
+
+#contextContent {
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;	
 }

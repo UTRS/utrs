@@ -103,8 +103,8 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <h3>Actions</h3>
 <div style="text-align:center;">
 	<?php
-	if ($appeal->handlingAdmin()) {
-		if ($appeal->handlingAdmin()->getUserId() == $user->getUserId() || verifyAccess($GLOBALS['ADMIN'])) {
+	if ($appeal->getHandlingAdmin()) {
+		if ($appeal->getHandlingAdmin()->getUserId() == $user->getUserId() || verifyAccess($GLOBALS['ADMIN'])) {
 			$disabled = " ";
 		} else {
 			$disabled = " disabled = 'disabled' ";
@@ -120,22 +120,22 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		echo "<input type=\"button\" " . $disabled . " value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
 	}
 	$disabled = "";
-	if ($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER || !($appeal->handlingAdmin == $user || verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) {
+	if ($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER || !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" value=\"Checkuser\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=checkuser'\">&nbsp;";
 	$disabled = "";
-	if ($appeal->getStatus() == Appeal::$STATUS_AWAITING_USER || !($appeal->handlingAdmin == $user || verifyAccess($GLOBALS['ADMIN']))) {
+	if ($appeal->getStatus() == Appeal::$STATUS_AWAITING_USER || !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
 	$disabled = "";
-	if ($appeal->getStatus() == Appeal::$STATUS_ON_HOLD || !($appeal->handlingAdmin == $user || verifyAccess($GLOBALS['ADMIN']))) {
+	if ($appeal->getStatus() == Appeal::$STATUS_ON_HOLD || !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" value=\"Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	$disabled = "";
-	if ($appeal->getStatus == Appeal::$STATUS_AWAITING_PROXY || !($appeal->handlingAdmin == $user || verifyAccess($GLOBALS['ADMIN']))) {
+	if ($appeal->getStatus == Appeal::$STATUS_AWAITING_PROXY || !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" value=\"Proxy\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
@@ -145,7 +145,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 	}
 	echo "<input type=\"button\" value=\"Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=admin'\">&nbsp;";
 	$disabled = "";
-	if ($appeal->handlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN'])) {
+	if ($appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN'])) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Close\" onClick=\"doClose();\">";

@@ -42,7 +42,6 @@ try{
 
 			// now actually process the request
 			if(strcmp($_GET['id'],'new') == 0){
-				echo print_r($_POST);
 				$template = new Template($_POST, false);
 					
 				if($template != null){
@@ -65,6 +64,7 @@ try{
 				if(strcmp($text, $template->getText()) != 0){
 					$template->setText($text);
 				}
+				$template->setStatus($_POST['statusUser'], $_POST['statusUser']);
 			}
 		}
 		else if(isset($_POST['delete'])){

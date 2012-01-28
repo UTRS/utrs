@@ -128,17 +128,17 @@ else if(strcmp($_GET['id'], 'new') == 0){
 		
 		$name = (isset($_POST['name']) ? $_POST['name'] : null);
 		$text = (isset($_POST['text']) ? $_POST['text'] : null);
-		$text = (isset($_POST['statusUser']) ? $_POST['statusUser'] : null);
-		$text = (isset($_POST['statusClose']) ? $_POST['statusClose'] : null);
+		$statusUser = (isset($_POST['statusUser']) ? "CHECKED" : null);
+		$statusClose = (isset($_POST['statusClose']) ? "CHECKED" : null);
 		
 		echo "<form name=\"createTemplate\" id=\"createTemplate\" method=\"POST\" action=\"tempMgmt.php?id=new\">\n";
 		echo "<label name=\"nameLabel\" id=\"nameLabel\" for=\"name\" class=\"required\">Name:</label> ";
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
-		echo "<input type=\"checkbox\" id=\"statusUser\" name=\"statusUser\" value=\"1\">";
+		echo "<input type=\"checkbox\" " . $statusUser . " id=\"statusUser\" name=\"statusUser\" value=\"1\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label><br>";
-		echo "<input type=\"checkbox\" id=\"statusClose\" name=\"statusClose\" value=\"1\">";
+		echo "<input type=\"checkbox\" " . $statusClose . " id=\"statusClose\" name=\"statusClose\" value=\"1\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label><br>";
 		echo "<input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" />\n";
 		echo "</form>";

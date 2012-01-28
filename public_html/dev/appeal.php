@@ -116,7 +116,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		}
 		echo "<input type=\"button\" " . $disabled . " value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
 	} else {
-		if ($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['CHECKUSER'] || verifyAccess($GLOBALS['ADMIN'])))) {
+		if ($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN']))) {
 			$disabled = " disabled = 'disabled' ";
 		}
 		if ($appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) {

@@ -108,6 +108,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <h3>Actions</h3>
 <div style="text-align:center;">
 	<?php
+	$disabled = "";
 	if ($appeal->getHandlingAdmin()) {
 		if ($appeal->getHandlingAdmin()->getUserId() == $user->getUserId() || verifyAccess($GLOBALS['ADMIN'])) {
 			$disabled = " ";

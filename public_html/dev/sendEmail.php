@@ -101,14 +101,14 @@ $success = false;
 		echo "</textarea>\n";
 		if ($template) {
 			if ($template->getStatusUser()) {
-				echo "<b>NOTE: Using this template will set the appeal request status to AWAITING_USER</b>";
+				echo "<b>NOTE: Using this template will set the appeal request status to AWAITING_USER</b><br>";
 				echo "<input type=\"checkbox\" CHECKED value=\"true\" name=\"statusUser\">";
-				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusUser\"> Uncheck this option to prevent a status change.</label>";
+				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusUser\"> Uncheck this option to prevent a status change.</label><br>";
 			}
 			if ($template->getStatusClose()) {
-				echo "<b>NOTE: Using this template will set the appeal request status to CLOSED</b>";
+				echo "<b>NOTE: Using this template will set the appeal request status to CLOSED</b><br>";
 				echo "<input type=\"checkbox\" CHECKED value=\"true\" name=\"statusClose\">";
-				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> Uncheck this option to prevent a status change.</label>";
+				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> Uncheck this option to prevent a status change.</label><br>";
 			}
 		}
 		echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Send Email\" />";

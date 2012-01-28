@@ -214,7 +214,7 @@ function hideContextWindow() {
 	<div id='contextContent'></div>
 </div>
 <div id='appealContent'>
-<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a></h1>
+<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php substr($appeal->getEmail(), strpos($appeal->getEmail(), "@"))?></h1>
 <table class="appeal">
 <tr>
 <td valign=top class="left">
@@ -226,10 +226,12 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getUserAgent()); ?>')">User Agent</a></h3>
-<div class="useragent"><?php echo $appeal->getUserAgent(); ?></div>
+<div class="useragent"><?php echo $appeal->getIP() . " " . $appeal->getIPFromServer() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Appeal</a></h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIntendedEdits()); ?>')">Intended Edits</a></h3>
+<div class="info"><?php echo $appeal->getIntendedEdits(); ?></div>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Other Info</a></h3>
 <div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>

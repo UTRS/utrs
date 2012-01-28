@@ -115,12 +115,18 @@ else if(strcmp($_GET['id'], 'new') == 0){
 		
 		$name = (isset($_POST['name']) ? $_POST['name'] : null);
 		$text = (isset($_POST['text']) ? $_POST['text'] : null);
+		$text = (isset($_POST['statusUser']) ? $_POST['statusUser'] : null);
+		$text = (isset($_POST['statusClose']) ? $_POST['statusClose'] : null);
 		
 		echo "<form name=\"createTemplate\" id=\"createTemplate\" method=\"POST\" action=\"tempMgmt.php?id=new\">\n";
 		echo "<label name=\"nameLabel\" id=\"nameLabel\" for=\"name\" class=\"required\">Name:</label> ";
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
+		echo "<input type=\"checkbox\" id=\"checkbox\" name=\"statusUser\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label>";
+		echo "<input type=\"checkbox\" id=\"checkbox\" name=\"statusClose\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
 		echo "<input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" />\n";
 		echo "</form>";
 	}
@@ -130,6 +136,8 @@ else{
 	$admin = verifyAccess($GLOBALS['ADMIN']);
 	$name = ($admin & isset($_POST['name']) ? $_POST['name'] : $template->getName());
 	$text = ($admin & isset($_POST['text']) ? $_POST['text'] : $template->getText());
+	$text = ($admin & isset($_POST['statusUser']) ? $_POST['statusUser'] : $template->getStatusUser());
+	$text = ($admin & isset($_POST['statusClose']) ? $_POST['statusClose'] : $template->getStatusClose());
 	
 	if($errors){
 		displayError($errors);
@@ -159,6 +167,21 @@ else{
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
+		
+		$checked = "";
+		if ($this->statusUser) {
+			$checked = "CHECKED";
+		}
+		echo "<input type=\"checkbox\" " . $checked . " id=\"checkbox\" name=\"statusUser\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label>";
+		
+		$checked = "";
+		if ($this->statusUser) {
+			$checked = "CHECKED";
+		}
+		echo "<input type=\"checkbox\" " . $checked . " id=\"checkbox\" name=\"statusClose\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
+		
 		echo "<table style=\"background:none; border:none; width:500px;\"><tr>\n";
 		echo "<td style=\"text-align:left;\"><input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" /></td>\n";
 		echo "<td style=\"text-align:right;\"><input name=\"delete\" id=\"delete\" type=\"submit\" value=\"Delete\" /></td>\n";

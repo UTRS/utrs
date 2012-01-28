@@ -26,7 +26,8 @@ function getNumUsers() {
 	
 	$db = connectToDB();
 	
-	mysql_query("SELECT * FROM `user` WHERE `username` LIKE '%'");
+	$query = "SELECT * FROM `user` WHERE `username` LIKE '%'";
+	mysql_query($query);
 	echo "Number of tool users: %d\n", mysql_affected_rows();
 	
 	debug($query . '<br/>');

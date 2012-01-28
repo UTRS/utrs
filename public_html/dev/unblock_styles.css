@@ -215,14 +215,14 @@ div.useragent {
 }
 
 #contextHeader {
-	width: 100%;
+	width: 500px;
 	background-color: #93A1B2;
 	height: 20px;
 	text-align: right;	
 }
 
 #contextContent {
-	height: 500px;
-	width: 380px;
+	height: 380px;
+	width: 500px;
 	overflow-y: scroll;	
 }

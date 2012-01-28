@@ -54,7 +54,17 @@ $success = false;
 			$body = str_replace("{{username}}", $appeal->getCommonName(), $body);
 				
 			mail($email, $subject, $body, $headers);
-				
+			
+			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
+				//Set the appeal status if the template is set up to do that.
+				if (isset($_POST['statusUser']) && $_POST['statusUser']) {
+					$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
+				}
+				if (isset($_POST['statusClose']) && $_POST['statusUser']) {
+					$appeal->setStatus(Appeal::$STATUS_CLOSED);
+				}
+				$appeal->update();
+			}
 			$success = true;
 		}
 		catch(Exception $e){
@@ -89,6 +99,18 @@ $success = false;
 			echo $template->getText();
 		}
 		echo "</textarea>\n";
+		if ($template) {
+			if ($template->getStatusUser()) {
+				echo "<b>NOTE: Using this template will set the appeal request status to AWAITING_USER</b>";
+				echo "<input type=\"checkbox\" CHECKED value=\"true\" name=\"statusUser\">";
+				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusUser\"> Uncheck this option to prevent a status change.</label>";
+			}
+			if ($template->getStatusClose()) {
+				echo "<b>NOTE: Using this template will set the appeal request status to CLOSED</b>";
+				echo "<input type=\"checkbox\" CHECKED value=\"true\" name=\"statusClose\">";
+				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> Uncheck this option to prevent a status change.</label>";
+			}
+		}
 		echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Send Email\" />";
 		echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 		echo "</form>";
@@ -97,12 +119,7 @@ $success = false;
 		     "message:</p>\n";
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
 		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
-		if ($template->getStatusUser()) {
-			echo "<b>NOTE: Using this template will set the appeal request status to AWAITING_USER</b>";
-		}
-		if ($template->getStatusClose()) {
-			echo "<b>NOTE: Using this template will set the appeal request status to CLOSED</b>";
-		}
+
 	}
 }
 

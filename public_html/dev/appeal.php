@@ -196,9 +196,9 @@ function doClose() {
 
 function showContextWindow(innerContent) {
 	myWindow = document.getElementById('contextWindow');
-	myContent = myWindow.getElementById('contextContent');
+	//myContent = myWindow.getElementById('contextContent');
 	myWindow.style.visibility = 'visible';
-	myContent.innerHTML = innerContent;	
+	//myContent.innerHTML = innerContent;	
 }
 
 function hideContextWindow() {

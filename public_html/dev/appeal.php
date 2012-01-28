@@ -168,7 +168,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		//In AWAITING_ADMIN status and not admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 		//Awaiting checkuser and not CU or admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN'] || verifyAccess($GLOBALS['CHECKUSER']))) ||
+		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
 		//Appeal is closed and not an admin
 		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['admin'])
 		) {

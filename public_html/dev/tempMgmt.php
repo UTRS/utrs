@@ -123,9 +123,9 @@ else if(strcmp($_GET['id'], 'new') == 0){
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
-		echo "<input type=\"checkbox\" id=\"checkbox\" name=\"statusUser\">";
+		echo "<input type=\"checkbox\" id=\"statusUser\" name=\"statusUser\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label>";
-		echo "<input type=\"checkbox\" id=\"checkbox\" name=\"statusClose\">";
+		echo "<input type=\"checkbox\" id=\"statusClose\" name=\"statusClose\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
 		echo "<input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" />\n";
 		echo "</form>";
@@ -172,14 +172,14 @@ else{
 		if ($template->getStatusUser()) {
 			$checked = "CHECKED";
 		}
-		echo "<input type=\"checkbox\" " . $checked . " id=\"checkbox\" name=\"statusUser\">";
-		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label>";
+		echo "<input type=\"checkbox\" " . $checked . " id=\"statusUser\" name=\"statusUser\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label><br>\n";
 		
 		$checked = "";
 		if ($template->getStatusUser()) {
 			$checked = "CHECKED";
 		}
-		echo "<input type=\"checkbox\" " . $checked . " id=\"checkbox\" name=\"statusClose\">";
+		echo "<input type=\"checkbox\" " . $checked . " id=\"statusClose\" name=\"statusClose\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
 		
 		echo "<table style=\"background:none; border:none; width:500px;\"><tr>\n";

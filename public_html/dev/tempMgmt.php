@@ -26,6 +26,17 @@ try{
 
 			$name = $_POST['name'];
 			$text = $_POST['text'];
+			
+			if ($_POST['statusUser']) {
+			$statusUser = true;
+			} else {
+			$statusUser = false;
+			}			
+			if ($_POST['statusClose']) {
+				$statusClose= true;
+			} else {
+				$statusClose = false;
+			}
 
 			if(strlen($name) == 0 | strlen($text) == 0){
 				throw new UTRSIllegalModificationException("All fields are required.");
@@ -64,7 +75,7 @@ try{
 				if(strcmp($text, $template->getText()) != 0){
 					$template->setText($text);
 				}
-				$template->setStatus($_POST['statusUser'], $_POST['statusUser']);
+				$template->setStatus($statusUser, $statusClose);
 			}
 		}
 		else if(isset($_POST['delete'])){

@@ -45,7 +45,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 }
 
 //Status change
-if (isset($_GET['action']) && $_GET['action'] == "status") {
+if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "status") {
 	switch ($_GET['value']) {
 		case "checkuser":
 			$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
@@ -196,9 +196,8 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 
 </div>
 
+<?php 
 
+skinFooter();
 
-
-
-
-
+?>

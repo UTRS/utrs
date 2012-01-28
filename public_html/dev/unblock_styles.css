@@ -209,6 +209,8 @@ div.useragent {
 	border: 1px solid #AFB29C;
 	width: 700px;
 	height: 450px;
+    top:50%;
+    left:50%;
 	background-color: #EBF4FF;
 	position: absolute;
 	visibility: hidden;

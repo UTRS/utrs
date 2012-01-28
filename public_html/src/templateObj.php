@@ -47,7 +47,6 @@ class Template{
 		$query .= $this->lastEditUser->getUserId() . "', ";
 		$query .= $this->statusUser . ", ";
 		$query .= $this->statusClose . ")";
-		echo $query;
 		debug($query);
 		
 		$result = mysql_query($query, $db);
@@ -239,6 +238,7 @@ class Template{
 		$query = "UPDATE template SET statusUser=" . $statusUser . ", statusClose=" . $statusClose . ", lastEditUser='" . $user->getUserId() .
 							"' WHERE templateID='" . $this->templateID . "'";
 		
+		echo $query;
 		$db = connectToDB();
 		
 		debug($query);

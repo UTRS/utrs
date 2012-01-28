@@ -64,7 +64,7 @@ class Template{
 		$query .= $this->statusUser . ", ";
 		$query .= $this->statusClose . ")";
 		debug($query);
-		
+		echo $query;
 		$result = mysql_query($query, $db);
 		
 		if(!$result){

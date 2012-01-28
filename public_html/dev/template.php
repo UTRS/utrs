@@ -25,44 +25,49 @@ Unblock Ticket Request System
 <table class="subheader_content">
 <tr>
 <?php if ($loggedIn) { ?>
-	<td>
-		<a id="homePage" href="home.php">Home</a>
+	<td id="home" onClick="document.location.href='<?php echo getRootURL() . 'home.php'; ?>';">
+		Home
 	</td>
-	<td>
-		<a id="stats" href="statistics.php">Statistics</a>
+	<td id="stats" onClick="document.location.href='<?php echo getRootURL() . 'statistics.php'; ?>';">
+		Statistics
 	</td>
-	<td>
-		<a id="mgmtTemp" href="tempMgmt.php">Manage/View Templates</a>
+	<td id="mgmtTemp" onClick="document.location.href='<?php echo getRootURL() . 'tempMgmt.php'; ?>';">
+		Manage/View Templates
 	</td>
 	<?php if(verifyAccess($GLOBALS['ADMIN'])) { ?>
-	<td>
-		<a id="mgmtUser" href="userMgmt.php">Manage Users</a>
+	<td id="mgmtUser" onClick="document.location.href='<?php echo getRootURL() . 'userMgmt.php'; ?>';">
+		Manage Users
 	</td>
 	<?php } ?>
-	<td>
-		<a id="preferences" href="prefs.php">Preferences</a>
+	<td id="preferences" onClick="document.location.href='<?php echo getRootURL() . 'prefs.php'; ?>';">
+		Preferences
 	</td>
-	<td>
-		<a id="privacyPolicy" href="privacy.php">Privacy Policy</a>
+	<td id="privacyPolicy" onClick="document.location.href='<?php echo getRootURL() . 'privacy.php'; ?>';">
+		Privacy Policy
 	</td>
-	<td>
-		<a id="logout" href="logout.php">Logout</a>
+	<?php if(verifyAccess($GLOBALS['DEVELOPER'])) { ?>
+	<td id="massEmail" onClick="document.location.href='<?php echo getRootURL() . 'massEmail.php'; ?>';">
+		Send Mass Email
+	</td>
+	<?php } ?>
+	<td id="logout" onClick="document.location.href='<?php echo getRootURL() . 'logout.php'; ?>';">
+		Logout
 	</td>
 <?php } ELSE { ?>
-	<td>
-		<a id="appealForm" href="index.php">Appeal a Block</a>
+	<td id="appealForm" onClick="document.location.href='<?php echo getRootURL() . 'index.php'; ?>';">
+		Appeal a Block
 	</td>
-	<td>
-		<a id="GAB" href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
+	<td id="GAB" onClick="document.location.href='http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks';">
+		Guide to Appealing Blocks
 	</td>
-	<td>
-		<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
+	<td id="loginLink" onClick="document.location.href='<?php echo getRootURL() . 'login.php'; ?>';">
+		Admins: Log in to review requests
 	</td>
-	<td>
-		<a id="register" href="register.php">Admins: Request an account</a>
+	<td id="register" onClick="document.location.href='<?php echo getRootURL() . 'register.php'; ?>';">
+		Admins: Request an account
 	</td>
-	<td>
-		<a id="privacyPolicy" href="privacy.php">Privacy Policy</a>
+	<td id="privacyPolicy" onClick="document.location.href='<?php echo getRootURL() . 'privacy.php'; ?>';">
+		Privacy Policy
 	</td>
 <?php } ?>
 </tr>

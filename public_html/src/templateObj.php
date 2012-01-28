@@ -47,7 +47,7 @@ class Template{
 		$query .= $this->lastEditUser->getUserId() . "', ";
 		$query .= $this->statusUser . ", ";
 		$query .= $this->statusClose . ")";
-		
+		echo $query;
 		debug($query);
 		
 		$result = mysql_query($query, $db);

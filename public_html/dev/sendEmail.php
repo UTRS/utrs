@@ -52,6 +52,7 @@ $success = false;
 				
 			$body = str_replace("{{adminname}}", $admin->getUsername(), $body);
 			$body = str_replace("{{username}}", $appeal->getCommonName(), $body);
+			$body = str_replace("\n", "<br/>");
 				
 			mail($email, $subject, $body, $headers);
 			

@@ -136,10 +136,10 @@ else if(strcmp($_GET['id'], 'new') == 0){
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
-		echo "<input type=\"checkbox\" id=\"statusUser\" name=\"statusUser\">";
-		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label>";
-		echo "<input type=\"checkbox\" id=\"statusClose\" name=\"statusClose\">";
-		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
+		echo "<input type=\"checkbox\" id=\"statusUser\" name=\"statusUser\" value=\"1\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label><br>";
+		echo "<input type=\"checkbox\" id=\"statusClose\" name=\"statusClose\" value=\"1\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label><br>";
 		echo "<input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" />\n";
 		echo "</form>";
 	}

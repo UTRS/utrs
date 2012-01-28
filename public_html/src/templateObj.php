@@ -31,8 +31,16 @@ class Template{
 			$this->name = $vars['name'];
 			$this->text = $vars['text'];
 			$this->lastEditUser = getCurrentUser();
-			$this->statusUser = $vars['statusUser'];
-			$this->statusClose = $vars['statusClose'];
+			if (isset($vars['statusUser'])) {
+				$this->statusUser = $vars['statusUser'];
+			} else {
+				$this->statsUser = false;
+			}
+			if (isset($vars['statusClose'])) {
+				$this->statusClose = $vars['statusClose'];
+			} else {
+				$this->statsClose = false;
+			}
 			
 			$this->insert();
 		}

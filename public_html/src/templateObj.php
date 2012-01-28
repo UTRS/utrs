@@ -24,8 +24,16 @@ class Template{
 			$this->text = $vars['text'];
 			$this->lastEditTime = $vars['lastEditTime'];
 			$this->lastEditUser = User::getUserById($vars['lastEditUser']);
-			$this->statusUser = $vars['statusUser'];
-			$this->statusClose = $vars['statusClose'];
+			if (isset($vars['statusUser'])) {
+				$this->statusUser = $vars['statusUser'];
+			} else {
+				$this->statsUser = false;
+			}
+			if (isset($vars['statusClose'])) {
+				$this->statusClose = $vars['statusClose'];
+			} else {
+				$this->statsClose = false;
+			}
 		}
 		else{
 			$this->name = $vars['name'];

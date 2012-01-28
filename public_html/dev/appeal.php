@@ -1,4 +1,9 @@
 <?php
+//TODO: Finish the conditionals on the action buttons
+//TODO: Create new JS function for popups.  CU, Appeal, Other Info, and Log
+//		will popup for easier viewing
+//TODO: Finish the log
+
 //Created by the unblock-en-l dev team (test commit)
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');

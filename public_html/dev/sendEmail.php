@@ -97,6 +97,12 @@ $success = false;
 		     "message:</p>\n";
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
 		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
+		if ($template->getStatusUser()) {
+			echo "<b>NOTE: Using this template will set the appeal request status to AWAITING_USER</b>";
+		}
+		if ($template->getStatusClose()) {
+			echo "<b>NOTE: Using this template will set the appeal request status to CLOSED</b>";
+		}
 	}
 }
 

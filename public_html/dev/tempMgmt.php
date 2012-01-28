@@ -170,15 +170,15 @@ else{
 		if ($template->getStatusUser()) {
 			$checked = "CHECKED";
 		}
-		echo "<input type=\"checkbox\" " . $checked . " id=\"statusUser\" name=\"statusUser\">";
-		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label><br>\n";
+		echo "<input type=\"checkbox\" " . $checked . " id=\"statusUser\" name=\"statusUser\" value=\"true\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label><br>\n";
 		
 		$checked = "";
-		if ($template->getStatusUser()) {
+		if ($template->getStatusClose()) {
 			$checked = "CHECKED";
 		}
-		echo "<input type=\"checkbox\" " . $checked . " id=\"statusClose\" name=\"statusClose\">";
-		echo "<label name=\"textLabel\" id=\"textLabel\" for\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
+		echo "<input type=\"checkbox\" " . $checked . " id=\"statusClose\" name=\"statusClose\" value=\"true\">";
+		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
 		
 		echo "<table style=\"background:none; border:none; width:500px;\"><tr>\n";
 		echo "<td style=\"text-align:left;\"><input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" /></td>\n";

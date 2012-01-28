@@ -471,8 +471,11 @@ class Appeal{
 		// at a time? Or allow multiple reservations?
 		
 		// TODO: query to modify the row
-		
-		$this->handlingAdmin = User::getUserById($admin);
+		if ($admin != null) {
+				$this->handlingAdmin = User::getUserById($admin);
+		} else {
+				$this->handlingAdmin = null;
+		}
 	}
 	
 }

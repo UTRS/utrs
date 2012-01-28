@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
 			throw new UTRSIllegalModificationException("All fields are required.");
 		}
 
-		$username = $_POST['username'];
+		$username = mysql_real_escape_string($_POST['username']);
 		$email = $_POST['email'];
 		// throws exception if username is invalid
 		$user = User::getUserByUsername($username);

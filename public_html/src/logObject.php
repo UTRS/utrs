@@ -27,7 +27,7 @@ class LogItem {
 	}
 	
 	function getLogArray() {
-		return array($commentID, $appealID, $timestamp, $comment, $commentUser);
+		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser);
 	}
 }
 class Log {
@@ -107,8 +107,8 @@ class Log {
 			$styleUser = ($i%2 == 1) ? "smallLogUserOne" : "smallLogUserTwo";
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$HTMLOutput .= "<tr>";
-			$HTMLOutput .= "<td class=\"" . $style . "\">" . $this->log[$i]->getLogArray()->commentUser . "</td>";
-			$HTMLOutput .= "<td class=\"" . $style . "\">" . $this->log[$i]->getLogArray()->comment . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $this->log[$i]->getLogArray()->commentUser . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $this->log[$i]->getLogArray()->comment . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

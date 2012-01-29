@@ -36,7 +36,7 @@ class Log {
 	private $Count = -1;
 	private $appealID;
 	
-	public static function __construct($vars) {
+	public function __construct($vars) {
 		if ($vars) {
 			
 			$num_rows = mysql_num_rows($vars);
@@ -50,7 +50,7 @@ class Log {
 		}
 	}
 	
-	public function getCommentsByAppealId($id) {
+	public static function getCommentsByAppealId($id) {
 		$db = connectToDB();
 		
 		$appealID = $id;

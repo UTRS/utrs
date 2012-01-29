@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 require_once('recaptchalib.php');
+require_once('template.php');
 require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
@@ -64,56 +65,23 @@ if(isset($_POST["submit"])){
 		$otherInfo = $_POST["otherInfo"];
 	}
 }
-?>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<link rel="stylesheet" href="unblock_styles.css">
-<title>Unblock Ticket Request System</title>
 
-<script type="text/javascript">
-var accountNameInput = "<label id=\"accountNameLabel\" for=\"accountName\" class=\"required\">What is the name of your account?</label> <input id=\"accountName\" type=\"text\" name=\"accountName\" value=\"\"/><br />";
-var autoBlockInput = "<label id=\"autoBlockLabel\" for=\"autoBlock\" class=\"required\">What has been blocked?</label> &#09; <input id=\"autoBlockN\" type=\"radio\" name=\"autoBlock\" value=\"0\" /> My account &#09; <input id=\"autoBlockY\" type=\"radio\" name=\"autoBlock\" value=\"1\" /> My IP address or range (my account is not blocked)<br />";
-var desiredAccountInput = "<label id=\"accountNameLabel\" for=\"accountName\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\"accountName\" type=\"text\" name=\"accountName\" value=\"\"/><br />";
+skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"\\\"/><br />\";
+var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" /> My IP address or range (my account is not blocked)<br />\";
+var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"\\\"/><br />\";
 var autoBlock = false;
 
 function hasAccount(){
-	var span = document.getElementById("variableQuestionSection");
-	span.innerHTML = accountNameInput + "\n" + autoBlockInput;
+	var span = document.getElementById(\"variableQuestionSection\");
+	span.innerHTML = accountNameInput + \"\n\" + autoBlockInput;
 }
 
 function noAccount() {
 	autoBlock = false;
-	var span = document.getElementById("variableQuestionSection");
+	var span = document.getElementById(\"variableQuestionSection\");
 	span.innerHTML = desiredAccountInput;
-}
-
-</script>
-</head>
-<body>
-<div id="header">
-English Wikipedia<br />
-Unblock Ticket Request System
-</div>
-<div id="subheader">
-<table class="subheader_content">
-<tr>
-<td>
-<a id="GAB" href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
-</td>
-<td>
-<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
-</td>
-<td>
-<a id="register" href="register.php">Admins: Request an account</a>
-</td>
-<td>
-<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
-</td>
-</tr>
-</table>
-</div>
-<div id="main">
+}");
+?>
 <center><b>Welcome to the Unblock Ticket Request System.</b></center>
 
 <p>If you are presently blocked from editing on Wikipedia (which you may verify by 
@@ -168,14 +136,8 @@ echo '</form>';
 ?>
 
 <p>Please remember that Wikipedia adminstrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will meet with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page. Be sure to replace "your reason here" with your appeal: <b><tt>{{unblock|1=your reason here}}</tt></b></p>
-</div>
-<div id="footer">
-The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
-users with the unblock process on the English Wikipedia. <br />
-This project is licensed under the 
-<a id="GPL" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License Version 3 or Later.</a><br />
-For questions or assistance with the Unblock Ticket Request System, please email our development team at 
-<a href="mailto:unblock@toolserver.org">unblock AT toolserver DOT org</a><br />
-</div>
-</body>
-</html>
+
+<?php 
+
+skinFooter();
+?>

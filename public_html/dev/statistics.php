@@ -15,7 +15,7 @@ $errorMessages = '';
 //Template header()
 skinHeader();
 
-echo "<h2>Statistics:</h2><br><br>"
+echo "<h2>Statistics:</h2><br><br>";
 
 /**
 *

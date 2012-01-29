@@ -54,7 +54,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <h2>Awaiting reviewer response</h2>
 <?php echo printReviewer(); ?>
 </td>
-<td>
+<td valign=top>
 <h2>My Queue</h2>
 <?php echo printMyQueue();?>
 </td>

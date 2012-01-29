@@ -27,9 +27,8 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <tr>
 <td style="width:50%" valign="top">
 <h2>New Requests</h2>
-<FIELDSET>
 <?php echo printNewRequests(); ?>
-</FIELDSET>
+
 <h2>Awaiting feedback from <a href="<?php echo getWikiLink("WP:OPP", $secure);?>">WP:OPP</a></h2>
 <?php echo printProxyCheckNeeded(); ?>
 
@@ -42,17 +41,17 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 </td>
 <td style="width:50%" valign="top">
 
-<h2>User replied - awaiting reviewer response</h2>
-<?php echo printUserReplied();?>
-
 <h2>Checkuser Needed</h2>
 <?php echo printCheckuserNeeded(); ?>
+<h2>Awaiting reviewer response</h2>
+<?php echo printReviewer(); ?>
 
 <h2>Awaiting user response</h2>
 <?php echo printUserReplyNeeded(); ?>
 
-<h2>Awaiting reviewer response</h2>
-<?php echo printReviewer(); ?>
+<h2>Awaiting tool admin</h2>
+<?php echo printToolAdmin();?>
+
 </td>
 <td valign=top>
 <h2>My Queue</h2>

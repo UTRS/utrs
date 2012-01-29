@@ -112,7 +112,7 @@ function printNewRequests() {
 /**
  * Return a list of all appeals where the appealer has replied to a question, and is awaiting further review
  */
-function printUserReplied() {
+function printToolAdmin() {
 	$criteria =  array('status' => Appeal::$STATUS_AWAITING_ADMIN);
 	return printAppealList($criteria);
 }

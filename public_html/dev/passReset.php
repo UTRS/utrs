@@ -12,7 +12,7 @@ require_once('template.php');
 
 if(loggedIn()){
 	// wrong page, for logged out peeps only
-	header("Location: " . getRootURL() . "prefs.php");
+	header("Location: " . getRootURL() . "home.php");
 }
 
 skinHeader();

@@ -51,7 +51,7 @@ if(isset($_POST["submit"])){
 		debug('object created <br/>');
 		
 		$log = Log::getCommentsByAppealId($appeal->getID());
-		$log->addNewItem("<i>Appeal Created</i>", $appeal->getCommonName());
+		$log->addNewItem("<i>Appeal Created</i>");
 	}
 	catch(UTRSException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;

@@ -65,10 +65,10 @@ class Log {
 		return new Log(array('dataset' => $result, 'appealID' => $id));
 	}
 	
-	public function addNewItem($action, $user = null) {
+	public function addNewItem($action) {
 		$db = connectToDB();
 		
-		if ($user) {
+		if (isset($_SESSION)) {
 			$user = User::getUserByUsername($_SESSION['user']);
 			$userid = $user->getUserId();
 		} else {

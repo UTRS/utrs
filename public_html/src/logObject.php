@@ -76,9 +76,11 @@ class Log {
 		
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
 		$query .= $this->appealID . ", ";
-		$query .= $timestamp . ", ";
-		$query .= $action . ", ";
+		$query .= $timestamp . ", '";
+		$query .= $action . "', ";
 		$query .= $user->getID() . ");";
+		
+		echo $query;
 		
 		$result = mysql_query($query, $db);
 		

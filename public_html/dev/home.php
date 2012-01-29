@@ -25,7 +25,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 
 <table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
 <tr>
-<td style="width:50%" valign="top">
+<td style="width:33%" valign="top">
 <h2>New Requests</h2>
 <?php echo printNewRequests(); ?>
 
@@ -39,7 +39,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <?php echo printRecentClosed(); ?>
 
 </td>
-<td style="width:50%" valign="top">
+<td style="width:33%" valign="top">
 
 <h2>Checkuser Needed</h2>
 <?php echo printCheckuserNeeded(); ?>
@@ -53,7 +53,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <?php echo printToolAdmin();?>
 
 </td>
-<td valign=top>
+<td style="width:33%" valign=top>
 <h2>My Queue</h2>
 <?php echo printMyQueue();?>
 </td>

@@ -76,7 +76,7 @@ if(isset($_POST["submit"])){
 	}
 }
 
-echo "AutoblockPHP: " . ($autoBlock ? "true" : "false") . "  AutoBlockPOST: " . $_POST['autoBlock'] . "\n\n";
+echo "AutoblockPHP: " . ($autoBlock != null ? ($autoBlock ? "true" : "false") : "null") . "  AutoBlockPOST: " . $_POST['autoBlock'] . "\n\n";
 
 skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
 var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" " . ($autoBlock != null ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" " . ($autoBlock != null ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";

@@ -13,6 +13,8 @@ require_once('template.php');
 // make sure user is logged in, if not, kick them out
 verifyLogin('home.php');
 
+$secure = getCurrentUser()->getUseSecure();
+
 $errorMessages = '';
 
 //Template header()
@@ -27,7 +29,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <h2>New Requests</h2>
 <?php echo printNewRequests(); ?>
 
-<h2>Awaiting feedback from WP:OPP</h2>
+<h2>Awaiting feedback from <a href="<?php echo getWikiLink("WP:OPP", $secure);?>">WP:OPP</a></h2>
 <?php echo printProxyCheckNeeded(); ?>
 
 <h2>Last 5 closed requests</h2>

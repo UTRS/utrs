@@ -234,6 +234,9 @@ div.useragent {
 
 /* Appeal.Log Styles */
 
+table.logTable {
+	width:100%;
+}
 th.logUserHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;

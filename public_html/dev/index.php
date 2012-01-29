@@ -72,7 +72,7 @@ var autoBlock = false;
 
 function hasAccount(){
 	var span = document.getElementById(\"variableQuestionSection\");
-	span.innerHTML = accountNameInput + \"\n\" + autoBlockInput;
+	span.innerHTML = accountNameInput + \"\\\n\" + autoBlockInput;
 }
 
 function noAccount() {

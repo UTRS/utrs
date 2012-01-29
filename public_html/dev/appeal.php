@@ -419,7 +419,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		?>
 	</SELECT>
 </div>
-<h3><a href="javascript:void()" onClick="showContextWindow('')">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php mysql_real_escape_string($log->getLargeHTML()); ?>')">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 <?php echo $log->getSmallHTML(); ?>
 </div>

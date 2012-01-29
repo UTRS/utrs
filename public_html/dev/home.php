@@ -27,10 +27,14 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <tr>
 <td style="width:50%" valign="top">
 <h2>New Requests</h2>
+<FIELDSET>
 <?php echo printNewRequests(); ?>
-
+</FIELDSET>
 <h2>Awaiting feedback from <a href="<?php echo getWikiLink("WP:OPP", $secure);?>">WP:OPP</a></h2>
 <?php echo printProxyCheckNeeded(); ?>
+
+<h2>On Hold</h2>
+<?php echo printOnHold(); ?>
 
 <h2>Last 5 closed requests</h2>
 <?php echo printRecentClosed(); ?>
@@ -46,6 +50,13 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 
 <h2>Awaiting user response</h2>
 <?php echo printUserReplyNeeded(); ?>
+
+<h2>Awaiting reviewer response</h2>
+<?php echo printReviewer(); ?>
+</td>
+<td>
+<h2>My Queue</h2>
+<?php echo printMyQueue();?>
 </td>
 </tr>
 </table>

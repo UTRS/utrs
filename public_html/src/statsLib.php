@@ -149,6 +149,20 @@ function printRecentClosed() {
 	return printAppealList($criteria, 5, "timestamp DESC");
 }
 
+function printReviewer() {
+	$criteria = array('status' => Appeal::$STATUS_AWAITING_REVIEWER);
+	return printAppealList($criteria);
+}
+
+function printOnHold() {
+	$criteria = array('status' => Appeal::$STATUS_ON_HOLD);
+	return printAppealList($criteria);
+}
+
+function printMyQueue() {
+	$criteria = array('handlingAdmin' => User::getUserByUsername($_SESSION['username'])->getID());
+	return printAppealList($criteria);
+}
 /**
  * Get an array containing database rows representing the desired users.
  * @param array $criteria an array of strings that is converted to a WHERE clause.

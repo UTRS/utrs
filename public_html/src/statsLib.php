@@ -168,7 +168,7 @@ function printMyQueue() {
 
 function printMyReview() {
 	$user = User::getUserByUsername($_SESSION['user']);
-	$criteria = array('handlingAdmin' => $user->getUserId(), 'status' => Appeal::$STATUS_AWAITING_REVIEWER);
+	$criteria = array('handlingAdmin' => $user->getUserId(), ' AND status' => Appeal::$STATUS_AWAITING_REVIEWER);
 	return printAppealList($criteria);
 }
 /**

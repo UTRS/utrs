@@ -34,7 +34,7 @@ if(isset($_POST["submit"])){
 			
 		if(!$resp->is_valid) {
 			$captchaErr = $resp->error;
-			$errorMessages = '<br />The response you provided to the captcha was not correct. Please try again.';
+			throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
 		}
 		
 		debug('captcha valid <br/>');
@@ -42,22 +42,11 @@ if(isset($_POST["submit"])){
 		Appeal::validate($_POST);
 		
 		debug('validation done <br/>');
-		
-		if(!$errorMessages){
-			try{
-				$appeal = new Appeal($_POST, false);
-				debug('object created <br/>');
-			}
-			// could still have DB or other issues
-			catch(UTRSException $e){
-				$errorMessages = $e->getMessage();
-			}
-		}
-		else{
-			$errorMessages = "<b>There were errors processing your unblock appeal: </b>" . $errorMessages;
-		}
+	
+		$appeal = new Appeal($_POST, false);
+		debug('object created <br/>');
 	}
-	catch(UTRSValidationException $ex){
+	catch(UTRSException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;
 		$email = $_POST["email"];
 		$blocker = $_POST["blockingAdmin"];

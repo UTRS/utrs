@@ -74,6 +74,16 @@ if(isset($_POST["submit"])){
 			}
 			$errorMessages .= 'The name of your Wikipedia account is required.';
 		}
+		if(strpos($username, "#") !== false | strpos($username, "/") !== false |
+		   strpos($username, "|") !== false | strpos($username, "[") !== false |
+		   strpos($username, "]") !== false | strpos($username, "{") !== false |
+		   strpos($username, "}") !== false | strpos($username, "<") !== false |
+		   strpos($username, ">") !== false | strpos($username, "@") !== false |
+		   strpos($username, "%") !== false | strpos($username, ":") !== false | 
+		   strpos($username, '$') !== false){
+		   	$errorMessages .= 'The username you have entered is invalid. Usernames ' .
+		   	 	'may not contain the characters # / | [ ] { } < > @ % : $';
+		}
 		
 		if(!$errorMessages){
 			$user = new User($_POST, false);

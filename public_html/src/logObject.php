@@ -63,9 +63,6 @@ class Log {
 			$error = mysql_error($db);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
-			return null;
-		}
 		
 		return new Log($result);
 	}

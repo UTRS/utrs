@@ -164,6 +164,13 @@ function printMyQueue() {
 	$criteria = array('handlingAdmin' => $user->getUserId());
 	return printAppealList($criteria);
 }
+
+
+function printMyReview() {
+	$user = User::getUserByUsername($_SESSION['user']);
+	$criteria = array('handlingAdmin' => $user->getUserId(), 'status' => Appeal::$STATUS_AWAITING_REVIEWER);
+	return printAppealList($criteria);
+}
 /**
  * Get an array containing database rows representing the desired users.
  * @param array $criteria an array of strings that is converted to a WHERE clause.

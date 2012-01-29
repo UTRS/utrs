@@ -99,8 +99,8 @@ class Log {
 		
 		$HTMLOutput .= "<table class=\"logTable\">";
 		$HTMLOutput .= "<tr>";
-		$HTMLOutput .= "<td class=\"logUserHeader\">User</td>";
-		$HTMLOutput .= "<td class=\"logActionHeader\">Action</td>";
+		$HTMLOutput .= "<th class=\"logUserHeader\">User</th>";
+		$HTMLOutput .= "<th class=\"logActionHeader\">Action</th>";
 		$HTMLOutput .= "</tr>";
 		
 		for ($i = 0; $i < count($this->log); $i++) {

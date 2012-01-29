@@ -58,6 +58,7 @@ if(isset($_POST["submit"])){
 		$otherInfo = $_POST["otherInfo"];
 		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
 		$wikiAccount = $_POST["accountName"];
+		echo "about to set autoBlock\n\n";
 		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
 		// TODO: not sure how to include the other fields due to the javascript
 	}
@@ -70,6 +71,7 @@ if(isset($_POST["submit"])){
 		$otherInfo = $_POST["otherInfo"];
 		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
 		$wikiAccount = $_POST["accountName"];
+		echo "about to set autoBlock\n\n";
 		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
 	}
 }

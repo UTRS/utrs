@@ -91,7 +91,7 @@ class Log {
 		
 		$id = mysql_insert_id($db);
 		
-		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser', $commentUser));
+		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $action, 'commentUser', $user->getUserId()));
 		$this->Count++;
 	}
 	

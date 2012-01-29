@@ -109,7 +109,7 @@ class Log {
 			$data = $this->log[$i]->getLogArray();
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $data['commentUser'] . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $data['comment']' . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $data['comment'] . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

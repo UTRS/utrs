@@ -240,13 +240,13 @@ table.logTable {
 th.logUserHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
-	width:35%;
+	width:25%;
 }
 
 th.logActionHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
-	width: 65%;
+	width: 75%;
 }
 
 td.smallLogUserOne {
@@ -263,6 +263,41 @@ td.smallLogActionOne {
 }
 
 td.smallLogActionTwo {
+	width: 80%;
+	background: #EBEBEB !important;
+}
+
+/* Appeal.Log.Large */
+
+table.logLargeTable {
+	width:100%;
+}
+th.logLargeUserHeader {
+	background-color:#93A1B2;
+	color: #EFEFEF !important;
+	width:20%;
+}
+
+th.logLargeActionHeader {
+	background-color:#93A1B2;
+	color: #EFEFEF !important;
+	width: 60%;
+}
+
+td.largeLogUserOne {
+	width: 10%;
+}
+
+td.largeLogUserTwo {
+	width: 10%;
+	background: #EBEBEB !important;
+}
+
+td.largeLogActionOne {
+	width: 80%;
+}
+
+td.largeLogActionTwo {
 	width: 80%;
 	background: #EBEBEB !important;
 }

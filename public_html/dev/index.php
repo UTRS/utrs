@@ -56,9 +56,9 @@ if(isset($_POST["submit"])){
 		$appealText = $_POST["appeal"];
 		$edits = $_POST["edits"];
 		$otherInfo = $_POST["otherInfo"];
-		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] == 1 ? true : false) : false);
+		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
 		$wikiAccount = $_POST["accountName"];
-		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] == 1 ? true : false) : false);
+		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
 		// TODO: not sure how to include the other fields due to the javascript
 	}
 	catch(ErrorException $ex){

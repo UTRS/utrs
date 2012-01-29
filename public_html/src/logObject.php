@@ -142,13 +142,14 @@ class Log {
 		for ($i = 0; $i < count($this->log); $i++) {
 			$styleUser = ($i%2 == 1) ? "largeLogUserOne" : "largeLogUserTwo";
 			$styleAction = ($i%2 == 1) ? "largeLogActionOne" : "largeLogActionTwo";
+			$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . str_replace("\r\n", "<br>", $data['comment']) . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $timestamp . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 	

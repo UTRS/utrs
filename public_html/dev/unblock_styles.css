@@ -294,10 +294,19 @@ td.largeLogUserTwo {
 }
 
 td.largeLogActionOne {
-	width: 80%;
+	width: 70%;
 }
 
 td.largeLogActionTwo {
-	width: 80%;
+	width: 70%;
+	background: #EBEBEB !important;
+}
+
+td.largeLogTimeOne {
+	width: 20%;
+}
+
+td.largeLogTimeTwo {
+	width: 20%;
 	background: #EBEBEB !important;
 }

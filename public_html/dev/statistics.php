@@ -15,6 +15,8 @@ $errorMessages = '';
 //Template header()
 skinHeader();
 
+echo "<h2>Statistics:</h2><br><br>"
+
 /**
 *
 *
@@ -152,7 +154,7 @@ function getNumEmailTemplates() {
 
 	$db = connectToDB();
 
-	$query = "SELECT *  FROM `user` WHERE `developer` = 1";
+	$query = "SELECT *  FROM `template`";
 	mysql_query($query);
 	echo "Number of email templates: ", mysql_affected_rows(), "<br>";
 

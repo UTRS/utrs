@@ -65,10 +65,15 @@ class Log {
 		return new Log(array('dataset' => $result, 'appealID' => $id));
 	}
 	
-	public function addNewItem($action) {
+	public function addNewItem($action, $user = null) {
 		$db = connectToDB();
 		
-		$user = User::getUserByUsername($_SESSION['user']);
+		if ($user) {
+			$user = User::getUserByUsername($_SESSION['user']);
+			$userid = $user->getUserId();
+		} else {
+			$userid = null;
+		}
 		
 		$action = mysql_real_escape_string($action);
 		
@@ -78,7 +83,7 @@ class Log {
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
 		$query .= mysql_real_escape_string($action) . "', ";
-		$query .= $user->getUserId() . ");";
+		$query .= $userid . ");";
 		
 		
 		$result = mysql_query($query, $db);
@@ -108,8 +113,9 @@ class Log {
 			$styleUser = ($i%2 == 1) ? "smallLogUserOne" : "smallLogUserTwo";
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$data = $this->log[$i]->getLogArray();
+			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "";
 			$HTMLOutput .= "<tr>";
-			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . substr($data['comment'],0,50) . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
@@ -135,8 +141,9 @@ class Log {
 			$styleAction = ($i%2 == 1) ? "largeLogActionOne" : "largeLogActionTwo";
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
+			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "";
 			$HTMLOutput .= "<tr>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . str_replace("\r\n", "<br>", $data['comment']) . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";

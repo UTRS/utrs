@@ -8,6 +8,7 @@ require_once('template.php');
 require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
+require_once('../src/logObject.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
@@ -48,6 +49,9 @@ if(isset($_POST["submit"])){
 	
 		$appeal = new Appeal($_POST, false);
 		debug('object created <br/>');
+		
+		$log = Log::getCommentsByAppealId($appeal->getID());
+		$log->addNewItem("<i>Appeal Created</i>", $appeal->getCommonName());
 	}
 	catch(UTRSException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;

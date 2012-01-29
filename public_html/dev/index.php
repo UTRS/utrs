@@ -124,7 +124,7 @@ if($appeal != null){
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
 echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value="' . $email . '"/><br /><br />';
-echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" ' . ($hasAccount != null ? ($hasAccount ? 'checked="checked"' : '') : '') . ' /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" ' . ($hasAccount != null ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
+echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" ' . (isset($_POST['registered']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" ' . (isset($_POST['registered']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, which adminstrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value="' . $blocker . '"/><br /><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';

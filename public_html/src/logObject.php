@@ -106,9 +106,10 @@ class Log {
 		for ($i = 0; $i < count($this->log); $i++) {
 			$styleUser = ($i%2 == 1) ? "smallLogUserOne" : "smallLogUserTwo";
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
+			$data = $this->log[$i]->getLogArray();
 			$HTMLOutput .= "<tr>";
-			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $this->log[$i]->getLogArray()->commentUser . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $this->log[$i]->getLogArray()->comment . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $data['commentUser'] . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $data['comment']' . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

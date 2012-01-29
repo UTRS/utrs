@@ -27,18 +27,18 @@ class LogItem {
 	}
 	
 	function getComment() {
-		return new Array($commentID, $appealID, $timestamp, $comment, $commentUser);
+		return array($commentID, $appealID, $timestamp, $comment, $commentUser);
 	}
 }
 class Log {
 	
-	private $log = new Array();
+	private $log = array();
 	private $Count = -1;
 	
 	public static function __construct($vars) {
 		if ($vars) {
 			
-			$num_rows = mysql_num_rows($vars)
+			$num_rows = mysql_num_rows($vars);
 			
 			for ($i = 0; $i < $num_rows; $i++) {
 				//Creates a new log item with the data
@@ -75,11 +75,11 @@ class Log {
 		
 		$user = User::getUserByUsername($_SESSION['user']);
 		
-		$action = mysql_real_escape_string($action)
+		$action = mysql_real_escape_string($action);
 		
 		$timestamp = date();
 		
-		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES ("
+		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
 		$query .= $appealID . ", ";
 		$query .= $timestamp . ", ";
 		$query .= $action . ", ";
@@ -94,7 +94,7 @@ class Log {
 		
 		$id = mysql_insert_id($db);
 		
-		$log[$Count + 1] = new LogItem(new Array('commentID' => $id, 'appealID' => $appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser', $commentUser));
+		$log[$Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser', $commentUser));
 		$Count++;
 	}
 	

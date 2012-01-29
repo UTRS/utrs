@@ -99,12 +99,13 @@ class Log {
 		
 		$HTMLOutput .= "<table class=\"logTable\">";
 		$HTMLOutput .= "<tr>";
-		$HTMLOutput .= "<td class=\"logHeader\">User</td>";
-		$HTMLOutput .= "<td class=\"logHeader\">Action</td>";
+		$HTMLOutput .= "<td class=\"logUserHeader\">User</td>";
+		$HTMLOutput .= "<td class=\"logActionHeader\">Action</td>";
 		$HTMLOutput .= "</tr>";
 		
 		for ($i = 0; $i < count($this->log); $i++) {
-			$style = ($i%2 == 1) ? "smallLogOne" : "smallLogTwo";
+			$styleUser = ($i%2 == 1) ? "smallLogUserOne" : "smallLogUserTwo";
+			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $style . "\">" . $this->log[$i]->getLogArray()->commentUser . "</td>";
 			$HTMLOutput .= "<td class=\"" . $style . "\">" . $this->log[$i]->getLogArray()->comment . "</td>";

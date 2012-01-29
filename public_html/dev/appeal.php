@@ -205,7 +205,7 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 	}
 }
 ?>
-<script language="Javascript" type="text/javascript">
+<script type="text/javascript">
 
 function doClose() {
 	var response = confirm("Do you want to send a response to the user?")

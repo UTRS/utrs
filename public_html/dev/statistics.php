@@ -28,7 +28,7 @@ function getNumUsers() {
 	
 	$query = "SELECT * FROM `user` WHERE `username` LIKE '%'";
 	mysql_query($query);
-	echo "Number of tool users: ", mysql_affected_rows(), "\n";
+	echo "Number of tool users: ", mysql_affected_rows(), "<br>";
 	
 	debug($query . '<br/>');
 	
@@ -49,7 +49,7 @@ function getNumApproved() {
 
 	$query = "SELECT *  FROM `user` WHERE `approved` = 1";
 	mysql_query($query);
-	echo "Number of tool users approved: ", mysql_affected_rows(), "\n";
+	echo "Number of tool users approved: ", mysql_affected_rows(), "<br>";
 
 	debug($query . '<br/>');
 
@@ -70,7 +70,7 @@ function getNumActive() {
 
 	$query = "SELECT *  FROM `user` WHERE `active` = 1";
 	mysql_query($query);
-	echo "Number of tool users active: ", mysql_affected_rows(), "\n";
+	echo "Number of tool users active: ", mysql_affected_rows(), "<br>";
 
 	debug($query . '<br/>');
 
@@ -91,7 +91,7 @@ function getNumAdmins() {
 
 	$query = "SELECT *  FROM `user` WHERE `toolAdmin` = 1";
 	mysql_query($query);
-	echo "Number of tool administrators: ", mysql_affected_rows(), "\n";
+	echo "Number of tool administrators: ", mysql_affected_rows(), "<br>";
 
 	debug($query . '<br/>');
 
@@ -112,7 +112,7 @@ function getNumCU() {
 
 	$query = "SELECT *  FROM `user` WHERE `checkuser` = 1";
 	mysql_query($query);
-	echo "Number of checkusers: ", mysql_affected_rows(), "\n";
+	echo "Number of checkusers: ", mysql_affected_rows(), "<br>";
 
 	debug($query . '<br/>');
 
@@ -133,7 +133,7 @@ function getNumDevs() {
 
 	$query = "SELECT *  FROM `user` WHERE `developer` = 1";
 	mysql_query($query);
-	echo "Number of tool developers: ", mysql_affected_rows(), "\n";
+	echo "Number of tool developers: ", mysql_affected_rows(), "<br>";
 
 	debug($query . '<br/>');
 
@@ -154,7 +154,7 @@ function getNumEmailTemplates() {
 
 	$query = "SELECT *  FROM `user` WHERE `developer` = 1";
 	mysql_query($query);
-	echo "Number of email templates: ", mysql_affected_rows(), "\n";
+	echo "Number of email templates: ", mysql_affected_rows(), "<br>";
 
 	debug($query . '<br/>');
 
@@ -177,7 +177,7 @@ function getNumUAs() {
 		$query = "SELECT *  FROM `cuData`";
 		mysql_query($query);
 		
-		echo "Number of Useragents in DB: ", mysql_affected_rows(), "\n";
+		echo "Number of Useragents in DB: ", mysql_affected_rows(), "<br>";
 		
 		debug($query . '<br/>');
 	

@@ -422,7 +422,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <script type="text/javascript">
 
 $contextValue = "<?php echo str_replace("\r\n", "<br>", mysql_real_escape_string($log->getLargeHTML())); ?>";
-)
+
 </script>
 <h3><a href="javascript:void()" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">

@@ -72,13 +72,13 @@ class Log {
 		
 		$action = mysql_real_escape_string($action);
 		
-		$timestamp = date();
+		$timestamp = time();
 		
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
 		$query .= $this->appealID . ", ";
 		$query .= $timestamp . ", '";
 		$query .= $action . "', ";
-		$query .= $user->getID() . ");";
+		$query .= $user->getUserId() . ");";
 		
 		echo $query;
 		

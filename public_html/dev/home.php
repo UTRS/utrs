@@ -25,11 +25,11 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 
 <table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
 <tr>
-<td style="width:33%" valign="top">
+<td valign="top" class="left" style="width:33%">
 <h2>New Requests</h2>
 <?php echo printNewRequests(); ?>
 
-<h2>Awaiting feedback from <a href="<?php echo getWikiLink("WP:OPP", $secure);?>">WP:OPP</a></h2>
+<h2>Awaiting <a href="<?php echo getWikiLink("WP:OPP", $secure);?>">WP:OPP</a></h2>
 <?php echo printProxyCheckNeeded(); ?>
 
 <h2>On Hold</h2>
@@ -39,7 +39,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <?php echo printRecentClosed(); ?>
 
 </td>
-<td style="width:33%" valign="top">
+<td valign="top" class="left" style="width:33%">
 
 <h2>Checkuser Needed</h2>
 <?php echo printCheckuserNeeded(); ?>

@@ -118,6 +118,33 @@ class Log {
 		
 		return $HTMLOutput;
 	}
+	
+	public function getLargeHTML() {
+	
+		$HTMLOutput = "";
+	
+		$HTMLOutput .= "<table class=\"logLargeTable\">";
+		$HTMLOutput .= "<tr>";
+		$HTMLOutput .= "<th class=\"logLargeUserHeader\">User</th>";
+		$HTMLOutput .= "<th class=\"logLargeActionHeader\">Action</th>";
+		$HTMLOutput .= "<th class=\"logLargeUserHeader\">Timestamp</th>";
+		$HTMLOutput .= "</tr>";
+	
+		for ($i = 0; $i < count($this->log); $i++) {
+			$styleUser = ($i%2 == 1) ? "largeLogUserOne" : "largeLogUserTwo";
+			$styleAction = ($i%2 == 1) ? "largeLogActionOne" : "largeLogActionTwo";
+			$data = $this->log[$i]->getLogArray();
+			$HTMLOutput .= "<tr>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $data['comment'] . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . date("Y-m-d H:m:s", $data['timestamp']) . "</td>";
+			$HTMLOutput .= "</tr>";
+		}
+	
+		$HTMLOutput .= "</table>";
+	
+		return $HTMLOutput;
+	}
 }
 
 ?>

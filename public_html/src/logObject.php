@@ -112,6 +112,8 @@ class Log {
 		}
 		
 		$HTMLOutput .= "</table>";
+		
+		return $HTMLOutput;
 	}
 }
 

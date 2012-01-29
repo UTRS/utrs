@@ -27,8 +27,7 @@ class Appeal{
 	 */
 	public static $STATUS_AWAITING_USER = 'AWAITING_USER';
 	/**
-	 * The user has replied to a response, and the appeal is ready for further
-	 * action from the handling administrator
+	 * The appeal needs to be reviewed by a tool admin
 	 */
 	public static $STATUS_AWAITING_ADMIN = 'AWAITING_ADMIN';
 	/**
@@ -39,6 +38,11 @@ class Appeal{
 	 * The appeal needs to be reviewed by OPP before it can proceed
 	 */
 	public static $STATUS_AWAITING_PROXY = 'AWAITING_PROXY';
+	/**
+	 * The user has replied to a response, and the appeal is ready for further
+	 * action from the handling administrator
+	 */
+	public static $STATUS_AWAITING_REVIEWER = 'AWAITING_REVIEWER';
 	/**
 	 * The appeal is on hold
 	 */

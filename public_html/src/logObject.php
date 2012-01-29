@@ -136,7 +136,7 @@ class Log {
 		$HTMLOutput .= "<tr>";
 		$HTMLOutput .= "<th class=\"logLargeUserHeader\">User</th>";
 		$HTMLOutput .= "<th class=\"logLargeActionHeader\">Action</th>";
-		$HTMLOutput .= "<th class=\"logLargeUserHeader\">Timestamp</th>";
+		$HTMLOutput .= "<th class=\"logLargeTimeHeader\">Timestamp</th>";
 		$HTMLOutput .= "</tr>";
 	
 		for ($i = 0; $i < count($this->log); $i++) {

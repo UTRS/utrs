@@ -37,7 +37,7 @@ $user = User::getUserByUsername($_SESSION['user']);
 
 //construct log object
 $log = Log::getCommentsByAppealId($_GET['id']);
-
+$log->addNewItem("Test");
 //Set the handling admin
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if (!(

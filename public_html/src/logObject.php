@@ -67,10 +67,10 @@ class Log {
 			return null;
 		}
 		
-		return $result;
+		return new Log($result);
 	}
 	
-	public static function addNewItem($action) {
+	public function addNewItem($action) {
 		$db = connectToDB();
 		
 		$user = User::getUserByUsername($_SESSION['user']);
@@ -98,7 +98,7 @@ class Log {
 		$Count++;
 	}
 	
-	public static function getSmallHTML() {
+	public function getSmallHTML() {
 		
 		$HTMLOutput = "";
 		

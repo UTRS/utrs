@@ -284,6 +284,12 @@ th.logLargeActionHeader {
 	width: 60%;
 }
 
+th.logLargeTimeHeader {
+	background-color:#93A1B2;
+	color: #EFEFEF !important;
+	width: 20%;
+}
+
 td.largeLogUserOne {
 	width: 10%;
 }

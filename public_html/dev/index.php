@@ -77,7 +77,7 @@ if(isset($_POST["submit"])){
 skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
 var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
 var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
-var registered = " . ($hasAccount != null ? ($hasAccount ? "true" : "false") : "false") . ";
+var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function hasAccount(){
 	var span = document.getElementById(\"variableQuestionSection\");
@@ -87,7 +87,7 @@ function hasAccount(){
 function noAccount() {
 	var span = document.getElementById(\"variableQuestionSection\");
 	span.innerHTML = desiredAccountInput;
-} " . ($hasAccount != null ? "
+} " . (isset($_POST['registered']) ? "
 
 window.onload = function ()
 {

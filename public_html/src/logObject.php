@@ -70,9 +70,12 @@ class Log {
 		
 		if (isset($_SESSION)) {
 			$user = User::getUserByUsername($_SESSION['user']);
-			$userid = $user->getUserId();
+			//I have to use two user ids here because the sql query requires null to be sent as a string.
+			$firstuserid = $user->getUserId();
+			$seconduserid = $user->getUserId();
 		} else {
-			$userid = "null";
+			$firstuserid = "null";
+			$seconduserid = null;
 		}
 		
 		$action = mysql_real_escape_string($action);
@@ -83,7 +86,7 @@ class Log {
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
 		$query .= mysql_real_escape_string($action) . "', ";
-		$query .= $userid . ");";
+		$query .= $firstuserid . ");";
 		
 		
 		$result = mysql_query($query, $db);
@@ -95,7 +98,7 @@ class Log {
 		
 		$id = mysql_insert_id($db);
 		
-		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $action, 'commentUser' => $user->getUserId()));
+		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $action, 'commentUser' => $seconduserid));
 		$this->Count++;
 	}
 	

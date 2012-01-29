@@ -43,7 +43,7 @@ class Log {
 			
 			for ($i = 0; $i < $num_rows; $i++) {
 				//Creates a new log item with the data
-				$data = mysql_fetch_aray($vars['dataset']);
+				$data = mysql_fetch_array($vars['dataset']);
 				$this->log[$i] = new LogItem($data);
 				$this->Count = $i;
 			}

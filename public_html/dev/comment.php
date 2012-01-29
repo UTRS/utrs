@@ -31,7 +31,7 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 <form action="appeal.php?id=<?php echo $_GET['id']; ?>&action=comment" method="POST">
 <table>
 	<tr>
-		<th align=left style="width:50px">Appeal</th>
+		<th align=left style="width:70px">Appeal:</th>
 		<td><?php echo $appeal->getCommonName(); ?></td>
 	</tr>
 	<tr>

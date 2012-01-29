@@ -110,7 +110,7 @@ class Log {
 			$data = $this->log[$i]->getLogArray();
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $data['comment'] . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . substr($data['comment'],0,50) . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

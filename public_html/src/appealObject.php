@@ -370,6 +370,16 @@ class Appeal{
 				$errorMsgs .= "<br />You have not provided a valid email address.";
 			}
 		}
+		if(strpos($postVars["accountName"], "#") !== false | strpos($postVars["accountName"], "/") !== false |
+		   strpos($postVars["accountName"], "|") !== false | strpos($postVars["accountName"], "[") !== false |
+		   strpos($postVars["accountName"], "]") !== false | strpos($postVars["accountName"], "{") !== false |
+		   strpos($postVars["accountName"], "}") !== false | strpos($postVars["accountName"], "<") !== false |
+		   strpos($postVars["accountName"], ">") !== false | strpos($postVars["accountName"], "@") !== false |
+		   strpos($postVars["accountName"], "%") !== false | strpos($postVars["accountName"], ":") !== false | 
+		   strpos($postVars["accountName"], '$') !== false){
+		   	$errorMsgs .= 'The username you have entered is invalid. Usernames ' .
+		   	 	'may not contain the characters # / | [ ] { } < > @ % : $';
+		}
 		
 		// TODO: add queries to check if account exists or not
 		

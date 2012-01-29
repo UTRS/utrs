@@ -44,8 +44,8 @@ class Log {
 			for ($i = 0; $i < $num_rows; $i++) {
 				//Creates a new log item with the data
 				$data = mysql_fetch_aray($vars);
-				$log[$i] = new LogItem($data);
-				$Count = $i;
+				$this->log[$i] = new LogItem($data);
+				$this->Count = $i;
 			}
 		}
 	}
@@ -53,7 +53,7 @@ class Log {
 	public static function getCommentsByAppealId($id) {
 		$db = connectToDB();
 		
-		$appealID = $id;
+		$this->appealID = $id;
 		
 		$query = "SELECT * from comment WHERE appealID = " . $id;
 		
@@ -91,8 +91,8 @@ class Log {
 		
 		$id = mysql_insert_id($db);
 		
-		$log[$Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser', $commentUser));
-		$Count++;
+		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser', $commentUser));
+		$this->Count++;
 	}
 	
 	public function getSmallHTML() {
@@ -105,11 +105,11 @@ class Log {
 		$HTMLOutput .= "<td class=\"logHeader\">Action</td>";
 		$HTMLOutput .= "</tr>";
 		
-		for ($i = 0; $i < count($log); $i++) {
+		for ($i = 0; $i < count($this->log); $i++) {
 			$style = ($i%2 == 1) ? "smallLogOne" : "smallLogTwo";
 			$HTMLOutput .= "<tr>";
-			$HTMLOutput .= "<td class=\"" . $style . "\">" . $log[$i]->getLogArray()->commentUser . "</td>";
-			$HTMLOutput .= "<td class=\"" . $style . "\">" . $log[$i]->getLogArray()->comment . "</td>";
+			$HTMLOutput .= "<td class=\"" . $style . "\">" . $this->log[$i]->getLogArray()->commentUser . "</td>";
+			$HTMLOutput .= "<td class=\"" . $style . "\">" . $this->log[$i]->getLogArray()->comment . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

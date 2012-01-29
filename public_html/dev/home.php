@@ -23,7 +23,7 @@ skinHeader();
 echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 ?>
 
-<table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
+<table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="2px">
 <tr>
 <td valign="top" class="left" style="width:33%">
 <h2>New Requests</h2>

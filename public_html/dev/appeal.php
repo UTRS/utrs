@@ -189,7 +189,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 
 
 //Log actions
-if (isset($_POST['action']) && $_POST['action'] == "comment") {
+if (isset($_GET['action']) && $_GET['action'] == "comment") {
 	if (isset($_POST['comment'])) {
 		$log->addNewItem($_POST['comment']);
 	} else {

@@ -22,7 +22,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 	$query .= " WHERE";
 	//Parse all of the criteria
 	foreach($criteria as $item => $value) {
-		$query .= " " . $item . " = '" . $value . "'";
+		$query .= " " . $item . "= '" . $value . "'";
 	}
 	//If there is an order, use it.
 	if ($orderby != "") {
@@ -161,7 +161,7 @@ function printOnHold() {
 
 function printMyQueue() {
 	$user = User::getUserByUsername($_SESSION['user']);
-	$criteria = array('handlingAdmin' => $user->getUserId());
+	$criteria = array('handlingAdmin' => $user->getUserId(), ' AND status !' => Appeal::$STATUS_CLOSED);
 	return printAppealList($criteria);
 }
 

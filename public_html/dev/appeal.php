@@ -73,7 +73,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 			)) {
 				$appeal->setHandlingAdmin(null);
 				$appeal->update();
-					$log->addNewItem('<i>Released appeal</i>');
+				$log->addNewItem('<i>Released appeal</i>');
 	} else {
 		$error = "Cannot release admin hold on appeal";
 	}
@@ -171,9 +171,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
 				$appeal->setHandlingAdmin(null);
+				$log->addNewItem('<i>Status change to AWAITING_ADMIN</i>');
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_ADMIN status";
-				$log->addNewItem('<i>Status change to AWAITING_ADMIN</i>');
 			}
 			break;
 		case "close":

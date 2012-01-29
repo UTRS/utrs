@@ -107,9 +107,11 @@ your Wikipedia username changed in the database.</p>
 
 <?php 
 echo "<form name=\"pwdChange\" id=\"pwdChange\" action=\"prefs.php\" method=\"POST\">";
-echo "<label for=\"oldPass\" id=\"oldPassLabel\">Your current password:</label> &#09;&#09; <input type=\"password\" name=\"oldPass\" id=\"oldPass\" />\n";
-echo "<label for=\"newPass\" id=\"newPassLabel\">Your new password:</label> &#09;&#09; <input type=\"password\" name=\"newPass\" id=\"newPass\" />\n";
-echo "<label for=\"confirm\" id=\"confirmLabel\">Confirm your new password:</label> &#09; <input type=\"password\" name=\"confirm\" id=\"confirm\" /><br />\n";
+echo "<table style=\"background:none; border:none;\" cellspacing=\"2px\">\n";
+echo "<tr><td><label for=\"oldPass\" id=\"oldPassLabel\">Your current password:</label></td><td><input type=\"password\" name=\"oldPass\" id=\"oldPass\" /></td></tr>\n";
+echo "<tr><td><label for=\"newPass\" id=\"newPassLabel\">Your new password:</label></td><td><input type=\"password\" name=\"newPass\" id=\"newPass\" /></td></tr>\n";
+echo "<tr><td><label for=\"confirm\" id=\"confirmLabel\">Confirm your new password:</label></td><td><input type=\"password\" name=\"confirm\" id=\"confirm\" /></td></tr>\n";
+echo "</table>";
 echo "<input type=\"submit\" id=\"changePass\" name=\"changePass\" value=\"Change Password\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 echo "</form>";
 

@@ -50,7 +50,7 @@ class Log {
 		}
 	}
 	
-	public static function getCommentsByAppealId($id) {
+	public function getCommentsByAppealId($id) {
 		$db = connectToDB();
 		
 		$appealID = $id;

@@ -77,7 +77,7 @@ class Log {
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
-		$query .= $action . "', ";
+		$query .= mysql_real_escape_string($action) . "', ";
 		$query .= $user->getUserId() . ");";
 		
 		

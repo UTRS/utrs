@@ -10,6 +10,11 @@ ini_set('session.use_cookies', '1');
 require_once('../src/unblocklib.php');
 require_once('template.php');
 
+if(loggedIn()){
+	// wrong page, for logged out peeps only
+	header("Location: " . getRootURL() . "home.php");
+}
+
 $user = '';
 $destination = '';
 $errors = '';

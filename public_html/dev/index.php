@@ -58,7 +58,6 @@ if(isset($_POST["submit"])){
 		$otherInfo = $_POST["otherInfo"];
 		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
 		$wikiAccount = $_POST["accountName"];
-		echo "about to set autoBlock\n\n";
 		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
 		// TODO: not sure how to include the other fields due to the javascript
 	}
@@ -71,15 +70,12 @@ if(isset($_POST["submit"])){
 		$otherInfo = $_POST["otherInfo"];
 		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
 		$wikiAccount = $_POST["accountName"];
-		echo "about to set autoBlock\n\n";
 		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
 	}
 }
 
-echo "AutoblockPHP: " . ($autoBlock != null ? ($autoBlock ? "true" : "false") : "null") . "  AutoBlockPOST: " . $_POST['autoBlock'] . "\n\n";
-
 skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
-var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" " . ($autoBlock != null ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" " . ($autoBlock != null ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
+var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
 var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
 var registered = " . ($hasAccount != null ? ($hasAccount ? "true" : "false") : "false") . ";
 

@@ -108,7 +108,7 @@ class Log {
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$data = $this->log[$i]->getLogArray();
 			$HTMLOutput .= "<tr>";
-			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $data['commentUser'] . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</td>";
 			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $data['comment'] . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

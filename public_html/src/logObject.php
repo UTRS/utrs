@@ -72,7 +72,7 @@ class Log {
 			$user = User::getUserByUsername($_SESSION['user']);
 			$userid = $user->getUserId();
 		} else {
-			$userid = null;
+			$userid = "null";
 		}
 		
 		$action = mysql_real_escape_string($action);

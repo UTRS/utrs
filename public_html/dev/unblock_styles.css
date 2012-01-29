@@ -234,13 +234,13 @@ div.useragent {
 
 /* Appeal.Log Styles */
 
-td.logUserHeader {
+tr.logUserHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
 	width:20%
 }
 
-td.logActionHeader {
+tr.logActionHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
 	width: 80%

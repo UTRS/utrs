@@ -105,7 +105,7 @@ class Log {
 		$HTMLOutput .= "<td class=\"logHeader\">Action</td>";
 		$HTMLOutput .= "</tr>";
 		
-		for ($i = 0; $i < $log.length; $i++) {
+		for ($i = 0; $i < count($log); $i++) {
 			$style = ($i%2 == 1) ? "smallLogOne" : "smallLogTwo";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $style . "\">" . $log[$i]->getLogArray()->commentUser . "</td>";

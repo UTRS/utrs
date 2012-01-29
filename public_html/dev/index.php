@@ -19,6 +19,9 @@ $blocker = null;
 $appealText = null;
 $edits = null;
 $otherInfo = null;
+$hasAccount = null;
+$wikiAccount = null;
+$autoBlock = null;
 
 // Handle submitted form
 if(isset($_POST["submit"])){
@@ -53,6 +56,9 @@ if(isset($_POST["submit"])){
 		$appealText = $_POST["appeal"];
 		$edits = $_POST["edits"];
 		$otherInfo = $_POST["otherInfo"];
+		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] == 1 ? true : false) : false);
+		$wikiAccount = $_POST["accountName"];
+		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] == 1 ? true : false) : false);
 		// TODO: not sure how to include the other fields due to the javascript
 	}
 	catch(ErrorException $ex){
@@ -62,13 +68,16 @@ if(isset($_POST["submit"])){
 		$appealText = $_POST["appeal"];
 		$edits = $_POST["edits"];
 		$otherInfo = $_POST["otherInfo"];
+		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] == 1 ? true : false) : false);
+		$wikiAccount = $_POST["accountName"];
+		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] == 1 ? true : false) : false);
 	}
 }
 
-skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"\\\"/><br />\";
-var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" /> My IP address or range (my account is not blocked)<br />\";
-var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"\\\"/><br />\";
-var autoBlock = false;
+skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
+var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" " . ($autoBlock != null ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" " . ($autoBlock != null ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
+var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
+var registered = " . ($hasAccount != null ? ($hasAccount ? "true" : "false") : "false") . ";
 
 function hasAccount(){
 	var span = document.getElementById(\"variableQuestionSection\");
@@ -76,10 +85,19 @@ function hasAccount(){
 }
 
 function noAccount() {
-	autoBlock = false;
 	var span = document.getElementById(\"variableQuestionSection\");
 	span.innerHTML = desiredAccountInput;
-}");
+} " . ($hasAccount != null ? "
+
+window.onload = function ()
+{
+	if(registered){
+		hasAccount();
+	}
+	else{
+		noAccount();
+	}
+}; " : "" ));
 ?>
 <center><b>Welcome to the Unblock Ticket Request System.</b></center>
 

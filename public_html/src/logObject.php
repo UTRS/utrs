@@ -26,7 +26,7 @@ class LogItem {
 		$this->commentUser = $vars['commentUser'];
 	}
 	
-	function getComment() {
+	function getLogArray() {
 		return array($commentID, $appealID, $timestamp, $comment, $commentUser);
 	}
 }
@@ -34,6 +34,7 @@ class Log {
 	
 	private $log = array();
 	private $Count = -1;
+	private $appealID;
 	
 	public static function __construct($vars) {
 		if ($vars) {
@@ -46,14 +47,13 @@ class Log {
 				$log[$i] = new LogItem($data);
 				$Count = $i;
 			}
-		} else {
-			return null;
 		}
-		
 	}
 	
 	public static function getCommentsByAppealId($id) {
 		$db = connectToDB();
+		
+		$appealID = $id;
 		
 		$query = "SELECT * from comment WHERE appealID = " . $id;
 		
@@ -70,7 +70,7 @@ class Log {
 		return $result;
 	}
 	
-	public static function addNewItem($action, $appealID) {
+	public static function addNewItem($action) {
 		$db = connectToDB();
 		
 		$user = User::getUserByUsername($_SESSION['user']);
@@ -80,7 +80,7 @@ class Log {
 		$timestamp = date();
 		
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
-		$query .= $appealID . ", ";
+		$query .= $this->appealID . ", ";
 		$query .= $timestamp . ", ";
 		$query .= $action . ", ";
 		$query .= $user->getID() . ");";
@@ -109,8 +109,14 @@ class Log {
 		$HTMLOutput .= "</tr>";
 		
 		for ($i = 0; $i < $log.length; $i++) {
-			
+			$style = ($i%2 == 1) ? "smallLogOne" : "smallLogTwo";
+			$HTMLOutput .= "<tr>";
+			$HTMLOutput .= "<td class=\"" . $style . "\">" . $log[$i]->getLogArray()->commentUser . "</td>";
+			$HTMLOutput .= "<td class=\"" . $style . "\">" . $log[$i]->getLogArray()->comment . "</td>";
+			$HTMLOutput .= "</tr>";
 		}
+		
+		$HTMLOutput .= "</table>";
 	}
 }
 

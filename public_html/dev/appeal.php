@@ -14,6 +14,7 @@ require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
 require_once('../src/userObject.php');
 require_once('../src/templateObj.php');
+require_once('../src/logObject.php');
 require_once('template.php');
 
 // make sure user is logged in, if not, kick them out
@@ -33,6 +34,9 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 
 //construct user object
 $user = User::getUserByUsername($_SESSION['user']);
+
+//construct log object
+$log = Log::getCommentsByAppealId($_GET['id']);
 
 //Set the handling admin
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
@@ -181,6 +185,16 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			break;
 	}
 	$appeal->update();
+}
+
+
+//Log actions
+if (isset($_POST['action']) && $_POST['action'] == "comment") {
+	if (isset($_POST['comment'])) {
+		$log->addNewItem($_POST['comment']);
+	} else {
+		$error = "You have not entered a comment";
+	}
 }
 ?>
 <script language="Javascript" type="text/javascript">
@@ -400,7 +414,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <h3><a href="javascript:void()" onClick="showContextWindow('')">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 </div>
-<form><input type="text" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
+<form action="?action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 </td>
 </tr>
 </table>

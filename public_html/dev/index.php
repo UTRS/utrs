@@ -1,4 +1,3 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <?php
 //Created by the unblock-en-l dev team (test commit)
 error_reporting(E_ALL);

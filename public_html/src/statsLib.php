@@ -160,7 +160,7 @@ function printOnHold() {
 }
 
 function printMyQueue() {
-	$criteria = array('handlingAdmin' => User::getUserByUsername($_SESSION['username'])->getID());
+	$criteria = array('handlingAdmin' => User::getUserByUsername($_SESSION['user'])->getID());
 	return printAppealList($criteria);
 }
 /**

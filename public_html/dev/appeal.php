@@ -419,14 +419,14 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		?>
 	</SELECT>
 </div>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 
-$contextValue = "<?php echo mysql_real_escape_string($log->getLargeHTML()); ?>";
-
+$contextValue = "<?php echo str_replace("\r\n", "<br>", mysql_real_escape_string($log->getLargeHTML())); ?>";
+)
 </script>
 <h3><a href="javascript:void()" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
-<?php echo $log->getSmallHTML(); ?>
+<?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 </td>

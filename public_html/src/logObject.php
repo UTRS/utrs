@@ -80,7 +80,6 @@ class Log {
 		$query .= $action . "', ";
 		$query .= $user->getUserId() . ");";
 		
-		echo $query;
 		
 		$result = mysql_query($query, $db);
 		

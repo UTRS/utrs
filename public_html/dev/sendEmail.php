@@ -7,6 +7,7 @@ require_once('../src/unblocklib.php');
 require_once('../src/userObject.php');
 require_once('../src/templateObj.php');
 require_once('../src/appealObject.php');
+require_once('../src/logObject.php');
 require_once('template.php');
 
 $errors = '';
@@ -67,6 +68,13 @@ $success = false;
 				$appeal->update();
 			}
 			$success = true;
+			
+			$log = Log::getCommentsByAppealId($appeal->getID());
+			if ($_POST['template'] == "") {
+				$log->addNewItem("Sent email to user");
+			} else {
+				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template");
+			}
 		}
 		catch(Exception $e){
 			$errors = $e->getMessage();
@@ -112,6 +120,7 @@ $success = false;
 				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> Uncheck this option to prevent a status change.</label><br>";
 			}
 		}
+		echo "<input type=\"hidden\" name=\"template\" id=\"template\" value=\"" . $template->getName() . "\">";
 		echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Send Email\" />";
 		echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 		echo "</form>";

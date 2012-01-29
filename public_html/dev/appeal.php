@@ -413,6 +413,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 </div>
 <h3><a href="javascript:void()" onClick="showContextWindow('')">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
+<?php echo $log->getSmallHTML(); ?>
 </div>
 <form action="?action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 </td>

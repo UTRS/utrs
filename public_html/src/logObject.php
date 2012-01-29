@@ -18,7 +18,7 @@ class LogItem {
 	private $comment;
 	private $commentUser;
 	
-	public static function __construct($vars) {
+	public function __construct($vars) {
 		$this->commentID = $vars['commentID'];
 		$this->appealID = $vars['appealID'];
 		$this->timestamp = $vars['timestamp'];

@@ -275,7 +275,7 @@ table.logLargeTable {
 th.logLargeUserHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
-	width:10%;
+	width: 15%;
 }
 
 th.logLargeActionHeader {
@@ -287,15 +287,15 @@ th.logLargeActionHeader {
 th.logLargeTimeHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
-	width: 30%;
+	width: 25%;
 }
 
 td.largeLogUserOne {
-	width: 10%;
+	width: 15%;
 }
 
 td.largeLogUserTwo {
-	width: 10%;
+	width: 15%;
 	background: #EBEBEB !important;
 }
 
@@ -309,10 +309,10 @@ td.largeLogActionTwo {
 }
 
 td.largeLogTimeOne {
-	width: 30%;
+	width: 25%;
 }
 
 td.largeLogTimeTwo {
-	width: 30%;
+	width: 25%;
 	background: #EBEBEB !important;
 }

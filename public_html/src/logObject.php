@@ -137,7 +137,7 @@ class Log {
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $data['comment'] . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . str_replace("\r\n", "<br>", $data['comment']) . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

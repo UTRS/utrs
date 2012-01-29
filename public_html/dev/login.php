@@ -13,7 +13,7 @@ require_once('template.php');
 if(loggedIn()){
 	// wrong page, for logged out peeps only
 	header("Location: " . getRootURL() . "home.php");
-}
+} else {
 
 $user = '';
 $destination = '';
@@ -154,4 +154,6 @@ echo '</form>';
 
 <?php 
 skinFooter();
+
+}
 ?>

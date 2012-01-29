@@ -234,32 +234,32 @@ div.useragent {
 
 /* Appeal.Log Styles */
 
-#logUserHeader {
+td.logUserHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
 	width:20%
 }
 
-#logActionHeader {
+td.logActionHeader {
 	background-color:#93A1B2;
 	color: #EFEFEF !important;
 	width: 80%
 }
 
-#smallLogUserOne {
+td.smallLogUserOne {
 	width: 20%;
 }
 
-#smallLogUserTwo {
+td.smallLogUserTwo {
 	width: 20%;
 	background: #EBEBEB !important;
 }
 
-#smallLogActionOne {
+td.smallLogActionOne {
 	width: 80%;
 }
 
-#smallLogActionTwo {
+td.smallLogActionTwo {
 	width: 80%;
 	background: #EBEBEB !important;
 }

@@ -31,18 +31,14 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 <form action="appeal.php?id=<?php echo $_GET['id']; ?>&action=comment" method="POST">
 <table>
 	<tr>
-		<th>Appeal</th>
+		<th align=left>Appeal</th>
 		<td><?php echo $appeal->getCommonName(); ?></td>
 	</tr>
 	<tr>
-		<td colspan="2">
-			<textarea name="comment" rows="15" cols="30"></textarea>
-		</td>
+		<td colspan="2" align=left><textarea name="comment" rows="15" cols="30"></textarea></td>
 	</tr>
 	<tr>
-		<td colspan="2">
-			<input type="submit" value="Submit comment">
-		</td>
+		<td colspan="2" align=left><input type="submit" value="Submit comment"></td>
 	</tr>
 </table>
 </form>

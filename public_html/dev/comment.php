@@ -35,7 +35,7 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 		<td><?php echo $appeal->getCommonName(); ?></td>
 	</tr>
 	<tr>
-		<td colspan="2" align=left><textarea name="comment" rows="15" cols="30"></textarea></td>
+		<td colspan="2" align=left><textarea name="comment" rows="15" cols="60"></textarea></td>
 	</tr>
 	<tr>
 		<td colspan="2" align=left><input type="submit" value="Submit comment"></td>

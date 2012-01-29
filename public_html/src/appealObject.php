@@ -128,7 +128,7 @@ class Appeal{
 			$this->emailAddress = $values['email'];
 			$this->hasAccount = (boolean) $values['registered'];
 			$this->accountName = $values['accountName'];
-			$this->isAutoBlock = (boolean) $values['autoBlock'];
+			$this->isAutoBlock = (boolean) (isset($values['autoBlock']) ? $values['autoBlock'] : false);
 			$this->blockingAdmin = $values['blockingAdmin'];
 			$this->appeal = $values['appeal'];
 			$this->intendedEdits = $values['edits'];

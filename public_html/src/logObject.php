@@ -38,12 +38,12 @@ class Log {
 	
 	public function __construct($vars) {
 		if ($vars) {
-			
-			$num_rows = mysql_num_rows($vars);
+			$this->appealID = $vars['appealID'];
+			$num_rows = mysql_num_rows($vars['dataset']);
 			
 			for ($i = 0; $i < $num_rows; $i++) {
 				//Creates a new log item with the data
-				$data = mysql_fetch_aray($vars);
+				$data = mysql_fetch_aray($vars['dataset']);
 				$this->log[$i] = new LogItem($data);
 				$this->Count = $i;
 			}
@@ -52,8 +52,6 @@ class Log {
 	
 	public static function getCommentsByAppealId($id) {
 		$db = connectToDB();
-		
-		$this->appealID = $id;
 		
 		$query = "SELECT * from comment WHERE appealID = " . $id;
 		
@@ -64,7 +62,7 @@ class Log {
 			throw new UTRSDatabaseException($error);
 		}
 		
-		return new Log($result);
+		return new Log(array('dataset' => $result, 'appealID' => $id));
 	}
 	
 	public function addNewItem($action) {

@@ -67,7 +67,7 @@ if(!$accessGranted){
 	displayError($errors);
 }
 else{
-	echo "Submitted: " . $submitted . " Errors: " . $errors . "\n\n";
+	echo "Submitted: " . $submitted . " Errors: " . $errors . " Not sub OR errors: " . (!$submitted | $errors) . "\n\n";
 ?>
 
 <h3>Post a reply to your appeal</h3>
@@ -78,7 +78,7 @@ you have received from the administrator(s) reviewing your block. Posting a resp
 your appeal for further attention from whoever is currently reviewing it, so if you believe your appeal has 
 been heavily delayed, you can post a response to bring attention to it again.</p>
 
-<?php } // closes if(!isset($_POST['submit']) | $errors )
+<?php } // closes if(!$submitted | $errors )
 
 if($submitted & !$errors){
 	displaySuccess("Your response has been successfully posted. We will be in touch with you again soon.");

@@ -15,7 +15,7 @@ $errorMessages = '';
 //Template header()
 skinHeader();
 
-echo "<h2>Statistics:</h2><br><br>";
+echo "<h2>Statistics:</h2><br>";
 
 /**
 *
@@ -23,7 +23,32 @@ echo "<h2>Statistics:</h2><br><br>";
 *
 */
 
-function getNumUsers() {
+function getDBstatement($table, $field, $wildcard, $phrase) {
+	debug('Query number of ' .$phrase.'<br />');
+	
+	$db = connectToDB();
+	
+	if (isset($field) && $wildcard) {$query = "SELECT * FROM `".$table."` WHERE `".$field."` LIKE '%'";}
+	else if (isset($field) && !$wildcard) {	$query = "SELECT * FROM `".$table."` WHERE `".$field."` = 1";}
+	else {throw new UTRSDatabaseException("Error in configuration of SQL command, no field is set to query from the table '".$table);}
+	if (!isset($query)) {throw new UTRSDatabaseException("No SQL Query set.");}
+	
+	mysql_query($query);
+	echo $phrase, mysql_affected_rows(), "<br>";
+	
+	debug($query . '<br/>');
+	
+	$result = mysql_query($query, $db);
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	debug('complete <br/>');
+}
+getDBstatement("user", "username", True, "Number of tool users: ");
+/*function getNumUsers() {
 	debug('Query number of users <br />');
 	
 	$db = connectToDB();
@@ -42,7 +67,7 @@ function getNumUsers() {
 	}
 	
 	debug('complete <br/>');
-}
+}*/
 
 function getNumApproved() {
 	debug('Query number of users <br />');
@@ -194,7 +219,7 @@ function getNumUAs() {
 	}
 }
 
-getNumUsers();
+//getNumUsers();
 getNumApproved();
 getNumActive();
 getNumAdmins();

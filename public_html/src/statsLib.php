@@ -145,8 +145,54 @@ function printCheckuserNeeded() {
  * Return a list of the last five appeals to be closed
  */
 function printRecentClosed() {
-	$criteria =  array('status' => Appeal::$STATUS_CLOSED);
-	return printAppealList($criteria, 5, "timestamp DESC");
+	$db = connectToDB();
+	
+	$currentUser = getCurrentUser();
+	$secure = $currentUser->getUseSecure();
+	
+	$query = "SELECT a.appealID, a.wikiAccountName, a.ip FROM appeal a, appealActionLog l WHERE a.appealID = l.appealId AND l.comment = 'Closed' ORDER BY l.timestamp DESC LIMIT 0,5";
+	// get rows from DB. Throws UTRSDatabaseException
+	$result = mysql_query($query, $db);;
+	
+	$rows = mysql_num_rows($result);
+	
+	//If there are no new unblock requests
+	if ($rows == 0) {
+		$norequests = "<b>No unblock requests in queue</b>";
+		return $norequests;
+	} else {
+		$requests = "<table class=\"appealList\">";
+		//Begin formatting the unblock requests
+		for ($i=0; $i < $rows; $i++) {
+			//Grab the rowset
+			$data = mysql_fetch_array($result);
+			$appealId = $data['appealID'];
+			//Determine how we identify the user.  Use username if possible, IP if not
+			if ($data['wikiAccountName'] == NULL) {
+				$identity = $data['ip'];
+				$wpLink = "Special:Contributions/";
+			} else {
+				$identity = $data['wikiAccountName'];
+				$wpLink = "User:";
+			}
+			//Determine if it's an odd or even row for formatting
+			if ($i % 2) {
+				$rowformat = "even";
+			} else {
+				$rowformat = "odd";
+			}
+			
+			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
+			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "'>" . $identity . "</a></td>\n";
+			$requests .= "\t</tr>\n";
+		}
+		
+		$requests .= "</table>";
+		
+		return $requests;
+	}
 }
 
 function printReviewer() {

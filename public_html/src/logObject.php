@@ -150,7 +150,7 @@ class Log {
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$data = $this->log[$i]->getLogArray();
 			$italicsStart = ($data['action']) ? "<i>" : "";
-			$italicsEnd = ($data['action']) ? "<i>" : "";
+			$italicsEnd = ($data['action']) ? "</i>" : "";
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
@@ -182,7 +182,7 @@ class Log {
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
 			$italicsStart = ($data['action']) ? "<i>" : "";
-			$italicsEnd = ($data['action']) ? "<i>" : "";
+			$italicsEnd = ($data['action']) ? "</i>" : "";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\r\n", "<br>", $data['comment']) . $italicsEnd . "</td>";

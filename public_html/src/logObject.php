@@ -151,7 +151,7 @@ class Log {
 			$data = $this->log[$i]->getLogArray();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
-			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
+			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr($data['comment'],0,50) . $italicsEnd . "</td>";
@@ -180,7 +180,7 @@ class Log {
 			$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
-			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
+			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
 			$HTMLOutput .= "<tr>";

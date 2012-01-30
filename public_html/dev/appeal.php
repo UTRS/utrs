@@ -259,7 +259,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <br>
 </td>
 <td valign=top class="right">
-<h3><a href="javascript:void()" onClick="showContextWindow('<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue</i><br><br><b>User</b> - <i>Assigns the status to awaiting the appealant to respond (automatically set by some templates)</i><br><br><b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br><b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br><b>Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i>');">Actions</a>a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue</i><br><br><b>User</b> - <i>Assigns the status to awaiting the appealant to respond (automatically set by some templates)</i><br><br><b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br><b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br><b>Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i>');">Actions</a></h3>
 <div style="text-align:center;">
 	<?php
 	

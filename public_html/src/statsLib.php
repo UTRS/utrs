@@ -152,7 +152,7 @@ function printRecentClosed() {
 	
 	$query = "SELECT a.appealID, a.wikiAccountName, a.ip FROM appeal a, appealActionLog l WHERE a.appealID = l.appealId AND l.comment = 'Closed' ORDER BY l.timestamp DESC LIMIT 0,5";
 	// get rows from DB. Throws UTRSDatabaseException
-	$result = mysql_query($query, $db);;
+	$result = mysql_query($query, $db);
 	
 	$rows = mysql_num_rows($result);
 	

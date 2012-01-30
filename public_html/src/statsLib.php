@@ -185,7 +185,7 @@ function printRecentClosed() {
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "'>" . $identity . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
 			$requests .= "\t</tr>\n";
 		}
 		
@@ -287,7 +287,7 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 			$list .= "\t\t<td>" . $userId . ".</td>\n";
 			$list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
 			$list .= "\t\t<td>" . $username . "</td>\n";
-			$list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "'>" . $wikiAccount . "</a></td>\n";
+			$list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "' target='_NEW'>" . $wikiAccount . "</a></td>\n";
 			$list .= "\t</tr>\n";
 		}
 		

@@ -150,7 +150,7 @@ function printRecentClosed() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
-	$query = "SELECT a.appealID, a.wikiAccountName, a.ip FROM appeal a, actionAppealLog l WHERE a.appealID = l.appealID AND l.comment = 'Closed' AND a.status = 'CLOSED' ORDER BY l.timestamp DESC LIMIT 0,5";
+	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip FROM appeal a, actionAppealLog l WHERE a.appealID = l.appealID AND l.comment = 'Closed' AND a.status = 'CLOSED' ORDER BY l.timestamp DESC LIMIT 0,5";
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
 	

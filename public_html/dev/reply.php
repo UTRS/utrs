@@ -49,7 +49,7 @@ try{
 			throw new UTRSIllegalModificationException("You may not post a blank reply.");
 		}
 		
-		$log->addNewItem($reply);
+		$log->addAppellantReply($reply);
 		
 		$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 		$appeal->update();

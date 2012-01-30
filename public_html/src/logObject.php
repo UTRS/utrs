@@ -102,6 +102,32 @@ class Log {
 		$this->Count++;
 	}
 	
+	function addAppellantReply($reply){
+		$db = connectToDB();
+		
+		$reply = mysql_real_escape_string($reply);
+		
+		$timestamp = time();
+		
+		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
+		$query .= $this->appealID . ", ";
+		$query .= "NOW() , '";
+		$query .= $reply . "', ";
+		$query .= "NULL);";
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$id = mysql_insert_id($db);
+		
+		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => $seconduserid));
+		$this->Count++;
+	}
+	
 	public function getSmallHTML() {
 		
 		$HTMLOutput = "";

@@ -17,6 +17,7 @@ class LogItem {
 	private $timestamp;
 	private $comment;
 	private $commentUser;
+	private $action;
 	
 	public function __construct($vars) {
 		$this->commentID = $vars['commentID'];
@@ -24,10 +25,11 @@ class LogItem {
 		$this->timestamp = $vars['timestamp'];
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
+		$this->action = $vars['action'];
 	}
 	
 	function getLogArray() {
-		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser);
+		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action);
 	}
 }
 class Log {
@@ -65,7 +67,7 @@ class Log {
 		return new Log(array('dataset' => $result, 'appealID' => $id));
 	}
 	
-	public function addNewItem($action) {
+	public function addNewItem($comment, $action = null) {
 		$db = connectToDB();
 		
 		if (isset($_SESSION)) {
@@ -78,15 +80,20 @@ class Log {
 			$seconduserid = null;
 		}
 		
-		$action = mysql_real_escape_string($action);
+		if (!$action) {
+			$action = "null";
+		}
+		
+		$comment = mysql_real_escape_string($comment);
 		
 		$timestamp = time();
 		
-		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
+		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser, action) VALUES (";
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
 		$query .= mysql_real_escape_string($action) . "', ";
-		$query .= $firstuserid . ");";
+		$query .= $firstuserid . ", ";
+		$query .= $action . ");";
 		
 		
 		$result = mysql_query($query, $db);
@@ -98,7 +105,7 @@ class Log {
 		
 		$id = mysql_insert_id($db);
 		
-		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $action, 'commentUser' => $seconduserid));
+		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $seconduserid, 'action' => $action));
 		$this->Count++;
 	}
 	
@@ -142,10 +149,12 @@ class Log {
 			$styleUser = ($i%2 == 1) ? "smallLogUserOne" : "smallLogUserTwo";
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$data = $this->log[$i]->getLogArray();
+			$italicsStart = ($data['action']) ? "<i>" : "";
+			$italicsEnd = ($data['action']) ? "<i>" : "";
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . substr($data['comment'],0,50) . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr($data['comment'],0,50) . $italicsEnd . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		
@@ -172,9 +181,11 @@ class Log {
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
+			$italicsStart = ($data['action']) ? "<i>" : "";
+			$italicsEnd = ($data['action']) ? "<i>" : "";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . str_replace("\r\n", "<br>", $data['comment']) . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\r\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

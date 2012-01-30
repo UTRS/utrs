@@ -142,7 +142,7 @@ class Log {
 			$styleUser = ($i%2 == 1) ? "smallLogUserOne" : "smallLogUserTwo";
 			$styleAction = ($i%2 == 1) ? "smallLogActionOne" : "smallLogActionTwo";
 			$data = $this->log[$i]->getLogArray();
-			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "";
+			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . substr($data['comment'],0,50) . "</td>";
@@ -171,7 +171,7 @@ class Log {
 			$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
-			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "";
+			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : "Appellant";
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . str_replace("\r\n", "<br>", $data['comment']) . "</td>";

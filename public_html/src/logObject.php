@@ -81,7 +81,7 @@ class Log {
 		}
 		
 		if (!$action) {
-			$action = "null";
+			$action = 0;
 		}
 		
 		$comment = mysql_real_escape_string($comment);

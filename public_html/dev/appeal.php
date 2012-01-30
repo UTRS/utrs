@@ -54,7 +54,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 				$appeal->setHandlingAdmin($user->getUserId());
 			}
 			$appeal->update();
-					$log->addNewItem('<i>Reserved appeal</i>');
+					$log->addNewItem('Reserved appeal', 1);
 	} else {
 		$error = "Cannot assign a new handling admin.";
 	}
@@ -73,7 +73,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 			)) {
 				$appeal->setHandlingAdmin(null);
 				$appeal->update();
-				$log->addNewItem('<i>Released appeal</i>');
+				$log->addNewItem('Released appeal', 1);
 	} else {
 		$error = "Cannot release admin hold on appeal";
 	}
@@ -95,7 +95,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
 					$appeal->setHandlingAdmin(null);
-					$log->addNewItem('<i>Status change to AWAITING_CHECKUSER</i>');
+					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
 			} else {
 				$error = "Cannot set AWAITING_CHECKUSER status";
 			}
@@ -116,7 +116,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
-				$log->addNewItem('<i>Status change to AWAITING_USER</i>');
+				$log->addNewItem('Status change to AWAITING_USER', 1);
 			} else {
 				$error = "Cannot assign AWAITING_USER status";
 			}
@@ -137,7 +137,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
-				$log->addNewItem('<i>Status change to ON_HOLD</i>');
+				$log->addNewItem('Status change to ON_HOLD', 1);
 			} else {
 				$error = "Cannot assign STATUS_ON_HOLD status";
 			}
@@ -158,7 +158,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
-				$log->addNewItem('<i>Status change to AWAITING_PROXY</i>');
+				$log->addNewItem('Status change to AWAITING_PROXY', 1);
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_PROXY status";
 			}
@@ -171,7 +171,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
 				$appeal->setHandlingAdmin(null);
-				$log->addNewItem('<i>Status change to AWAITING_ADMIN</i>');
+				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_ADMIN status";
 			}
@@ -186,7 +186,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_CLOSED);
-				$log->addNewItem('<i>Closed</i>');
+				$log->addNewItem('Closed', 1);
 			} else {
 				$error = "Unable to close the appeal request";
 			}

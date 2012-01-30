@@ -31,7 +31,7 @@ form{
 #header{
 	background-color: #93A1B2;
 	background-image: url('http://upload.wikimedia.org/wikipedia/commons/b/be/Wikimedia_Community_Logo-Toolserver.svg');
-	background-position: 95% 24px;
+	background-position: 100% 24px;
 	background-repeat: no-repeat;
 	background-size: 70px;
 	font-style: italic;
@@ -40,7 +40,7 @@ form{
 	font-weight: bold;
 	font-stretch: expanded;
 	color: #EFEFEF !important;
-	width: 100%;
+	width: 101%;
 	border: none;
 	padding-left: 20px;
 	padding-top: 20px;

@@ -57,24 +57,27 @@ $success = false;
 				
 			mail($email, $subject, $body, $headers);
 			
-			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
-				//Set the appeal status if the template is set up to do that.
-				if (isset($_POST['statusUser']) && $_POST['statusUser']) {
-					$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
-				}
-				if (isset($_POST['statusClose']) && $_POST['statusClose']) {
-					$appeal->setStatus(Appeal::$STATUS_CLOSED);
-				}
-				$appeal->update();
-			}
-			$success = true;
-			
+				
 			$log = Log::getCommentsByAppealId($appeal->getID());
 			if ($_POST['template'] == "") {
 				$log->addNewItem("Sent email to user", 1);
 			} else {
 				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
 			}
+						
+			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
+				//Set the appeal status if the template is set up to do that.
+				if (isset($_POST['statusUser']) && $_POST['statusUser']) {
+					$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
+					$log->addNewItem("Status change to AWAITING_USER", 1);
+				}
+				if (isset($_POST['statusClose']) && $_POST['statusClose']) {
+					$appeal->setStatus(Appeal::$STATUS_CLOSED);
+					$log->addNewItem("Closed", 1);
+				}
+				$appeal->update();
+			}
+			$success = true;
 		}
 		catch(Exception $e){
 			$errors = $e->getMessage();

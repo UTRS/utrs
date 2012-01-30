@@ -29,7 +29,7 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <h2>New Requests</h2>
 <?php echo printNewRequests(); ?>
 
-<h2>Awaiting <a href="<?php echo getWikiLink("WP:OPP", $secure);?>">WP:OPP</a></h2>
+<h2>Awaiting <a href="<?php echo getWikiLink("WP:OPP", $secure);?>" target="_new">WP:OPP</a></h2>
 <?php echo printProxyCheckNeeded(); ?>
 
 <h2>On Hold</h2>

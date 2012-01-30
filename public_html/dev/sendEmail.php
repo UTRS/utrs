@@ -71,9 +71,9 @@ $success = false;
 			
 			$log = Log::getCommentsByAppealId($appeal->getID());
 			if ($_POST['template'] == "") {
-				$log->addNewItem("Sent email to user");
+				$log->addNewItem("Sent email to user", 1);
 			} else {
-				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template");
+				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
 			}
 		}
 		catch(Exception $e){

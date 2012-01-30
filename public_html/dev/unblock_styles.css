@@ -40,7 +40,7 @@ form{
 	font-weight: bold;
 	font-stretch: expanded;
 	color: #EFEFEF !important;
-	width: 105%;
+	width: 101%;
 	border: none;
 	padding-left: 20px;
 	padding-top: 20px;
@@ -58,7 +58,7 @@ form{
 	background-color: #AFB29C;
 	height: 40px;
 	color: black;
-	width: 105%;
+	width: 101%;
 	border: none;
 	border-bottom: 1px solid gray;
 	margin-left: -20px;
@@ -101,7 +101,7 @@ table.subheader_content td:hover{
 	padding-left: 20px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	width:105%;
+	width:101%;
 }
 
 .required{

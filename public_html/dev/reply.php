@@ -67,7 +67,6 @@ if(!$accessGranted){
 	displayError($errors);
 }
 else{
-	echo "Submitted: " . $submitted . " Errors: " . $errors . " Not sub OR errors: " . (!$submitted || $errors) . "\n\n";
 ?>
 
 <h3>Post a reply to your appeal</h3>

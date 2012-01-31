@@ -36,7 +36,10 @@ Unblock Ticket Request System
 	</td>
 	<?php if(verifyAccess($GLOBALS['ADMIN'])) { ?>
 	<td id="mgmtUser" onClick="document.location.href='<?php echo getRootURL() . 'userMgmt.php'; ?>';">
-		Manage Users
+		User Management
+	</td>
+	<td id="banMgmt" onClick="document.location.href='<?php echo getRootURL() . 'banMgmt.php'; ?>';">
+		Ban Management
 	</td>
 	<?php } ?>
 	<td id="preferences" onClick="document.location.href='<?php echo getRootURL() . 'prefs.php'; ?>';">

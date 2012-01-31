@@ -4,8 +4,6 @@ ini_set('display_errors', 'On');
 require_once('../src/exceptions.php');
 require_once('../src/unblocklib.php');
 
-// TODO: Add static methods to get objects from database by ID and status
-// Can't overload the constructor, so the existing one may need to be modified
 
 /**
  * This class contains information relevant to a single unblock appeal.

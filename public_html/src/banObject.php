@@ -133,7 +133,7 @@ class Ban{
 		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
 		$query .= $this->target . "', '";
 		$query .= date($format, $time) . "', ";
-		if(isset($values['durationAmt'])){
+		if(isset($values['durationAmt']) && strlen($values['durationAmt']) == 0){
 			// "+3 days"
 			$query .= "'" . date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
 		} 

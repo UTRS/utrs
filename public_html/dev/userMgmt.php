@@ -157,26 +157,27 @@ else{
 			</table>
 
 			<h4>Access levels</h4>
+			<table>
 <?php 
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
 // if not approved, require that the account be approved before any other changes are made
 if(!$approved){
-	echo "<label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
-		 "</label> &#09; <input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n";	
+	echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
+		 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n</td></tr>";	
 }
-echo "<label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> &#09; <input name=\"active\" " .
-     "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n";
-echo "<label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
+echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
+     "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n</td></tr>";
+echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for deactivating this account:</label>\n";
-echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $comments . "</textarea>\n";
-echo "<label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> &#09; <input name=\"admin\" " .
-	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"checked\"" : "") . " />\n";
-echo "<label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> &#09; " .
+echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $comments . "</textarea>\n</td></tr>";
+echo "<tr><td><label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> </td><td>&#09; <input name=\"admin\" " .
+	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"checked\"" : "") . " />\n</td></tr>";
+echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> </td><td>&#09; " .
      "<input name=\"developer\" id=\"developer\" type=\"checkbox\" " . ($developer ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n";
-echo "<label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> &#09;&#09; " .
+     ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr>";
+echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n";
+     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr></table>";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";

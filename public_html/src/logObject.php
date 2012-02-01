@@ -152,9 +152,10 @@ class Log {
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
+			$comment = str_replace("\r\n", " ", $data['comment']);
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(str_replace("\r\n", " ", $data['comment']),0,50) . $italicsEnd . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr($comment,0,50) . $italicsEnd . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

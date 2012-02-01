@@ -133,13 +133,13 @@ class Ban{
 		
 		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
 		$query .= $this->target . "', '";
-		$query .= date($format, $time) . "', '";
+		$query .= date($format, $time) . "', ";
 		if($hasExpiry){
 			// "+3 days"
-			$query .= date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
+			$query .= "'" . date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
 		} 
 		else{
-			$query .= "NULL', ";
+			$query .= mysql_escape_string("'NULL'") . ", ";
 		}
 		$query .= mysql_real_escape_string($this->reason) . "', '";
 		$query .= $this->admin->getUserId() . "')";

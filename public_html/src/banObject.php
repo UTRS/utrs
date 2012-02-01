@@ -130,6 +130,7 @@ class Ban{
 		$time = time();
 		$format = "Y-m-d H:i:s";
 		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) == 0;
+		debug("Has expiry: " . $hasExpiry . "\n");
 		
 		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
 		$query .= $this->target . "', '";

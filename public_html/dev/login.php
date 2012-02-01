@@ -117,6 +117,11 @@ if(isset($_POST['login'])){
 		$errors = $e->getMessage();
 	}
 }
+// if just coming here for the first time, and logged in, go to home/destination
+else if(loggedIn()){
+	header("Location: " . $destination);
+	exit;
+}
 
 skinHeader();
 ?>

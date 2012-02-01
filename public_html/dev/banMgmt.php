@@ -7,6 +7,8 @@ require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/userObject.php');
 require_once('../src/statsLib.php');
+require_once('../src/banObject.php');
+require_once('../src/appealObject.php');
 require_once('template.php');
 
 verifyLogin('banMgmt.php');

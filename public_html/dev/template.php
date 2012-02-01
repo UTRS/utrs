@@ -91,7 +91,7 @@ users with the unblock process on the English Wikipedia. <br />
 This project is licensed under the
 <a id="GPL" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License Version 3 or Later.</a><br />
 For questions or assistance with the Unblock Ticket Request System, please email our development team at
-<a href="mailto:unblock@toolserver.org">unblock AT toolserver DOT org</a><br />
+<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a><br />
 </div>
 </body>
 </html>

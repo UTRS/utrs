@@ -92,6 +92,9 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 	if(isset($_POST['reason'])){
 		$reason = $_POST['reason'];
 	}
+	if($target == null && isset($_POST['target'])){
+		$target = $_POST['target'];
+	}
 ?>
 	<form name="newBan" id="newBan" method="POST" action="banMgmt.php<?php echo $postArgs; ?>" style="white-space:normal !important;">
 		<table style="background:none; border:none;" cellpadding="4px">

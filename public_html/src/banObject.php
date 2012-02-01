@@ -108,7 +108,7 @@ class Ban{
 		}
 		// if NOT ip address AND NOT email AND contains one of the characters
 		if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $values['target']) == 0
-		  && !validEmail($target)
+		  && !validEmail($values['target'])
 		  && (strpos($values['target'], "#") !== false || strpos($values['target'], "/") !== false ||
 		   strpos($values['target'], "|") !== false || strpos($values['target'], "[") !== false ||
 		   strpos($values['target'], "]") !== false || strpos($values['target'], "{") !== false ||

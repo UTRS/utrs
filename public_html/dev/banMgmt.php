@@ -129,7 +129,7 @@ else if(isset($_GET['id'])){
 		</tr>
 		<tr>
 			<th>Target</th>
-			<td><?php echo censorEmail($ban->getTarget()); ?></td>
+			<td><?php echo (verifyAccess($GLOBALS['DEVELOPER']) ? $ban->getTarget() : censorEmail($ban->getTarget())); ?></td>
 		</tr>
 		<tr>
 			<th>Set on</th>
@@ -174,7 +174,7 @@ else{
 		}
 		echo "\t<tr class=\"". $rowformat . "\">\n";
 		echo "\t\t<td>" . $ban->getBanID() . "</td>\n";
-		echo "\t\t<td>" . (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($ban->getTarget())) . "</td>\n";
+		echo "\t\t<td>" . (verifyAccess($GLOBALS['DEVELOPER']) ? $ban->getTarget() : censorEmail($ban->getTarget())) . "</td>\n";
 		echo "\t\t<td>" . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite") . "</td>\n";
 		echo "\t\t<td><a href=\"" . getRootURL() . "banMgmt.php?id=" . $ban->getBanID() . "\" style=\"color:green\">View</a></td>\n";
 		echo "\t</tr>\n";

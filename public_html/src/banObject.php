@@ -138,7 +138,7 @@ class Ban{
 			$query .= "'" . date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
 		} 
 		else{
-			$query .= "NULL, '";
+			$query .= "'NULL', '";
 		}
 		$query .= mysql_real_escape_string($this->reason) . "', '";
 		$query .= $this->admin->getUserId() . "')";

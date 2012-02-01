@@ -434,7 +434,7 @@ $contextValue = "<?php echo mysql_real_escape_string($log->getLargeHTML()); ?>";
 </tr>
 </table>
 
-<?php if (verifyAccess($_GLOBALS['ADMIN'])) {?>
+<?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
 <h3>Ban Management</h3>
 <div style="text-align:center;">
 <input type="button" value="Ban Email" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=0'">&nbsp;

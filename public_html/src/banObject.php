@@ -95,10 +95,7 @@ class Ban{
 	
 	public static function validate(array $values){
 		if(isset($values['durationAmt']) && !preg_match("/^[0-9]{1,}$/", $values['durationAmt'])){
-			throw new UTRSIllegalModificationException("Duration must be a number.");
-		}
-		if(isset($values['durationAmt']) && $values['durationAmt'] < 0){
-			throw new UTRSIllegalModificationException("Duration may not be negative.");
+			throw new UTRSIllegalModificationException("Duration must be a positive number.");
 		}
 		if(isset($values['durationAmt']) && !isset($values['durationUnit'])){
 			throw new UTRSIllegalModificationException("You must select a unit of time if you set a duration.");

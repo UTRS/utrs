@@ -154,7 +154,7 @@ class Log {
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr($data['comment'],0,50) . $italicsEnd . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(str_replace("\r\n", " ", $data['comment'],0,50)) . $italicsEnd . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

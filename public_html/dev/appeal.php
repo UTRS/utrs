@@ -69,7 +69,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 			//Awaiting checkuser and not CU or admin
 			$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
 			//Appeal is closed and not an admin
-			$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['admin'])
+			$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 			)) {
 				$appeal->setHandlingAdmin(null);
 				$appeal->update();

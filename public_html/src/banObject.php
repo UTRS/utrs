@@ -129,7 +129,7 @@ class Ban{
 		// not checking for errors here, if this fails it's probably ok
 		$time = time();
 		$format = "Y-m-d H:i:s";
-		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) == 0;
+		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) != 0;
 		debug("Has expiry: " . $hasExpiry . "\n");
 		
 		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";

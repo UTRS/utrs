@@ -201,7 +201,7 @@ function printBacklog() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
-	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, c.last_action";
+	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.last_action) as since_last_action";
 	$query .= " FROM appeal a";
 	$query .= " LEFT JOIN (SELECT Max(timestamp) as last_action, appealID";
 	$query .= " FROM comment";
@@ -245,7 +245,7 @@ function printBacklog() {
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
-			$requests .= "\t\t<td> " . $data['last_action'] . " days since last action</td>\n";
+			$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
 			$requests .= "\t</tr>\n";
 		}
 	

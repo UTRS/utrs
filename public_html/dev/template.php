@@ -26,7 +26,7 @@ Unblock Ticket Request System
 <tr>
 <?php if ($loggedIn) { ?>
 	<td id="home" onClick="document.location.href='<?php echo getRootURL() . 'home.php'; ?>';">
-		<a href="<?php echo getRootURL() . 'home.php'; ?>">Home</a>a>
+		<a href="<?php echo getRootURL() . 'home.php'; ?>">Home</a>
 	</td>
 	<td id="stats" onClick="document.location.href='<?php echo getRootURL() . 'statistics.php'; ?>';">
 		<a href="<?php echo getRootURL() . 'statistics.php'; ?>">Statistics</a>

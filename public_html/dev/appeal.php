@@ -430,9 +430,6 @@ $contextValue = "<?php echo mysql_real_escape_string($log->getLargeHTML()); ?>";
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
-</td>
-</tr>
-</table>
 
 <?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
 <h3>Ban Management</h3>
@@ -442,6 +439,9 @@ $contextValue = "<?php echo mysql_real_escape_string($log->getLargeHTML()); ?>";
 <input type="button" value="Ban Username" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=2'">&nbsp;
 </div>
 <?php }?>
+</td>
+</tr>
+</table>
 </div>
 
 <?php 

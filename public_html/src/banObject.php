@@ -43,7 +43,7 @@ class Ban{
 	 * @param array $values the information to include in this appeal
 	 * @param boolean $fromDB is this from the database?
 	 */
-	public function __construct(array $values, $fromDB){
+	public function __construct(array $values, $fromDB = false){
 		debug('In constuctor for Ban <br/>');
 		if(!$fromDB){
 			debug('Obtaining values from form <br/>');
@@ -94,6 +94,9 @@ class Ban{
 	}
 	
 	public static function validate(array $values){
+		if(isset($values['durationAmt']) && !preg_match("/^[0-9]{1,}$/", $values['durationAmt'])){
+			throw new UTRSIllegalModificationException("Duration must be a number.");
+		}
 		if(isset($values['durationAmt']) && $values['durationAmt'] < 0){
 			throw new UTRSIllegalModificationException("Duration may not be negative.");
 		}
@@ -108,7 +111,7 @@ class Ban{
 		}
 		// if NOT ip address AND NOT email AND contains one of the characters
 		if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $values['target']) == 0
-		  && preg_match('/^[-A-Za-z0-9_.]{1,}@[A-Za-z0-9-_]{1,}(\.[A-Za-z]{2,3}){1,2}$/', $values['target']) == 0
+		  && !validEmail($target)
 		  && (strpos($values['target'], "#") !== false || strpos($values['target'], "/") !== false ||
 		   strpos($values['target'], "|") !== false || strpos($values['target'], "[") !== false ||
 		   strpos($values['target'], "]") !== false || strpos($values['target'], "{") !== false ||

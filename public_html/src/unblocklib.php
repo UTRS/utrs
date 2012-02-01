@@ -253,4 +253,13 @@ function displaySuccess($successMsg){
 	echo "<table class=\"success\"><tr><td>" . $successMsg . "</td></tr></table>";
 }
 
+function censorEmail($email){
+	if(!validEmail($email)){
+		return $email;
+	}
+	$domainStart = strpos($email, "@");
+	$email = "******" . substr($email, $domainStart);
+	return $email;
+}
+
 ?>

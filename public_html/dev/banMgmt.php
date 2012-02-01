@@ -25,10 +25,12 @@ try{
 	// set target if link followed from appeals page
 	if(isset($_GET['appeal'])){
 		$appeal = Appeal::getAppealByID($_GET['appeal']);
-		switch($_GET['target']){
-			case "1": $target = $appeal->getIP();
-			case "2": $target = $appeal->getAccountName();
-			default: $target = $appeal->getEmail();
+		if(strcmp($_GET['target'], "1") == 0){
+			$target = $appeal->getIP();
+		}else if(strcmp($_GET['target'], "2") == 0){
+			$target = $appeal->getAccountName();
+		}else{
+			$target = $appeal->getEmail();
 		}
 	}
 

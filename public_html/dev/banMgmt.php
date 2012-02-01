@@ -80,35 +80,47 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 	else{
 		$postArgs = "?appeal=" . $_GET['appeal'] . "&target=" . $_GET['target'];
 	}
+	$duration = null;
+	$unit = null;
+	$reason = null;
+	if(isset($_POST['durationAmt'])){
+		$duration = $_POST['durationAmt'];
+	}
+	if(isset($_POST['durationUnit'])){
+		$unit = $_POST['durationUnit'];
+	}
+	if(isset($_POST['reason'])){
+		$reason = $_POST['reason'];
+	}
 ?>
 	<form name="newBan" id="newBan" method="POST" action="banMgmt.php<?php echo $postArgs; ?>">
 		<table style="background:none; border:none;" cellpadding="4px">
 			<tr>
 				<td class="required">Target:</td>
 				<td>
-					<?php if($target){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($target)); }else{?>
-					<input name="target" id="target" type="text" value="<?php echo $_POST['target'];?>" />
+					<?php if(isset($_GET['appeal'])){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($target)); }else{?>
+					<input name="target" id="target" type="text" value="<?php echo $target;?>" />
 					<?php } // closes else from if($target)?>
 				</td>
 			</tr>
 			<tr>
 				<td>Duration (leave blank for indefinite): </td>
 				<td>
-					<input name="durationAmt" id="durationAmt" type="text" value="<?php echo $_POST['durationAmt'];?>" />
-					<select name="durationUnit" id="durationUnit">
-						<option value="seconds" <?php if($_POST['durationUnit'] == "seconds"){echo "selected=\"selected\"";}?>>Second(s)</option>
-						<option value="minutes" <?php if($_POST['durationUnit'] == "minutes"){echo "selected=\"selected\"";}?>>Minute(s)</option>
-						<option value="hours" <?php if($_POST['durationUnit'] == "hours"){echo "selected=\"selected\"";}?>>Hour(s)</option>
-						<option value="days" <?php if($_POST['durationUnit'] == "days"){echo "selected=\"selected\"";}?>>Day(s)</option>
-						<option value="weeks" <?php if($_POST['durationUnit'] == "weeks"){echo "selected=\"selected\"";}?>>Week(s)</option>
-						<option value="months" <?php if($_POST['durationUnit'] == "months"){echo "selected=\"selected\"";}?>>Month(s)</option>
-						<option value="years" <?php if($_POST['durationUnit'] == "years"){echo "selected=\"selected\"";}?>>Year(s)</option>
+					<input name="durationAmt" id="durationAmt" type="text" value="<?php echo $duration;?>" /> <select name="durationUnit" id="durationUnit">
+						<option value=""></option>
+						<option value="seconds" <?php if($unit == "seconds"){echo "selected=\"selected\"";}?>>Second(s)</option>
+						<option value="minutes" <?php if($unit == "minutes"){echo "selected=\"selected\"";}?>>Minute(s)</option>
+						<option value="hours" <?php if($unit == "hours"){echo "selected=\"selected\"";}?>>Hour(s)</option>
+						<option value="days" <?php if($unit == "days"){echo "selected=\"selected\"";}?>>Day(s)</option>
+						<option value="weeks" <?php if($unit == "weeks"){echo "selected=\"selected\"";}?>>Week(s)</option>
+						<option value="months" <?php if($unit == "months"){echo "selected=\"selected\"";}?>>Month(s)</option>
+						<option value="years" <?php if($unit == "years"){echo "selected=\"selected\"";}?>>Year(s)</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top" class="required">Reason: </td>
-				<td><textarea name="reason" id="reason" rows="4" cols="40"><?php echo $_POST['reason']; ?></textarea></td>
+				<td><textarea name="reason" id="reason" rows="4" cols="40"><?php echo $reason; ?></textarea></td>
 			</tr>
 			<tr>
 				<td><input name="submit" id="submit" type="submit" value="Submit" /></td>

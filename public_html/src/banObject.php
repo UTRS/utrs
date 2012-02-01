@@ -129,16 +129,17 @@ class Ban{
 		// not checking for errors here, if this fails it's probably ok
 		$time = time();
 		$format = "Y-m-d H:i:s";
+		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) == 0;
 		
-		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
+		$query = "INSERT INTO banList (target, timestamp, " . ($hasExpiry ? "expiry, " : "") . "reason, admin) VALUES ('";
 		$query .= $this->target . "', '";
-		$query .= date($format, $time) . "', ";
-		if(isset($values['durationAmt']) && strlen($values['durationAmt']) == 0){
+		$query .= date($format, $time) . "', '";
+		if($hasExpiry){
 			// "+3 days"
-			$query .= "'" . date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
+			$query .= date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
 		} 
 		else{
-			$query .= "'NULL', '";
+			// do nothing
 		}
 		$query .= mysql_real_escape_string($this->reason) . "', '";
 		$query .= $this->admin->getUserId() . "')";

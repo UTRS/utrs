@@ -195,6 +195,66 @@ function printRecentClosed() {
 	}
 }
 
+function printBacklog() {
+	$db = connectToDB();
+	
+	$currentUser = getCurrentUser();
+	$secure = $currentUser->getUseSecure();
+	
+	$query = "SELECT a.appealID, c.last_action";
+	$query .= " FROM appeal a";
+	$query .= " LEFT JOIN (SELECT Max(timestamp) as last_action, appealID";
+	$query .= " FROM comment";
+	$query .= " WHERE action = 1";
+	$query .= " GROUP BY appealID) c";
+	$query .= " ON c.appealID = a.appealID";
+	$query .= " WHERE DateDiff(Now(), c.last_action) > 7;";
+	
+	// get rows from DB. Throws UTRSDatabaseException
+	$result = mysql_query($query, $db);
+	
+	$rows = mysql_num_rows($result);
+	
+	//If there are no new unblock requests
+	if ($rows == 0) {
+		$norequests = "<b>No unblock requests in queue</b>";
+		return $norequests;
+	} else {
+		$requests = "<table class=\"appealList\">";
+		//Begin formatting the unblock requests
+		for ($i=0; $i < $rows; $i++) {
+			//Grab the rowset
+			$data = mysql_fetch_array($result);
+			$appealId = $data['appealID'];
+			//Determine how we identify the user.  Use username if possible, IP if not
+			if ($data['wikiAccountName'] == NULL) {
+				$identity = $data['ip'];
+				$wpLink = "Special:Contributions/";
+			} else {
+				$identity = $data['wikiAccountName'];
+				$wpLink = "User:";
+			}
+			//Determine if it's an odd or even row for formatting
+			if ($i % 2) {
+				$rowformat = "even";
+			} else {
+				$rowformat = "odd";
+			}
+				
+			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
+			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
+			$requests .= "\t\t<td> " . $data['last_action'] . " days since last action</td>\n";
+			$requests .= "\t</tr>\n";
+		}
+	
+		$requests .= "</table>";
+	
+		return $requests;
+	}
+}
+
 function printReviewer() {
 	$criteria = array('status' => Appeal::$STATUS_AWAITING_REVIEWER);
 	return printAppealList($criteria);

@@ -201,7 +201,7 @@ function printBacklog() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
-	$query = "SELECT a.appealID, c.last_action";
+	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, c.last_action";
 	$query .= " FROM appeal a";
 	$query .= " LEFT JOIN (SELECT Max(timestamp) as last_action, appealID";
 	$query .= " FROM comment";

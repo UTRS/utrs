@@ -165,7 +165,18 @@ class Ban{
 		
 		$data = mysql_fetch_assoc($result);
 		$this->timestamp = $data['timestamp'];
-		$this->expiry = $data['expiry'];
+		if($hasExpiry){
+			$this->expiry = $data['expiry'];
+		}
+		else{
+			// hackish fix, database won't set that to null
+			$query = "UPDATE banList SET expiry = NULL WHERE banID = '" . $this->banID . "'";
+			$result = mysql_query($query, $db);
+			if(!$result){
+				throw new UTRSDatabaseException(mysql_error($db));
+			}
+			$this->expiry = null;
+		}
 	}
 	
 	public function getBanID(){

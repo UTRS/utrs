@@ -103,7 +103,7 @@ function getRootURL(){
  * @param String $message the message to echo
  */
 function debug($message){
-	$DEBUG_MODE = true;
+	$DEBUG_MODE = false;
 	if($DEBUG_MODE){
 		echo $message;
 	}

@@ -127,13 +127,15 @@ class Ban{
 		$query = "DELETE FROM banList WHERE target='" . $this->getTarget() . "'";
 		mysql_query($query);
 		// not checking for errors here, if this fails it's probably ok
+		$time = time();
+		$format = "Y-m-d H:i:s";
 		
 		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
 		$query .= $this->target . "', '";
-		$query .= time() . "', ";
+		$query .= date($format, $time) . "', ";
 		if(isset($values['durationAmt'])){
 			// "+3 days"
-			$query .= "'" . strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit']) . "', '";
+			$query .= "'" . date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
 		} 
 		else{
 			$query .= "NULL, '";

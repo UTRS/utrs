@@ -86,7 +86,7 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 			<tr>
 				<td class="required">Target:</td>
 				<td>
-					<?php if($target){ echo censorEmail($target); }else{?>
+					<?php if($target){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($target)); }else{?>
 					<input name="target" id="target" type="text" value="<?php echo $_POST['target'];?>" />
 					<?php } // closes else from if($target)?>
 				</td>
@@ -157,6 +157,10 @@ else if(isset($_GET['id'])){
 else{
 	echo "<p><a href=\"" . getRootURL() . "banMgmt.php?new=true\">Set a new ban</a></p>\n\n";
 	
+	if(isset($_GET['delete'])){
+		displaySuccess("Ban deleted.");	
+	}
+	
 	$bans = Ban::getAllActiveBans();
 	$i = 0;
 	
@@ -170,7 +174,7 @@ else{
 		}
 		echo "\t<tr class=\"". $rowformat . "\">\n";
 		echo "\t\t<td>" . $ban->getBanID() . "</td>\n";
-		echo "\t\t<td>" . censorEmail($ban->getTarget()) . "</td>\n";
+		echo "\t\t<td>" . (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($ban->getTarget())) . "</td>\n";
 		echo "\t\t<td>" . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite") . "</td>\n";
 		echo "\t\t<td><a href=\"" . getRootURL() . "banMgmt.php?id=" . $ban->getBanID() . "\" style=\"color:green\">View</a></td>\n";
 		echo "\t</tr>\n";

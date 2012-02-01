@@ -131,7 +131,7 @@ class Ban{
 		$format = "Y-m-d H:i:s";
 		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) == 0;
 		
-		$query = "INSERT INTO banList (target, timestamp, " . ($hasExpiry ? "expiry, " : "") . "reason, admin) VALUES ('";
+		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
 		$query .= $this->target . "', '";
 		$query .= date($format, $time) . "', '";
 		if($hasExpiry){
@@ -139,7 +139,7 @@ class Ban{
 			$query .= date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
 		} 
 		else{
-			// do nothing
+			$query .= "NULL', ";
 		}
 		$query .= mysql_real_escape_string($this->reason) . "', '";
 		$query .= $this->admin->getUserId() . "')";
@@ -165,18 +165,7 @@ class Ban{
 		
 		$data = mysql_fetch_assoc($result);
 		$this->timestamp = $data['timestamp'];
-		if($hasExpiry){
-			$this->expiry = $data['expiry'];
-		}
-		else{
-			// hackish fix, database won't set that to null
-			$query = "UPDATE banList SET expiry = NULL WHERE banID = '" . $this->banID . "'";
-			$result = mysql_query($query, $db);
-			if(!$result){
-				throw new UTRSDatabaseException(mysql_error($db));
-			}
-			$this->expiry = null;
-		}
+		$this->expiry = $data['expiry'];
 	}
 	
 	public function getBanID(){

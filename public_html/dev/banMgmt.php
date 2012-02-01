@@ -93,7 +93,7 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 		$reason = $_POST['reason'];
 	}
 ?>
-	<form name="newBan" id="newBan" method="POST" action="banMgmt.php<?php echo $postArgs; ?>">
+	<form name="newBan" id="newBan" method="POST" action="banMgmt.php<?php echo $postArgs; ?>" style="white-space:normal !important;">
 		<table style="background:none; border:none;" cellpadding="4px">
 			<tr>
 				<td class="required">Target:</td>

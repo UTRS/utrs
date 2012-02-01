@@ -55,7 +55,7 @@ class Ban{
 			
 			debug('Setting values complete <br/>');
 			
-			Ban::insert();
+			Ban::insert($values);
 		}
 		else{
 			debug('Obtaining values from DB <br/>');
@@ -97,7 +97,7 @@ class Ban{
 		if(isset($values['durationAmt']) && !preg_match("/^[0-9]{1,}$/", $values['durationAmt'])){
 			throw new UTRSIllegalModificationException("Duration must be a positive number.");
 		}
-		if(isset($values['durationAmt']) && !isset($values['durationUnit'])){
+		if(isset($values['durationAmt']) && (!isset($values['durationUnit']) || strlen($values['durationUnit']) == 0)){
 			throw new UTRSIllegalModificationException("You must select a unit of time if you set a duration.");
 		}
 		if(!isset($values['reason']) || strlen($values['reason']) === 0){

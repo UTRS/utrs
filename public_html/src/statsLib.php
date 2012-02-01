@@ -496,7 +496,6 @@ function printTemplateList(){
 			}
 			
 			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$list .= "\t\t<td>" . $id . ".</td>\n";
 			$list .= "\t\t<td>" . $name . "</td>\n";
 			$list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
 			if(verifyAccess($GLOBALS['ADMIN'])){

@@ -123,6 +123,11 @@ class Ban{
 	private function insert(array $values){
 		$db = connectToDB();
 		
+		// safety - remove any existing bans on the same target
+		$query = "DELETE FROM banList WHERE target='" . $this->getTarget() . "'";
+		mysql_query($query);
+		// not checking for errors here, if this fails it's probably ok
+		
 		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
 		$query .= $this->target . "', '";
 		$query .= time() . "', ";

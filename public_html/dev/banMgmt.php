@@ -119,7 +119,7 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 <?php
 } // closes if(isset($_GET['new']) || isset($_GET['appeal']))
 // display / delete form
-else if(isset($_GET['id]'])){
+else if(isset($_GET['id'])){
 	$ban = Ban::getBanByID($_GET['id']);
 ?>
 	<table style="background:none; border:none;" cellpadding="4px">

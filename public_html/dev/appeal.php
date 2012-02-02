@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 				$appeal->setHandlingAdmin(null);
 				$appeal->update();
 				$log->addNewItem('Released appeal', 1);
-				Log::ircNotification("\x033,0Appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x034,0" . $appeal->getID() . "\x033,0) released by \x032,0" . $_SESSION['user'] . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+				Log::ircNotification("\x033,0Appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . " \x033,0) released by \x032,0" . $_SESSION['user'] . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	} else {
 		$error = "Cannot release admin hold on appeal";
 	}

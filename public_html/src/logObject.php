@@ -199,7 +199,7 @@ class Log {
 	public static function ircNotification($message) {
 		$db = connectToDB();
 				
-		$query = "INSERT INTO comment (notification) VALUES ('";
+		$query = "INSERT INTO irc (notification) VALUES ('";
 		$query .= $message . "');";
 		
 		$result = mysql_query($query, $db);

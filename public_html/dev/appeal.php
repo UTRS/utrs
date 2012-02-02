@@ -20,7 +20,7 @@ require_once('template.php');
 // make sure user is logged in, if not, kick them out
 verifyLogin('appeal.php?id=' . $_GET['id']);
 
-$errorMessages = '';
+$error = null;
 
 //Template header()
 skinHeader();

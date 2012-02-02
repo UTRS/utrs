@@ -194,6 +194,21 @@ class Log {
 	
 		return $HTMLOutput;
 	}
+	
+	//IRC bot notification system
+	public static function ircNotification($message) {
+		$db = connectToDB();
+				
+		$query = "INSERT INTO comment (notification) VALUES (";
+		$query .= $message . ";";
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSDatabaseException($error);
+		}
+	}
 }
 
 ?>

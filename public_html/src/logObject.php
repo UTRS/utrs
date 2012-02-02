@@ -200,7 +200,7 @@ class Log {
 		$db = connectToDB();
 				
 		$query = "INSERT INTO comment (notification) VALUES ('";
-		$query .= $message . "';";
+		$query .= $message . "');";
 		
 		$result = mysql_query($query, $db);
 		

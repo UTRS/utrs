@@ -553,7 +553,7 @@ ini_set('display_errors',1);
 			
 			$rawdata = NULL;
 			
-			$sql = "SELECT ircID, notification FROM irc ORDER BY c.timestamp ASC LIMIT 0,1";
+			$sql = "SELECT ircID, notification FROM irc ORDER BY timestamp ASC LIMIT 0,1";
 			$query = myq($sql);
 			
 			$rows = mysql_num_rows($query);

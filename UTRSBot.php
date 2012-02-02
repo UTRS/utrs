@@ -27,7 +27,7 @@ ini_set('display_errors',1);
 	// Defines
 
 	// Includes
-	//require 'config.inc.php';
+	require 'config.inc.php';
 	include 'devlist.php';
 
 	global $ircBotNetworkHost, $ircBotNetworkPort, $ircBotChannel, $ircBotCommandTrigger, $ircBotNickname;

@@ -203,6 +203,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 if (isset($_GET['action']) && $_GET['action'] == "comment") {
 	if (isset($_POST['comment'])) {
 		$log->addNewItem($_POST['comment']);
+		Log::ircNotification("\x032,0" . $_SESSION['user'] . "\x033,0 has left a new comment on the appeal for\x032,0 " . $appeal->getCommonName() . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	} else {
 		$error = "You have not entered a comment";
 	}
@@ -239,6 +240,14 @@ function hideContextWindow() {
 	<div id='contextContent'></div>
 </div>
 <div id='appealContent'>
+<?php 
+if (isset($_GET['action'])) {
+	if ($errors) {
+		displayError($errors);
+	}
+}
+
+?>
 <h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
 <table class="appeal">
 <tr>

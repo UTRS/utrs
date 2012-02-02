@@ -56,7 +56,7 @@ try{
 		$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 		$appeal->update();
 		
-		Log::ircNotification("\x03,0A reply has been made to appeal \x032,0" . $appeal->getCommonName . "\x03,0 (\x032,0 " . $appeal->getID() . " \x033,0) URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+		Log::ircNotification("\x03,0A reply has been made to appeal \x032,0" . $appeal->getCommonName() . "\x03,0 (\x032,0 " . $appeal->getID() . " \x033,0) URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	}
 }
 catch(UTRSException $e){

@@ -554,20 +554,23 @@ ini_set('display_errors',1);
 			$rawdata = NULL;
 			
 			$sql = "SELECT commentID, comment FROM comment WHERE action = 1 AND reported = 0 ORDER BY timestamp ASC LIMIT 1;";
-			$result = mysql_fetch_assoc(myq($sql));
+			$query = myq($sql);
+			
+			$rows = mysql_num_rows($query);
+			
+			if ($rows > 0) {
+				$result = mysql_fetch_assoc();
 
 //			print_r($result);
 
 			
-			if(isset($result))
-			{
+				if(isset($result))
+				{
 				
-				$rows = mysql_num_rows($result);
-				if ($rows > 0) {
-					$rawdata = "Appeal ID: " . $result['commentID'] . " status changed to " . $result["comment"];
-//					var_dump($rawdata);
+						$rawdata = "Appeal ID: " . $result['commentID'] . " status changed to " . $result["comment"];
+//						var_dump($rawdata);
 
-					myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");
+						myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");
 				}
 			}
 //			echo "after delete";

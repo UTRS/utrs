@@ -55,7 +55,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 			}
 			$appeal->update();
 			$log->addNewItem('Reserved appeal', 1);
-			Log::ircNotification("\x033,0Appeal \x034,0" . $appeal->getCommonName() . "\x033,0 (\x034,0 " . $appeal->getID() . "\x033,0 ) reserved by \x034,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+			Log::ircNotification("\x033,0Appeal \x034,0" . $appeal->getCommonName() . "\x033,0 (\x034,0 " . $appeal->getID() . "\x033,0 ) reserved by \x034,0" . $_SESSION['user'] . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	} else {
 		$error = "Cannot assign a new handling admin.";
 	}
@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 				$appeal->setHandlingAdmin(null);
 				$appeal->update();
 				$log->addNewItem('Released appeal', 1);
-				Log::ircNotification("\x033,0Appeal \x034,0" . $appeal->getCommonName() . "\x033,0 (\x034,0" . $appeal->getID() . "\x033,0) released by \x034,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+				Log::ircNotification("\x033,0Appeal \x034,0" . $appeal->getCommonName() . "\x033,0 (\x034,0" . $appeal->getID() . "\x033,0) released by \x034,0" . $_SESSION['user'] . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	} else {
 		$error = "Cannot release admin hold on appeal";
 	}
@@ -194,7 +194,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			}
 			break;
 	}
-	Log::ircNotification("\x033,0Status changed for \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) to \x032,0 " . $appeal->getStatus() . " \x033,0by \x032,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+	Log::ircNotification("\x033,0Status changed for \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) to \x032,0 " . $appeal->getStatus() . " \x033,0by \x032,0" . $_SESSION['user'] . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	$appeal->update();
 }
 

@@ -9,6 +9,7 @@ require_once('../src/userObject.php');
 require_once('../src/statsLib.php');
 require_once('../src/banObject.php');
 require_once('../src/appealObject.php');
+require_once('../src/logObject.php');
 require_once('template.php');
 
 verifyLogin('banMgmt.php');
@@ -27,10 +28,13 @@ try{
 		$appeal = Appeal::getAppealByID($_GET['appeal']);
 		if(strcmp($_GET['target'], "1") == 0){
 			$target = $appeal->getIP();
+			$type = "IP";
 		}else if(strcmp($_GET['target'], "2") == 0){
 			$target = $appeal->getAccountName();
+			$type = "account name";
 		}else{
 			$target = $appeal->getEmail();
+			$type = "email";
 		}
 	}
 
@@ -43,6 +47,8 @@ try{
 
 		// handles all validation, spits out exceptions if there's a problem
 		$ban = new Ban($_POST);
+		
+		Log::ircNotification("\x033,0A new " . $type . " ban has been created for \x032,0" . $appeal->getCommonName() . "\x033,0 by \x032,0" . $_SESSION['user']);
 		
 		// revert to view / delete screen
 		header("Location: " . getRootURL() . "banMgmt.php?id=" . $ban->getBanID());

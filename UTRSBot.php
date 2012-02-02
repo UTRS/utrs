@@ -553,7 +553,7 @@ ini_set('display_errors',1);
 			
 			$rawdata = NULL;
 			
-			$sql = "SELECT c.commentID, c.comment, a.appealID, u.username FROM comment c, appeal a, user u WHERE c.appealID = a.appealID AND a.handlingAdmin = u.userID AND c.action = 1 AND c.reported = 0 ORDER BY c.timestamp ASC LIMIT 0,1";
+			$sql = "SELECT ircID, notification FROM irc ORDER BY c.timestamp ASC LIMIT 0,1";
 			$query = myq($sql);
 			
 			$rows = mysql_num_rows($query);
@@ -567,10 +567,10 @@ ini_set('display_errors',1);
 				if(isset($result))
 				{
 				
-						$rawdata = "\x037,0Appeal ID: \x034,0" . $result['appealID'] . "\x037,0 status changed to \x034,0" . $result["comment"] . "\x037,0 by \x034,0" . $result['username'];
+						$rawdata = $result['notification'];
 //						var_dump($rawdata);
 
-						myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");
+						myq("DELETE FROM irc WHERE ircID = " . $result["ircID"] . " LIMIT 0,1;");
 				}
 			}
 //			echo "after delete";

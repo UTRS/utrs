@@ -194,7 +194,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			}
 			break;
 	}
-	Log::ircNotification("\x033,0Status changed for \x034,0" . $appeal->getCommonName() . "\x033,0 (\x034,0 " . $appeal->getID() . "\x033,0 ) to \x034,0 " . $appeal->getStatus() . " \x033,0by \x034,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+	Log::ircNotification("\x033,0Status changed for \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) to \x032,0 " . $appeal->getStatus() . " \x033,0by \x032,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	$appeal->update();
 }
 

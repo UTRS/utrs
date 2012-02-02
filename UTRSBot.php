@@ -558,13 +558,17 @@ ini_set('display_errors',1);
 
 //			print_r($result);
 
+			
 			if(isset($result))
 			{
+				
+				$rows = $mysql_num_rows($result);
+				if ($rows > 0) {
+					$rawdata = "Appeal ID: " . $result['commentID'] . " status changed to " . $result["comment"];
+//					var_dump($rawdata);
 
-				$rawdata = "Appeal ID: " . $result['commentID'] . " status changed to " . $result["comment"];
-//				var_dump($rawdata);
-
-				myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");
+					myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");
+				}
 			}
 //			echo "after delete";
 			if($rawdata == null)

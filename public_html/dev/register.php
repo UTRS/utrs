@@ -88,6 +88,7 @@ if(isset($_POST["submit"])){
 		if(!$errorMessages){
 			$user = new User($_POST, false);
 			debug('object created<br/>');
+			Log::ircNotification("New user account " . $user->getUsername() . " has been requested. URL:http://toolserver.org/~unblock/dev/userMgmt.php?userId=6" . $user->getUserId());
 		}
 	}
 	catch(UTRSException $ex){

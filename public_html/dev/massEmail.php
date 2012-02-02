@@ -46,7 +46,7 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 		
 		mail("", $subject, $body, $headers);
 		
-		Log::ircNotification("\037,0<<ANNOUNCEMENT>> Mass email has been sent by " . $_SESSION['user']);
+		Log::ircNotification("\x037,0<<ANNOUNCEMENT>> Mass email has been sent by " . $_SESSION['user']);
 	}
 	catch(UTRSException $e){
 		$errors = $e->getMessage();

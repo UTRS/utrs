@@ -87,7 +87,7 @@ ini_set('display_errors',1);
 	// Users
 	// Nick!User@Host mask                 			=> Group
 	$users = array(
-		'~TParis@wikipedia/TParis'					=> 'developer',
+		'*!~TParis@wikipedia/TParis'					=> 'developer',
 		
 		'*!*@*'										=> '*'
 		);
@@ -553,7 +553,7 @@ ini_set('display_errors',1);
 			
 			$rawdata = NULL;
 			
-			$sql = "SELECT commentID, comment FROM comment WHERE action = 1 AND reported = 0 ORDER BY timestamp ASC LIMIT 1;";
+			$sql = "SELECT c.comment, a.appealID, u.username FROM comment c, appeal a, user u WHERE c.appealID = a.appealID AND a.handlingAdmin = u.userID AND c.action = 1 AND c.reported = 0 ORDER BY c.timestamp ASC LIMIT 0,1";
 			$query = myq($sql);
 			
 			$rows = mysql_num_rows($query);
@@ -567,7 +567,7 @@ ini_set('display_errors',1);
 				if(isset($result))
 				{
 				
-						$rawdata = "Appeal ID: " . $result['commentID'] . " status changed to " . $result["comment"];
+						$rawdata = "7,0Appeal ID: [b]4,0" . $result['appealID'] . "[/b]7,0 status changed to [b]4,0" . $result["comment"] . "[/b]7,0 by [b]4,0" . $result['username'];
 //						var_dump($rawdata);
 
 						myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");

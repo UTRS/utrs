@@ -570,7 +570,7 @@ ini_set('display_errors',1);
 						$rawdata = $result['notification'];
 //						var_dump($rawdata);
 
-						myq("DELETE FROM irc WHERE ircID = " . $result["ircID"] . " LIMIT 0,1;");
+						myq("DELETE FROM irc WHERE ircID = " . $result["ircID"] . ";");
 				}
 			}
 //			echo "after delete";

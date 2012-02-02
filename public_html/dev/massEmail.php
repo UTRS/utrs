@@ -44,6 +44,8 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 		$headers .= "Bcc: " . $emails;
 		
 		mail("", $subject, $body, $headers);
+		
+		Log::ircNotification("\037,0<<ANNOUNCEMENT>> Mass email has been sent by " . $_SESSION['user']);
 	}
 	catch(UTRSException $e){
 		$errors = $e->getMessage();

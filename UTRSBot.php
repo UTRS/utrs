@@ -553,7 +553,7 @@ ini_set('display_errors',1);
 			
 			$rawdata = NULL;
 			
-			$sql = "SELECT commentID, comment FROM comment WHERE action = 1 ORDER BY timestamp ASC LIMIT 1;";
+			$sql = "SELECT commentID, comment FROM comment WHERE action = 1 AND reported = 0 ORDER BY timestamp ASC LIMIT 1;";
 			$result = mysql_fetch_assoc(myq($sql));
 
 //			print_r($result);

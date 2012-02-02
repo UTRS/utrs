@@ -553,7 +553,7 @@ ini_set('display_errors',1);
 			
 			$rawdata = NULL;
 			
-			$sql = "SELECT c.comment, a.appealID, u.username FROM comment c, appeal a, user u WHERE c.appealID = a.appealID AND a.handlingAdmin = u.userID AND c.action = 1 AND c.reported = 0 ORDER BY c.timestamp ASC LIMIT 0,1";
+			$sql = "SELECT c.commentID, c.comment, a.appealID, u.username FROM comment c, appeal a, user u WHERE c.appealID = a.appealID AND a.handlingAdmin = u.userID AND c.action = 1 AND c.reported = 0 ORDER BY c.timestamp ASC LIMIT 0,1";
 			$query = myq($sql);
 			
 			$rows = mysql_num_rows($query);
@@ -567,7 +567,7 @@ ini_set('display_errors',1);
 				if(isset($result))
 				{
 				
-						$rawdata = "7,0Appeal ID: [b]4,0" . $result['appealID'] . "[/b]7,0 status changed to [b]4,0" . $result["comment"] . "[/b]7,0 by [b]4,0" . $result['username'];
+						$rawdata = "\x037,0Appeal ID: \x034,0" . $result['appealID'] . "\x037,0 status changed to \x034,0" . $result["comment"] . "\x037,0 by \x034,0" . $result['username'];
 //						var_dump($rawdata);
 
 						myq("UPDATE comment SET reported = 1 WHERE commentID = " . $result["commentID"] . " ORDER BY timestamp ASC LIMIT 1;");

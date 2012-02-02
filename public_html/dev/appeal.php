@@ -255,6 +255,7 @@ if (isset($_GET['action'])) {
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a><br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
+Blocking Admin: <b><?php echo $appeal->getBlockingAdmin(); ?></b><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
 Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmin->getUsername(); $handlingAdmin = null; ?><br>
 <?php } ?>

@@ -64,7 +64,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 if (isset($_GET['action']) && $_GET['action'] == "release"){
 	if (!(
 			//Not handling user and not admin
-			$appeal->getHandlingAdmin()->getUserId() != $user->getUserId() && !verifyAccess($GLOBALS['ADMIN']) ||
+			$appeal->HandlingAdmin() && $appeal->getHandlingAdmin()->getUserId() != $user->getUserId() && !verifyAccess($GLOBALS['ADMIN']) ||
 			//In AWAITING_ADMIN status and not admin
 			$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 			//Awaiting checkuser and not CU or admin

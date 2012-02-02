@@ -603,7 +603,7 @@ ini_set('display_errors',1);
 		}
 
 		if( ( isset( $parsed['type'] ) ) and ( $parsed['type'] == 'privmsg' ) ) {
-			if( $parsed['to'] == strtolower( $chan ) || $parsed['to'] == strtolower( "#wikipedia-en-accounts-devs" ) ) {
+			if( $parsed['to'] == strtolower( $chan ) || $parsed['to'] == strtolower( "#wikipedia-en-unblock-dev" ) ) {
 				if( isset( $parsed['command'] ) ) {
 					doCommand( $parsed['command'], $parsed );
 				}

@@ -562,7 +562,7 @@ ini_set('display_errors',1);
 			if(isset($result))
 			{
 				
-				$rows = $mysql_num_rows($result);
+				$rows = mysql_num_rows($result);
 				if ($rows > 0) {
 					$rawdata = "Appeal ID: " . $result['commentID'] . " status changed to " . $result["comment"];
 //					var_dump($rawdata);

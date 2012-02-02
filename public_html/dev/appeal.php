@@ -242,8 +242,8 @@ function hideContextWindow() {
 <div id='appealContent'>
 <?php 
 if (isset($_GET['action'])) {
-	if ($errors) {
-		displayError($errors);
+	if ($error) {
+		displayError($error);
 	}
 }
 

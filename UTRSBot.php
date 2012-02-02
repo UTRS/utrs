@@ -559,7 +559,7 @@ ini_set('display_errors',1);
 			$rows = mysql_num_rows($query);
 			
 			if ($rows > 0) {
-				$result = mysql_fetch_assoc();
+				$result = mysql_fetch_assoc($query);
 
 //			print_r($result);
 

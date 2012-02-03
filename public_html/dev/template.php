@@ -89,12 +89,14 @@ function skinFooter() {
 
 </div>
 <div id="footer">
-The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
+<p style="text-align:center; font-size:small;">Users active in the last five minutes: <?php echo getLoggedInUsers(); ?></p>
+
+<p>The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
 users with the <a href="http://en.wikipedia.org/wiki/Wikipedia:Appealing_a_block" target="_NEW">unblock process</a> on the English Wikipedia. <br />
 This project is licensed under the
 <a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later.</a><br />
 For questions or assistance with the Unblock Ticket Request System, please email our development team at
-<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a><br />
+<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a></p>
 </div>
 </body>
 </html>

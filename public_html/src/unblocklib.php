@@ -23,7 +23,7 @@ function loggedIn(){
 		$user = $_SESSION['user'];
 		$password = $_SESSION['passwordHash'];
 		$db = connectToDB(true);
-		$query = 'SELECT username FROM user WHERE username=\'' . $user . '\' AND passwordHash=\'' . $password . '\'';
+		$query = 'SELECT userID FROM user WHERE username=\'' . $user . '\' AND passwordHash=\'' . $password . '\'';
 		$result = mysql_query($query, $db);
 		if($result === false){
 			$error = mysql_error($db);
@@ -31,6 +31,8 @@ function loggedIn(){
 			throw new UTRSDatabaseException($error);
 		}
 		if(mysql_num_rows($result) == 1){
+			$data = mysql_fetch_assoc($result);
+			registerLogin($data['userID'], $db);
 			return true;
 		}
 		if(mysql_num_rows($result) > 1){
@@ -39,6 +41,66 @@ function loggedIn(){
 		}
 	}
 	return false;
+}
+
+function registerLogin($userID, $db){
+	$query = "SELECT * FROM loggedInUsers WHERE userID='" . $userID . "'";
+	debug($query);
+	
+	$result = mysql_query($query, $db);
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	$rows = mysql_num_rows($result);
+	
+	if($rows){
+		$query = "UPDATE loggedInUsers SET lastPageView=NOW() WHERE userID='" . $userID . "'";
+	}
+	else{
+		$query = "INSERT INTO loggedInUsers (userID, lastPageView) VALUES ('" . $userID . "', NOW())";
+	}
+	debug($query);
+	
+	$result = mysql_query($query, $db);
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+}
+
+function getLoggedInUsers(){
+	$db = connectToDB();
+	// should be within the last give minutes, I think
+	$query = "SELECT userID FROM loggedInUsers WHERE lastPageView < ADDTIME(NOW(), '0:5:0.000000')";
+	
+	debug($query);
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	$users = "";
+	
+	$rows = mysql_num_rows($result);
+	
+	for($i = 0; $i < $rows; $i++){
+		$data = mysql_fetch_assoc($result);
+		$user = User::getUserById($data['userID']);
+		if($users){
+			$users .= ", ";
+		}
+		$users .= $user->getUsername();
+	}
+	
+	return $users;
 }
 
 /**

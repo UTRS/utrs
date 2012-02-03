@@ -1,5 +1,5 @@
 <?php
-require_once('../src/unblocklib.php');
+require_once('src/unblocklib.php');
 
 function skinHeader($script = '') {
 

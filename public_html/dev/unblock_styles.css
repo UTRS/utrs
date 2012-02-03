@@ -161,10 +161,6 @@ tr.even{
 	background: #EBEBEB !important;
 }
 
-tr.highlight{
-	background: #EEEE98 !important;
-}
-
 /* Appeal page */
 
 #appealContent {
@@ -320,4 +316,8 @@ td.largeLogTimeOne {
 td.largeLogTimeTwo {
 	width: 25%;
 	background: #EBEBEB !important;
+}
+
+td.highlight{
+	background: #EEEE98 !important;
 }

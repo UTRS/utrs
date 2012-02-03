@@ -185,24 +185,29 @@ else{
 	}
 	
 	$bans = Ban::getAllActiveBans();
-	$i = 0;
-	
-	echo "<table class=\"appealList\">";
-	echo "\t<tr><th>ID</th><th>Target</th><th>Expires</th><th>View</th></tr>";
-	foreach( $bans as $ban ){
-		if ($i++ % 2) {
-			$rowformat = "even";
-		} else {
-			$rowformat = "odd";
+	if($bans){
+		$i = 0;
+
+		echo "<table class=\"appealList\">";
+		echo "\t<tr><th>ID</th><th>Target</th><th>Expires</th><th>View</th></tr>";
+		foreach( $bans as $ban ){
+			if ($i++ % 2) {
+				$rowformat = "even";
+			} else {
+				$rowformat = "odd";
+			}
+			echo "\t<tr class=\"". $rowformat . "\">\n";
+			echo "\t\t<td>" . $ban->getBanID() . "</td>\n";
+			echo "\t\t<td>" . (verifyAccess($GLOBALS['DEVELOPER']) ? $ban->getTarget() : censorEmail($ban->getTarget())) . "</td>\n";
+			echo "\t\t<td>" . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite") . "</td>\n";
+			echo "\t\t<td><a href=\"" . getRootURL() . "banMgmt.php?id=" . $ban->getBanID() . "\" style=\"color:green\">View</a></td>\n";
+			echo "\t</tr>\n";
 		}
-		echo "\t<tr class=\"". $rowformat . "\">\n";
-		echo "\t\t<td>" . $ban->getBanID() . "</td>\n";
-		echo "\t\t<td>" . (verifyAccess($GLOBALS['DEVELOPER']) ? $ban->getTarget() : censorEmail($ban->getTarget())) . "</td>\n";
-		echo "\t\t<td>" . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite") . "</td>\n";
-		echo "\t\t<td><a href=\"" . getRootURL() . "banMgmt.php?id=" . $ban->getBanID() . "\" style=\"color:green\">View</a></td>\n";
-		echo "\t</tr>\n";
+		echo "</table>";
 	}
-	echo "</table>";
+	else{
+		echo "<p><b>There are no active bans currently in the system.</b></p>";
+	}
 	
 } // close else
 

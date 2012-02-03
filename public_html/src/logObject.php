@@ -152,6 +152,11 @@ class Log {
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
+			// if posted by appellant
+			if(!$data['commentUser']){
+				$styleUser = "highlight";
+				$styleAction = "highlight";
+			}
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(str_replace("\\r\\n", " ", $data['comment']),0,50) . $italicsEnd . "</td>";
@@ -183,7 +188,13 @@ class Log {
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
-			$HTMLOutput .= "<tr" . (!$data['commentUser'] ? " class=\"highlight\"" : "") . ">";
+			// if posted by appellant
+			if(!$data['commentUser']){
+				$styleUser = "highlight";
+				$styleAction = "highlight";
+				$styleTime = "highlight";
+			}
+			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";

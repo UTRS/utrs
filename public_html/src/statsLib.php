@@ -162,6 +162,7 @@ function printRecentClosed() {
 	$query .= " WHERE l.appealID = l.comment";
 	$query .= " AND a.status = 'CLOSED'";
 	$query .= " ORDER BY l.timestamp DESC LIMIT 0,5";
+	echo $query;
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
 	

@@ -56,8 +56,12 @@ try{
 		
 		$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 		$appeal->update();
+		$admin = $appeal->getHandlingAdmin();
 		
-		Log::ircNotification("\x033,0A reply has been made to appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . " \x033,0) and the status has been updated to AWAITING_REVIEWER URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
+		Log::ircNotification("\x033,0" . ($admin ? "Attention\x032,0 " . $admin->getUsername() . "\x033,0: " : "") . 
+			"A reply has been made to appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . 
+		 	$appeal->getID() . " \x033,0) and the status has been updated to AWAITING_REVIEWER URL: " .
+		 	"http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	}
 }
 catch(UTRSException $e){

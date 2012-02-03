@@ -537,7 +537,7 @@ ini_set('display_errors',1);
 	irc( 'USER ' . $ident . ' "' . $host . '" "localhost" :' . $realname );
 	sleep( 5 );
 	irc( 'JOIN ' . $chan );
-	irc( 'JOIN #wikipedia-en-accounts-devs');
+	irc( 'JOIN #wikipedia-en-unblock-devs');
 
 	myq('SELECT 1');
 	

@@ -118,7 +118,7 @@ else{
 		$developer = $requestedUser->isDeveloper();
 		$comments = $requestedUser->getComments();
 		$registered = $requestedUser->getRegistered();
-		$numClosed = getNumberAppealsClosedByUser($userId);
+		$numClosed = $requestedUser->getClosed();
 		$wikiAccount = "User:" . $requestedUser->getWikiAccount();
 		
 		echo "<h3>" . $requestedUser->getUsername() . "</h3>";

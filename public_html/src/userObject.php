@@ -207,6 +207,10 @@ class User{
 		return $this->registered;
 	}
 	
+	public function getClosed() {
+		return $this->closed;
+	}
+	
 	public function setNewPreferences($newSecure, $newEmail){
 		if($newEmail != null & !validEmail($newEmail)){
 			throw new UTRSIllegalModificationException('The email address you have entered (' . $newEmail . ') is invalid.');

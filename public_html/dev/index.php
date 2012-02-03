@@ -8,6 +8,7 @@ require_once('template.php');
 require_once('../src/unblocklib.php');
 require_once('../src/exceptions.php');
 require_once('../src/appealObject.php');
+require_once('../src/banObject.php');
 require_once('../src/logObject.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
@@ -42,6 +43,30 @@ if(isset($_POST["submit"])){
 		}
 		
 		debug('captcha valid <br/>');
+		
+		$ip = Appeal::getIPFromServer();
+		$email = $_POST["email"];
+		$registered = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
+		$wikiAccount = (isset($_POST["accountName"]) ? $_POST["accountName"] : null);
+		
+		$ban = Ban::isBanned($ip, $email, $wikiAccount);
+		if($ban){
+			$expiry = $ban->getExpiry();
+			$avoidable = strcmp($ban->getTarget(), $wikiAccount) == 0 && !$registered;
+			$message = $ban->getTarget() + " has been banned " . 
+				($expiry ? "until " . $expiry : "indefinitely") . " by " . $ban->getAdmin()->getUsername() .
+				" for the reason '" . $ban->getReason() . "'.";
+			if($avoidable){
+				$message .= " You may be able to resubmit your appeal by selecting a different username.";
+			}
+			else{
+				$message .= " If you still wish to appeal your block, you may visit us on IRC at " . 
+					"<a href=\"http://webchat.freenode.net/?channels=wikipedia-en-help\">#wikipedia-en-unblock</a> " .
+				    "(if you haven't already done so) or email the Ban Appeals Subcommittee at " .
+					"<tt>arbcom-appeals-en@lists.wikimedia.org</tt> .";
+			}
+			throw new UTRSCredentialsException($message);
+		}
 
 		Appeal::validate($_POST);
 		

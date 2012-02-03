@@ -48,7 +48,9 @@ try{
 		// handles all validation, spits out exceptions if there's a problem
 		$ban = new Ban($_POST);
 		
-		Log::ircNotification("\x033,0A new " . $type . " ban has been created for \x032,0" . $appeal->getCommonName() . "\x033,0 by \x032,0" . $_SESSION['user']);
+		Log::ircNotification("\x033,0A new " . $type . " ban has been created for \x032,0" . 
+			censorEmail($ban->getTarget()) . "\x033,0 by \x032,0" . $_SESSION['user'] . 
+			"\x033,0 Expires: \x032,0" . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite"));
 		
 		// revert to view / delete screen
 		header("Location: " . getRootURL() . "banMgmt.php?id=" . $ban->getBanID());

@@ -70,7 +70,7 @@ Unblock Ticket Request System
 		<a href="<?php echo getRootURL() . 'login.php'; ?>">Admins: Log in to review requests
 	</td>
 	<td id="register" onClick="document.location.href='<?php echo getRootURL() . 'register.php'; ?>';">
-		<a href="<?php echo getRootURL() . 'register'; ?>">Admins: Request an account</a>
+		<a href="<?php echo getRootURL() . 'register.php'; ?>">Admins: Request an account</a>
 	</td>
 	<td id="privacyPolicy" onClick="document.location.href='<?php echo getRootURL() . 'privacy.php'; ?>';">
 		<a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
@@ -94,9 +94,9 @@ function skinFooter() {
 <p>The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
 users with the <a href="http://en.wikipedia.org/wiki/Wikipedia:Appealing_a_block" target="_NEW">unblock process</a> on the English Wikipedia. <br />
 This project is licensed under the
-<a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later.</a><br />
+<a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later</a>.<br />
 For questions or assistance with the Unblock Ticket Request System, please email our development team at
-<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a></p>
+<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a>.</p>
 </div>
 </body>
 </html>

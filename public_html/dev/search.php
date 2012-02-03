@@ -32,7 +32,7 @@ if ($_POST) {
 	$query .= " WHERE MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
 	$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE)";
 	$query .= " HAVING score > 0.2 ORDER BY Relevance DESC;";
-	
+	echo $query;
 	if(!$result){
 		$error = mysql_error($db);
 		throw new UTRSDatabaseException($error);

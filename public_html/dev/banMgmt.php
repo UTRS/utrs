@@ -44,13 +44,23 @@ try{
 		if(!isset($_POST['target'])){
 			$_POST['target'] = $target;
 		}
+		else{
+			if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $_POST['target'])){
+				$type = "IP";
+			}
+			else if(validEmail($_POST['target'])){
+				$type = "email";
+			}
+			else{
+				$type = "account name";
+			}
+		}
 
 		// handles all validation, spits out exceptions if there's a problem
 		$ban = new Ban($_POST);
 		
-		Log::ircNotification("\x033,0A new " . $type . " ban has been created for \x032,0" . 
-			censorEmail($ban->getTarget()) . "\x033,0 by \x032,0" . $_SESSION['user'] . 
-			"\x033,0 Expires: \x032,0" . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite"));
+		Log::ircNotification("\x033,0A new " . $type . " ban has been created by \x032,0" . $_SESSION['user'] . 
+			"\x033,0 Expires:\x032,0 " . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite"));
 		
 		// revert to view / delete screen
 		header("Location: " . getRootURL() . "banMgmt.php?id=" . $ban->getBanID());

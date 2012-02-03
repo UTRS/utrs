@@ -70,7 +70,7 @@ class Log {
 	public function addNewItem($comment, $action = null) {
 		$db = connectToDB();
 		
-		if (isset($_SESSION)) {
+		if (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0) {
 			$user = User::getUserByUsername($_SESSION['user']);
 			//I have to use two user ids here because the sql query requires null to be sent as a string.
 			$firstuserid = $user->getUserId();

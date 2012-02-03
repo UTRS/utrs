@@ -36,7 +36,7 @@ if ($_POST) {
 	//Search
 	$search_terms = mysql_real_escape_string($_POST['search_terms']);
 	
-	$query = "SELECT a.appealID, MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
+	$query = "SELECT DISTINCT a.appealID, MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
 	$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE) as score";
 	$query .= " FROM appeal a, comment c";
 	$query .= " WHERE a.appealID = c.appealID AND MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";

@@ -183,7 +183,7 @@ class Log {
 			$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
-			$HTMLOutput .= "<tr>";
+			$HTMLOutput .= "<tr" . (!$data['commentUser'] ? " class=\"highlight\"" : "") . ">";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";

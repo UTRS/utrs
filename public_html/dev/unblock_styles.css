@@ -161,6 +161,10 @@ tr.even{
 	background: #EBEBEB !important;
 }
 
+tr.highlight{
+	background: #EEDEC3 !important;
+}
+
 /* Appeal page */
 
 #appealContent {

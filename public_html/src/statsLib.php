@@ -52,7 +52,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
 * @param integer $limit optional the number of items to return
 * @param String $orderby optional order of the results and direction
 */
-function printAppealList(array $criteria = array(), $limit = "", $orderby = "") {
+function printAppealList(array $criteria = array(), $limit = "", $orderby = "", $timestamp = 0) {
 	
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
@@ -92,6 +92,9 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "") 
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
+			if ($timestamp = 1) {
+				$requests .= "\t\t<td>" . $timestamp . "</td>\n";
+			}
 			$requests .= "\t</tr>\n";
 		}
 		
@@ -150,7 +153,7 @@ function printRecentClosed() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
-	$query = "SELECT a.appealID, a.wikiAccountName, a.ip FROM appeal a, actionAppealLog l WHERE a.appealID = l.appealID AND l.comment = 'Closed' AND a.status = 'CLOSED' ORDER BY l.timestamp DESC LIMIT 0,5";
+	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, a.timestamp FROM appeal a, actionAppealLog l WHERE a.appealID = l.appealID AND l.comment = 'Closed' AND a.status = 'CLOSED' ORDER BY l.timestamp DESC LIMIT 0,5";
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
 	
@@ -186,6 +189,7 @@ function printRecentClosed() {
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
+			$requests .= "\t\t<td>" . $timestamp . "</td>\n";
 			$requests .= "\t</tr>\n";
 		}
 		
@@ -268,7 +272,7 @@ function printOnHold() {
 function printMyQueue() {
 	$user = User::getUserByUsername($_SESSION['user']);
 	$criteria = array('handlingAdmin' => $user->getUserId(), ' AND status !' => Appeal::$STATUS_CLOSED);
-	return printAppealList($criteria);
+	return printAppealList($criteria, "", "", 1);
 }
 
 

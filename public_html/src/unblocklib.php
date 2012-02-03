@@ -74,8 +74,19 @@ function registerLogin($userID, $db){
 
 function getLoggedInUsers(){
 	$db = connectToDB();
+	// Clear old users: Trash collection
+	$query = "DELETE FROM loggedInUsers WHERE lastPageView < SUBTIME(NOW(), '0:5:0');";
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
 	// should be within the last give minutes, I think
-	$query = "SELECT userID FROM loggedInUsers WHERE lastPageView < ADDTIME(NOW(), '0:5:0.000000')";
+	$query = "SELECT userID FROM loggedInUsers";
 	
 	debug($query);
 	

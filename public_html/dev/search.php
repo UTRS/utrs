@@ -55,7 +55,7 @@ if ($_POST) {
 	for ($i=0; $i < $rows; $i++) {
 		$data = mysql_fetch_array($result);
 		$appeal = Appeal::getAppealByID($data['appealID']);
-		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . " - " . $data['score'] . "</a></div>";
+		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . $data['score'] . "</div>";
 		echo "<div class=\"search_body\"><i>" . $appeal->getAppeal() . "</i></div>";
 	}
 }

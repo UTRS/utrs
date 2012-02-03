@@ -41,6 +41,8 @@ $log = Log::getCommentsByAppealId($_GET['id']);
 //Set the handling admin
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if (!(
+		//Already reserved
+		$appeal->getHandlingAdmin() ||
 		//Awaiting admin and not admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 		//Appeal awaiting CU and not CU or Admin

@@ -19,6 +19,16 @@ $errorMessages = '';
 //Template header()
 skinHeader();
 
+
+?>
+	<form method="post">
+	<div style="text-align:center; width: 100%; height: 100%; vertical-align: middle;">
+	<input type="text" name="search_terms" style="width: 200px">&nbsp;<input type="submit" value="Search">
+	</div>
+	
+	</form>
+<?php
+	
 if ($_POST) {
 	
 	$db = connectToDB();
@@ -41,23 +51,15 @@ if ($_POST) {
 	}
 	
 	$rows = mysql_num_rows($result);
-	
+	echo "<h2>Results</h2>";
 	for ($i=0; $i < $rows; $i++) {
 		$data = mysql_fetch_array($result);
 		$appeal = Appeal::getAppealByID($data['appealID']);
 		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . " - " . $data['score'] . "</a></div>";
 		echo "<div class=\"search_body\"><i>" . $appeal->getAppeal() . "</i></div>";
 	}
-} else {
-	?>
-	<form method="post">
-	<div style="text-align:center; width: 100%; height: 100%; vertical-align: middle;">
-	<input type="text" name="search_terms" style="width: 200px">&nbsp;<input type="submit" value="Search">
-	</div>
-	
-	</form>
-	<?php
 }
+
 
 skinFooter();
 

@@ -22,6 +22,7 @@ class User{
 	private $passwordHash;
 	private $comments;
 	private $registered;
+	private $closed;
 	
 	public function __construct(array $vars, $fromDB){
 		debug('in constructor for user <br/>');
@@ -39,6 +40,7 @@ class User{
 			$this->useSecure = ($vars['useSecure'] == 1 || $vars['useSecure'] == '1' ? true : false);
 			$this->comments = $vars['comments'];
 			$this->registered = $vars['registered'];
+			$this->closed = $vars['closed'];
 		}
 		else{
 			$this->username = $vars['username'];
@@ -51,6 +53,7 @@ class User{
 			$this->developer = 0;
 			$this->useSecure = isset($vars['useSecure']);
 			$this->passwordHash = hash("sha512", $vars['password']);
+			$this->closed = 0;
 			
 			$this->insert();
 		}
@@ -363,6 +366,23 @@ class User{
 		UserMgmtLog::insert("changed permissions for", "Admin: " . ($adminFlag ? "true" : "false") . 
 		            " Developer: " . ($devFlag ? "true" : "false") . " Checkuser: " . ($cuFlag ? "true" : "false"), 
 					$this->userId, $admin->userId);
+	}
+	
+	public function incrementClose() {
+		
+		$query = "UPDATE user SET closed = closed + 1 WHERE userID = " . $this->getUserId() . ";";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
 	}
 }
 

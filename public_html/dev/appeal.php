@@ -59,7 +59,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 			$log->addNewItem('Reserved appeal', 1);
 			Log::ircNotification("\x033,0Appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) reserved by \x032,0" . $_SESSION['user'] . "\x033,0 URL: http://toolserver.org/~unblock/dev/appeal.php?id=" . $appeal->getID());
 	} else {
-		$error = "Cannot assign a new handling admin.";
+		$error = "This request is already reserved or awaiting a checkuser or tool admin. If the person holding this ticket seems to be unavailable, ask a tool admin to break their reservation.";
 	}
 }
 

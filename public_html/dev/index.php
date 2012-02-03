@@ -25,6 +25,10 @@ $hasAccount = null;
 $wikiAccount = null;
 $autoBlock = null;
 
+if(loggedIn()){
+	header("Location: " . getRootURL() . "home.php");
+}
+
 // Handle submitted form
 if(isset($_POST["submit"])){
 	

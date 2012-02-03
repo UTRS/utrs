@@ -41,6 +41,9 @@ Unblock Ticket Request System
 	<td id="banMgmt" onClick="document.location.href='<?php echo getRootURL() . 'banMgmt.php'; ?>';">
 		<a href="<?php echo getRootURL() . 'banMgmt.php'; ?>">Ban Management</a>
 	</td>
+	<td id="banMgmt" onClick="document.location.href='<?php echo getRootURL() . 'search.php'; ?>';">
+		<a href="<?php echo getRootURL() . 'search.php'; ?>">Search</a>
+	</td>
 	<?php } ?>
 	<td id="preferences" onClick="document.location.href='<?php echo getRootURL() . 'prefs.php'; ?>';">
 		<a href="<?php echo getRootURL() . 'prefs.php'; ?>">Preferences</a>

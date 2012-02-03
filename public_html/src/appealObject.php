@@ -470,6 +470,9 @@ class Appeal{
 		  || strcmp($newStatus, $this::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_REVIEWER) == 0){
 			// TODO: query to modify the row
 			$this->status = $newStatus;
+			if ($this->status == $this::$STATUS_CLOSED) {
+				User::getUserByUsername($_SESSION['user'])->incrementClose();
+			}
 		}
 		else{
 			// Note: this shouldn't happen

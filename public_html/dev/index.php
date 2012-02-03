@@ -53,7 +53,7 @@ if(isset($_POST["submit"])){
 		if($ban){
 			$expiry = $ban->getExpiry();
 			$avoidable = strcmp($ban->getTarget(), $wikiAccount) == 0 && !$registered;
-			$message = $ban->getTarget() + " has been banned " . 
+			$message = $ban->getTarget() . " has been banned " . 
 				($expiry ? "until " . $expiry : "indefinitely") . " by " . $ban->getAdmin()->getUsername() .
 				" for the reason '" . $ban->getReason() . "'.";
 			if($avoidable){

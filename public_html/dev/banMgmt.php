@@ -72,6 +72,8 @@ try{
 		$ban = Ban::getBanByID($id);
 		$ban->delete();
 		
+		Log::ircNotification("\x033,0Ban #" . $id . " has been deleted by \x032,0" . $_SESSION['user']);
+		
 		header("Location: " . getRootURL() . "banMgmt.php?delete=true");
 	}
 }

@@ -107,7 +107,7 @@ window.onload = function ()
 <center><b>Welcome to the Unblock Ticket Request System.</b></center>
 
 <p>If you are presently blocked from editing on Wikipedia (which you may verify by 
-clicking <a href="http://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox?action=edit">here</a>), you may fill out
+clicking <a href="http://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=edit">here</a>), you may fill out
 the form below to have an administrator review your block. Please complete all fields labelled in 
 <span class="required">red text</span>, as these are required in order for us to complete a full review of your block.</p>
 

@@ -39,7 +39,7 @@ if ($_POST) {
 	$query = "SELECT a.appealID, MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
 	$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE) as score";
 	$query .= " FROM appeal a, comment c";
-	$query .= " WHERE MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
+	$query .= " WHERE a.appealID = comment.appealID MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
 	$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE)";
 	$query .= " HAVING score > 0.2 ORDER BY score DESC;";
 		

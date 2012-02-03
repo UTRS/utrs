@@ -32,13 +32,13 @@ if ($_POST) {
 	$query .= " WHERE MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
 	$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE)";
 	$query .= " HAVING score > 0.2 ORDER BY score DESC;";
-	echo $query;
+		
+	$result = mysql_query($query, $db);
+	
 	if(!$result){
 		$error = mysql_error($db);
 		throw new UTRSDatabaseException($error);
 	}
-	
-	$result = mysql_query($query, $db);
 	
 	$rows = mysql_num_rows($result);
 	
@@ -51,11 +51,7 @@ if ($_POST) {
 } else {
 	?>
 	<form method="post">
-	<br>
-	<br>
-	<br>
-	<br>
-	<div style="text-align:center">
+	<div style="text-align:center; width: 100%; height: 100%; vertical-align: middle;">
 	<input type="text" name="search_terms" style="width: 200px">&nbsp;<input type="submit" value="Search">
 	</div>
 	

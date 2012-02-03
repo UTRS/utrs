@@ -256,7 +256,7 @@ if (isset($_GET['action'])) {
 <table class="appeal">
 <tr>
 <td valign=top class="left">
-Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a> | <a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_TOP">Unblock</a> | <a href="<?php echo getWikiLink("Special:UserLogin&type=signup", $user->getUseSecure()); ?>">Create Account</a><br>
+Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_new">User Page</a> | <a href="<?php echo getWikiLink("Special:Block/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_new">Contribs</a> | <a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_TOP">Unblock</a> | <a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>">Create Account</a><br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Blocking Admin: <b><?php echo $appeal->getBlockingAdmin(); ?></b><br>

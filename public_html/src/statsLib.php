@@ -92,7 +92,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
-			if ($timestamp = 1) {
+			if ($timestamp == 1) {
 				$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 			}
 			$requests .= "\t</tr>\n";

@@ -267,11 +267,11 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
 <div class="useragent"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Appeal</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIntendedEdits()); ?>')">Intended Edits</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
 <div class="info"><?php echo $appeal->getIntendedEdits(); ?></div>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Other Info</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
 <div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>
 </td>

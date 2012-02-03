@@ -153,7 +153,7 @@ if($errorMessages){
 	displayError($errorMessages);
 }
 if($appeal != null){
-	displaySuccess("Thank you! <s>Your appeal has been accepted and will be reviewed soon.</s> <b>PLEASE NOTE THIS SYSTEM IS NOT ACTIVE AND YOUR APPEAL WILL NOT BE REVIEWED.</b>");
+	displaySuccess("Thank you! Your appeal has been accepted and will be reviewed soon.");
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';

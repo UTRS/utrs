@@ -154,10 +154,10 @@ function verifyAccess($level){
 }
 
 /**
- * Returns http://toolserver.org/~unblock/dev/
+ * Returns http://toolserver.org/~unblock/
  */
 function getRootURL(){
-	return 'http://toolserver.org/~unblock/dev/';
+	return 'http://toolserver.org/~unblock/';
 }
 
 /**

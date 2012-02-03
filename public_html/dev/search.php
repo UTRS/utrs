@@ -19,7 +19,7 @@ $errorMessages = '';
 //Template header()
 skinHeader();
 
-if (isset($_POST)) {
+if ($_POST) {
 	
 	$db = connectToDB();
 	

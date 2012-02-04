@@ -159,7 +159,7 @@ $success = false;
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
 		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
 		echo "<br>";
-		echo "<a href=\"appeal.php?id=<?php echo $_GET['id']; ?>\">Back to appeal</a>";
+		echo "<a href=\"appeal.php?id=" . $appeal->getID() . "\">Back to appeal</a>";
 	}
 }
 

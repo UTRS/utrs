@@ -43,9 +43,9 @@ class User{
 			$this->closed = $vars['closed'];
 		}
 		else{
-			$this->username = $vars['username'];
-			$this->email = $vars['email'];
-			$this->wikiAccount = $vars['wikiAccount'];
+			$this->username = mysql_real_escape_string($vars['username']);
+			$this->email = mysql_real_escape_string($vars['email']);
+			$this->wikiAccount = mysql_real_escape_string($vars['wikiAccount']);
 			$this->approved = 0;
 			$this->active = 0;
 			$this->toolAdmin = 0;

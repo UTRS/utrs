@@ -45,6 +45,10 @@ if(isset($_POST["submit"])){
 		
 		debug('captcha valid <br/>');
 		
+		$username = TRIM($username);
+		$email = TRIM($email);
+		$wikiAccount = TRIM($wikiAccount);
+		
 		if($username === '' || $username == null){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';

@@ -69,7 +69,7 @@ class User{
 		$query .= ' VALUES (\'' . mysql_real_escape_string($this->username) . '\', ';
 		$query .= '\'' . mysql_real_escape_string($this->email) . '\', ';
 		$query .= '\'' . mysql_real_escape_string($this->wikiAccount) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->useSecure) . '\', ';
+		$query .= '\'' . $this->useSecure . '\', ';
 		$query .= '\'' . $this->passwordHash . '\')';
 		
 		debug($query . '<br/>');

@@ -97,10 +97,7 @@ $success = false;
 		<SELECT onChange="if (this.selectedIndex != 0) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>'}">
 		<?php
 			
-		$template = null;
-		if(isset($_GET['tid'])){
-			$template = Template::getTemplateById($_GET['tid']);
-		}
+		$templates = Template::getTemplateList();
 			
 		if (!$templates) {
 			echo "<option>No templates available</option>";
@@ -122,6 +119,12 @@ $success = false;
 		echo "<h3>Send an email to " . $appeal->getCommonName() . "</h3>\n";
 		if($errors){
 			displayError($errors);
+		}
+
+		
+		$template = null;
+		if(isset($_GET['tid'])){
+			$template = Template::getTemplateById($_GET['tid']);
 		}
 
 		echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id;
@@ -156,7 +159,7 @@ $success = false;
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
 		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
 		echo "<br>";
-		echo "<a href=\"appeal.php?id=<?php echo $appeal->getId(); ?>\">Back to appeal</a>";
+		echo "<a href=\"appeal.php?id=<?php echo $appeal->getID(); ?>\">Back to appeal</a>";
 	}
 }
 

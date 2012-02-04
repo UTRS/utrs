@@ -93,6 +93,29 @@ $success = false;
 				" here to return to the appeal.</a>");	
 	}
 	else{
+		?>
+		<SELECT onChange="if (this.selectedIndex != 0) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>'}">
+		<?php
+			
+		$templates = Template::getTemplateList();
+			
+		if (!$templates) {
+			echo "<option>No templates available</option>";
+		} else {
+				
+			echo "<option value='-1'>Please select</option>";
+		
+			$rows = mysql_num_rows($templates);
+		
+			for ($i = 0; $i < $rows; $i++) {
+				$data = mysql_fetch_array($templates);
+				echo "<option value='" . $data['templateID'] . "'>" . $data['name'] . "</option>";
+			}
+		}
+		
+		?>
+		</SELECT>
+		<?php
 		echo "<h3>Send an email to " . $appeal->getCommonName() . "</h3>\n";
 		if($errors){
 			displayError($errors);
@@ -135,7 +158,8 @@ $success = false;
 		     "message:</p>\n";
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
 		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
-
+		echo "<br>";
+		echo "<a href=\"appeal.php?id=<?php echo $appeal->getId(); ?>\">Back to appeal</a>";
 	}
 }
 

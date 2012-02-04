@@ -20,6 +20,15 @@ if(!isset($_GET['id'])){
 
 $id = $_GET['id'];
 
+if (isset($_GET['id']) && !is_numeric($id)) {
+	new UTRSIllegalModificationException("ID must be numeric.");
+}
+
+
+if (isset($_GET['tid']) && !is_numeric($_GET['tid'])) {
+	new UTRSIllegalModificationException("ID must be numeric.");
+}
+
 verifyLogin("appeal.php?id=" . $id);
 
 skinHeader();

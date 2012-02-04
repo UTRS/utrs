@@ -215,10 +215,12 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 ?>
 <script type="text/javascript">
 
+var closeTemplate = 16;
+
 function doClose() {
 	var response = confirm("Do you want to send a response to the user?")
 	if (response) {
-		window.location='sendEmail.php?tid=22&id=<?php echo $_GET['id']; ?>';
+		window.location='sendEmail.php?tid=' + closeTemplate + '&id=<?php echo $_GET['id']; ?>';
 	} else {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close';
 	}

@@ -84,14 +84,12 @@ class Log {
 			$action = 0;
 		}
 		
-		$comment = mysql_real_escape_string($comment);
-		
 		$timestamp = time();
 		
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser, action) VALUES (";
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
-		$query .= $comment . "', ";
+		$query .= mysql_real_escape_string($comment) . "', ";
 		$query .= $firstuserid . ", ";
 		$query .= $action . ");";
 		

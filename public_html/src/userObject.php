@@ -43,9 +43,9 @@ class User{
 			$this->closed = $vars['closed'];
 		}
 		else{
-			$this->username = mysql_real_escape_string($vars['username']);
-			$this->email = mysql_real_escape_string($vars['email']);
-			$this->wikiAccount = mysql_real_escape_string($vars['wikiAccount']);
+			$this->username = $vars['username'];
+			$this->email = $vars['email'];
+			$this->wikiAccount = $vars['wikiAccount'];
 			$this->approved = 0;
 			$this->active = 0;
 			$this->toolAdmin = 0;
@@ -66,10 +66,10 @@ class User{
 		$db = connectToDB();
 		
 		$query = 'INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash)';
-		$query .= ' VALUES (\'' . $this->username . '\', ';
-		$query .= '\'' . $this->email . '\', ';
-		$query .= '\'' . $this->wikiAccount . '\', ';
-		$query .= '\'' . $this->useSecure . '\', ';
+		$query .= ' VALUES (\'' . mysql_real_escape_string($this->username) . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->email) . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->wikiAccount) . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->useSecure) . '\', ';
 		$query .= '\'' . $this->passwordHash . '\')';
 		
 		debug($query . '<br/>');

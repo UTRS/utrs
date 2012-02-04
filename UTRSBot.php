@@ -537,7 +537,7 @@ ini_set('display_errors',1);
 	irc( 'USER ' . $ident . ' "' . $host . '" "localhost" :' . $realname );
 	sleep( 5 );
 	irc( 'JOIN ' . $chan );
-	irc( 'JOIN #wikipedia-en-unblock-dev');
+	irc( 'JOIN #wikipedia-en-unblock');
 
 	myq('SELECT 1');
 	
@@ -553,7 +553,7 @@ ini_set('display_errors',1);
 			
 			$rawdata = NULL;
 			
-			$sql = "SELECT ircID, notification FROM irc ORDER BY timestamp ASC LIMIT 0,1";
+			$sql = "SELECT ircID, notification, unblock FROM irc ORDER BY timestamp ASC LIMIT 0,1";
 			$query = myq($sql);
 			
 			$rows = mysql_num_rows($query);
@@ -586,7 +586,9 @@ ini_set('display_errors',1);
 				
 				continue;
 			}
-			
+			if ($result['unblock'] == 1) {
+				irc( 'PRIVMSG #wikipedia-en-unblock :' . str_replace( "\n", "\nPRIVMSG " . $chan . ' :', $rawdata ) );
+			}
 			irc( 'PRIVMSG ' . $chan . ' :' . str_replace( "\n", "\nPRIVMSG " . $chan . ' :', $rawdata ) );
 			$lastToolMsg = time();
 		}

@@ -207,11 +207,12 @@ class Log {
 	}
 	
 	//IRC bot notification system
-	public static function ircNotification($message) {
+	public static function ircNotification($message, $notify_unblock = 0) {
 		$db = connectToDB();
 				
-		$query = "INSERT INTO irc (notification) VALUES ('";
-		$query .= $message . "');";
+		$query = "INSERT INTO irc (notification, unblock) VALUES ('";
+		$query .= $message . "', ";
+		$query .= $notify_unblock . ");";
 		
 		$result = mysql_query($query, $db);
 		

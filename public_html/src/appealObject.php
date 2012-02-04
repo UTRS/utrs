@@ -127,14 +127,14 @@ class Appeal{
 			Appeal::validate($values); // may throw an exception
 		
 			$this->ipAddress = Appeal::getIPFromServer();
-			$this->emailAddress = $values['email'];
+			$this->emailAddress = mysql_real_escape_string($values['email']);
 			$this->hasAccount = (boolean) $values['registered'];
-			$this->accountName = $values['accountName'];
+			$this->accountName = mysql_real_escape_string($values['accountName']);
 			$this->isAutoBlock = (boolean) (isset($values['autoBlock']) ? $values['autoBlock'] : false);
-			$this->blockingAdmin = $values['blockingAdmin'];
-			$this->appeal = $values['appeal'];
-			$this->intendedEdits = $values['edits'];
-			$this->otherInfo = $values['otherInfo'];
+			$this->blockingAdmin = mysql_real_escape_string($values['blockingAdmin']);
+			$this->appeal = mysql_real_escape_string($values['appeal']);
+			$this->intendedEdits = mysql_real_escape_string($values['edits']);
+			$this->otherInfo = mysql_real_escape_string($values['otherInfo']);
 			$this->handlingAdmin = null;
 			$this->status = Appeal::$STATUS_NEW;
 			

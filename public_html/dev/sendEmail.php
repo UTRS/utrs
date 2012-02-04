@@ -61,10 +61,10 @@ $success = false;
 			$log = Log::getCommentsByAppealId($appeal->getID());
 			if ($_POST['template'] == "") {
 				$log->addNewItem("Sent email to user", 1);
-				Log::ircNotification("\x033,0Email sent to user \x032,0" . $appeal->getCommonName() . "\x033,0 by \x032,0" . $admin->getUsername());
+				Log::ircNotification("\x033,0Email sent to user \x032,0" . $appeal->getCommonName() . "\x033,0 by \x032,0" . $admin->getUsername(), 1);
 			} else {
 				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
-				Log::ircNotification("\x033,0Email sent to user \x032,0" . $appeal->getCommonName() . "\x033,0 using template \x032,0" . $_POST['template'] . "\x033,0 by \x032,0" . $admin->getUsername());
+				Log::ircNotification("\x033,0Email sent to user \x032,0" . $appeal->getCommonName() . "\x033,0 using template \x032,0" . $_POST['template'] . "\x033,0 by \x032,0" . $admin->getUsername(), 1);
 			}
 						
 			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {

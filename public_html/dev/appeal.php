@@ -79,7 +79,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 				$log->addNewItem('Released appeal', 1);
 				Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . " \x033,0) released by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 	} else {
-		$error = "Cannot release admin hold on appeal";
+		$error = "Cannot release hold on appeal";
 	}
 }
 
@@ -174,7 +174,6 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Only condition to allow an appeal to be sent to awaiting admin for any reason
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
-				$appeal->setHandlingAdmin(null);
 				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_ADMIN status";
@@ -216,6 +215,14 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 <script type="text/javascript">
 
 var closeTemplate = 16;
+var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br>" +
+						   "<b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br>" +
+						   "<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br>" +
+						   "<b>User</b> - <i>Assigns the status to awaiting the appealant to respond (automatically set by some templates)</i><br><br>" +
+						   "<b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br>" +
+						   "<b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br>" +
+						   "<b>Tool Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i><br><br>" +
+						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"
 
 function doClose() {
 	var response = confirm("Do you want to send a response to the user?")
@@ -227,7 +234,7 @@ function doClose() {
 }
 
 function doAdmin() {
-	var response = confirm("Do you really want to send this appeal to the tool admin queue?  Note: You will not be able to perform any other actions except comment until a tool admin can review it.  If you have a reservation, your reservation will be lost.  Please confirm this is really what you want to do.")
+	var response = confirm("Do you really want to send this appeal to the tool admin queue?  Note: You will not be able to perform any other actions except comment until a tool admin can review it.  Please confirm this is really what you want to do.")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin';
 	} else {
@@ -297,7 +304,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 <br>
 </td>
 <td valign=top class="right">
-<h3><a href="javascript:void()" onClick="showContextWindow('<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br><b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br><b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br><b>User</b> - <i>Assigns the status to awaiting the appealant to respond (automatically set by some templates)</i><br><br><b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br><b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br><b>Tool Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i><br><br><b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>');">Actions</a></h3>
+<h3><a href="javascript:void()" onClick="showContextWindow(actionsContextWindow);">Actions</a></h3>
 <div style="text-align:center;">
 	<?php
 	

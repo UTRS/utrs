@@ -127,14 +127,14 @@ class Appeal{
 			Appeal::validate($values); // may throw an exception
 		
 			$this->ipAddress = Appeal::getIPFromServer();
-			$this->emailAddress = mysql_real_escape_string($values['email']);
+			$this->emailAddress = $values['email'];
 			$this->hasAccount = (boolean) $values['registered'];
-			$this->accountName = mysql_real_escape_string($values['accountName']);
+			$this->accountName = $values['accountName'];
 			$this->isAutoBlock = (boolean) (isset($values['autoBlock']) ? $values['autoBlock'] : false);
-			$this->blockingAdmin = mysql_real_escape_string($values['blockingAdmin']);
-			$this->appeal = mysql_real_escape_string($values['appeal']);
-			$this->intendedEdits = mysql_real_escape_string($values['edits']);
-			$this->otherInfo = mysql_real_escape_string($values['otherInfo']);
+			$this->blockingAdmin = $values['blockingAdmin'];
+			$this->appeal = $values['appeal'];
+			$this->intendedEdits = $values['edits'];
+			$this->otherInfo = $values['otherInfo'];
 			$this->handlingAdmin = null;
 			$this->status = Appeal::$STATUS_NEW;
 			
@@ -246,7 +246,7 @@ class Appeal{
 		$query .= ($this->accountName ? 'wikiAccountName, ' : '');
 		$query .= 'autoblock, hasAccount, blockingAdmin, appealText, ';
 		$query .= 'intendedEdits, otherInfo, status) VALUES (';
-		$query .= '\'' . $this->emailAddress . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->emailAddress) . '\', ';
 		$query .= '\'' . $this->ipAddress . '\', ';
 		$query .= ($this->accountName ? '\'' . mysql_real_escape_string($this->accountName, $db) . '\', ' : '');
 		$query .= ($this->isAutoBlock ? '\'1\', ' : '\'0\', ');

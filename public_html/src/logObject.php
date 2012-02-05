@@ -209,7 +209,7 @@ class Log {
 		$db = connectToDB();
 				
 		$query = "INSERT INTO irc (notification, unblock) VALUES ('";
-		$query .= $message . "', ";
+		$query .= mysql_real_escape_string($message) . "', ";
 		$query .= $notify_unblock . ");";
 		
 		$result = mysql_query($query, $db);

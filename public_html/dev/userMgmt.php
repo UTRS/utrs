@@ -65,6 +65,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);
+			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been enabled by\x032,0 " . $_SESSION['user']);
 		}
 		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
 			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);

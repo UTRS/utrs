@@ -226,6 +226,25 @@ function doClose() {
 	}
 }
 
+function doAdmin() {
+	var response = confirm("Do you really want to send this appeal to the tool admin queue?  Note: You will not be able to perform any other actions except comment until a tool admin can review it.  If you have a reservation, your reservation will be lost.  Please confirm this is really what you want to do.")
+	if (response) {
+		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin';
+	} else {
+		return false;
+	}
+}
+
+
+function doCheckuser() {
+	var response = confirm("Please confirm you want to send this appeal to the checkuser queue:")
+	if (response) {
+		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser';
+	} else {
+		return false;
+	}
+}
+
 function showContextWindow(innerContent) {
 	myWindow = document.getElementById('contextWindow');
 	myContent = document.getElementById('contextContent');
@@ -327,7 +346,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=checkuser'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
 	//Awaiting user button
 	$disabled = "";
 	if (
@@ -394,7 +413,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Tool Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=admin'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Tool Admin\" onClick=\"doAdmin()\">&nbsp;";
 	//Close button
 	$disabled = "";
 	if (

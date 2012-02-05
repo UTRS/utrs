@@ -98,7 +98,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
-					if (!verifyAccess($GLOBALS['CHECKUSER'])) {
+					if (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) {
 						$appeal->setHandlingAdmin(null);
 					}
 					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);

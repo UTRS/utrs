@@ -153,7 +153,7 @@ function printRecentClosed() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
-	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, a.timestamp";
+	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, l.timestamp";
 	$query .= " FROM appeal a,";
 	$query .= " (SELECT appealID, MAX(timestamp) as timestamp";
 	$query .= " FROM actionAppealLog";

@@ -22,7 +22,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 		$query = "SELECT appeal.appealID, wikiAccountName, ip FROM appeal";
 	} else {
 		$query = "SELECT *, l.timestamp FROM appeal,";
-		$query .= " (SELECT MAX(timestamp) as timestamp FROM comment GROUP BY appealID) l";
+		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) l";
 	}
 	$query .= " WHERE";
 	//Parse all of the criteria

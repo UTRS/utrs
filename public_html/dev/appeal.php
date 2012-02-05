@@ -236,7 +236,7 @@ function doAdmin() {
 }
 
 
-function doCheckuser() {
+function doCheckUser() {
 	var response = confirm("Please confirm you want to send this appeal to the checkuser queue:")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser';

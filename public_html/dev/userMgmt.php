@@ -56,15 +56,18 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		// carry out changes
 		if(!$approved & $newApproved){
 			$requestedUser->approve($user);
+			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been approved by\x032,0 " . $_SESSION['user']);
 		}
 		if($active & !$newActive){
 			$requestedUser->disable($user, $newComments);
+			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been disabled by\x032,0 " . $_SESSION['user']);
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);
 		}
 		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
 			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
+			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's permissioned have been updated by\x032,0 " . $_SESSION['user'] . ".  Tool Admin: " . $newAdmin . " Tool Developer: " . $newDeveloper . " Checkuser:" . $newCheckuser);
 		}
 		// reset current user
 		$user = getCurrentUser();

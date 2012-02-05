@@ -15,14 +15,22 @@ require_once('userObject.php');
  * @param string $orderby the column name to sort by
  * @return a reference to the result of the query
  */
-function queryAppeals(array $criteria = array(), $limit = "", $orderby = ""){
+function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $timestamp = 0){
 	$db = connectToDB();
 	
-	$query = "SELECT * FROM appeal";
+	if ($timestamp == 0) {
+		$query = "SELECT appeal.appealID, wikiAccountName, ip FROM appeal";
+	} else {
+		$query = "SELECT *, l.timestamp FROM appeal,";
+		$query .= " (SELECT MAX(timestamp) as timestamp FROM comment GROUP BY appealID) l";
+	}
 	$query .= " WHERE";
 	//Parse all of the criteria
 	foreach($criteria as $item => $value) {
 		$query .= " " . $item . "= '" . $value . "'";
+	}
+	if ($timestamp == 1) {
+		$query .= "AND appeal.appealID = l.appealID";
 	}
 	//If there is an order, use it.
 	if ($orderby != "") {
@@ -58,7 +66,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 	$secure = $currentUser->getUseSecure();
 	
 	// get rows from DB. Throws UTRSDatabaseException
-	$result = queryAppeals($criteria, $limit, $orderby);
+	$result = queryAppeals($criteria, $limit, $orderby, $timestamp);
 	
 	$rows = mysql_num_rows($result);
 	

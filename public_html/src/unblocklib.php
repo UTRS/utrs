@@ -19,8 +19,8 @@ $GLOBALS['DEVELOPER'] = 3;
  * @return String $text
  */
 function sanitizeText($text){
-	$text = str_replace("<", "&gt;", $text);
-	$text = str_replace(">", "&lt;", $text);
+	$text = str_replace("<", "&lt;", $text);
+	$text = str_replace(">", "&gt;", $text);
 	$text = str_replace("$", "&#36;", $text);
 	return $text;
 }

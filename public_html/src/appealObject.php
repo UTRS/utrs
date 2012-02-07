@@ -127,11 +127,11 @@ class Appeal{
 			Appeal::validate($values); // may throw an exception
 		
 			$this->ipAddress = Appeal::getIPFromServer();
-			$this->emailAddress = $values['email'];
+			$this->emailAddress = sanitizeText($values['email']);
 			$this->hasAccount = (boolean) $values['registered'];
-			$this->accountName = $values['accountName'];
+			$this->accountName = sanitizeText($values['accountName']);
 			$this->isAutoBlock = (boolean) (isset($values['autoBlock']) ? $values['autoBlock'] : false);
-			$this->blockingAdmin = $values['blockingAdmin'];
+			$this->blockingAdmin = sanitizeText($values['blockingAdmin']);
 			$this->appeal = sanitizeText($values['appeal']);
 			$this->intendedEdits = sanitizeText($values['edits']);
 			$this->otherInfo = sanitizeText($values['otherInfo']);
@@ -286,7 +286,7 @@ class Appeal{
 		$query .= $_SERVER['HTTP_USER_AGENT'];
 		$query .= '\')';
 		
-		$this->useragent = $_SERVER['HTTP_USER_AGENT'];
+		$this->useragent = sanitizeText($_SERVER['HTTP_USER_AGENT']);
 		
 		$result = mysql_query($query, $db);
 		if(!$result){

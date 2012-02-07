@@ -354,10 +354,10 @@ class Appeal{
 		if(!isset($postVars["blockingAdmin"]) || strcmp(trim($postVars["blockingAdmin"]), '') == 0){
 			$errorMsgs .= "<br />We need to know which administrator placed your block.";
 		}
-		if(!isset(sanitizeText($postVars["appeal"])) || strcmp(trim(sanitizeText($postVars["appeal"])), '') == 0){
+		if(!isset($postVars["appeal"]) || strcmp(trim(sanitizeText($postVars["appeal"])), '') == 0){
 			$errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
 		}
-		if(!isset(sanitizeText($postVars["edits"])) || strcmp(trim(sanitizeText($postVars["edits"])), '') == 0){
+		if(!isset($postVars["edits"]) || strcmp(trim(sanitizeText($postVars["edits"])), '') == 0){
 			$errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
 		}
 		

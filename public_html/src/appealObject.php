@@ -132,9 +132,9 @@ class Appeal{
 			$this->accountName = $values['accountName'];
 			$this->isAutoBlock = (boolean) (isset($values['autoBlock']) ? $values['autoBlock'] : false);
 			$this->blockingAdmin = $values['blockingAdmin'];
-			$this->appeal = $values['appeal'];
-			$this->intendedEdits = $values['edits'];
-			$this->otherInfo = $values['otherInfo'];
+			$this->appeal = sanitizeText($values['appeal']);
+			$this->intendedEdits = sanitizeText($values['edits']);
+			$this->otherInfo = sanitizeText($values['otherInfo']);
 			$this->handlingAdmin = null;
 			$this->status = Appeal::$STATUS_NEW;
 			
@@ -354,10 +354,10 @@ class Appeal{
 		if(!isset($postVars["blockingAdmin"]) || strcmp(trim($postVars["blockingAdmin"]), '') == 0){
 			$errorMsgs .= "<br />We need to know which administrator placed your block.";
 		}
-		if(!isset($postVars["appeal"]) || strcmp(trim($postVars["appeal"]), '') == 0){
+		if(!isset(sanitizeText($postVars["appeal"])) || strcmp(trim(sanitizeText($postVars["appeal"])), '') == 0){
 			$errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
 		}
-		if(!isset($postVars["edits"]) || strcmp(trim($postVars["edits"]), '') == 0){
+		if(!isset(sanitizeText($postVars["edits"])) || strcmp(trim(sanitizeText($postVars["edits"])), '') == 0){
 			$errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
 		}
 		

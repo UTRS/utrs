@@ -207,7 +207,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 //Log actions
 if (isset($_GET['action']) && $_GET['action'] == "comment") {
 	if (isset($_POST['comment'])) {
-		$log->addNewItem($_POST['comment']);
+		$log->addNewItem(sanitizeText($_POST['comment']));
 		Log::ircNotification("\x032,0" . $_SESSION['user'] . "\x033,0 has left a new comment on the appeal for\x032,0 " . $appeal->getCommonName() . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 	} else {
 		$error = "You have not entered a comment";

@@ -87,9 +87,9 @@ if(isset($_POST["submit"])){
 		$errorMessages = $ex->getMessage() . $errorMessages;
 		$email = $_POST["email"];
 		$blocker = $_POST["blockingAdmin"];
-		$appealText = $_POST["appeal"];
-		$edits = $_POST["edits"];
-		$otherInfo = $_POST["otherInfo"];
+		$appealText = sanitizeText($_POST["appeal"]);
+		$edits = sanitizeText($_POST["edits"]);
+		$otherInfo = sanitizeText($_POST["otherInfo"]);
 		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
 		$wikiAccount = $_POST["accountName"];
 		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);

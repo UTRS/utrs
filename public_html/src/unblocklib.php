@@ -12,6 +12,19 @@ $GLOBALS['ACTIVE'] = 1;
 $GLOBALS['ADMIN'] = 2;
 $GLOBALS['DEVELOPER'] = 3;
 
+/**
+ * Removes all <, >, and $ signs from a text string and replaces them with
+ * HTML entities. YOU STILL NEED TO SANITIZE FOR QUOTES USING mysql_real_escape_string
+ * @param String $text
+ * @return String $text
+ */
+function sanitizeText($text){
+	$text = str_replace("<", "&gt;", $text);
+	$text = str_replace(">", "&lt;", $text);
+	$text = str_replace("$", "&#36;", $text);
+	return $text;
+}
+
 function loggedIn(){	
 	if(!isset($_SESSION)){
 		session_name('UTRSLogin');

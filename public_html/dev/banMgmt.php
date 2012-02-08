@@ -123,7 +123,7 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 			<tr>
 				<td class="required">Target:</td>
 				<td>
-					<?php if(isset($_GET['appeal'])){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($target)); }else{?>
+					<?php if(isset($_GET['appeal'])){ echo $ban->getPrivateTarget(); }else{?>
 					<input name="target" id="target" type="text" value="<?php echo $ban->getPrivateTarget();?>" />
 					<?php } // closes else from if($target)?>
 				</td>

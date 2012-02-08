@@ -89,7 +89,7 @@ class Log {
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser, action) VALUES (";
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
-		$query .= mysql_real_escape_string($comment) . "', ";
+		$query .= sanitizeText(mysql_real_escape_string($comment)) . "', ";
 		$query .= $firstuserid . ", ";
 		$query .= $action . ");";
 		
@@ -110,7 +110,7 @@ class Log {
 	function addAppellantReply($reply){
 		$db = connectToDB();
 		
-		$reply = mysql_real_escape_string($reply);
+		$reply = sanitizeText(mysql_real_escape_string($reply));
 		
 		$timestamp = time();
 		

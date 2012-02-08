@@ -59,7 +59,7 @@ class Ban{
 			$this->target = $values['target'];
 			$this->admin = getCurrentUser();
 			$this->reason = $values['reason'];
-			$this->appealID = $values['appealID'];
+			$this->appeal = $values['appeal'];
 			
 			debug('Setting values complete <br/>');
 			
@@ -73,7 +73,7 @@ class Ban{
 			$this->expiry = $values['expiry'];
 			$this->reason = $values['reason'];
 			$this->admin = User::getUserById($values['admin']);
-			$this->appealID = $values['appealID'];
+			$this->appeal = $values['appeal'];
 		}
 		debug('Exiting constuctor <br/>');
 	}
@@ -198,7 +198,7 @@ class Ban{
 			if (eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $this->target)) {
 				return censorEmail($this->target);
 			} else if (eregi('\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b', $this->target)) {
-				return "IP ban for <a href=\"appeal.php?id=" . $this->appealID . "\">Appeal " . $this->appealID;
+				return "IP ban for <a href=\"appeal.php?id=" . $this->appeal . "\">Appeal " . $this->appeal;
 			} else {
 				return $this->target;
 			}

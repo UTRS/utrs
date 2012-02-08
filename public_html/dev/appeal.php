@@ -185,6 +185,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			break;
 		case "close":
 			if (!(
+				//When set to AWAITING_ADMIN
+				$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN ||
 				//Not handling user and not admin
 				$appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN']) ||
 				//When not assigned
@@ -430,6 +432,8 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 	//Close button
 	$disabled = "";
 	if (
+		//When set to AWAITING_ADMIN
+		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN ||
 		//Not handling user and not admin
 		$appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN']) ||
 		//When not assigned

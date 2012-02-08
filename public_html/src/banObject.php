@@ -31,6 +31,13 @@ class Ban{
 	 * The banning tool administrator
 	 */
 	private $admin;
+	
+	/**
+	 * The appeal ID.  It may affect more than
+	 * one appeal, but this is the one that caused the ban
+	 */
+	
+	private $appealID;
 		
 	/**
 	 * Build a Ban object. If $fromDB is true, the mappings in $values
@@ -52,6 +59,7 @@ class Ban{
 			$this->target = $values['target'];
 			$this->admin = getCurrentUser();
 			$this->reason = $values['reason'];
+			$this->appealID = $values['appealID'];
 			
 			debug('Setting values complete <br/>');
 			
@@ -65,6 +73,7 @@ class Ban{
 			$this->expiry = $values['expiry'];
 			$this->reason = $values['reason'];
 			$this->admin = User::getUserById($values['admin']);
+			$this->appealID = $values['appealID'];
 		}
 		debug('Exiting constuctor <br/>');
 	}
@@ -132,7 +141,9 @@ class Ban{
 		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) != 0;
 		debug("Has expiry: " . $hasExpiry . "\n");
 		
-		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
+
+		
+		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin, appealID) VALUES ('";
 		$query .= $this->target . "', '";
 		$query .= date($format, $time) . "', ";
 		if($hasExpiry){
@@ -143,7 +154,12 @@ class Ban{
 			$query .= mysql_escape_string("NULL") . ", '";
 		}
 		$query .= mysql_real_escape_string($this->reason) . "', '";
-		$query .= $this->admin->getUserId() . "')";
+		$query .= $this->admin->getUserId() . "', '";
+		if ($values['appealID']) {
+			$appealID = $values['appealID'] . "')";
+		} else {
+			$appealID = "null')";
+		}
 		
 		debug($query);
 		
@@ -175,6 +191,20 @@ class Ban{
 	
 	public function getTarget(){
 		return $this->target;
+	}
+	
+	public function getPrivateTarget() {
+		if (!verifyAccess($GLOBALS['DEVELOPER'])) {
+			if (eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $this->target)) {
+				return censorEmail($this->target);
+			} else if (eregi('\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b', $this->target)) {
+				return "IP ban for <a href=\"appeal.php?id=" . $this->appealID . "\">Appeal " . $this->appealID;
+			} else {
+				return $this->target;
+			}
+		} else {
+			return $this->target;
+		}
 	}
 	
 	public function getTimestamp(){

@@ -17,8 +17,6 @@ echo "Invalid..123@email.com --> " . testWrapper("Invalid..123@email.com") . "\n
 echo "invalid@123@email.com --> " . testWrapper("invalid@123@email.com") . "\n";
 echo "invalid<email>addy@email.com --> " . testWrapper("invalid<email>addy@email.com") . "\n";
 echo "invalid\"addy@email.com --> " . testWrapper("invalid\"addy@email.com") . "\n";
-echo "invalid\"addy@email.com --> " . testWrapper("invalid\"addy@email.com") . "\n";
-echo "invalid\\\"addy@email.com --> " . testWrapper("invalid\\\"addy@email.com") . "\n";
 
 
 function testWrapper($email){
@@ -66,7 +64,7 @@ function newValidEmail($email){
 			if($inQuotes || $inComment){
 				continue; // nobody cares, move on
 			}
-			return "Invalid character " + $char; // illegal character // TODO REPLACE ME
+			return "Invalid character " . $char; // illegal character // TODO REPLACE ME
 		}
 		// dot
 		if(preg_match("/^[.]$/", $char)){
@@ -141,7 +139,7 @@ function newValidEmail($email){
 			}
 			return "Invalid )"; // otherwise invalid character // TODO REPLACE ME
 		}
-		return "Unrecognized character " + $char; // if not told to continue by now, the character is invalid // TODO REPLACE ME
+		return "Unrecognized character " . $char; // if not told to continue by now, the character is invalid // TODO REPLACE ME
 	}
 	if($inQuotes || $inComment || $escapeNext){
 		return "Unclosed quote string, comment, or escape sequence"; // TODO REPLACE ME

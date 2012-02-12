@@ -34,7 +34,7 @@ function newValidEmail($email){
 	}
 	// get the domain and user parts, assumed to be separated
 	// at the last @ in the email addy
-	$user = substr($email, 0, strrpos($email, "@"));
+	$user = substr($email, 0, strrpos($email, "@") - 1);
 	$domain = substr($email, strrpos($email, "@") + 1);
 	// validate user side
 	$userArray = str_split($email, 1);
@@ -51,7 +51,7 @@ function newValidEmail($email){
 	for($i = 0; $i < $length; $i++){
 		$char = $userArray[$i];
 		// normal stuff
-		if(preg_match("/^[a-zA-Z0-9!#$%&'*+\-\/=?^+`{}|~]$/", $char)){
+		if(preg_match("/^[a-zA-Z0-9!#$%&'*+\-\/_=?^+`{}|~]$/", $char)){
 			$escapeNext = false; // don't need to escape these, but don't see why you can't
 			continue; // nothing to worry about
 		}
@@ -80,27 +80,35 @@ function newValidEmail($email){
 		}
 		// quote
 		if(preg_match("/^[\"]$/", $char)){
+			echo "quote at mark " . $i . "\n";
 			if($inComment){
+				echo "In comment\n";
 				continue; // nobody cares, move on
 			}
 			if(!$inQuotes){
+				echo "Not in quotes\n";
 				// if first or previous character is a dot
 				if($i == 0 || preg_match("/^[.]$/", $userArray[$i-1])){
 					$inQuotes = true;
+					echo "Now in quotes\n";
 					continue; // start of valid quoted string, carry on
 				}
 			}
 			else{
+				echo "In quotes\n";
 				// if last or next character is a dot
 				if($i == ($length - 1) || preg_match("/^[.]$/", $userArray[$i+1])){
 					$inQuotes = false;
+					echo "No longer in quotes\n";
 					continue; // end of valid quoted string, carry on
 				}
 			}
 			if($escapeNext){
+				echo "Escaped\n";
 				$escapeNext = false;
 				continue; // escaped, carry on
 			}
+			echo "Oops\n";
 			return "Invalid quote"; // otherwise invalid character // TODO REPLACE ME
 		}
 		// backslash

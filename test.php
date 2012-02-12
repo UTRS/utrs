@@ -8,7 +8,7 @@ echo "email.with.dots@dots.email.com --> " . testWrapper("email.with.dots@dots.e
 echo "foo@[127.0.0.1] --> " . testWrapper("foo@[127.0.0.1]") . "\n";
 echo "\"user\"@domain.com --> " . testWrapper("\"user\"@domain.com") . "\n";
 echo "0@a --> " . testWrapper("0@a") . "\n";
-echo "!#$%&'*+-/=?^_`{}|~@example.org --> " . testWrapper("!#$%&'*+-/=?^_`{}|~@example.org") . "\n";
+echo "!#$%&'*+-/=?^_`{}|~@example.org --> " . testWrapper("!#$%&'*+-/=?^_`{}|~@example.org") . "\n\n";
 
 echo "Invalid emails:\n";
 echo "not.an.email --> " . testWrapper("not.an.email") . "\n";
@@ -22,16 +22,17 @@ echo "invalid\\\"addy@email.com --> " . testWrapper("invalid\\\"addy@email.com")
 
 
 function testWrapper($email){
-	if(newValidEmail($email)){
+	$result = newValidEmail($email);
+	if($result === true){
 		return "VALID";
 	}
-	return "NO";
+	return $result;
 }
 
 function newValidEmail($email){
 	// if does not contain an @ or @ is first character
 	if(strpos($email, "@") === false || strpos($email, "@") === 0){
-		return false;
+		return "No @ sign found"; // TODO REPLACE ME
 	}
 	// get the domain and user parts, assumed to be separated
 	// at the last @ in the email addy
@@ -42,7 +43,7 @@ function newValidEmail($email){
 	$length = sizeof($userArray);
 	// local part may only be 64 characters long
 	if($length > 64){
-		return false;
+		return "Local portion too long"; // TODO REPLACE ME
 	}
 	$inQuotes = false;
 	$inComment = false;
@@ -65,7 +66,7 @@ function newValidEmail($email){
 			if($inQuotes || $inComment){
 				continue; // nobody cares, move on
 			}
-			return false; // illegal character
+			return "Invalid character " + $char; // illegal character // TODO REPLACE ME
 		}
 		// dot
 		if(preg_match("/^[.]$/", $char)){
@@ -74,7 +75,7 @@ function newValidEmail($email){
 			}
 			// if first, last, or next character is also a dot
 			if($i == 0 || $i == ($length - 1) || preg_match("/^[.]$/", $userArray[$i+1])){
-				return false;
+				return "Dot in first, last, or repeat position"; // TODO REPLACE ME
 			}
 			$escapeNext = false;
 			continue; // otherwise we don't care
@@ -102,7 +103,7 @@ function newValidEmail($email){
 				$escapeNext = false;
 				continue; // escaped, carry on
 			}
-			return false; // otherwise invalid character
+			return "Invalid quote"; // otherwise invalid character // TODO REPLACE ME
 		}
 		// backslash
 		if(preg_match("/^[\\\\]$/", $char)){
@@ -112,8 +113,8 @@ function newValidEmail($email){
 			}
 			// if last
 			else if($i == ($length - 1)){
-				return false; // can't be last, as that escapes the @, 
-				              // making the address not actually have an @
+				return "@ sign is escaped"; // can't be last, as that escapes the @, 
+				              // making the address not actually have an @ // TODO REPLACE ME
 			}
 			else{
 				$escapeNext = true;
@@ -123,7 +124,7 @@ function newValidEmail($email){
 		// open paren
 		if(preg_match("/^[(]$/", $char)){
 			if($escapeNext){
-				return false; // not a valid character by itself
+				return "Escaped ("; // not a valid character by itself // TODO REPLACE ME
 			}
 			$inComment = true;
 			continue; // keep going
@@ -138,28 +139,25 @@ function newValidEmail($email){
 				$inComment = false;
 				continue;
 			}
-			return false; // otherwise invalid character
+			return "Invalid )"; // otherwise invalid character // TODO REPLACE ME
 		}
-		return false; // if not told to continue by now, the character is invalid
+		return "Unrecognized character " + $char; // if not told to continue by now, the character is invalid // TODO REPLACE ME
 	}
 	if($inQuotes || $inComment || $escapeNext){
-		return false;
+		return "Unclosed quote string, comment, or escape sequence"; // TODO REPLACE ME
 	}
 	// end user validation
 	// begin domain validation
 	// remove comments
 	$domain = preg_replace("/\(.*?\)/", "", $domain);
 	// IP address wrapped in [] (e.g. [127.0.0.1])
-	if(preg_match("/^\[((2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3,3}".
-	   "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\]$/", $domain)){
-		// that's ok
+	if(!(preg_match("/^\[((2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3,3}".
+	   "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\]$/", $domain)) && 
+		!(preg_match("/^[a-zA-Z0-9-]+?(\.[a-zA-Z0-9-]+?){0,}$/", $domain))){
+		return "Domain is not a bracketed IP or a valid domain"; // TODO REPLACE ME
 	}
 	else if(strlen($domain) > 255){
-		return false;
-	}
-	// apparently valid domain
-	else if(preg_match("/^[a-zA-Z0-9-]+?(\.[a-zA-Z0-9-]+?){0,}$/", $domain)){
-		// that's ok
+		return "Domain too long"; // TODO REPLACE ME
 	}
 	
 	return true; // yay!

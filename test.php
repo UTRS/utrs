@@ -105,7 +105,7 @@ function newValidEmail($email){
 			return false; // otherwise invalid character
 		}
 		// backslash
-		if(preg_match("/^[\\]$/", $char)){
+		if(preg_match("/^[\\\\]$/", $char)){
 			if($escapeNext){
 				$escapeNext = false;
 				continue; // escaped, carry on

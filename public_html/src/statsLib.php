@@ -230,7 +230,7 @@ function printBacklog() {
 	$query .= " GROUP BY appealID) c";
 	$query .= " ON c.appealID = a.appealID";
 	$query .= " WHERE DateDiff(Now(), c.last_action) > 7";
-	$query .= " AND c.comment != 'Closed'";
+	$query .= " AND c.comment != 'Appeal Created'";
 	$query .= " ORDER BY last_action ASC;";
 	
 	// get rows from DB. Throws UTRSDatabaseException

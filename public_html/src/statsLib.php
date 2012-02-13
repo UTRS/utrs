@@ -224,13 +224,13 @@ function printBacklog() {
 	
 	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.last_action) as since_last_action";
 	$query .= " FROM appeal a";
-	$query .= " LEFT JOIN (SELECT comment, Max(timestamp) as last_action, appealID";
+	$query .= " LEFT JOIN (SELECT comment, Min(timestamp) as last_action, appealID";
 	$query .= " FROM comment";
 	$query .= " WHERE action = 1";
 	$query .= " GROUP BY appealID) c";
 	$query .= " ON c.appealID = a.appealID";
 	$query .= " WHERE DateDiff(Now(), c.last_action) > 7";
-	$query .= " AND c.comment != 'Appeal Created'";
+	$query .= " AND c.comment != 'Closed'";
 	$query .= " ORDER BY last_action ASC;";
 	
 	// get rows from DB. Throws UTRSDatabaseException

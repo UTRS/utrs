@@ -226,7 +226,7 @@ function printBacklog() {
 	$query .= " FROM appeal a LEFT JOIN";
 	$query .= " (SELECT timestamp, appealID, comment";
 	$query .= " FROM comment";
-	$query .= " WHERE action = 1) c";
+	$query .= " WHERE action = 1 ORDER BY commentID DESC) c";
 	$query .= " ON c.appealID = a.appealID";
 	$query .= " LEFT JOIN (SELECT appealID, Max(timestamp) as last_action";
 	$query .= " FROM comment";

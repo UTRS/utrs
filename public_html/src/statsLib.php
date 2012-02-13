@@ -232,7 +232,7 @@ function printBacklog() {
 	$query .= " WHERE DateDiff(Now(), c.last_action) > 7";
 	$query .= " AND c.comment != 'Closed'";
 	$query .= " ORDER BY last_action ASC;";
-	
+	echo $query;
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
 	
@@ -268,7 +268,7 @@ function printBacklog() {
 			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
-			$requests .= "\t\t<td> " . $data['c.last_action'] . $data['c.comment'] . " days since last action</td>\n";
+			$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
 			$requests .= "\t</tr>\n";
 		}
 	

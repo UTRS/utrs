@@ -222,17 +222,22 @@ function printBacklog() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
-	$query = "SELECT c.comment, c.last_action, a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.last_action) as since_last_action";
-	$query .= " FROM appeal a";
-	$query .= " LEFT JOIN (SELECT comment, Min(timestamp) as last_action, appealID";
+	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), cc.last_action) as since_last_action";
+	$query .= " FROM appeal a LEFT JOIN";
+	$query .= " (SELECT timestamp, appealID, comment";
+	$query .= " FROM comment";
+	$query .= " WHERE action = 1) c";
+	$query .= " ON c.appealID = a.appealID";
+	$query .= " LEFT JOIN (SELECT appealID, Max(timestamp) as last_action";
 	$query .= " FROM comment";
 	$query .= " WHERE action = 1";
-	$query .= " GROUP BY appealID) c";
-	$query .= " ON c.appealID = a.appealID";
-	$query .= " WHERE DateDiff(Now(), c.last_action) > 7";
+	$query .= " GROUP BY appealID) cc";
+	$query .= " ON cc.appealID = c.appealID";
+	$query .= " WHERE DateDiff(Now(), cc.last_action) > 7";
+	$query .= " AND cc.last_action = c.timestamp";
 	$query .= " AND c.comment != 'Closed'";
 	$query .= " ORDER BY last_action ASC;";
-	echo $query;
+	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
 	

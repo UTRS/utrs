@@ -84,6 +84,7 @@ $success = false;
 				}
 				if (isset($_POST['statusClose']) && $_POST['statusClose']) {
 					$appeal->setStatus(Appeal::$STATUS_CLOSED);
+					//Required to make the backlog work properly.  The timestamp of the 'email sent' log item and this one need a second seperation
 					sleep(1);
 					$log->addNewItem("Closed", 1);
 				}

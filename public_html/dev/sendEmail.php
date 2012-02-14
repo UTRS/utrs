@@ -84,6 +84,7 @@ $success = false;
 				}
 				if (isset($_POST['statusClose']) && $_POST['statusClose']) {
 					$appeal->setStatus(Appeal::$STATUS_CLOSED);
+					sleep(1);
 					$log->addNewItem("Closed", 1);
 				}
 				$appeal->update();

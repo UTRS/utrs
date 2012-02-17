@@ -37,7 +37,7 @@ ini_set('display_errors',1);
 	$host = $ircBotNetworkHost;
 	$port = $ircBotNetworkPort;
 	$nick = $ircBotNickname;
-	$ident = 'UTRSBot';
+	$ident = 'UTRSBot http://toolserver.org/~unblock (by [[en:User:TParis]]';
 	$chan = $ircBotChannel;
 	$readbuffer = '';
 	$realname = 'UTRS Bot';
@@ -498,7 +498,7 @@ ini_set('display_errors',1);
 	// Code entry point.
 
 	if ( $_SERVER['REMOTE_ADDR'] != '' ) { 
-		header( 'Location: http://toolserver.org/~acc/' );
+		header( 'Location: http://toolserver.org/~unblock/' );
 		die(); 
 	}
 	
@@ -537,7 +537,7 @@ ini_set('display_errors',1);
 	irc( 'USER ' . $ident . ' "' . $host . '" "localhost" :' . $realname );
 	sleep( 5 );
 	irc( 'JOIN ' . $chan );
-	irc( 'JOIN #wikipedia-en-unblock');
+	//irc( 'JOIN #wikipedia-en-unblock');
 
 	myq('SELECT 1');
 	
@@ -576,7 +576,7 @@ ini_set('display_errors',1);
 //			echo "after delete";
 			if($rawdata == null)
 			{
-				if ((time() - $lastToolMsg) > 3600*6) {
+				if ((time() - $lastToolMsg) > 3600*8) {
 					// only send alerts every fifteen minutes so we don't piss people off too much
 					if ((time() - $lastToolMsgAlert) > 60*15) {
 						$lastToolMsgAlert = time();

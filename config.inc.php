@@ -14,5 +14,6 @@ $toolserver_username = $ts_mycnf['user'];
 $toolserver_password = $ts_mycnf['password'];
 $toolserver_host = "sql-s1-user.toolserver.org";
 $toolserver_database = "p_unblock";
+$ircBotCommandTrigger = "!";
 
 ?>

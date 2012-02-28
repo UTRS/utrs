@@ -459,6 +459,10 @@ class Appeal{
 		return $this->handlingAdmin;
 	}
 	
+	public function getOldHandlingAdmin(){
+		return $this->oldHandlingAdmin;
+	}
+	
 	public function getStatus(){
 		return $this->status;
 	}

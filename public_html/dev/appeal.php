@@ -108,6 +108,28 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$error = "Cannot set AWAITING_CHECKUSER status";
 			}
 			break;
+		case "return":
+			if (!(
+				//Appeal is not in checkuser or admin status
+				($appeal->getStatus() != Appeal::$STATUS_CHECKUSER || $appeal->getStatus() != Appeal::$STATUS_ADMIN) ||
+				//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
+				$appeal->getStatus() == Appeal::$STATUS_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER'] || $appeal->getHandlingAdmin() != $user)) ||
+				//Appeal is in admin status and user is not admin
+				$appeal->getStatus() == Appeal::$STATUS_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+				//There is no old handling admin
+				$appeal->getOldHandlingAdmin() == null ||
+				//Appeal is closed and not an admin
+				$appeal->getStatus() == Appeal::$STATUS_CLOSED
+				)) {
+					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
+					if (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) {
+						$appeal->setHandlingAdmin(null);
+					}
+					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
+			} else {
+				$error = "Cannot set AWAITING_CHECKUSER status";
+			}
+			break;
 		case "user":
 			if (!(
 				//When it is already in STATUS_AWAITING_USER status
@@ -362,6 +384,23 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	//Return button
+	$disabled = "";
+	if (
+		//Appeal is not in checkuser or admin status
+		($appeal->getStatus() != Appeal::$STATUS_CHECKUSER || $appeal->getStatus() != Appeal::$STATUS_ADMIN) ||
+		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
+		$appeal->getStatus() == Appeal::$STATUS_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER'] || $appeal->getHandlingAdmin() != $user)) ||
+		//Appeal is in admin status and user is not admin
+		$appeal->getStatus() == Appeal::$STATUS_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+		//There is no old handling admin
+		$appeal->getOldHandlingAdmin() == null ||
+		//Appeal is closed and not an admin
+		$appeal->getStatus() == Appeal::$STATUS_CLOSED
+		) {
+		$disabled = "disabled='disabled'";
+	}
+	echo "<input type=\"button\" " . $disabled . "  value=\"Return\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
 	//Awaiting user button
 	$disabled = "";
 	if (

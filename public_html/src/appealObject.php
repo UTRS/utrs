@@ -100,6 +100,10 @@ class Appeal{
 	 */
 	private $handlingAdmin;
 	/**
+	 * The old admin handling the appeal
+	 */
+	private $oldHandlingAdmin;
+	/**
 	 * Status of the appeal
 	 */
 	private $status;
@@ -136,6 +140,7 @@ class Appeal{
 			$this->intendedEdits = sanitizeText($values['edits']);
 			$this->otherInfo = sanitizeText($values['otherInfo']);
 			$this->handlingAdmin = null;
+			$this->oldHandlingAdmin = null;
 			$this->status = Appeal::$STATUS_NEW;
 			
 			debug('Setting values complete <br/>');
@@ -160,6 +165,7 @@ class Appeal{
 			} else {
 				$this->handlingAdmin = null;
 			}
+			$this->oldHandlingAdmin = $values['oldHandlingAdmin'];
 			$this->status = $values['status'];
 			$this->useragent = Appeal::getCheckUserData($this->appealID);
 		}
@@ -491,10 +497,16 @@ class Appeal{
 		
 		// TODO: query to modify the row
 		if ($admin != null) {
+				$this->oldHandlingAdmin = $this->handlingAdmin;
 				$this->handlingAdmin = User::getUserById($admin);
 		} else {
 				$this->handlingAdmin = null;
 		}
+	}
+	
+	public function returnHandlingAdmin() {
+		$this->handlingAdmin = $this->oldHandlingAdmin;
+		$this->oldHandlingAdmin = null;
 	}
 	
 }

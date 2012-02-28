@@ -195,11 +195,13 @@ echo "</form>\n";
 	</tr>
 	<tr>
 		<td colspan="2">
+			<h4>Assigned cases</h4>
 			<?php echo printAssigned($userId); ?>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="2">
+			<h4>Closed cases</h4>
 			<?php echo printClosed($userId); ?>
 		</td>
 	</tr>

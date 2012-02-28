@@ -83,6 +83,7 @@ ini_set('display_errors',1);
 	//addCommand( 'sand-pull'		, 'commandSandSvnUp'	, true  );
 	//addCommand( 'sand-svnup' 	, 'commandSandSvnUp'  	, true  );
 	addCommand( 'restart'    	, 'commandRestart'    	, false );
+	addCommand( 'ping'			, 'commandPing'			, false);
 
 	// Users
 	// Nick!User@Host mask                 			=> Group
@@ -493,6 +494,11 @@ ini_set('display_errors',1);
 		sleep( 5 );
 		
 		exit(0); // we let the jobserver reboot the bot.
+	}
+	
+	function commandPing ($parsed) {
+		$sql = "INSERT INTO irc (Notification) VALUES ('PONG')";
+		myq($sql);
 	}
 
 	// Code entry point.

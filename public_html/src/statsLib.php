@@ -567,6 +567,7 @@ function printLastThirtyActions() {
 
 	$HTMLOutput .= "<table class=\"logLargeTable\">";
 	$HTMLOutput .= "<tr>";
+	$HTMLOutput .= "<th class=\"logLargeUserHeader\">Appeal</th>";
 	$HTMLOutput .= "<th class=\"logLargeUserHeader\">User</th>";
 	$HTMLOutput .= "<th class=\"logLargeActionHeader\">Action</th>";
 	$HTMLOutput .= "<th class=\"logLargeTimeHeader\">Timestamp</th>";
@@ -581,6 +582,7 @@ function printLastThirtyActions() {
 		$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 		$italicsStart = ($data['action']) ? "<i>" : "";
 		$italicsEnd = ($data['action']) ? "</i>" : "";
+		$appeal = "<a href=\"appeal.php?id=" . $data['appealID'] . "\">" . Appeal::getAppealById($data['appealID'])->getCommonName() . "</a>";
 		// if posted by appellant
 		if(!$data['commentUser']){
 			$styleUser = "highlight";
@@ -588,6 +590,7 @@ function printLastThirtyActions() {
 			$styleTime = "highlight";
 		}
 		$HTMLOutput .= "<tr>";
+		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $appeal . "</td>";
 		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 		$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
 		$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";

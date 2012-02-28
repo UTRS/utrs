@@ -63,6 +63,8 @@ getDBstatement("user", "developer", False, "Number of tool developers: ", "APPRO
 getDBstatement("template", Null, False, "Number of email templates: ", "ACTIVE");
 getDBstatement("cuData", Null, False, "Number of Useragents in DB: ", "DEVELOPER");
 
+echo "<br>";
+
 echo printLastThirtyActions();
 
 skinFooter();

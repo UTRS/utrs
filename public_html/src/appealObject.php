@@ -501,6 +501,10 @@ class Appeal{
 			  . "If the person holding this ticket seems to be unavailable, ask a tool "
 			  . "admin to break their reservation.");
 		}
+		
+		if ($this->handlingAdmin == null && $admin == null) {
+			throw new UTRSIllegalModificationException("This request is already released.");
+		}
 		// TODO: Add a check to ensure that each person is only handling one 
 		// at a time? Or allow multiple reservations?
 		

@@ -557,7 +557,7 @@ function printLastThirtyActions() {
 	
 	$db = connectToDB();
 	
-	$sql = "SELECT * FROM comment WHERE action = 1 ORDER BY timestamp LIMIT 0,30;";
+	$sql = "SELECT * FROM comment WHERE action = 1 ORDER BY timestamp DESC LIMIT 0,30;";
 	
 	$query = mysql_query($sql, $db);
 	
@@ -593,7 +593,7 @@ function printLastThirtyActions() {
 		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $appeal . "</td>";
 		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 		$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
-		$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
+		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $timestamp . "</td>";
 		$HTMLOutput .= "</tr>";
 	}
 

@@ -65,6 +65,7 @@ getDBstatement("cuData", Null, False, "Number of Useragents in DB: ", "DEVELOPER
 
 echo "<br>";
 
+echo "<h4>Last 30 Actions</h4>";
 echo printLastThirtyActions();
 
 skinFooter();

@@ -193,6 +193,16 @@ echo "</form>\n";
 			<?php echo printUserLogs($userId); ?>
 		</td>
 	</tr>
+	<tr>
+		<td colspan="2">
+			<?php echo printAssigned($userId); ?>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<?php echo printClosed($userId); ?>
+		</td>
+	</tr>
 </table>
 
 <?php 

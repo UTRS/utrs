@@ -299,6 +299,18 @@ function printMyQueue() {
 	return printAppealList($criteria, "", "", 1);
 }
 
+function printAssigned($userId) {
+	$user = User::getUserById($userId);
+	$criteria = array('handlingAdmin' => $user->getUserId(), ' AND status !' => Appeal::$STATUS_CLOSED);
+	return printAppealList($criteria, "", "", 1);
+}
+
+function printClosed($userId) {
+	$user = User::getUserById($userId);
+	$criteria = array('handlingAdmin' => $user->getUserId(), ' AND status ' => Appeal::$STATUS_CLOSED);
+	return printAppealList($criteria, "", "", 1);
+}
+
 
 function printMyReview() {
 	$user = User::getUserByUsername($_SESSION['user']);

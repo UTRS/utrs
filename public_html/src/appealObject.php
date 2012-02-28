@@ -490,7 +490,7 @@ class Appeal{
 		}
 	}
 	
-	public function setHandlingAdmin($admin){
+	public function setHandlingAdmin($admin, $saveadmin = 0){
 		if($this->handlingAdmin != null && $admin != null){
 			throw new UTRSIllegalModificationException("This request is already reserved. "
 			  . "If the person holding this ticket seems to be unavailable, ask a tool "
@@ -500,8 +500,10 @@ class Appeal{
 		// at a time? Or allow multiple reservations?
 		
 		// TODO: query to modify the row
+		if ($saveadmin == 1) {
+			$this->oldHandlingAdmin = $this->handlingAdmin;
+		}
 		if ($admin != null) {
-				$this->oldHandlingAdmin = $this->handlingAdmin;
 				$this->handlingAdmin = User::getUserById($admin);
 		} else {
 				$this->handlingAdmin = null;

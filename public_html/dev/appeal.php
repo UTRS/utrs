@@ -100,9 +100,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
-					if (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) {
-						$appeal->setHandlingAdmin(null);
-					}
+					$appeal->setHandlingAdmin(null, 1);
 					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
 			} else {
 				$error = "Cannot set AWAITING_CHECKUSER status";
@@ -121,13 +119,12 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Appeal is closed and not an admin
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED
 				)) {
-					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
-					if (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) {
-						$appeal->setHandlingAdmin(null);
-					}
-					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
+					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
+					$appeal->returnHandlingAdmin();
+					$log->addNewItem('Appeal reservation returned to ' . $appeal->getHandlingAdmin()->getUsername());
+					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
 			} else {
-				$error = "Cannot set AWAITING_CHECKUSER status";
+				$error = "Cannot return appeal to old handling tool user";
 			}
 			break;
 		case "user":
@@ -200,6 +197,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Only condition to allow an appeal to be sent to awaiting admin for any reason
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
+				$appeal->setHandlingAdmin(null, 1);
 				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_ADMIN status";

@@ -317,6 +317,11 @@ class Appeal{
 		} else {
 			$query .= "handlingAdmin = null, ";
 		}
+		if ($this->oldHandlingAdmin != null) {
+			$query .= "oldHandlingAdmin = " . $this->oldHandlingAdmin . ", ";
+		} else {
+			$query .= "oldHandlingAdmin = null, ";
+		}
 		$query .= "status = '" . $this->status . "' ";
 		$query .= "WHERE appealID = " . $this->appealID . ";";
 		

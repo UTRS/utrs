@@ -516,7 +516,7 @@ class Appeal{
 	}
 	
 	public function returnHandlingAdmin() {
-		$this->handlingAdmin = $this->oldHandlingAdmin;
+		$this->handlingAdmin = User::getUserById($this->oldHandlingAdmin);
 		$this->oldHandlingAdmin = null;
 	}
 	

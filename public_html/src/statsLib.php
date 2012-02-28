@@ -552,4 +552,48 @@ function printTemplateList(){
 		return $list;
 	}
 }
+
+function printLastThirtyActions() {
+	
+	$db = connectToDB();
+	
+	$sql = "SELECT * FROM comment WHERE action = 1 ORDER BY timestamp LIMIT 0,30;";
+	
+	$query = mysql_query($sql, $db);
+	
+	$num_rows = mysql_num_rows($query);
+	
+	$HTMLOutput = "";
+
+	$HTMLOutput .= "<table class=\"logLargeTable\">";
+	$HTMLOutput .= "<tr>";
+	$HTMLOutput .= "<th class=\"logLargeUserHeader\">User</th>";
+	$HTMLOutput .= "<th class=\"logLargeActionHeader\">Action</th>";
+	$HTMLOutput .= "<th class=\"logLargeTimeHeader\">Timestamp</th>";
+	$HTMLOutput .= "</tr>";
+
+	for ($i = 0; $i < $num_rows; $i++) {
+		$styleUser = ($i%2 == 1) ? "largeLogUserOne" : "largeLogUserTwo";
+		$styleAction = ($i%2 == 1) ? "largeLogActionOne" : "largeLogActionTwo";
+		$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
+		$data = mysql_fetch_array($query);
+		$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
+		$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
+		$italicsStart = ($data['action']) ? "<i>" : "";
+		$italicsEnd = ($data['action']) ? "</i>" : "";
+		// if posted by appellant
+		if(!$data['commentUser']){
+			$styleUser = "highlight";
+			$styleAction = "highlight";
+			$styleTime = "highlight";
+		}
+		$HTMLOutput .= "<tr>";
+		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
+		$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
+		$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
+		$HTMLOutput .= "</tr>";
+	}
+
+	$HTMLOutput .= "</table>";
+}
 ?>

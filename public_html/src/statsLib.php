@@ -595,5 +595,7 @@ function printLastThirtyActions() {
 	}
 
 	$HTMLOutput .= "</table>";
+	
+	return $HTMLOutput;
 }
 ?>

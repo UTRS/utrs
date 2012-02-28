@@ -506,7 +506,7 @@ class Appeal{
 		
 		// TODO: query to modify the row
 		if ($saveadmin == 1) {
-			$this->oldHandlingAdmin = $this->handlingAdmin;
+			$this->oldHandlingAdmin = $this->handlingAdmin->getUserId();
 		}
 		if ($admin != null) {
 				$this->handlingAdmin = User::getUserById($admin);

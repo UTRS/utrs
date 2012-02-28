@@ -386,7 +386,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 	$disabled = "";
 	if (
 		//Appeal is not in checkuser or admin status
-		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER || $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN) ||
+		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN) ||
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER'] || $appeal->getHandlingAdmin() != $user)) ||
 		//Appeal is in admin status and user is not admin

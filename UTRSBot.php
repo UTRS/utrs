@@ -88,7 +88,9 @@ ini_set('display_errors',1);
 	// Users
 	// Nick!User@Host mask                 			=> Group
 	$users = array(
-		'*!~TParis@wikipedia/TParis'					=> 'developer',
+		'*!*@wikipedia/TParis'					=> 'developer',
+		'*!*@wikipedia/DeltaQuad'				=> 'developer',
+		'*!~*@wikimedia/Thehelpfulone'			=> 'developer',
 		
 		'*!*@*'										=> '*'
 		);
@@ -108,6 +110,7 @@ ini_set('display_errors',1);
 	$privgroups[ 'developer' ][ 'sand-pull' 	] = 1;
 	$privgroups[ 'developer' ][ 'rewrite-pull' 	] = 1;
 	$privgroups[ 'developer' ][ 'restart'		] = 1;
+	$privgroups[ 'developer' ][ 'ping'			] = 1;
 	
 	$privgroups[ 'bot'		 ][ 'sand-svnup'  	] = 1;
 	$privgroups[ 'bot'		 ][ 'rewrite-pull' 	] = 1;

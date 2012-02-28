@@ -420,6 +420,7 @@ Assigned: <?php $handlingAdmin = $appeal->getHandlingAdmin(); echo $handlingAdmi
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	echo "<br>";
 	//On Hold button
 	$disabled = "";
 	if (

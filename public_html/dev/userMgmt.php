@@ -82,7 +82,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 	$user = getCurrentUser();
 	$userId = $_GET['userId'];
 	$requestedUser = User::getUserById($userId);
-	$newName = $_POST['newName'];
+	$newName = trim($_POST['newName']);
 	
 	try{
 		if(!isset($_POST['newName']) || !$newName){

@@ -90,7 +90,8 @@ ini_set('display_errors',1);
 	$users = array(
 		'*!*@wikipedia/TParis'					=> 'developer',
 		'*!*@wikipedia/DeltaQuad'				=> 'developer',
-		'*!~*@wikimedia/Thehelpfulone'			=> 'developer',
+		'*!*@wikimedia/Thehelpfulone'			=> 'developer',
+		'*!*@wikipedia/Hersfold'				=> 'developer',
 		
 		'*!*@*'										=> '*'
 		);

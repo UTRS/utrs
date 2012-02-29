@@ -45,7 +45,7 @@ try{
 				throw new UTRSDatabaseException(mysql_error($db));
 			}
 			// else
-			$query = "UPDATE cuData SET ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
+			$query = "DELETE FROM cuData WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";
 			$result = mysql_query($query, $db);
 			if(!$result){

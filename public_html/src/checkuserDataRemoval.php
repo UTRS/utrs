@@ -37,7 +37,7 @@ try{
 
 		for($i = 0; $i < $rows; $i++){
 			$appeal = mysql_fetch_assoc($result);
-			echo "Processing appeal #" . $appeal . "\n";
+			echo "Processing appeal #" . $appeal['appealID'] . "\n";
 			
 			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";

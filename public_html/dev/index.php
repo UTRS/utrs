@@ -148,6 +148,13 @@ how to receive assistance, please see those links.</p>
 
 <p><b>For assistance with a block, please complete the form below:</b></p>
 
+<noscript>
+<?php displayError("It looks like your browser either doesn't support Javascript, or " .
+                             "Javascript is disabled. Elements of this form require Javascript " .
+                             "to display properly. Please enable Javascript or use another browser " .
+                             "to continue. Thank you!");?>
+</noscript>
+
 <?php 
 if($errorMessages){
 	displayError($errorMessages);

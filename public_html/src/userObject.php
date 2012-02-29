@@ -422,7 +422,7 @@ class User{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		UserMgmtLog::insert("renamed user to '". $newName . "'", "Old username: '" . $oldName . "'", $this->getUserId(), $admin->getUserId());
+		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId());
 		
 		Log::ircNotification("\x032,0" . $oldName . "\x033,0 has been renamed to \x032,0" . $newName . 
 		    "\x033,0 by \x032,0" . $admin->getUsername(), 1);

@@ -63,23 +63,6 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			//Notify IRC of approval
 			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been approved by\x032,0 " . $_SESSION['user']);
 			
-			//Email user their account is approved
-			$email = $requestedUser->getEmail();
-			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-			$body = "Hello {{username}}, \n\n" .
-								"This is a notification that your account has been approved on the " .
-								"Unblock Ticket Request System (UTRS) by {{adminname}}.  Please login " .
-								"to <a href=\"" . getRootURL() . "\">the system</a> to begin reviewing " .
-								"unblock requests.  Thanks for volunteering!";
-			$subject = "UTRS Account Activated";
-			
-			$body = str_replace("{{adminname}}", $_SESSION['user'], $body);
-			$body = str_replace("{{username}}", $requestedUser->getUsername(), $body);
-			$body = str_replace("\n", "<br/>", $body);
-			
-			mail($email, $subject, $body, $headers);
 		}
 		if($active & !$newActive){
 			

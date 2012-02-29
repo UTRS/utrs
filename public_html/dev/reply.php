@@ -52,7 +52,11 @@ try{
 			throw new UTRSIllegalModificationException("You may not post a blank reply.");
 		}
 		
+		//Post the reply to the log
+		
 		$log->addAppellantReply($reply);
+		
+		// IRC Notification
 		
 		$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 		$appeal->update();
@@ -62,6 +66,29 @@ try{
 			"A reply has been made to appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . 
 		 	$appeal->getID() . " \x033,0) and the status has been updated to AWAITING_REVIEWER URL: " .
 		 	getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+		
+		//Email notification to the admin handling the appeal
+		
+		if ($admin->replyNotify()) {
+			$email = $admin->getEmail();
+			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			$body = "Hello {{adminname}}, \n\n" .
+					"This is a notification that a reply has been made to a Wikipedia unblock appeal".
+					" from {{username}} that you have reserved. " .
+			        "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
+					"to review the reply, please click the link below.\n".
+					"<a href=\"" . getRootURL() . "appeal.php?id=" . $id . "\">" .
+					"Review response by clicking here</a>\n<hr />\n";
+			$subject = "Response to unblock appeal";
+				
+			$body = str_replace("{{adminname}}", $admin->getUsername(), $body);
+			$body = str_replace("{{username}}", $appeal->getCommonName(), $body);
+			$body = str_replace("\n", "<br/>", $body);
+				
+			mail($email, $subject, $body, $headers);
+		}
 	}
 }
 catch(UTRSException $e){

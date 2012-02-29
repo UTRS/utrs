@@ -59,7 +59,7 @@ class UserMgmtLog{
 		$string = ''. $this->timestamp . ' - ';
 		$string .= $this->doneBy->getUsername() . ' ';
 		$string .= $this->action . ' ';
-		if(!$this->hideTarget){
+		if($this->hideTarget == 0){
 			$string .= $this->target->getUsername() . ' ';
 		}
 		$string .= '(<i>' . $this->reason . '</i>)';

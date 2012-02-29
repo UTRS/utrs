@@ -43,14 +43,14 @@ try{
 		for($i = 0; $i < $rows; $i++){
 			$appeal = $appealIds[$i];
 			echo "Processing appeal #" . $appeal . "\n";
-			$query = "UPDATE appeal SET email = NULL, ip = NULL WHERE appealID = '" . $appeal . "'";
+			$query = "UPDATE appeal SET email = NULL, ip = '"md5($ip)"' WHERE appealID = '" . $appeal . "'";
 			echo "\tRunning query: " . $query . "\n";
 			$result = mysql_query($query, $db);
 			if(!$result){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}
 			// else
-			$query = "DELETE FROM cuData WHERE appealID = '" . $appeal . "'";
+			$query = "UPDATE cuData WHERE appealID = '" . $appeal . "' SET ip = '"md5($ip)"'";
 			echo "\tRunning query: " . $query . "\n";
 			$result = mysql_query($query, $db);
 			if(!$result){

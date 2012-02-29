@@ -477,6 +477,7 @@ function printUserLogs($userId){
 			$timestamp = $data['timestamp'];
 			$action = $data['action'];
 			$reason = $data['reason'];
+			$hideTarget = $data['hideTarget'];
 			//Determine if it's an odd or even row for formatting
 			if ($i % 2) {
 				$rowformat = "even";
@@ -486,7 +487,7 @@ function printUserLogs($userId){
 			
 			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
-			$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . " " . $target->getUsername() . 
+			$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
 						($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
 			$list .= "\t</tr>\n";
 		}

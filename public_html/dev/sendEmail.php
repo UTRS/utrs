@@ -70,10 +70,10 @@ $success = false;
 			$log = Log::getCommentsByAppealId($appeal->getID());
 			if ($_POST['template'] == "") {
 				$log->addNewItem("Sent email to user", 1);
-				Log::ircNotification("\x033,0Email sent to user \x032,0" . $appeal->getCommonName() . "\x033,0 by \x032,0" . $admin->getUsername(), 1);
+				Log::ircNotification("\x033,0Email sent to user\x032,0 " . $appeal->getCommonName() . "\x033,0 by \x032,0" . $admin->getUsername(), 1);
 			} else {
 				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
-				Log::ircNotification("\x033,0Email sent to user \x032,0" . $appeal->getCommonName() . "\x033,0 using template \x032,0" . $_POST['template'] . "\x033,0 by \x032,0" . $admin->getUsername(), 1);
+				Log::ircNotification("\x033,0Email sent to user\x032,0 " . $appeal->getCommonName() . "\x033,0 using template \x032,0" . $_POST['template'] . "\x033,0 by \x032,0" . $admin->getUsername(), 1);
 			}
 						
 			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
@@ -89,7 +89,7 @@ $success = false;
 					$log->addNewItem("Closed", 1);
 				}
 				$appeal->update();
-				Log::ircNotification("\x033,0Status changed for \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) to \x032,0 " . $appeal->getStatus() . " \x033,0by \x032,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID());
+				Log::ircNotification("\x033,0Status changed for\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) to \x032,0 " . $appeal->getStatus() . " \x033,0by \x032,0" . $appeal->getHandlingAdmin()->getUsername() . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID());
 			}
 			$success = true;
 		}

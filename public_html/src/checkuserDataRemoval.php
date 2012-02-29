@@ -52,7 +52,7 @@ try{
 			if(!$result){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}
-			echo "Appeal #" . $appeal . " complete.\n";
+			echo "Appeal #" . $appeal['appealID'] . " complete.\n";
 		}
 	}
 

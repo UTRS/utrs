@@ -230,7 +230,13 @@ echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=
 echo "</form>\n";
 ?>
 		</td>
-		<td>
+		<td style="width:60%;" valign="top">
+			<h4>Logs for this user</h4>
+			<?php echo printUserLogs($userId); ?>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
 		<?php
 
 		echo "<form name=\"renameuser\" id=\"renameuser\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
@@ -240,12 +246,7 @@ echo "</form>\n";
 		
 		?>
 		</td>
-		<td style="width:60%;" valign="top">
-			<h4>Logs for this user</h4>
-			<?php echo printUserLogs($userId); ?>
-		</td>
 	</tr>
-	<tr>
 		<td colspan="2">
 			<h4>Assigned cases</h4>
 			<?php echo printAssigned($userId); ?>

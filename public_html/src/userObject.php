@@ -384,6 +384,35 @@ class User{
 					$this->userId, $admin->userId);
 	}
 	
+	public function renameUser($newName, $admin){
+		if($admin->getUserId() == $this->getUserId()){
+			throw new UTRSIllegalModificationException("To avoid errors, administrators may not " . 
+				"rename themselves. Please contact another tool administrator to correct your name.");
+		}
+		
+		$oldName = $this->getUsername();
+		
+		$query = "UPDATE user SET username='" . $newName . "' " .
+		         "WHERE userID='" . $this->userId . "'";
+		
+		$db = connectToDB();
+		
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		UserMgmtLog::insert("renamed from " . $oldName . " to " . $newName, null, $this->getUserId(), $admin->getUserId());
+		
+		Log::ircNotification("\x032,0" . $oldName . "\x033,0 has been renamed to \x032,0" . $newName . 
+		    "\x033,0 by \x033,0" . $admin->getUsername(), 1);
+	}
+	
 	public function incrementClose() {
 		
 		$query = "UPDATE user SET closed = closed + 1 WHERE userID = " . $this->getUserId() . ";";

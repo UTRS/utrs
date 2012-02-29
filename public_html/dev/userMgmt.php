@@ -78,6 +78,48 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		$errors = $e->getMessage();
 	}
 }
+else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS['ADMIN'])){
+	$user = getCurrentUser();
+	$userId = $_GET['userId'];
+	$requestedUser = User::getUserById($userId);
+	$newName = $_POST['newName'];
+	
+	try{
+		if(!isset($_POST['newName']) || !$newName){
+			throw new UTRSIllegalModificationException("You must provide a new username in order to rename this user.");
+		}
+		if(strpos($newName, "#") !== false | strpos($newName, "/") !== false |
+		   strpos($newName, "|") !== false | strpos($newName, "[") !== false |
+		   strpos($newName, "]") !== false | strpos($newName, "{") !== false |
+		   strpos($newName, "}") !== false | strpos($newName, "<") !== false |
+		   strpos($newName, ">") !== false | strpos($newName, "@") !== false |
+		   strpos($newName, "%") !== false | strpos($newName, ":") !== false | 
+		   strpos($newName, '$') !== false){
+		   	throw new UTRSIllegalModificationException('The username you have entered is invalid. Usernames ' .
+		   	 	'may not contain the characters # / | [ ] { } < > @ % : $');
+		}
+		try{
+			$existingUser = User::getUserByUsername($newName);
+			// if no exception, then there's a problem
+			throw new UTRSIllegalModificationException("That username is in use. Please enter another.");
+		}
+		catch(UTRSDatabaseException $e){
+			if(strpos($e->getMessage(), "No results were returned") !== false){
+				// that's good
+			}
+			else{
+				// that's not good
+				throw $e;
+			}
+		}
+		
+		$requestedUser->renameUser($newName, $user);
+	}
+	catch(UTRSException $e){
+		$errors = $e->getMessage();
+	}
+
+}
 
 // in case user modified their own access, make sure we don't need to log them out
 verifyLogin('userMgmt.php');
@@ -187,6 +229,16 @@ echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit change
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";
 ?>
+		</td>
+		<td>
+		<?php
+
+		echo "<form name=\"renameuser\" id=\"renameuser\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
+		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" />\n";
+		echo "<input type=\"submit\" name=\"rename\" id=\"rename\" value=\"Rename user\" \>\n";
+		echo "</form>\n";
+		
+		?>
 		</td>
 		<td style="width:60%;" valign="top">
 			<h4>Logs for this user</h4>

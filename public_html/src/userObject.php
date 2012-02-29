@@ -252,6 +252,7 @@ class User{
 		
 		$this->email = $newEmail;
 		$this->useSecure = $newSecure;
+		$this->replyNotify = $newReply;
 	}
 	
 	public function setNewPassword($oldpass, $newpass){

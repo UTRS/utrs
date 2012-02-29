@@ -244,6 +244,7 @@ var closeTemplate = 16;
 var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br>" +
 						   "<b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br>" +
 						   "<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br>" +
+						   "<b>Return</b> - <i>Assigns the ticket back to the user who submitted it to Checkusers or Tool Admins.  Also sets the ticket to AWAITING_REVIEWER status.</i><br><br>" +
 						   "<b>User</b> - <i>Assigns the status to awaiting the appealant to respond (automatically set by some templates)</i><br><br>" +
 						   "<b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br>" +
 						   "<b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br>" +

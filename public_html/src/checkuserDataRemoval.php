@@ -41,15 +41,15 @@ try{
 			
 			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";
-			$result = mysql_query($query, $db);
-			if(!$result){
+			$update = mysql_query($query, $db);
+			if(!$update){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}
 			// else
 			$query = "DELETE FROM cuData WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";
-			$result = mysql_query($query, $db);
-			if(!$result){
+			$delete = mysql_query($query, $db);
+			if(!$delete){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}
 			echo "Appeal #" . $appeal['appealID'] . " complete.\n";

@@ -241,7 +241,7 @@ echo "</form>\n";
 		<?php
 
 		echo "<form name=\"renameuser\" id=\"renameuser\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
-		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" value=\"" . (isset($_POST['rename']) ? $_POST['rename'] : "") . "\"/>\n";
+		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" value=\"" . (isset($_POST['newName']) ? $_POST['newName'] : "") . "\"/>\n";
 		echo "<input type=\"submit\" name=\"rename\" id=\"rename\" value=\"Rename user\" \>\n";
 		echo "</form>\n";
 		

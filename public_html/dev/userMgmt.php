@@ -101,7 +101,8 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		try{
 			$existingUser = User::getUserByUsername($newName);
 			// if no exception, then there's a problem
-			throw new UTRSIllegalModificationException("That username is in use. Please enter another.");
+			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName . 
+				"\". Please enter another username.");
 		}
 		catch(UTRSDatabaseException $e){
 			if(strpos($e->getMessage(), "No results were returned") !== false){
@@ -240,7 +241,7 @@ echo "</form>\n";
 		<?php
 
 		echo "<form name=\"renameuser\" id=\"renameuser\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
-		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" />\n";
+		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" value=\"" . $_POST['rename'] . "\"/>\n";
 		echo "<input type=\"submit\" name=\"rename\" id=\"rename\" value=\"Rename user\" \>\n";
 		echo "</form>\n";
 		

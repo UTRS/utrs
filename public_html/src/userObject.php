@@ -222,7 +222,7 @@ class User{
 		if($newEmail != null & !validEmail($newEmail)){
 			throw new UTRSIllegalModificationException('The email address you have entered (' . $newEmail . ') is invalid.');
 		}
-		if(($newEmail == null | ($newEmail != null & $newEmail == $this->email)) & $newSecure == $this->useSecure & $newReply = $this->replyNotify){
+		if(($newEmail == null | ($newEmail != null & $newEmail == $this->email)) & $newSecure == $this->useSecure & $newReply == $this->replyNotify){
 			throw new UTRSIllegalModificationException('You have not changed any of your preferences.');
 		}
 		

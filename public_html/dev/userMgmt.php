@@ -131,6 +131,9 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		if(!isset($_POST['newName']) || !$newName){
 			throw new UTRSIllegalModificationException("You must provide a new username in order to rename this user.");
 		}
+		if(strcmp($newName, $requestedUser->getUsername()) === 0){
+			throw new UTRSIllegalModificationException("The name you have provided is identical to the current username.");
+		}
 		if(strpos($newName, "#") !== false | strpos($newName, "/") !== false |
 		   strpos($newName, "|") !== false | strpos($newName, "[") !== false |
 		   strpos($newName, "]") !== false | strpos($newName, "{") !== false |

@@ -36,7 +36,7 @@ try{
 		echo "Starting to remove private data...\n";
 
 		for($i = 0; $i < $rows; $i++){
-			$appeal = mysql_fetch_assoc($result);
+			$appeal = mysql_fetch_array($result);
 			echo "Processing appeal #" . $appeal['appealID'] . "\n";
 			
 			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";

@@ -14,7 +14,7 @@ try{
 
 	$db = connectToDB();
 
-	$query = "SELECT appealID, ip FROM appeal WHERE email IS NOT NULL AND status = 'CLOSED'";
+	$query = "SELECT appealID, ip FROM appeal WHERE email IS NOT NULL AND ip LIKE '%.%.%.%' AND status = 'CLOSED'";
 
 	echo "Running query: " . $query . "\n";
 
@@ -41,6 +41,7 @@ try{
 			
 			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";
+			$result = mysql_query($query, $db);
 			if(!$result){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}

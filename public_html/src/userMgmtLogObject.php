@@ -15,6 +15,7 @@ class UserMgmtLog{
 	private $timestamp;
 	private $target;
 	private $doneBy;
+	private $hideTarget;
 	
 	public function __construct(array $vars){
 		debug('in constructor for MgmtLog');
@@ -25,18 +26,20 @@ class UserMgmtLog{
 		$this->timestamp = $vars['timestamp'];
 		$this->target = User::getUserById($vars['target']);
 		$this->doneBy = User::getUserById($vars['doneBy']);
+		$this->hideTarget = $vars['hideTarget'];
 	}
 
-	public static function insert($logAction, $logReason, $targetUserId, $doneByUserId){
+	public static function insert($logAction, $logReason, $targetUserId, $doneByUserId, $hideTarget = 0){
 		debug('in insert for userMgmtLog<br/>');
 		
 		$db = connectToDB();
 		
-		$query = 'INSERT INTO userMgmtLog (action, reason, target, doneBy) VALUES (';
+		$query = 'INSERT INTO userMgmtLog (action, reason, target, doneBy, hideTarget) VALUES (';
 		$query .= '\'' . $logAction . '\', ';
 		$query .= '\'' . $logReason . '\', ';
 		$query .= '\'' . $targetUserId . '\', ';
-		$query .= '\'' . $doneByUserId . '\')';
+		$query .= '\'' . $doneByUserId . '\', ';
+		$query .= '\'' . $hideTarget . '\')';
 		
 		$result = mysql_query($query, $db);
 		if(!$result){
@@ -52,8 +55,10 @@ class UserMgmtLog{
 		$string = ''. $this->timestamp . ' - ';
 		$string .= $this->doneBy->getUsername() . ' ';
 		$string .= $this->action . ' ';
-		$string .= $this->target->getUsername() . ' (<i>';
-		$string .= $this->reason . '</i>)';
+		if(!$this->hideTarget){
+			$string .= $this->target->getUsername() . ' ';
+		}
+		$string .= '(<i>' . $this->reason . '</i>)';
 		
 		return $string;
 	}

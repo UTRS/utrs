@@ -14,7 +14,7 @@ try{
 
 	$db = connectToDB();
 
-	$query = "SELECT appealID FROM appeal WHERE email IS NOT NULL AND status = 'CLOSED'";
+	$query = "SELECT appealID, ip FROM appeal WHERE email IS NOT NULL AND status = 'CLOSED'";
 
 	echo "Running query: " . $query . "\n";
 
@@ -33,19 +33,15 @@ try{
 
 		$appealIds = array();
 
-		for ($i = 0; $i < $rows; $i++){
-			$row = mysql_fetch_assoc($result);
-			$appealIds[$i] = $row['appealID'];
-		}
-
 		echo "Starting to remove private data...\n";
 
 		for($i = 0; $i < $rows; $i++){
 			$appeal = $appealIds[$i];
 			echo "Processing appeal #" . $appeal . "\n";
-			$query = "UPDATE appeal SET email = NULL, ip = '".md5($ip)."' WHERE appealID = '" . $appeal . "'";
+			
+			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";
-			$result = mysql_query($query, $db);
+			$appeal = mysql_fetch_assoc($result);
 			if(!$result){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}

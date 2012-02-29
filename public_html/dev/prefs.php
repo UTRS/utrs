@@ -33,11 +33,16 @@ try{
 			$newSecure = true;
 		}
 		
+		$newReply = false;
+		if(isset($_POST['reply'])){
+			$newReply = true;
+		}
+		
 		// handles setting stuff that needs to be set.
 		// will throw an exception if any problems,
 		// so we can keep going assuming it worked
 		// because we're in a try block.
-		$user->setNewPreferences($newSecure, $newEmail);
+		$user->setNewPreferences($newSecure, $newEmail, $newReply);
 		
 		$success = true;
 	}
@@ -76,6 +81,11 @@ $secureString = '';
 if($secure){
 	$secureString = 'checked="true"';
 }
+$reply = $user->replyNotify();
+$replyString = '';
+if($reply){
+	$replyString = 'checked="true"';
+}
 $email = $user->getEmail();
 
 //Template header()
@@ -95,6 +105,8 @@ else if($success){
 echo "<form name=\"generalPrefs\" id=\"generalPrefs\" action=\"prefs.php\" method=\"POST\">";
 echo "<input type=\"checkbox\" name=\"secure\" id=\"secure\" " . $secureString . 
 	" /> <label for=\"secure\" id=\"secureLabel\">Enable use of the (new) secure server</label><br/>\n";
+echo "<input type=\"checkbox\" name=\"reply\" id=\"reply\" " . $replyString . 
+	" /> <label for=\"reply\" id=\"replyLabel\">Receive notification of replies (not comments) to appeals by email</label><br/>\n";
 echo "<label for=\"email\" id=\"emailLabel\">Your email address:</label> <input type=\"text\" name=\"email\" id=\"email\" size=\"40\" value=\"" . $email . "\" /><br/>\n";
 echo "<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\" /> <input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 echo "</form>";

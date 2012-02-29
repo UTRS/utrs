@@ -19,6 +19,7 @@ class User{
 	private $checkuser;
 	private $developer;
 	private $useSecure;
+	private $replyNotify;
 	private $passwordHash;
 	private $comments;
 	private $registered;
@@ -38,6 +39,7 @@ class User{
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
 			$this->useSecure = ($vars['useSecure'] == 1 || $vars['useSecure'] == '1' ? true : false);
+			$this->replyNotify = $vars['replyNotify'];
 			$this->comments = $vars['comments'];
 			$this->registered = $vars['registered'];
 			$this->closed = $vars['closed'];
@@ -52,6 +54,7 @@ class User{
 			$this->checkuser = 0;
 			$this->developer = 0;
 			$this->useSecure = isset($vars['useSecure']);
+			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
 			$this->closed = 0;
 			
@@ -207,11 +210,15 @@ class User{
 		return $this->registered;
 	}
 	
+	public function replyNotify() {
+		return $this->replyNotify;
+	}
+	
 	public function getClosed() {
 		return $this->closed;
 	}
 	
-	public function setNewPreferences($newSecure, $newEmail){
+	public function setNewPreferences($newSecure, $newEmail, $newReply){
 		if($newEmail != null & !validEmail($newEmail)){
 			throw new UTRSIllegalModificationException('The email address you have entered (' . $newEmail . ') is invalid.');
 		}
@@ -224,7 +231,11 @@ class User{
 		if($newSecure){
 			$secureInt = 1;
 		}
-		$query = "UPDATE user SET useSecure='" . $secureInt . "', email='" . $newEmail . "' ";
+		$replyNotify = 0;
+		if ($newReply) {
+			$replyNotify = 1;
+		}
+		$query = "UPDATE user SET useSecure='" . $secureInt . "', email='" . $newEmail . "', replyNotify='" . $replyNotify . "' ";
 		$query .= "WHERE userID='" . $this->userId . "'";
 		
 		debug($query);

@@ -301,8 +301,13 @@ class User{
 								"Unblock Ticket Request System (UTRS) by " . $admin->getUsername() . ".  Please login " .
 								"to <a href=\"" . getRootURL() . "\">the system</a> to begin reviewing " .
 								"unblock requests.  Thanks for volunteering!";
+		
+		$headers = "From: UTRS Development Team <unblock@toolserver.org>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			
 		// notify user
-		mail($this->email, "UTRS account approved", $emailBody, "From: UTRS Development Team <unblock@toolserver.org>");
+		mail($this->email, "UTRS account approved", $emailBody, $headers);
 			
 	}
 	

@@ -294,6 +294,16 @@ class User{
 		$this->approved = true;
 		
 		UserMgmtLog::insert("approved account", "", $this->userId, $admin->userId);
+		
+		
+		$emailBody = "Hello " . $this->username . ", \n\n" .
+								"This is a notification that your account has been approved on the " .
+								"Unblock Ticket Request System (UTRS) by " . $admin->getUsername() . ".  Please login " .
+								"to <a href=\"" . getRootURL() . "\">the system</a> to begin reviewing " .
+								"unblock requests.  Thanks for volunteering!";
+		// notify user
+		mail($this->email, "UTRS account approved", $emailBody, "From: UTRS Development Team <unblock@toolserver.org>");
+			
 	}
 	
 	public function disable($admin, $comments){

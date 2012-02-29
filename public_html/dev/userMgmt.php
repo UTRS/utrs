@@ -89,22 +89,6 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			//Notify IRC of the change
 			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been disabled by\x032,0 " . $_SESSION['user']);
 			
-			//Email user that their account was disabled
-			$email = $requestedUser->getEmail();
-			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-			$body = "Hello {{username}}, \n\n" .
-								"This is a notification that your account has been disabled on the " .
-								"Unblock Ticket Request System (UTRS) by {{adminname}}.  If this was in " .
-								"error, please email unblock@toolserver.org.";
-			$subject = "UTRS Account Disabled";
-			
-			$body = str_replace("{{adminname}}", $_SESSION['user'], $body);
-			$body = str_replace("{{username}}", $requestedUser->getUsername(), $body);
-			$body = str_replace("\n", "<br/>", $body);
-			
-			mail($email, $subject, $body, $headers);
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);

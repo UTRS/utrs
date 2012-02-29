@@ -32,6 +32,10 @@ class UserMgmtLog{
 	public static function insert($logAction, $logReason, $targetUserId, $doneByUserId, $hideTarget = 0){
 		debug('in insert for userMgmtLog<br/>');
 		
+		if($hideTarget === true){
+			$hideTarget = 1;
+		}
+		
 		$db = connectToDB();
 		
 		$query = 'INSERT INTO userMgmtLog (action, reason, target, doneBy, hideTarget) VALUES (';

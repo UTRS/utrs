@@ -36,12 +36,11 @@ try{
 		echo "Starting to remove private data...\n";
 
 		for($i = 0; $i < $rows; $i++){
-			$appeal = $appealIds[$i];
+			$appeal = mysql_fetch_assoc($result);
 			echo "Processing appeal #" . $appeal . "\n";
 			
 			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
 			echo "\tRunning query: " . $query . "\n";
-			$appeal = mysql_fetch_assoc($result);
 			if(!$result){
 				throw new UTRSDatabaseException(mysql_error($db));
 			}

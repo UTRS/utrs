@@ -228,6 +228,12 @@ class Ban{
 		if(!$ip && !$email && !$name){
 			return false;
 		}
+		
+		$db = connectToDB();
+		
+		$email = mysql_real_escape_string($email);
+		$name = mysql_real_escape_string($name);
+		
 		$target = "target='";
 		if($ip){
 			$target .= $ip . "'";
@@ -248,7 +254,7 @@ class Ban{
 		// get a list of indefinite bans on the target
 		$query = "SELECT * FROM banList WHERE (" . $target . ") AND expiry IS NULL";
 		
-		$db = connectToDB();
+
 		
 		debug($query);
 		

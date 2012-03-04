@@ -31,6 +31,10 @@ class Ban{
 	 * The banning tool administrator
 	 */
 	private $admin;
+	/**
+	 * Is this targeted at an IP?
+	 */
+	private $isIP;
 		
 	/**
 	 * Build a Ban object. If $fromDB is true, the mappings in $values
@@ -48,8 +52,17 @@ class Ban{
 		if(!$fromDB){
 			debug('Obtaining values from form <br/>');
 			Ban::validate($values); // may throw an exception
+			$setTarget = $values['target'];
+			
+			if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $values['target']) == 0){
+				$setTarget = md5($setTarget);
+				$this->isIP = true;
+			}
+			else{
+				$this->isIP = false;
+			}
 		
-			$this->target = $values['target'];
+			$this->target = $setTarget;
 			$this->admin = getCurrentUser();
 			$this->reason = $values['reason'];
 			
@@ -65,6 +78,7 @@ class Ban{
 			$this->expiry = $values['expiry'];
 			$this->reason = $values['reason'];
 			$this->admin = User::getUserById($values['admin']);
+			$this->isIP = ($values['isIP'] == 1 ? true : false);
 		}
 		debug('Exiting constuctor <br/>');
 	}
@@ -132,7 +146,7 @@ class Ban{
 		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) != 0;
 		debug("Has expiry: " . $hasExpiry . "\n");
 		
-		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin) VALUES ('";
+		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin, isIP) VALUES ('";
 		$query .= $this->target . "', '";
 		$query .= date($format, $time) . "', ";
 		if($hasExpiry){
@@ -143,7 +157,8 @@ class Ban{
 			$query .= mysql_escape_string("NULL") . ", '";
 		}
 		$query .= mysql_real_escape_string($this->reason) . "', '";
-		$query .= $this->admin->getUserId() . "')";
+		$query .= $this->admin->getUserId() . "', '";
+		$query .= ($this->isIP ? "1" : "0") . "')";
 		
 		debug($query);
 		
@@ -193,6 +208,10 @@ class Ban{
 		return $this->admin;
 	}
 	
+	public function isIP(){
+		return $this->isIP();
+	}
+	
 	public function delete(){
 		$db = connectToDB();
 		
@@ -229,6 +248,8 @@ class Ban{
 			return false;
 		}
 		
+		$ip = md5($ip);
+		
 		$db = connectToDB();
 		
 		$email = mysql_real_escape_string($email);
@@ -253,8 +274,6 @@ class Ban{
 		
 		// get a list of indefinite bans on the target
 		$query = "SELECT * FROM banList WHERE (" . $target . ") AND expiry IS NULL";
-		
-
 		
 		debug($query);
 		

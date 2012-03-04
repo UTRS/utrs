@@ -319,14 +319,14 @@ Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->ge
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 Appeals by this IP: <b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b><br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
-Blocking Admin: <b><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>"><?php echo $appeal->getBlockingAdmin(); ?></a></b> |
-<a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>"> User talk Page</a> | 
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>"> Email User</a><br>
+Blocking Admin: <b><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></b> |
+<a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target\"_blank\"> User talk Page</a> | 
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target\"_blank\"> Email User</a><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
 Assigned: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a> | 
-<a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>"> User Page</a> | 
-<a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>"> User talk Page</a> | 
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>"> Email User</a><br>
+<a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target\"_blank\"> User Page</a> | 
+<a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target\"_blank\"> User talk Page</a> | 
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target\"_blank\"> Email User</a><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>

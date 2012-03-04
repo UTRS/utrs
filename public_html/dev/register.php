@@ -112,38 +112,27 @@ if(isset($_POST["submit"])){
 	
 }
 
-?>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<link rel="stylesheet" href="unblock_styles.css">
-<title>Unblock Ticket Request System - Register an Account</title>
+skinHeader('
+var talkEditLink = "en.wikipedia.org/wiki/Special:Mytalk?action=edit&section=new" +
+		"&preloadtitle=UTRS%20Account%20Request&preload=User:Hersfold/UTRSpreload";
 
-</head>
-<body>
-<div id="header">
-English Wikipedia<br />
-Unblock Ticket Request System
-</div>
-<div id="subheader">
-<table class="subheader_content">
-<tr>
-<td>
-<a id="appealForm" href="index.php">Appeal a Block</a>
-</td>
-<td>
-<a id="GAB" href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
-</td>
-<td>
-<a id="loginLink" href="login.php">Admins: Log in to review requests</a>
-</td>
-<td>
-<a id="privacyPolicy" href="privacy.html">Privacy Policy</a>
-</td>
-</tr>
-</table>
-</div>
-<div id="main">
+function getTalkEditLink(){
+	var checkbox = document.getElementById("useSecure");
+	if(checkbox.checked){
+		return "https://" + talkEditLink;
+	}
+	else{
+		return "http://" + talkEditLink;
+	}
+}
+
+function replaceTalkEditLink(){
+	var link = document.getElementById("editLink");
+	link.href = getTalkEditLink();
+}
+');
+
+?>
 <center><b>Welcome to the Unblock Ticket Request System.</b></center>
 
 <p>Administrators who wish to assist in reviewing blocks through this system may register
@@ -173,7 +162,7 @@ else{
 	echo '<label id="passwordLabel" for="password" class="required">Password:</label> <input id="password" type="password" name="password" "/><br/><br/>';
 	echo '<label id="wikiAccountLabel" for="wikiAccount" class="required">Wikipedia username:</label> <input id="wikiAccount" type="text" name="wikiAccount" value="' . $wikiAccount . '"/><br/><br/>';
 	echo '<label id="emailLabel" for="email" class="required">Email address:</label> <input id="email" type="text" name="email" value="' . $email . '"/><br/><br/>';
-	echo '<label id="useSecureLabel" for="useSecure">Do you want links to Wikipedia to use the secure server?</label> <input id="useSecure" type="checkbox" name="useSecure" ' . ($useSecure ? 'checked="true"' : '') . '/><br/><br/>';
+	echo '<label id="useSecureLabel" for="useSecure">Do you want links to Wikipedia to use the secure server?</label> <input id="useSecure" type="checkbox" name="useSecure" onClick="replaceTalkEditLink()" ' . ($useSecure ? 'checked="true"' : '') . '/><br/><br/>';
 	
 	echo '<p>To complete the registration process, please click on the link below ';
 	echo 'to edit your user talk page and confirm your creation of an account. ';
@@ -183,7 +172,7 @@ else{
 	echo 'disable it temporarily or remove timestamps from this section. Once you have';
 	echo 'completed this edit, please provide a link to the diff of your edit in the box';
 	echo 'below to assist with verification.</p>';
-	echo '<center><b><a target="_blank" href="Special:Mytalk?action=edit&section=new'
+	echo '<center><b><a id="editLink" target="_blank" href="Special:Mytalk?action=edit&section=new'
 											   . '&preloadtitle=UTRS%20Account%20Request'
 											   . '&preload=User:Hersfold/UTRSpreload';	
 	echo '">Edit your talk page to confirm your request</a></b></center>';
@@ -206,17 +195,6 @@ else{
 	echo '<input type="submit" name="submit" value="Register"/>';
 	echo '</form>';
 }
-?>
-<br />
 
-</div>
-<div id="footer">
-The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
-users with the unblock process on the English Wikipedia. <br />
-This project is licensed under the 
-<a id="GPL" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License Version 3 or Later.</a><br />
-For questions or assistance with the Unblock Ticket Request System, please email our development team at 
-<a href="mailto:unblock@toolserver.org">unblock AT toolserver DOT org</a><br />
-</div>
-</body>
-</html>
+skinFooter();
+?>

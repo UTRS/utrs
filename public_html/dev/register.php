@@ -8,6 +8,7 @@ require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/logObject.php');
+require_once('template.php');
 
 $publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
 $privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';

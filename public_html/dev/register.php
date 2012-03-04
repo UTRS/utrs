@@ -94,7 +94,7 @@ if(isset($_POST["submit"])){
 		if($diff === '' || $diff == null){
 			$errorMessages .= ($errorMessages ? '\n' : '') . 'A confirmation diff link is required.';
 		}
-		$urlWikiAccount = str_replace(" ", "_", urlencode($wikiAccount));
+		$urlWikiAccount = urlencode(str_replace(" ", "_", $wikiAccount));
 		echo $urlWikiAccount;
 		if(strpos($diff, "diff") === false || strpos($diff, "User_talk:" . $urlWikiAccount) === false){
 			$errorMessages .= ($errorMessages ? '\n' : '') . 'You must provide a valid confirmation diff to your user talk page. Please note ' .

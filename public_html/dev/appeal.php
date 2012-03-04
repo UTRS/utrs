@@ -317,7 +317,10 @@ Appeals by this IP: <b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); 
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Blocking Admin: <b><?php echo $appeal->getBlockingAdmin(); ?></b><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
-Assigned: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a><br>
+Assigned: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a> | 
+<a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getUserName(), $user->getUseSecure()); ?>"> User Page</a> | 
+<a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getUserName(), $user->getUseSecure()); ?>"> User talk Page</a> | 
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getUserName(), $user->getUseSecure()); ?>"> Email User</a><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>

@@ -480,7 +480,7 @@ class Appeal{
 		
 		$db = connectToDB();
 		
-		$query = "SELECT COUNT(*) FROM appeal WHERE ip = '" . $ip . "' OR ip = '" . md5($ip) . "';";
+		$query = "SELECT COUNT(*) as count FROM appeal WHERE ip = '" . $ip . "' OR ip = '" . md5($ip) . "';";
 		debug($query);
 		
 		$result = mysql_query($query, $db);

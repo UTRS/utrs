@@ -313,7 +313,7 @@ if (isset($_GET['action'])) {
 <td valign=top class="left">
 Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a> | <a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a> | <a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a> | <a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a><br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
-Appeals by this IP: <?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?>
+Appeals by this IP: <b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b><br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Blocking Admin: <b><?php echo $appeal->getBlockingAdmin(); ?></b><br>
 <?php if ($appeal->getHandlingAdmin()) {?>

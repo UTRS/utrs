@@ -106,7 +106,7 @@ table.subheader_content td:hover{
 	#loginLink, #register, #stats, #mgmtTemp {display:none;}
 }
 
-@media all and (min-width:837px){
+@media all and (max-width:837px){
 	#main p{
 		width:50%;
 	}

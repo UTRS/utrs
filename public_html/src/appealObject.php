@@ -519,8 +519,8 @@ class Appeal{
 			  . "admin to break their reservation.");
 		}
 		
-		if ($this->handlingAdmin == null && $admin == null) {
-			throw new UTRSIllegalModificationException("This request is already released.");
+		if (!$this->handlingAdmin == null || !$admin == null) {
+			return false;
 		}
 		// TODO: Add a check to ensure that each person is only handling one 
 		// at a time? Or allow multiple reservations?
@@ -534,6 +534,7 @@ class Appeal{
 		} else {
 				$this->handlingAdmin = null;
 		}
+		return true;
 	}
 	
 	public function returnHandlingAdmin() {

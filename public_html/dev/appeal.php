@@ -51,13 +51,15 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 		)) {
 			if (isset($_GET['user'])) {
-				$appeal->setHandlingAdmin($_GET['user']);
+				$success = $appeal->setHandlingAdmin($_GET['user']);
 			} else {
-				$appeal->setHandlingAdmin($user->getUserId());
+				$success = $appeal->setHandlingAdmin($user->getUserId());
 			}
-			$appeal->update();
-			$log->addNewItem('Reserved appeal', 1);
-			Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) reserved by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+			if ($success) {
+				$appeal->update();
+				$log->addNewItem('Reserved appeal', 1);
+				Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) reserved by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+			}
 	} else {
 		$error = "This request is already reserved or awaiting a checkuser or tool admin. If the person holding this ticket seems to be unavailable, ask a tool admin to break their reservation.";
 	}
@@ -74,10 +76,12 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 			//Appeal is closed and not an admin
 			$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 			)) {
-				$appeal->setHandlingAdmin(null);
-				$appeal->update();
-				$log->addNewItem('Released appeal', 1);
-				Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . " \x033,0) released by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+				$success = $appeal->setHandlingAdmin(null);
+				if ($success) {
+					$appeal->update();
+					$log->addNewItem('Released appeal', 1);
+					Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . " \x033,0) released by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+				}
 	} else {
 		$error = "Cannot release hold on appeal";
 	}

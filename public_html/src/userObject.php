@@ -43,6 +43,7 @@ class User{
 			$this->comments = $vars['comments'];
 			$this->registered = $vars['registered'];
 			$this->closed = $vars['closed'];
+			$this->diff = $vars['diff'];
 		}
 		else{
 			$this->username = $vars['username'];
@@ -57,6 +58,7 @@ class User{
 			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
 			$this->closed = 0;
+			$this->diff = $vars['diff'];
 			
 			$this->insert();
 		}
@@ -216,6 +218,10 @@ class User{
 	
 	public function getClosed() {
 		return $this->closed;
+	}
+	
+	public function getDiff(){
+		return $this->diff;
 	}
 	
 	public function setNewPreferences($newSecure, $newEmail, $newReply){

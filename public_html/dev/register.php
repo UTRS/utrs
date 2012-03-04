@@ -31,6 +31,7 @@ if(isset($_POST["submit"])){
 		$email = $_POST["email"];
 		$wikiAccount = $_POST["wikiAccount"];
 		$useSecure = isset($_POST["useSecure"]);
+		$diff = $_POST["diff"];
 		
 		// verify captcha
 		$resp = recaptcha_check_answer($privatekey,
@@ -88,6 +89,12 @@ if(isset($_POST["submit"])){
 		   strpos($username, '$') !== false){
 		   	$errorMessages .= 'The username you have entered is invalid. Usernames ' .
 		   	 	'may not contain the characters # / | [ ] { } < > @ % : $';
+		}
+		if($diff === '' || $diff == null){
+			$errorMessages .= 'A confirmation diff link is required.';
+		}
+		if(strpos($diff, "diff") === false || strpos($diff, "User_talk:" . urlencode($wikiAccount)) === false){
+			$errorMessages .= 'You must provide a valid confirmation diff to your user talk page';
 		}
 		
 		if(!$errorMessages){
@@ -157,18 +164,6 @@ if($errorMessages){
 if($user != null){
 	echo '<center><b>Thank you, ' . $user->getUsername() . '. Your account has been created ';
 	echo 'and is awaiting approval by a tool administrator.</b></center>';
-	echo '<p>To complete the registration process, please click on the link below ';
-	echo 'to edit your user talk page and confirm your creation of an account. ';
-	echo 'Without this verification, your account <i>will not</i> be approved. ';
-	echo 'Please leave this section on your talk page until you receive notice that ';
-	echo 'your account is approved; if you use an archival bot, you may wish to ';
-	echo 'disable it temporarily or remove timestamps from this section.</p>';
-	echo '<center><b><a href="' . getWikiLink('User talk:' . $user->getWikiAccount(), 
-											  $user->getUseSecure(), 
-											  'action=edit&section=new'
-											   . '&preloadtitle=UTRS%20Account%20Request'
-											   . '&preload=User:Hersfold/UTRSpreload');	
-	echo '">Edit your talk page to confirm your request</a></b></center>';
 	echo '<br/>';
 }
 else{
@@ -179,6 +174,23 @@ else{
 	echo '<label id="wikiAccountLabel" for="wikiAccount" class="required">Wikipedia username:</label> <input id="wikiAccount" type="text" name="wikiAccount" value="' . $wikiAccount . '"/><br/><br/>';
 	echo '<label id="emailLabel" for="email" class="required">Email address:</label> <input id="email" type="text" name="email" value="' . $email . '"/><br/><br/>';
 	echo '<label id="useSecureLabel" for="useSecure">Do you want links to Wikipedia to use the secure server?</label> <input id="useSecure" type="checkbox" name="useSecure" ' . ($useSecure ? 'checked="true"' : '') . '/><br/><br/>';
+	
+	echo '<p>To complete the registration process, please click on the link below ';
+	echo 'to edit your user talk page and confirm your creation of an account. ';
+	echo 'Without this verification, your account <i>will not</i> be approved. ';
+	echo 'Please leave this section on your talk page until you receive notice that ';
+	echo 'your account is approved; if you use an archival bot, you may wish to ';
+	echo 'disable it temporarily or remove timestamps from this section. Once you have';
+	echo 'completed this edit, please provide a link to the diff of your edit in the box';
+	echo 'below to assist with verification.</p>';
+	echo '<center><b><a target="_blank" href="' . getWikiLink('User talk:' . $user->getWikiAccount(), 
+											  $user->getUseSecure(), 
+											  'action=edit&section=new'
+											   . '&preloadtitle=UTRS%20Account%20Request'
+											   . '&preload=User:Hersfold/UTRSpreload');	
+	echo '">Edit your talk page to confirm your request</a></b></center>';
+	echo '<center><small>(Link opens in a new window or tab)</small></center>';
+	echo '<label id="diffLabel" for="diff" class="required">Confirmation diff:</label> <input id="diff" name="diff" type="text" value="' . $diff . '"/><br/><br/>';
 	
 	echo '<span class="overridePre">';
 	if($captchaErr == null){

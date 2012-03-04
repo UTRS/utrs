@@ -240,7 +240,8 @@ echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\
 // if not approved, require that the account be approved before any other changes are made
 if(!$approved){
 	echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
-		 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" />\n</td></tr>";	
+		 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" /> " .
+		 "(<a target=\"_blank\" href=\"" . $requestedUser->getDiff() . "\">Confirmation diff</a>)\n</td></tr>";	
 }
 echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
      "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n</td></tr>";

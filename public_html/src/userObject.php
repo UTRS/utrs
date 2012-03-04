@@ -261,7 +261,8 @@ class User{
 		}
 		
 		// ok to update
-		$query = "UPDATE user SET passwordHash='" . $newpass . "' WHERE userID='" . $this->userId . "'";
+		$query = "UPDATE user SET passwordHash='" . $newpass . 
+			"', resetConfirm=NULL, resetTime=NULL WHERE userID='" . $this->userId . "'";
 		
 		debug($query);
 		
@@ -443,6 +444,61 @@ class User{
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
+	}
+	
+	public function generateResetInfo(){
+		mt_srand(time());
+		// 4294967296 = 16^8
+		// 281474976710656 = 16^12
+		$confirmCode = base_convert(mt_rand(4294967296, 281474976710656), 10, 16);
+		
+		$query = "UPDATE user SET resetConfirm='" . $confirmCode . 
+			"', resetTime=CURRENT_TIMESTAMP WHERE userID='" . $this->getUserId() . "'";
+		
+		$db = connectToDB();
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		return $confirmCode;
+	}
+	
+	public function verifyConfirmation($confirmCode){
+		$query = "SELECT resetConfirm, resetTime FROM user WHERE userID='" . $this->getUserId() . "'";
+		
+		$db = connectToDB();
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$data = mysql_fetch_assoc($result);
+		
+		// If reset time does not exist (not sure how the DB returns NULLs)
+		if(!isset($data['resetTime']) || !$data['resetTime'] || strcmp($data['resetTime'], "NULL") == 0){
+			throw new UTRSIllegalModificationException("The confirmation code provided is not valid. Please go " .
+				"to <a href=\"passReset.php\">this page</a> and fill out the form there to request a password reset.");
+		}
+		$now = time();
+		$then = strtotime($data['resetTime']);
+		// 172800 seconds = 48 hours
+		if($now - $then > 172800){
+			throw new UTRSIllegalModificationException("The confirmation code provided has expired. Please go " .
+				"to <a href=\"passReset.php\">this page</a> and fill out the form there to request a password reset.");
+		}
+		if(strcmp($data['resetConfirm'], $confirmCode) != 0){
+			throw new UTRSIllegalModificationException("The confirmation code provided is incorrect. Please go " .
+				"to <a href=\"passReset.php\">this page</a> and fill out the form there to request a password reset.");
+		}
+		
+		return true;
 	}
 }
 

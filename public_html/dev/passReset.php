@@ -24,7 +24,7 @@ if(isset($_POST['submit'])){
 		!isset($_POST['email']) | strlen($_POST['email']) == 0){
 			throw new UTRSIllegalModificationException("All fields are required.");
 		}
-		
+
 		connectToDB(); // for benefit of call below
 		$username = mysql_real_escape_string($_POST['username']);
 		$email = $_POST['email'];
@@ -33,6 +33,36 @@ if(isset($_POST['submit'])){
 		if(strcmp($email, $user->getEmail()) != 0){
 			throw new UTRSIllegalModificationException("The email address you have provided does not match the one in our records.");
 		}
+		
+		$confirmCode = $user->generateResetInfo();
+		$ip = Appeal::getIPFromServer();
+		// send email
+		$body = "Hello " .  $username . ",\n\n";
+		$body .= "Someone from " . $ip . ", probably you, has requested that your password on UTRS " .
+		        "be changed. In order to carry out this change, please follow the link below:\n\n";
+		$body .= "http://toolserver.org/~unblock/passReset.php?user=" . $user->getUserId() . "&confirm=" . $confirmCode . "\n\n";
+		$body .= "Once you go to this page, a second email will be sent to you with a randomly-generated " .
+			"new password.\n\n";
+		$body .= "If you did not request a password reset, please delete this email. Your password has not been " .
+			"reset, and you will still be able to log in. The link above will expire after 48 hours.\n\n";
+		$body .= "Thank you,\nThe UTRS Developement Team";
+		$subject = "UTRS Password Reset Confirmation";
+		$from = "From: UTRS Development Team <unblock@toolserver.org>";
+		mail($email, $subject, $body, $from);
+	}
+	catch(UTRSException $e){
+		$errors = $e->getMessage();
+	}
+}
+else if(isset($_GET['confirm'])){
+	try{
+		if(!isset($_GET['user'])){
+			throw new UTRSIllegalModificationException("The link you have accessed is not valid. If you have " .
+				"received a password reset email, please copy and paste the link to your browser's address bar " .
+				"exactly as it appears in the email.");	
+		}
+		$user = User::getUserById($_GET['user']);
+		$user->verifyConfirmation($_GET['confirm']); // throws exceptions if invalid
 		
 		mt_srand(time());
 		// 60466177 = (36^5) + 1
@@ -46,17 +76,16 @@ if(isset($_POST['submit'])){
 		$user->setNewPassword($user->getPasswordHash(), $passwordHash);
 		// send email
 		$body = "Hello " .  $username . ",\n\n";
-		$body .= "Someone from " . $ip . ", probably you, has requested that your password on UTRS " .
-		        "be changed. This has been done, and your password is now:\n\n";
+		$body .= "You have successfully reset your password on UTRS. Your new password is:\n\n";
 		$body .= $password . "\n\n";
 		$body .= "You may now log in with this password, which you should change immediately to a password " .
 		         "of your choosing. If you did not request this password change, then please do so at once " .
 		         "to ensure your account's security. After you have done so, please reply to this email to " .
 		         "inform us of the problem.\n\n";
 		$body .= "Thank you,\nThe UTRS Developement Team";
-		$subject = "UTRS Password Reset";
+		$subject = "UTRS Password Reset Complete";
 		$from = "From: UTRS Development Team <unblock@toolserver.org>";
-		mail($email, $subject, $body, $from);
+		mail($user->getEmail(), $subject, $body, $from);
 		unset($password);
 		unset($passwordHash);
 		unset($randNum);
@@ -74,7 +103,11 @@ if(isset($_POST['submit'])){
 if($errors){
 	displayError($errors);
 }else if(isset($_POST['submit'])){
-	displaySuccess("Your password has been reset. Please check your email for your new password.");
+	displaySuccess("A confirmation link has been sent to your email address. Please go to that link within " .
+		"48 hours to reset your password.");
+}
+else if(isset($_GET['confirm'])){
+	displaySuccess("A new password has been sent to your email address.");
 }
 ?>
 

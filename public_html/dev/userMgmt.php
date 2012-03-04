@@ -48,7 +48,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() || !$user->isDeveloper())){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
 					        "changes. The checkuser flag may only be changed by developers who also have the " .
-					        "checkuser flag. Checkuser: " . $checkuser . " New CU: " . $newCheckuser);
+					        "checkuser flag.");
 		}
 		if(($newDeveloper != $developer) & !$user->isDeveloper()){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .

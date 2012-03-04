@@ -3,7 +3,7 @@
 body{
 	font-family: sans-serif;
 	overflow-x: hidden;
-	background-color: #EBF4FF;
+	background-color: #F8FCFF;
 }
 
 @media all and (max-width:590px){
@@ -22,8 +22,7 @@ a{
 }
 
 a:hover{
-	color: #9900FF !important;
-	text-decoration: underline;	
+	text-decoration: underline;
 }
 
 form{
@@ -35,11 +34,11 @@ form{
 }
 
 #header{
-	background-color: #93A1B2;
+	background-color: #f6f6f6;
 	font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
 	font-size: 2.0em;
 	font-weight: bold;
-	color: #EFEFEF !important;
+	color: #000 !important;
 	width: 101%;
 	border: none;
 	padding-left: 20px;
@@ -57,13 +56,13 @@ form{
 	}
 }
 
-#header a{
+#header a, #subheader a:hover {
 	text-decoration:none;
-	color: #EFEFEF !important;
+	color:#000;
 }
 
 #subheader{
-	background-color: #AFB29C;
+	background-color: #f9f9f9;
 	height:auto;
 	min-height: 30px;
 	color: black;
@@ -84,7 +83,7 @@ table.subheader_content{
 	border: none;
 	border-collapse: collapse;
 	background: inherit;
-	height: 100%;
+	height:30px;
 }
 
 table.subheader_content a:link,
@@ -100,7 +99,7 @@ table.subheader_content td{
 }
 
 table.subheader_content td:hover{
-	background-color: #C6CCA8 !important;
+	background-color: #e0e0e0 !important;
 }
 
 @media all and (max-width:489px){
@@ -114,7 +113,7 @@ table.subheader_content td:hover{
 }
 
 #footer{
-	background-color: #FFD6D1;
+	background-color: #f6f6f6;
 	color: black;
 	border-top:1px solid #ddd;
 	text-align: center;
@@ -197,8 +196,9 @@ tr.even{
 
 div.info {
 	padding: 10px;
-	border: 1px dotted #000000;
+	border: 1px solid #ddd;
 	width:95%;
+	background:#fff;
 	height: 105px;
 	overflow-y: scroll;
 }
@@ -220,7 +220,8 @@ td.right {
 }
 
 div.comments {
-	border: 1px dotted #000000;
+	border: 1px solid #ddd;
+	background:#fff;
 	width:95%;
 	height: auto;
 	max-height:400px;

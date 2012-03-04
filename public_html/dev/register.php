@@ -95,7 +95,8 @@ if(isset($_POST["submit"])){
 			$errorMessages .= 'A confirmation diff link is required.';
 		}
 		if(strpos($diff, "diff") === false || strpos($diff, "User_talk:" . urlencode($wikiAccount)) === false){
-			$errorMessages .= 'You must provide a valid confirmation diff to your user talk page';
+			$errorMessages .= 'You must provide a valid confirmation diff to your user talk page. Please note ' .
+				'that this form requires that "title=User_talk:[...]" be included in your diff link.';
 		}
 		
 		if(!$errorMessages){
@@ -134,11 +135,6 @@ function replaceTalkEditLink(){
 ');
 
 ?>
-<head>
-<script type="text/javascript">
-
-</script>
-</head>
 <center><b>Welcome to the Unblock Ticket Request System.</b></center>
 
 <p>Administrators who wish to assist in reviewing blocks through this system may register

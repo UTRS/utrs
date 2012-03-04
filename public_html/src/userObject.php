@@ -70,12 +70,13 @@ class User{
 		
 		$db = connectToDB();
 		
-		$query = 'INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash)';
+		$query = 'INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff)';
 		$query .= ' VALUES (\'' . mysql_real_escape_string($this->username) . '\', ';
 		$query .= '\'' . mysql_real_escape_string($this->email) . '\', ';
 		$query .= '\'' . mysql_real_escape_string($this->wikiAccount) . '\', ';
 		$query .= '\'' . $this->useSecure . '\', ';
-		$query .= '\'' . $this->passwordHash . '\')';
+		$query .= '\'' . $this->passwordHash . '\', ';
+		$query .= '\'' . mysql_real_escape_string($this->diff) . '\')';
 		
 		debug($query . '<br/>');
 		

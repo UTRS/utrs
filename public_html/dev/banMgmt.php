@@ -127,8 +127,8 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 			<tr>
 				<td class="required">Target:</td>
 				<td>
-					<?php if(isset($_GET['appeal'])){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($target)); }else{?>
-					<input name="target" id="target" type="text" value="<?php echo $displayTarget;?>" />
+					<?php if(isset($_GET['appeal'])){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $displayTarget : censorEmail($target)); }else{?>
+					<input name="target" id="target" type="text" value="<?php echo $target;?>" />
 					<?php } // closes else from if($target)?>
 				</td>
 			</tr>

@@ -34,7 +34,7 @@ form{
 }
 
 #header{
-	background-color: #f6f6f6;
+	background-color: #B3C1D2;
 	font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
 	font-size: 2.0em;
 	font-weight: bold;
@@ -106,14 +106,18 @@ table.subheader_content td:hover{
 	#loginLink, #register, #stats, #mgmtTemp {display:none;}
 }
 
-@media all and (max-width:837px){
-	#main p{
-		width:50%;
+#main textarea{
+	width: 50%;	
+}
+
+@media all and (max-width:500px){
+	#main textarea{
+		width:100% !important;
 	}
 }
 
 #footer{
-	background-color: #f6f6f6;
+	background-color: #CFD2BC;
 	color: black;
 	border-top:1px solid #ddd;
 	text-align: center;

@@ -484,19 +484,19 @@ class User{
 		
 		// If reset time does not exist (not sure how the DB returns NULLs)
 		if(!isset($data['resetTime']) || !$data['resetTime'] || strcmp($data['resetTime'], "NULL") == 0){
-			throw new UTRSIllegalModificationException("The confirmation code provided is not valid. Please go " .
-				"to <a href=\"passReset.php\">this page</a> and fill out the form there to request a password reset.");
+			throw new UTRSIllegalModificationException("The confirmation code provided is not valid. Please fill " .
+				"out the form below to request a password reset.");
 		}
 		$now = time();
 		$then = strtotime($data['resetTime']);
 		// 172800 seconds = 48 hours
 		if($now - $then > 172800){
-			throw new UTRSIllegalModificationException("The confirmation code provided has expired. Please go " .
-				"to <a href=\"passReset.php\">this page</a> and fill out the form there to request a password reset.");
+			throw new UTRSIllegalModificationException("The confirmation code provided has expired. Please fill" .
+				" out the form below to request a password reset.");
 		}
 		if(strcmp($data['resetConfirm'], $confirmCode) != 0){
-			throw new UTRSIllegalModificationException("The confirmation code provided is incorrect. Please go " .
-				"to <a href=\"passReset.php\">this page</a> and fill out the form there to request a password reset.");
+			throw new UTRSIllegalModificationException("The confirmation code provided is incorrect. Please fill " .
+				"out the form below to request a password reset.");
 		}
 		
 		return true;

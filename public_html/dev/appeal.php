@@ -323,7 +323,7 @@ Blocking Admin: <b><a href="<?php echo getWikiLink("User:" . $appeal->getBlockin
 <a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a> | 
 <a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
-Assigned: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a> | 
+Reserved by: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a> | 
 <a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User Page</a> | 
 <a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a> | 
 <a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a><br>

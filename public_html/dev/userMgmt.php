@@ -242,7 +242,7 @@ echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkus
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";
-?> 
+?>
 		</td>
 		<td style="width:60%;" valign="top">
 			<h4>Logs for this user</h4>

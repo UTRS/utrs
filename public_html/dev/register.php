@@ -55,31 +55,31 @@ if(isset($_POST["submit"])){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}
-			$errorMessages .= 'Username is required.';
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'Username is required.';
 		}
 		if($_POST['password'] === '' || $_POST['password'] == null){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}
-			$errorMessages .= 'A password is required.';
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'A password is required.';
 		}
 		else if(strlen($_POST['password']) < 4){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}
-			$errorMessages .= 'Passwords must be at least 4 characters long.';
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'Passwords must be at least 4 characters long.';
 		}
 		if($email === '' || $email == null){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}
-			$errorMessages .= 'A valid email address is required.';
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'A valid email address is required.';
 		}
 		if($wikiAccount === '' || $wikiAccount == null){
 			if($errorMessages != null){
 				$errorMessages .= '<br/>';
 			}
-			$errorMessages .= 'The name of your Wikipedia account is required.';
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'The name of your Wikipedia account is required.';
 		}
 		if(strpos($username, "#") !== false | strpos($username, "/") !== false |
 		   strpos($username, "|") !== false | strpos($username, "[") !== false |
@@ -88,14 +88,15 @@ if(isset($_POST["submit"])){
 		   strpos($username, ">") !== false | strpos($username, "@") !== false |
 		   strpos($username, "%") !== false | strpos($username, ":") !== false | 
 		   strpos($username, '$') !== false){
-		   	$errorMessages .= 'The username you have entered is invalid. Usernames ' .
+		   	$errorMessages .= ($errorMessages ? '\n' : '') . 'The username you have entered is invalid. Usernames ' .
 		   	 	'may not contain the characters # / | [ ] { } < > @ % : $';
 		}
 		if($diff === '' || $diff == null){
-			$errorMessages .= 'A confirmation diff link is required.';
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'A confirmation diff link is required.';
 		}
-		if(strpos($diff, "diff") === false || strpos($diff, "User_talk:" . urlencode($wikiAccount)) === false){
-			$errorMessages .= 'You must provide a valid confirmation diff to your user talk page. Please note ' .
+		$urlWikiAccount = str_replace(" ", "_", urlencode($wikiAccount));
+		if(strpos($diff, "diff") === false || strpos($diff, "User_talk:" . $urlWikiAccount) === false){
+			$errorMessages .= ($errorMessages ? '\n' : '') . 'You must provide a valid confirmation diff to your user talk page. Please note ' .
 				'that this form requires that "title=User_talk:[...]" be included in your diff link.';
 		}
 		
@@ -106,10 +107,10 @@ if(isset($_POST["submit"])){
 		}
 	}
 	catch(UTRSException $ex){
-		$errorMessages = $ex->getMessage() . '<br />' . $errorMessages;
+		$errorMessages = ($errorMessages ? '\n' : '') . $ex->getMessage() . '<br />' . $errorMessages;
 	}
 	catch(ErrorException $ex){
-		$errorMessages = 'An error occured: ' . $ex->getMessage() . '<br />' . $errorMessages;
+		$errorMessages = ($errorMessages ? '\n' : '') . 'An error occured: ' . $ex->getMessage() . '<br />' . $errorMessages;
 	}
 	
 }

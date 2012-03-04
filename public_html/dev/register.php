@@ -1,4 +1,3 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');

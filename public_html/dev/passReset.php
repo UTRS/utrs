@@ -66,8 +66,8 @@ else if(isset($_GET['confirm'])){
 		
 		mt_srand(time());
 		// 60466177 = (36^5) + 1
-		// 78364164096 = (36^7)
-		$randNum = mt_rand(60466177, 78364164096);
+		// 2176782336 = (36^6)
+		$randNum = mt_rand(60466177, 2176782336);
 		$password = base_convert($randNum, 10, 36); // gives us a 6 or 7 character alphanumeric password
 		$password = "" . $password; // force type conversion
 		$passwordHash = hash('sha512', $password);

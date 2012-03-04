@@ -448,9 +448,9 @@ class User{
 	
 	public function generateResetInfo(){
 		mt_srand(time());
-		// 4294967296 = 16^8
-		// 281474976710656 = 16^12
-		$rand = mt_rand(4294967296, 281474976710656);
+		// 16777216 = 16^6
+		// 268435456 = 16^7
+		$rand = mt_rand(16777216, 268435456);
 		echo $rand . "\n";
 		$confirmCode = base_convert($rand, 10, 16);
 		echo $confirmCode . "\n";

@@ -243,14 +243,14 @@ div.useragent {
 	height: 450px;
     top:20%;
     left:15%;
-	background-color: #EBF4FF;
+	background-color: #DBDBDB;
 	position: absolute;
 	visibility: hidden;
 }
 
 #contextHeader {
 	width: 700px;
-	background-color: #93A1B2;
+	background-color: #DBDBDB;
 	height: 20px;
 	text-align: right;	
 }
@@ -268,14 +268,14 @@ table.logTable {
 	width:100%;
 }
 th.logUserHeader {
-	background-color:#93A1B2;
-	color: #EFEFEF !important;
+	background-color:#DBDBDB;
+	color: #000 !important;
 	width:25%;
 }
 
 th.logActionHeader {
-	background-color:#93A1B2;
-	color: #EFEFEF !important;
+	background-color:#DBDBDB;
+	color: #000 !important;
 	width: 75%;
 }
 

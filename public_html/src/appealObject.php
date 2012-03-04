@@ -519,7 +519,7 @@ class Appeal{
 			  . "admin to break their reservation.");
 		}
 		
-		if (!$this->handlingAdmin == null || !$admin == null) {
+		if ($this->handlingAdmin == null && $admin == null) {
 			return false;
 		}
 		// TODO: Add a check to ensure that each person is only handling one 

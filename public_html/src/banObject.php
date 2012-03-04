@@ -209,7 +209,7 @@ class Ban{
 	}
 	
 	public function isIP(){
-		return $this->isIP();
+		return $this->isIP;
 	}
 	
 	public function delete(){

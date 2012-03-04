@@ -54,8 +54,8 @@ class Ban{
 			Ban::validate($values); // may throw an exception
 			$setTarget = $values['target'];
 			
-			if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $values['target']) == 0){
-				$setTarget = md5($setTarget);
+			if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $values['target']) == 1){
+				$setTarget = md5($values['target']);
 				$this->isIP = true;
 			}
 			else{

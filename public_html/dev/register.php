@@ -131,10 +131,6 @@ function replaceTalkEditLink(){
 	var link = document.getElementById("editLink");
 	link.href = getTalkEditLink();
 }
-
-$document.ready(function(){
-	replaceTalkEditLink();
-});
 ');
 
 ?>
@@ -182,7 +178,9 @@ else{
 	echo 'disable it temporarily or remove timestamps from this section. Once you have';
 	echo 'completed this edit, please provide a link to the diff of your edit in the box';
 	echo 'below to assist with verification.</p>';
-	echo '<center><b><a id="editLink" target="_blank" href="">Edit your talk page to confirm your request</a></b></center>';
+	echo '<center><b><a id="editLink" target="_blank" href="' . ($useSecure ? 'https://' : 'http://') . 
+		'en.wikipedia.org/wiki/Special:Mytalk?action=edit&section=new&preloadtitle=UTRS%20Account%20Request&preload=User:Hersfold/UTRSpreload' . 
+		'">Edit your talk page to confirm your request</a></b></center>';
 	echo '<center><small>(Link opens in a new window or tab)</small></center>';
 	echo '<label id="diffLabel" for="diff" class="required">Confirmation diff:</label> <input id="diff" name="diff" type="text" value="' . $diff . '"/><br/><br/>';
 	

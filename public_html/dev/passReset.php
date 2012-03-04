@@ -75,7 +75,7 @@ else if(isset($_GET['confirm'])){
 		// change password, cheating a bit to get past verification
 		$user->setNewPassword($user->getPasswordHash(), $passwordHash);
 		// send email
-		$body = "Hello " .  $username . ",\n\n";
+		$body = "Hello " .  $user->getUsername() . ",\n\n";
 		$body .= "You have successfully reset your password on UTRS. Your new password is:\n\n";
 		$body .= $password . "\n\n";
 		$body .= "You may now log in with this password, which you should change immediately to a password " .

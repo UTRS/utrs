@@ -319,7 +319,9 @@ Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->ge
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 Appeals by this IP: <b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b><br>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
-Blocking Admin: <b><?php echo $appeal->getBlockingAdmin(); ?></b><br>
+Blocking Admin: <b><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>"><?php echo $appeal->getBlockingAdmin(); ?></a></b> |
+<a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>"> User talk Page</a> | 
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>"> Email User</a><br>
 <?php if ($appeal->getHandlingAdmin()) {?>
 Assigned: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a> | 
 <a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>"> User Page</a> | 

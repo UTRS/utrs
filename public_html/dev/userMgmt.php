@@ -238,7 +238,7 @@ echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"develop
      ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr>";
 echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr></table>";
+     ($user->isDeveloper() & $user->isCheckuser() ? "" : "readonly=\"readonly\" ") . " />\n</td></tr></table>";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";

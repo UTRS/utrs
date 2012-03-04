@@ -169,10 +169,15 @@ if(!verifyAccess($GLOBALS['ADMIN'])){
 	} else {
 		$user = User::getUserById($_GET['userId']);
 		
-		echo "<h4>Assigned Appeals</h4>";
+		?>
+		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> | 
+<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> | 
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
+		<?php 
+		echo "<h2>Assigned Appeals</h2>";
 		echo printAssigned($user->getUserId());
 		echo "<br>";
-		echo "<h4>Closed Appeals</h4>";
+		echo "<h2>Closed Appeals</h2>";
 		echo printClosed($user->getUserId());
 	}
 }

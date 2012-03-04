@@ -223,7 +223,7 @@ div.comments {
 	border: 1px solid #ddd;
 	background:#fff;
 	width:95%;
-	height: auto;
+	height: 400px;
 	max-height:400px;
 	margin-bottom:-2px;
 	overflow-y: scroll;	

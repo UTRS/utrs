@@ -19,6 +19,7 @@ $email = null;
 $wikiAccount = null;
 $useSecure = null;
 $user = null;
+$diff = null;
 
 // Handle submitted form
 if(isset($_POST["submit"])){

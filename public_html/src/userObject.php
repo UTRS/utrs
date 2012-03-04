@@ -451,9 +451,7 @@ class User{
 		// 16777216 = 16^6
 		// 268435456 = 16^7
 		$rand = mt_rand(16777216, 268435456);
-		echo $rand . "\n";
 		$confirmCode = base_convert($rand, 10, 16);
-		echo $confirmCode . "\n";
 		
 		$query = "UPDATE user SET resetConfirm='" . $confirmCode . 
 			"', resetTime=CURRENT_TIMESTAMP WHERE userID='" . $this->getUserId() . "'";

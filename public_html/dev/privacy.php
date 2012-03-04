@@ -85,8 +85,8 @@ to have your appeal deleted from the database. You will then need to appeal your
 of the alternate venues mentioned above. Again, please note that this information will be automatically 
 removed one week after your appeal is resolved.</p>
 
-If you have any questions about this policy, please contact the development team at 
-<a href="mailto:unblock@toolserver.org?subject=Privacy%20questions">unblock@toolserver.org</a>.
+<p>If you have any questions about this policy, please contact the development team at 
+<a href="mailto:unblock@toolserver.org?subject=Privacy%20questions">unblock@toolserver.org</a>.</p>
 <?php 
 
 skinFooter();

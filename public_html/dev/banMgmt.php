@@ -17,6 +17,7 @@ verifyLogin('banMgmt.php');
 $errors = '';
 
 $target = null;
+$displayTarget = null;
 
 try{
 	if(!verifyAccess($GLOBALS['ADMIN'])){
@@ -28,12 +29,15 @@ try{
 		$appeal = Appeal::getAppealByID($_GET['appeal']);
 		if(strcmp($_GET['target'], "1") == 0){
 			$target = $appeal->getIP();
+			$displayTarget = md5($target);
 			$type = "IP";
 		}else if(strcmp($_GET['target'], "2") == 0){
 			$target = $appeal->getAccountName();
+			$displayTarget = $target;
 			$type = "account name";
 		}else{
 			$target = $appeal->getEmail();
+			$displayTarget = $target;
 			$type = "email";
 		}
 	}
@@ -124,7 +128,7 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 				<td class="required">Target:</td>
 				<td>
 					<?php if(isset($_GET['appeal'])){ echo (verifyAccess($GLOBALS['DEVELOPER']) ? $target : censorEmail($target)); }else{?>
-					<input name="target" id="target" type="text" value="<?php echo $target;?>" />
+					<input name="target" id="target" type="text" value="<?php echo $displayTarget;?>" />
 					<?php } // closes else from if($target)?>
 				</td>
 			</tr>

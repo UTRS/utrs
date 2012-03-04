@@ -162,8 +162,16 @@ function setRequired(required) {
 echo "<h2>User management</h2>";
 
 if(!verifyAccess($GLOBALS['ADMIN'])){
-	displayError("<b>Access denied:</a> User management is only available to tool administrators. "
-	    . "Please click on one of the links above to return to another page.");
+	//displayError("<b>Access denied:</a> User management is only available to tool administrators. "
+	//    . "Please click on one of the links above to return to another page.");
+	
+	$user = User::getUserById($_GET['userId']);
+	
+	echo "<h4>Assigned Appeals</h4>";
+	echo printAssigned($user->getUserId());
+	echo "<br>";
+	echo "<h4>Closed Appeals</h4>";
+	echo printClosed($user->getUserId());
 }
 else{
 	

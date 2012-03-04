@@ -476,6 +476,21 @@ class Appeal{
 		return $this->useragent;
 	}
 	
+	public static function getAppealCountByIP($ip) {
+		
+		$sql = "SELECT COUNT(*) FROM appeal WHERE ip = '" . $ip . "' OR ip = '" . md5($ip) . "';";
+		debug($query);
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			return 0;
+		} else {
+			$data = mysql_fetch_array($result);
+			return $data['count'];
+		}
+	}
+	
 	public function setStatus($newStatus){
 		// TODO: query to check if status is closed; if so, whoever's reopening
 		// should be a tool admin

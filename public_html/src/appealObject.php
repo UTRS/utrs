@@ -478,7 +478,9 @@ class Appeal{
 	
 	public static function getAppealCountByIP($ip) {
 		
-		$sql = "SELECT COUNT(*) FROM appeal WHERE ip = '" . $ip . "' OR ip = '" . md5($ip) . "';";
+		$db = connectToDB();
+		
+		$query = "SELECT COUNT(*) FROM appeal WHERE ip = '" . $ip . "' OR ip = '" . md5($ip) . "';";
 		debug($query);
 		
 		$result = mysql_query($query, $db);

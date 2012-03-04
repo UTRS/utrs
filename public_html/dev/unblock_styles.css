@@ -116,6 +116,12 @@ table.subheader_content td:hover{
 	}
 }
 
+@media all and (min-width:500px) and (max-width:750px){
+	#main textarea{
+		width:75% !important;
+	}
+}
+
 #footer{
 	background-color: #CFD2BC;
 	color: black;

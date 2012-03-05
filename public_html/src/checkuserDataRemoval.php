@@ -66,6 +66,15 @@ catch(Exception $e){
 	echo "ERROR - Exception thrown!\n";
 	echo $e->getMessage() . "\n";
 	echo "Script incomplete.\n";
+	
+	$body = "O Great Creators,\n\n";
+	$body .= "The private data removal script has failed. The error message received was:\n";
+	$body .= $e->getMessage() . "\n";
+	$body .= "Please check the database to resolve this issue and ensure that private data is removed on schedule.\n\n";
+	$body .= "Thanks,\nUTRS";
+	$subject = "URGENT: Private data removal failed";
+	
+	mail('unblock@toolserver.org', $subject, $body);
 }
 
 exit;

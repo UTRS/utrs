@@ -330,7 +330,7 @@ Reserved by: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
-<div class="useragent"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
+<div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
 <h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>

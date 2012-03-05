@@ -1,8 +1,6 @@
 <?php
 /**
- * This script is intended to be run from the command line, ideally
- * with a cron job, on a weekly basis. It will search the database for 
- * any closed appeals and delete their associated privacy-related data.
+ * This script is intended to clear out private data on a daily basis.
  */
 
 require_once('unblocklib.php');
@@ -13,9 +11,16 @@ echo "Starting to clear out private data from closed appeals.\n";
 try{
 
 	$db = connectToDB();
+	
+	// appeals closed more than six days ago
+	$closedAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
+		"comment = 'Closed' AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
 
-	$query = "SELECT appealID, ip FROM appeal WHERE email IS NOT NULL AND ip LIKE '%.%.%.%' AND status = 'CLOSED'";
-
+	// grab appeals and IPs
+	$query = "SELECT appealID, ip FROM appeal WHERE appealID = ANY (" . $closedAppealsSubquery . ")" .
+				" AND email IS NOT NULL" .
+				" AND ip LIKE '%.%.%.%'";
+		
 	echo "Running query: " . $query . "\n";
 
 	$result = mysql_query($query, $db);
@@ -30,8 +35,6 @@ try{
 	else{
 
 		echo "Getting appeal IDs from " . $rows . " appeals...\n";
-
-		$appealIds = array();
 
 		echo "Starting to remove private data...\n";
 

@@ -103,7 +103,7 @@ if(isset($_POST["submit"])){
 		if(!$errorMessages){
 			$user = new User($_POST, false);
 			debug('object created<br/>');
-			Log::ircNotification("\x033,0New user account\x032,0 " . $user->getUsername() . "\x033,0 has been requested. URL: " . getRootURL() . "userMgmt.php?userId=" . $user->getUserId());
+			Log::ircNotification("\x033New user account\x032 " . $user->getUsername() . "\x033 has been requested. URL: " . getRootURL() . "userMgmt.php?userId=" . $user->getUserId());
 		}
 	}
 	catch(UTRSException $ex){

@@ -81,7 +81,7 @@ if(isset($_POST["submit"])){
 		
 		$log = Log::getCommentsByAppealId($appeal->getID());
 		$log->addNewItem("Appeal Created", 1);
-		Log::ircNotification("\x033,0New appeal has been created for\x032,0 " . $appeal->getCommonName() . " \x033,0(\x032,0 " . $appeal->getID() . " \x033,0) URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+		Log::ircNotification("\x033New appeal has been created for\x032 " . $appeal->getCommonName() . " \x033(\x032 " . $appeal->getID() . " \x033) URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 	}
 	catch(UTRSException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;

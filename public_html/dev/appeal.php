@@ -58,7 +58,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 			if ($success) {
 				$appeal->update();
 				$log->addNewItem('Reserved appeal', 1);
-				Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) reserved by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+				Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) reserved by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 			}
 	} else {
 		$error = "This request is already reserved or awaiting a checkuser or tool admin. If the person holding this ticket seems to be unavailable, ask a tool admin to break their reservation.";
@@ -80,7 +80,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 				if ($success) {
 					$appeal->update();
 					$log->addNewItem('Released appeal', 1);
-					Log::ircNotification("\x033,0Appeal\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . " \x033,0) released by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+					Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . " \x033) released by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 				}
 	} else {
 		$error = "Cannot release hold on appeal";
@@ -226,7 +226,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			break;
 	}
 	if (!$error) {
-		Log::ircNotification("\x033,0Status changed for\x032,0 " . $appeal->getCommonName() . "\x033,0 (\x032,0 " . $appeal->getID() . "\x033,0 ) to \x032,0 " . $appeal->getStatus() . " \x033,0by \x032,0" . $_SESSION['user'] . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+		Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 		$appeal->update();
 	}
 }
@@ -236,7 +236,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 if (isset($_GET['action']) && $_GET['action'] == "comment") {
 	if (isset($_POST['comment'])) {
 		$log->addNewItem(sanitizeText($_POST['comment']));
-		Log::ircNotification("\x032,0" . $_SESSION['user'] . "\x033,0 has left a new comment on the appeal for\x032,0 " . $appeal->getCommonName() . "\x033,0 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+		Log::ircNotification("\x032" . $_SESSION['user'] . "\x033 has left a new comment on the appeal for\x032 " . $appeal->getCommonName() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 	} else {
 		$error = "You have not entered a comment";
 	}

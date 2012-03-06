@@ -61,7 +61,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			$requestedUser->approve($user);
 			
 			//Notify IRC of approval
-			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been approved by\x032,0 " . $_SESSION['user']);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been approved by\x032 " . $_SESSION['user']);
 			
 		}
 		if($active & !$newActive){
@@ -70,16 +70,16 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			$requestedUser->disable($user, $newComments);
 			
 			//Notify IRC of the change
-			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been disabled by\x032,0 " . $_SESSION['user']);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been disabled by\x032 " . $_SESSION['user']);
 			
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);
-			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's account has been enabled by\x032,0 " . $_SESSION['user']);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been enabled by\x032 " . $_SESSION['user']);
 		}
 		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
 			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
-			Log::ircNotification("\x032,0 " . $requestedUser->getUsername() . "\x033,0's permissioned have been updated by\x032,0 " . $_SESSION['user'] . ".  Tool Admin: " . (string)$newAdmin . " Tool Developer: " . (string)$newDeveloper . " Checkuser:" . (string)$newCheckuser);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissioned have been updated by\x032 " . $_SESSION['user'] . ".  Tool Admin: " . (string)$newAdmin . " Tool Developer: " . (string)$newDeveloper . " Checkuser:" . (string)$newCheckuser);
 		}
 		// reset current user
 		$user = getCurrentUser();

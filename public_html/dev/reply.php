@@ -62,9 +62,9 @@ try{
 		$appeal->update();
 		$admin = $appeal->getHandlingAdmin();
 		
-		Log::ircNotification("\x033,0" . ($admin ? "Attention\x032,0 " . $admin->getUsername() . "\x033,0: " : "") . 
-			"A reply has been made to appeal \x032,0" . $appeal->getCommonName() . "\x033,0 (\x032,0 " . 
-		 	$appeal->getID() . " \x033,0) and the status has been updated to AWAITING_REVIEWER URL: " .
+		Log::ircNotification("\x033" . ($admin ? "Attention\x032 " . $admin->getUsername() . "\x033: " : "") . 
+			"A reply has been made to appeal \x032" . $appeal->getCommonName() . "\x033 (\x032 " . 
+		 	$appeal->getID() . " \x033) and the status has been updated to AWAITING_REVIEWER URL: " .
 		 	getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 		
 		//Email notification to the admin handling the appeal

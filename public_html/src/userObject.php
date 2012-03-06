@@ -432,8 +432,8 @@ class User{
 		
 		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), true);
 		
-		Log::ircNotification("\x032,0" . $oldName . "\x033,0 has been renamed to \x032,0" . $newName . 
-		    "\x033,0 by \x032,0" . $admin->getUsername(), 1);
+		Log::ircNotification("\x032" . $oldName . "\x033 has been renamed to \x032" . $newName . 
+		    "\x033 by \x032" . $admin->getUsername(), 1);
 	}
 	
 	public function incrementClose() {

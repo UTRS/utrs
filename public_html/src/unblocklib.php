@@ -178,10 +178,16 @@ function verifyAccess($level){
 }
 
 /**
- * Returns http://toolserver.org/~unblock/
+ * Returns http://toolserver.org/~unblock/ if on the live site or
+ * http://toolserver.org/~unblock/beta/ if on the beta site
  */
 function getRootURL(){
-	return 'http://toolserver.org/~unblock/';
+	if(strpos(__FILE__, "/beta/") === false){
+		return 'http://toolserver.org/~unblock/';
+	}
+	else{
+		return 'http://toolserver.org/~unblock/beta/';
+	}
 }
 
 /**

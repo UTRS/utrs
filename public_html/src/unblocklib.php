@@ -5,7 +5,6 @@ ini_set('session.use_cookies', '1');
 
 require_once('exceptions.php');
 require_once('userObject.php');
-require_once('../config.inc.php');
 
 $GLOBALS['CHECKUSER'] = -1;
 $GLOBALS['APPROVED'] = 0;
@@ -206,18 +205,20 @@ function connectToDB($suppressOutput = false){
 	if(!$suppressOutput){
 		debug('connectToDB <br />');
 	}
-	$db = mysql_connect($toolserver_host, $toolserver_username, $toolserver_password, true);
+	$ts_pw = posix_getpwuid(posix_getuid());
+	$ts_mycnf = parse_ini_file($ts_pw['dir'] . "/.my.cnf");
+	$db = mysql_connect("sql-s1-user.toolserver.org", $ts_mycnf['user'], $ts_mycnf['password'], true);
 	if($db == false){
 		debug(mysql_error());
 		throw new UTRSDatabaseException("Failed to connect to database cluster sql-s1-user!");
 	}
 	if(strpos(__FILE__, "/beta/") === false){
 		// if the "live" site, connect to main DB
-		mysql_select_db($toolserver_database, $db);
+		mysql_select_db("p_unblock", $db);
 	}
 	else{
 		// if the test site, connect to test DB
-		mysql_select_db($toolserver_test_database, $db);
+		mysql_select_db("p_unblock_test", $db);
 	}
 	if(!$suppressOutput){
 		debug('exiting connectToDB');

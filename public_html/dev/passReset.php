@@ -40,7 +40,7 @@ if(isset($_POST['submit'])){
 		$body = "Hello " .  $username . ",\n\n";
 		$body .= "Someone from " . $ip . ", probably you, has requested that your password on UTRS " .
 		        "be changed. In order to carry out this change, please follow the link below:\n\n";
-		$body .= "http://toolserver.org/~unblock/passReset.php?user=" . $user->getUserId() . "&confirm=" . $confirmCode . "\n\n";
+		$body .= getRootURL() . "passReset.php?user=" . $user->getUserId() . "&confirm=" . $confirmCode . "\n\n";
 		$body .= "Once you go to this page, a second email will be sent to you with a randomly-generated " .
 			"new password.\n\n";
 		$body .= "If you did not request a password reset, please delete this email. Your password has not been " .

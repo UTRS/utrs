@@ -75,8 +75,6 @@ announce large-scale changes to the tool. Abuse of this may constitute violation
 rules and thus may result in loss of your access as a developer to this project or your 
 Toolserver account as a whole.</p>
 
-<p>BANANAS</p>
-
 <form name="sendEmail" id="sendEmail" method="POST" action="massEmail.php">
 <label for="subject" id="subjectLabel" class="required">Subject: </label><input type="text" name="subject" id="subject" /><br />
 <label for="emailBody" id="emailBodyLabel" class="required">Body:</label><br/>

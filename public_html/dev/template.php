@@ -19,7 +19,7 @@ $loggedIn = loggedIn();
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >
 English Wikipedia<br />
-Unblock Ticket Request System
+Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ echo "BETA"; } ?>
 </a></div>
 <div id="subheader">
 <table class="subheader_content">

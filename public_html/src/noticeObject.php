@@ -166,9 +166,6 @@ class Notice{
 	public static function format($string){
 		$string = sanitizeText($string);
 		
-		echo $string . "<br/>\n";
-		echo preg_match("/.*?\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)  . "<br/>\n";;
-		
 		// while we have matching color tokens...
 		while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
 			// handle [red]color[/red]
@@ -177,19 +174,15 @@ class Notice{
 			'/\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\](.+?)\[\/\1\]/',
 			'<span style="color:$1">$2</span>', 
 			$string);
-			
-			echo $string  . "<br/>\n";;
-		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)  . "<br/>\n";;
-		
 		}
+		// handle {http://enwp.org links}
+		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
 		// handle /italics/
-		$string = preg_replace('/([^<])\/(.+?)([^<])\//', '$1<i>$2$3</i>', $string);
+		$string = preg_replace('/([^<:/])\/(.+?)([^<:/])\//', '$1<i>$2$3</i>', $string);
 		// handle *bolds*
 		$string = preg_replace('/\*(.+?)\*/', '<b>$1</b>', $string);
 		// handle _underlines_
 		$string = preg_replace('/_(.+?)_/', '<u>$1</u>', $string);
-		// handle {http://enwp.org links}
-		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
 			
 		return $string;
 	}

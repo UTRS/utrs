@@ -67,9 +67,15 @@ form{
 	border-top:1px solid #ddd;
 	text-align: left;
 	margin-left: -20px;
-	padding-left: 20px;
+	padding-left: 4px;
 	width:101%;
-	font-size: small;
+	font-size: 0.8em;
+}
+
+#sitenotice ul{
+	margin: 0px;
+	padding-top: 0.8em;
+	padding-bottom: 0.8em;	
 }
 
 #subheader{

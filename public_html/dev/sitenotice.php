@@ -133,6 +133,7 @@ else{
 		<?php 
 	} // close if(isset($_GET['id']) || isset($_GET['new'])){
 	else{
+		echo "<a href=\"" . getRootURL() . "sitenotice.php?new=true\">Create a new sitenotice message</a><br/><br/>\n";
 		echo printSitenoticeMessages();	
 	}
 } // close else from if(!verifyAccess($GLOBALS['ADMIN'])){

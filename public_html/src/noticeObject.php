@@ -178,7 +178,7 @@ class Notice{
 		// handle {http://enwp.org links}
 		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
 		// handle /italics/
-		$string = preg_replace('/([^<:/])\/(.+?)([^<:/])\//', '$1<i>$2$3</i>', $string);
+		$string = preg_replace('/([^<:\/])\/(.+?)([^<:\/])\//', '$1<i>$2$3</i>', $string);
 		// handle *bolds*
 		$string = preg_replace('/\*(.+?)\*/', '<b>$1</b>', $string);
 		// handle _underlines_

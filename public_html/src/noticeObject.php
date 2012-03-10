@@ -282,13 +282,20 @@ class Notice{
 				}
 			}
 			else if($char == '/'){
-				$start = substr($string, 0, $i);
-				$end = substr($string, $i + 1);
-				$tag = ($open ? '</i>' : '<i>');
-				$string = $start . $tag . $end;
-				$open = !$open;
-				$length = strlen($string);
-				$i = $i + strlen($tag);
+				if($open === false){
+					// don't replace just yet, may be mismatched
+					$open = $i;
+				}
+				// 012/456/89
+				else{
+					$partOne = substr($string, 0, $open);
+					$partTwo = substr($string, $open + 1, $i - ($open + 1));
+					$partThree = substr($string, $i + 1);
+					$string = $partOne . '<i>' . $partTwo . '</i>' . $partThree;
+					$length = strlen($string);
+					$i = $i + 7; // adds length of both tags
+					$open = false;
+				}
 			}
 		}
 		// while we have matching color tokens...

@@ -24,7 +24,7 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 	try{
 
 		// If looking at a specific message, pull it up
-		if(isset($_GET['id']) && strcmp($_GET['action'])){
+		if(isset($_GET['id'])){
 			$notice = Notice::getNoticeById($_GET['id']);
 			$message = $notice->getMessage();
 			$formatMessage = $notice->getFormattedMessage();

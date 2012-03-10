@@ -21,7 +21,12 @@ class Notice{
 			$this->lastEditTime = $vars['time'];
 		}
 		else{
-			$this->message = sanitizeText($vars['message']);
+			$mess = sanitizeText($vars['message']);
+			if(strlen($mess) > 2048){
+				throw new UTRSIllegalModificationException("Your message is too long to store in the database. " .
+				"Please shorten your message to less than 2048 characters. (Current length: " . strlen($mess) . ")");
+			}
+			$this->message = sanitizeText($mess);
 			$this->author = getCurrentUser();
 			
 			$this->insert();

@@ -259,7 +259,7 @@ class Notice{
 			// handle [red]color[/red]
 			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
 			$string = preg_replace(
-			'~\[' . $this->colorCodes . '\](.+?)\[/\1\]~i',
+			'~\[' . Notice::colorCodes . '\](.+?)\[/\1\]~i',
 			'<span style="color:$1">$2</span>', 
 			$string);
 		}

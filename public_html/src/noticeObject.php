@@ -255,7 +255,7 @@ class Notice{
 		Notice::validate($string);
 		
 		// while we have matching color tokens...
-		while(preg_match('~^.*?\[' . $this->colorCodes . '\].+?\[/\1\].*?$~i', $string)){
+		while(preg_match('~^.*?\[' . Notice::colorCodes . '\].+?\[/\1\].*?$~i', $string)){
 			// handle [red]color[/red]
 			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
 			$string = preg_replace(

@@ -62,15 +62,12 @@ form{
 }
 
 #sitenotice{
-	background-color: #CFD2BC;
+	background-color: #CBD9EA;
 	color: black;
 	border-top:1px solid #ddd;
 	text-align: left;
 	margin-left: -20px;
-	margin-bottom: -20px;
 	padding-left: 20px;
-	padding-top: 4px;
-	padding-bottom: 4px;
 	width:101%;
 	font-size: small;
 }

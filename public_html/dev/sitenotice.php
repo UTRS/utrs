@@ -106,13 +106,13 @@ else{
 		} // close if($formatMessage){
 		
 		?>
-<form 
+		<form 
 			id="sitenoticeEdit" 
 			name="sitenoticeEdit" 
 			method="POST" 
 			action="sitenotice.php?<?php echo (isset($_GET['new']) ? "new=true" : "id=" . $_GET['id']);?>">
-			<textarea name="message" id="message" rows="6" cols="60"><?php echo $message; ?></textarea>
-			<input type="submit" name="save" id="save" value="Save Message" style="font-weight:bold"/> <!-- 
+<textarea name="message" id="message" rows="6" cols="60"><?php echo $message; ?></textarea>
+<input type="submit" name="save" id="save" value="Save Message" style="font-weight:bold"/> <!-- 
 		    --><input type="submit" name="preview" id="preview" value="Preview Message"/>
 		</form>
 		

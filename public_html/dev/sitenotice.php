@@ -95,6 +95,7 @@ else{
 				<div id="timeLabel">Time of last edit:</div>
 				<div id="timeId"><?php echo $notice->getLastEditTime();?></div>
 			</div>
+			<br clear="all"/>
 			<?php 
 		} // close if(isset($_GET['id'])){
 		

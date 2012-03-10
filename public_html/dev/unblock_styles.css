@@ -61,6 +61,20 @@ form{
 	color:#000;
 }
 
+#sitenotice{
+	background-color: #CFD2BC;
+	color: black;
+	border-top:1px solid #ddd;
+	text-align: left;
+	margin-left: -20px;
+	margin-bottom: -20px;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	width:101%;
+	font-size: small;
+}
+
 #subheader{
 	background-color: #f9f9f9;
 	height:auto;

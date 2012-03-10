@@ -1,9 +1,32 @@
 <?php
 require_once('src/unblocklib.php');
+require_once('src/noticeObject.php');
 
 function skinHeader($script = '') {
 
 $loggedIn = loggedIn();
+
+$sitenoticeText = "";
+
+try{
+	$query = "SELECT message FROM sitenotice";
+	$db = connectToDB();
+	$result = mysql_query($query, $db);
+	if(!$result){
+		throw new UTRSDatabaseException(mysql_error($db));
+	}
+	$rows = mysql_num_rows($result);
+	if($rows != 0){
+		for($i = 0; $i < $rows; $i++){
+			$message = mysql_fetch_assoc($result);
+			$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
+		}	
+	}
+}
+catch(UTRSException $e){
+	$sitenoticeText = "<li>An error occured when getting the sitenotice: " . $e->getMessage() . "</li>\n";
+}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
@@ -21,6 +44,13 @@ $loggedIn = loggedIn();
 English Wikipedia<br />
 Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ echo "BETA"; } ?>
 </a></div>
+<?php if($sitenoticeText){?>
+<div id="sitenotice">
+	<ul>
+		<?php echo $sitenoticeText; ?>
+	</ul>
+</div>
+<?php }?>
 <div id="subheader">
 <table class="subheader_content">
 <tr>

@@ -165,13 +165,14 @@ class Notice{
 	
 	public static function format($string){
 		$string = sanitizeText($string);
+		$colorCodes = "(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{3,3}|#[0-9a-f]{6,6})";
 		
 		// while we have matching color tokens...
 		//while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
 			// handle [red]color[/red]
 			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
 			$string = preg_replace(
-			'~\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{6,6}|#[0-9a-f]{3,3})\](.+?)\[/\1\]~i',
+			'~\[' . $colorCodes . '\](.+?)\[/\1\]~i',
 			'<span style="color:$1">$2</span>', 
 			$string);
 		// handle {http://enwp.org links}

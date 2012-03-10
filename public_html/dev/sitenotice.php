@@ -33,6 +33,11 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 		// If previewing changes, figure out how it'll look
 		if(isset($_POST['preview'])){
 			$message = $_POST['message'];
+			if(strlen($message) > 2048){
+				$formatMessage = null;
+				throw new UTRSIllegalModificationException("Your message is too long. Please shorten your message to" .
+					" less than 2048 characters. (Current length: " . strlen($message) . ")");
+			}
 			$formatMessage = Notice::format($message);
 		}
 

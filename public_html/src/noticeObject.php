@@ -49,7 +49,7 @@ class Notice{
 			$char = substr($message, $i, 1); // get each character
 			
 			if($char == '*' || $char == '/' || $char == '_'){
-				if($syntaxCodes[$syntaxIndex - 1] == $char){
+				if($syntaxIndex != 0 && $syntaxCodes[$syntaxIndex - 1] == $char){
 					// if the last syntax token encountered matches
 					// remove it from the stack
 					unset($syntaxCodes[$syntaxIndex - 1]);
@@ -57,14 +57,14 @@ class Notice{
 				}
 				else{
 					// else, see if it exists in the stack
-					$this->checkForExistingToken($syntaxCodes, $char);
+					Notice::checkForExistingToken($syntaxCodes, $char);
 					// if not, add it to the stack
 					$syntaxCodes[$syntaxIndex] = $char;
 					$syntaxIndex++;
 				}
 			}
 			else if($char == '}'){
-				if($syntaxCodes[$syntaxIndex - 1] == '{'){
+				if($syntaxIndex != 0 && $syntaxCodes[$syntaxIndex - 1] == '{'){
 					// if the last syntax token encountered starts
 					// a link, remove it
 					unset($syntaxCodes[$syntaxIndex - 1]);
@@ -72,7 +72,7 @@ class Notice{
 				}
 				else{
 					// else, see if it exists in the stack
-					$this->checkForExistingToken($syntaxCodes, '{');
+					Notice::checkForExistingToken($syntaxCodes, '{');
 					// if not, add it to the stack
 					$syntaxCodes[$syntaxIndex] = $char;
 					$syntaxIndex++;
@@ -81,7 +81,7 @@ class Notice{
 			else if($char == '{'){
 				if(substr($message, $i + 1, 4) == "http"){
 					//make sure we aren't already in a link
-					checkForExistingToken($syntaxCodes, '{');
+					Notice::checkForExistingToken($syntaxCodes, '{');
 					// advance loop to next space to avoid issues with
 					// italics and / signs in the url
 					$i = strpos($message, ' ', $i);
@@ -112,14 +112,14 @@ class Notice{
 						// make sure it's a valid color
 						if($color !== false && preg_match('~^' . $this->colorCodes . '$~i', $color)){
 							// if on top of stack, remove
-							if($syntaxCodes[$syntaxIndex] == '[/' . $color . ']'){
+							if($syntaxIndex != 0 && $syntaxCodes[$syntaxIndex - 1] == '[/' . $color . ']'){
 								unset($syntaxCodes[$syntaxIndex]);
 								$syntaxIndex--;
 								// advance loop to save time
 								$i = $end; 
 							}
 							else{
-								checkForExistingToken($syntaxCodes, '[/' . $color . ']');
+								Notice::checkForExistingToken($syntaxCodes, '[/' . $color . ']');
 							}
 						}
 					}

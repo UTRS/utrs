@@ -167,7 +167,7 @@ class Notice{
 		$string = sanitizeText($string);
 		
 		echo $string . "<br/>\n";
-		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)  . "<br/>\n";;
+		echo preg_match("/.*?\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)  . "<br/>\n";;
 		
 		// while we have matching color tokens...
 		while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){

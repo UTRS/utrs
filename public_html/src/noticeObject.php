@@ -167,14 +167,13 @@ class Notice{
 		$string = sanitizeText($string);
 		
 		// while we have matching color tokens...
-		while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
+		//while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
 			// handle [red]color[/red]
 			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
 			$string = preg_replace(
 			'/\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\](.+?)\[\/\1\]/',
 			'<span style="color:$1">$2</span>', 
 			$string);
-		}
 		// handle {http://enwp.org links}
 		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
 		// handle /italics/

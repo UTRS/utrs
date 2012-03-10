@@ -41,10 +41,13 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
 	<td id="banMgmt" onClick="document.location.href='<?php echo getRootURL() . 'banMgmt.php'; ?>';">
 		<a href="<?php echo getRootURL() . 'banMgmt.php'; ?>">Ban Management</a>
 	</td>
-	<td id="banMgmt" onClick="document.location.href='<?php echo getRootURL() . 'search.php'; ?>';">
-		<a href="<?php echo getRootURL() . 'search.php'; ?>">Search</a>
+	<td id="sitenoticeMgmt" onClick="document.location.href='<?php echo getRootURL() . 'sitenotice.php'; ?>';">
+		<a href="<?php echo getRootURL() . 'sitenotice.php'; ?>">Sitenotice Management</a>
 	</td>
 	<?php } ?>
+	<td id="search" onClick="document.location.href='<?php echo getRootURL() . 'search.php'; ?>';">
+		<a href="<?php echo getRootURL() . 'search.php'; ?>">Search</a>
+	</td>
 	<td id="preferences" onClick="document.location.href='<?php echo getRootURL() . 'prefs.php'; ?>';">
 		<a href="<?php echo getRootURL() . 'prefs.php'; ?>">Preferences</a>
 	</td>

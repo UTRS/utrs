@@ -103,7 +103,7 @@ table.subheader_content td:hover{
 }
 
 @media all and (max-width:489px){
-	#loginLink, #register, #stats, #mgmtTemp {display:none;}
+	#loginLink, #register, #stats, #mgmtTemp, #sitenoticeMgmt {display:none;}
 }
 
 #main textarea, #messageInfo{

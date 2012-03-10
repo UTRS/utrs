@@ -166,8 +166,8 @@ class Notice{
 	public static function format($string){
 		$string = sanitizeText($string);
 		
-		echo $string;
-		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string);
+		echo $string . "<br/>\n";
+		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)  . "<br/>\n";;
 		
 		// while we have matching color tokens...
 		while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
@@ -178,8 +178,8 @@ class Notice{
 			'<span style="color:$1">$2</span>', 
 			$string);
 			
-			echo $string;
-		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string);
+			echo $string  . "<br/>\n";;
+		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)  . "<br/>\n";;
 		
 		}
 		// handle /italics/

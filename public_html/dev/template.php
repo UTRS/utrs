@@ -10,7 +10,7 @@ $sitenoticeText = "";
 
 if($loggedIn){
 	try{
-		$query = "SELECT message FROM sitenotice";
+		$query = "SELECT message FROM sitenotice ORDER BY messageID ASC";
 		$db = connectToDB();
 		$result = mysql_query($query, $db);
 		if(!$result){

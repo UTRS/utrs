@@ -9,6 +9,7 @@ require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/noticeObject.php');
 require_once('src/statsLib.php');
+require_once('src/logObject.php');
 require_once('template.php');
 
 verifyLogin('tempMgmt.php');
@@ -47,6 +48,9 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 			$formatMessage = null;
 			$notice = new Notice($_POST, false);
 			
+			Log::ircNotification("\x033Sitenotice\x032 " . $notice->getMessageId() . 
+				" \x033has been added by\x032 " . getCurrentUser()->getUsername());
+			
 			header("Location: " . getRootURL() . "sitenotice.php?id=" . $notice->getMessageId());
 		}
 	
@@ -61,11 +65,17 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 			$message = $notice->getMessage();
 			$formatMessage = $notice->getFormattedMessage();
 			$success = "Changes successfully saved.";
+			
+			Log::ircNotification("\x033Sitenotice\x032 " . $notice->getMessageId() . 
+				" \x033has been modified by\x032 " . getCurrentUser()->getUsername());
 		}
 		
 		if(isset($_GET['delete'])){
 			Notice::delete($_GET['delete']);
 			$success = "Sitenotice message #" . $_GET['delete'] . " successfully deleted.";
+			
+			Log::ircNotification("\x033Sitenotice\x032 " . $_GET['delete'] . 
+				" \x033has been deleted by\x032 " . getCurrentUser()->getUsername());
 		}
 		
 	}

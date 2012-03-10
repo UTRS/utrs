@@ -8,23 +8,25 @@ $loggedIn = loggedIn();
 
 $sitenoticeText = "";
 
-try{
-	$query = "SELECT message FROM sitenotice";
-	$db = connectToDB();
-	$result = mysql_query($query, $db);
-	if(!$result){
-		throw new UTRSDatabaseException(mysql_error($db));
+if($loggedIn){
+	try{
+		$query = "SELECT message FROM sitenotice";
+		$db = connectToDB();
+		$result = mysql_query($query, $db);
+		if(!$result){
+			throw new UTRSDatabaseException(mysql_error($db));
+		}
+		$rows = mysql_num_rows($result);
+		if($rows != 0){
+			for($i = 0; $i < $rows; $i++){
+				$message = mysql_fetch_assoc($result);
+				$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
+			}
+		}
 	}
-	$rows = mysql_num_rows($result);
-	if($rows != 0){
-		for($i = 0; $i < $rows; $i++){
-			$message = mysql_fetch_assoc($result);
-			$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
-		}	
+	catch(UTRSException $e){
+		$sitenoticeText = "<li>An error occured when getting the sitenotice: " . $e->getMessage() . "</li>\n";
 	}
-}
-catch(UTRSException $e){
-	$sitenoticeText = "<li>An error occured when getting the sitenotice: " . $e->getMessage() . "</li>\n";
 }
 
 ?>

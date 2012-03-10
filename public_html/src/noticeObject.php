@@ -137,19 +137,19 @@ class Notice{
 		$string = sanitizeText($string);
 		
 		// handle /italics/
-		$format = preg_replace('/\/(.+?)\//', '<i>$1</i>', $format);
+		$string = preg_replace('/\/(.+?)\//', '<i>$1</i>', $string);
 		// handle *bolds*
-		$format = preg_replace('/\*(.+?)\*/', '<b>$1</b>', $format);
+		$string = preg_replace('/\*(.+?)\*/', '<b>$1</b>', $string);
 		// handle _underlines_
-		$format = preg_replace('/_(.+?)_/', '<u>$1</u>', $format);
+		$string = preg_replace('/_(.+?)_/', '<u>$1</u>', $string);
 		// handle [red]color[/red]
 		// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
-		$format = preg_replace(
+		$string = preg_replace(
 			'/\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\](.+?)\[\/\1\]/',
 			'<span style="color:$1">$2</span>', 
-			$format);
+			$string);
 		// handle {http://enwp.org links}
-		$format = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $format);
+		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
 			
 		return $string;
 	}

@@ -387,10 +387,10 @@ th.sitenoticeLinkHeader{
 	color: #EFEFEF !important;
 }
 
-table.sitenoticeTable tr.even{
+tr.sitenoticeEven{
 	background-color:#F8FCFF;
 }
 
-table.sitenoticeTable tr.odd{
+tr.sitenoticeOdd{
 	background-color:#EBEBEB;
 }

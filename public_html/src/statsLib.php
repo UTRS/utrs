@@ -639,7 +639,7 @@ function printSitenoticeMessages(){
 	
 	for($i = 0; $i < $rows; $i++){
 		$rowData = mysql_fetch_assoc($result);
-		$table .= "<tr class=\"" . ($i % 2 == 1 ? "odd" : "even") . "\">\n";
+		$table .= "<tr class=\"sitenotice" . ($i % 2 == 1 ? "Odd" : "Even") . "\">\n";
 		$table .= "<td style=\"text-align:center;\">" . $rowData['messageID'] . "</td>\n";
 		$table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 64 ? " ..." : "") . "\"</td>\n";
 		$table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?id=" . 

@@ -106,7 +106,7 @@ else{
 		} // close if($formatMessage){
 		
 		?>
-		<form 
+<form 
 			id="sitenoticeEdit" 
 			name="sitenoticeEdit" 
 			method="POST" 
@@ -119,11 +119,11 @@ else{
 		<h3>Formatting</h3>
 		<p>You may add basic formatting to your message using the following syntax:
 		<ul>
-			<li>*bold text* &rarr; <b>bold text</b></li>
-			<li>/italic text/ &rarr; <i>italic text</i></li>
-			<li>_underlined text_ &rarr; <u>underlined text</u></li>
-			<li>{http://enwp.org link text} &rarr; <a href="http://enwp.org">link text</a></li>
-			<li>[red]red text[/red] &rarr; <span style="color:red">red text</span></li>
+			<li><tt>*bold text*</tt> &rarr; <b>bold text</b></li>
+			<li><tt>/italic text/</tt> &rarr; <i>italic text</i></li>
+			<li><tt>_underlined text_</tt> &rarr; <u>underlined text</u></li>
+			<li><tt>{http://enwp.org link text}</tt> &rarr; <a href="http://enwp.org">link text</a></li>
+			<li><tt>[red]red text[/red]</tt> &rarr; <span style="color:red">red text</span></li>
 		</ul>
 		Other acceptable colors include "orange", "yellow", "green", "blue", "purple", "grey", "gray", or any
 		three- or six-digit hexadecimal color code starting with a # sign (i.e. #000, #FFFFFF, #a2b3c4, etc.).

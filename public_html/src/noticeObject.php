@@ -166,6 +166,9 @@ class Notice{
 	public static function format($string){
 		$string = sanitizeText($string);
 		
+		echo $string;
+		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string);
+		
 		// while we have matching color tokens...
 		while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
 			// handle [red]color[/red]
@@ -174,6 +177,10 @@ class Notice{
 			'/\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\](.+?)\[\/\1\]/',
 			'<span style="color:$1">$2</span>', 
 			$string);
+			
+			echo $string;
+		echo preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string);
+		
 		}
 		// handle /italics/
 		$string = preg_replace('/([^<])\/(.+?)([^<])\//', '$1<i>$2$3</i>', $string);

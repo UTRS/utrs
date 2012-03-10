@@ -254,6 +254,34 @@ class Notice{
 		$string = sanitizeText($string);
 		Notice::validate($string);
 		
+		// handle /italics/
+		// have to handle like this instead of regex
+		// because slashes appear too much
+		$open = false;
+		$length = strlen($string);
+		for($i = 0; $i < $length; $i++){
+			$char = substr($string, $i, 1);
+			$substr = substr($string, $i, 4);
+			if($substr == "http"){
+				// if start of link, jump ahead to next space
+				$space = strpos($string, ' ', $i);
+				if($space === false){
+					$i = $length;
+				}
+				else{
+					$i = $space;
+				}
+			}
+			else if($char == '/'){
+				$start = substr($string, 0, $i);
+				$end = substr($string, $i + 1);
+				$tag = ($open ? '</i>' : '<i>');
+				$string = $start . $tag . $end;
+				$open = !$open;
+				$length = strlen($string);
+				$i = $i + strlen($tag);
+			}
+		}
 		// while we have matching color tokens...
 		while(preg_match('~^.*?\[' . Notice::colorCodes . '\].+?\[/\1\].*?$~i', $string)){
 			// handle [red]color[/red]
@@ -265,8 +293,6 @@ class Notice{
 		}
 		// handle {http://enwp.org links}
 		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
-		// handle /italics/
-		$string = preg_replace('#((http\S+)(.*?))*([^<:/])/(.+?)((http\S+)(.+?))*([^<:/])/#', '$1$4<i>$5$6$9</i>', $string);
 		// handle *bolds*
 		$string = preg_replace('/\*(.+?)\*/', '<b>$1</b>', $string);
 		// handle _underlines_

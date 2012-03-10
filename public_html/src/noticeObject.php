@@ -23,7 +23,7 @@ class Notice{
 		else{
 			$mess = sanitizeText($vars['message']);
 
-			validate($mess);
+			//validate($mess);
 			
 			$this->message = sanitizeText($mess);
 			$this->author = getCurrentUser();

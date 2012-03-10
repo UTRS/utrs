@@ -123,13 +123,15 @@ table.subheader_content td:hover{
 }
 
 #messageInfo{
-	float: left;	
+	float: left;
+	margin-right: auto;	
 }
 
 #messageInfo div{
 	width:50%;
 	margin:	5px 0px;
 	text-align: left;
+	float:left;
 }
 
 #footer{

@@ -168,13 +168,14 @@ class Notice{
 		$colorCodes = "(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{3,3}|#[0-9a-f]{6,6})";
 		
 		// while we have matching color tokens...
-		//while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
+		while(preg_match('~^.*?\[' . $colorCodes . '\].+?\[/\1\].*?$~i')){
 			// handle [red]color[/red]
 			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
 			$string = preg_replace(
 			'~\[' . $colorCodes . '\](.+?)\[/\1\]~i',
 			'<span style="color:$1">$2</span>', 
 			$string);
+		}
 		// handle {http://enwp.org links}
 		$string = preg_replace('/\{http(\S+?) (.+?)\}/', '<a href="http$1">$2</a>', $string);
 		// handle /italics/

@@ -109,6 +109,8 @@ class Notice{
 		
 		debug($query);
 		
+		$db = connectToDB();
+		
 		$result = mysql_query($query, $db);
 		
 		if(!$result){

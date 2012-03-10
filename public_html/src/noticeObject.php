@@ -272,6 +272,15 @@ class Notice{
 					$i = $space;
 				}
 			}
+			else if($char == '[' && substr($string, $i + 1, 1) == '/'){
+				$end = strpos($message, ']', $i);
+				$color = substr($message, $i + 2, ($end - 2) - $i);
+				// make sure it's a valid color
+				if($color !== false && preg_match('~^' . Notice::colorCodes . '$~i', $color)){
+					// skip over it
+					$i = $i + 3 + strlen($color);
+				}
+			}
 			else if($char == '/'){
 				$start = substr($string, 0, $i);
 				$end = substr($string, $i + 1);

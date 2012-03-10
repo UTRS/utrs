@@ -33,7 +33,7 @@ class Notice{
 		}
 	}
 	
-	private function validate($message){
+	private static function validate($message){
 		if(strlen($message) > 2048){
 			throw new UTRSIllegalModificationException("Your message is too long to store in the database. " .
 				"Please shorten your message to less than 2048 characters. (Current length: " . strlen($mess) . ")");
@@ -98,7 +98,7 @@ class Notice{
 						// if opening a color tag
 						$color = substr($message, $i + 1, ($end - 1) - $i);
 						// make sure it's a valid color
-						if($color !== false && preg_match('~^' . $this->colorCodes . '$~i', $color)){
+						if($color !== false && preg_match('~^' . Notice::colorCodes . '$~i', $color)){
 							// add to stack
 							$syntaxCodes[$syntaxIndex] = '[/' . $color . ']';
 							$syntaxIndex++;
@@ -110,7 +110,7 @@ class Notice{
 						// if closing a color tag
 						$color = substr($message, $i + 2, ($end - 2) - $i);
 						// make sure it's a valid color
-						if($color !== false && preg_match('~^' . $this->colorCodes . '$~i', $color)){
+						if($color !== false && preg_match('~^' . Notice::colorCodes . '$~i', $color)){
 							// if on top of stack, remove
 							if($syntaxIndex != 0 && $syntaxCodes[$syntaxIndex - 1] == '[/' . $color . ']'){
 								unset($syntaxCodes[$syntaxIndex]);

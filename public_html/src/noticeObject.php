@@ -12,6 +12,7 @@ class Notice{
 	private $message;
 	private $author;
 	private $lastEditTime;
+	private static $colorCodes = "(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{3,3}|#[0-9a-f]{6,6})";
 	
 	public function __construct(array $vars, $fromDB){
 		if($fromDB){
@@ -23,7 +24,7 @@ class Notice{
 		else{
 			$mess = sanitizeText($vars['message']);
 
-			//validate($mess);
+			$this->validate($mess);
 			
 			$this->message = sanitizeText($mess);
 			$this->author = getCurrentUser();
@@ -38,20 +39,106 @@ class Notice{
 				"Please shorten your message to less than 2048 characters. (Current length: " . strlen($mess) . ")");
 		}
 		
-		$syntaxError = false;
+		$syntaxCodes = array();
+		$syntaxIndex = 0;
 		
-		// search through each formatting type and ensure that none overlap
+		// scan through the string and be sure no formatting overlaps
 		// *this /is not* ok/ - it'll break the page
 		// *this /is/ ok* - that'll display correctly
-		
-		if(strpos($message, "*") !== false){
-			$start = strpos($message, "*");
-			$end = strpos($message, "*", $start + 1);
-			if($end){
-				$substring = substr($message, $start, $end - $start);
+		for($i = 0; $i < strlen($message); $i++){
+			$char = substr($message, $i, 1); // get each character
+			
+			if($char == '*' || $char == '/' || $char == '_'){
+				if($syntaxCodes[$syntaxIndex - 1] == $char){
+					// if the last syntax token encountered matches
+					// remove it from the stack
+					unset($syntaxCodes[$syntaxIndex - 1]);
+					$syntaxIndex--;
+				}
+				else{
+					// else, see if it exists in the stack
+					$this->checkForExistingToken($syntaxCodes, $char);
+					// if not, add it to the stack
+					$syntaxCodes[$syntaxIndex] = $char;
+					$syntaxIndex++;
+				}
 			}
-			else{
-				// unmatched is ok, will be ignored by regex
+			else if($char == '}'){
+				if($syntaxCodes[$syntaxIndex - 1] == '{'){
+					// if the last syntax token encountered starts
+					// a link, remove it
+					unset($syntaxCodes[$syntaxIndex - 1]);
+					$syntaxIndex--;
+				}
+				else{
+					// else, see if it exists in the stack
+					$this->checkForExistingToken($syntaxCodes, '{');
+					// if not, add it to the stack
+					$syntaxCodes[$syntaxIndex] = $char;
+					$syntaxIndex++;
+				}
+			}
+			else if($char == '{'){
+				if(substr($message, $i + 1, 4) = "http"){
+					//make sure we aren't already in a link
+					checkForExistingToken($syntaxCodes, '{');
+					// advance loop to next space to avoid issues with
+					// italics and / signs in the url
+					$i = strpos($message, ' ', $i);
+					// add link to the stack
+					$syntaxCodes[$syntaxIndex] = $char;
+					$syntaxIndex++;
+				}
+				// if next four characters aren't http, ignore
+			}
+			else if($char == '['){
+				$end = strpos($message, ']', $i);
+				if($end !== false){
+					if(substr($message, $i + 1, 1) != '/'){
+						// if opening a color tag
+						$color = substr($message, $i + 1, ($end - 1) - $i);
+						// make sure it's a valid color
+						if($color !== false && preg_match('~^' . $this->colorCodes . '$~i', $color)){
+							// add to stack
+							$syntaxCodes[$syntaxIndex] = '[/' . $color . ']';
+							$syntaxIndex++;
+							// advance loop to save time
+							$i = $end; 
+						}
+					}
+					else{
+						// if closing a color tag
+						$color = substr($message, $i + 2, ($end - 2) - $i);
+						// make sure it's a valid color
+						if($color !== false && preg_match('~^' . $this->colorCodes . '$~i', $color)){
+							// if on top of stack, remove
+							if($syntaxCodes[$syntaxIndex] == '[/' . $color . ']'){
+								unset($syntaxCodes[$syntaxIndex]);
+								$syntaxIndex--;
+								// advance loop to save time
+								$i = $end; 
+							}
+							else{
+								checkForExistingToken($syntaxCodes, '[/' . $color . ']');
+							}
+						}
+					}
+				}
+			}
+		}
+		// if we get down here with no exceptions, it's good to go.
+	}
+	
+	private function checkForExistingToken($syntaxCodes, $match){
+		$syntaxError = "Your message contains overlapping formatting which will not render properly. Formatting" .
+			" sections opened within another formatting section must be closed before the preceding one is closed." .
+			" For example, '<tt>this /string *is* formatted/ correctly</tt>', however " .
+			"'<tt>this *string /is* not/ correct</tt>' because the bold section ends before the italic section does." .
+			" Furthermore, links may not contain other links.";
+
+		for($j = 0; $j < sizeOf($syntaxCodes); $j++){
+			if($syntaxCodes[$j] == $match){
+				throw new UTRSIllegalModificationException($syntaxError);
 			}
 		}
 	}
@@ -165,14 +252,14 @@ class Notice{
 	
 	public static function format($string){
 		$string = sanitizeText($string);
-		$colorCodes = "(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{3,3}|#[0-9a-f]{6,6})";
+		$this->validate($string);
 		
 		// while we have matching color tokens...
-		while(preg_match('~^.*?\[' . $colorCodes . '\].+?\[/\1\].*?$~i', $string)){
+		while(preg_match('~^.*?\[' . $this->colorCodes . '\].+?\[/\1\].*?$~i', $string)){
 			// handle [red]color[/red]
 			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
 			$string = preg_replace(
-			'~\[' . $colorCodes . '\](.+?)\[/\1\]~i',
+			'~\[' . $this->colorCodes . '\](.+?)\[/\1\]~i',
 			'<span style="color:$1">$2</span>', 
 			$string);
 		}

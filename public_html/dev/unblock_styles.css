@@ -364,3 +364,33 @@ td.largeLogTimeTwo {
 td.highlight{
 	background: #FFF2C5 !important;
 }
+
+table.sitenoticeTable{
+	width:75%;	
+}
+
+th.sitenoticeIDHeader{
+	width:6%;
+	background-color:#B3C1D2;
+	color: #EFEFEF !important;
+}
+
+th.sitenoticeTextHeader{
+	width:74%;
+	background-color:#B3C1D2;
+	color: #EFEFEF !important;
+}
+
+th.sitenoticeLinkHeader{
+	width:10%;
+	background-color:#B3C1D2;
+	color: #EFEFEF !important;
+}
+
+table.sitenoticeTable tr.even{
+	background-color:transparent;
+}
+
+table.sitenoticeTable tr.odd{
+	background-color:#EBEBEB;
+}

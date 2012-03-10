@@ -610,7 +610,8 @@ function printLastThirtyActions() {
 }
 
 function printSitenoticeMessages(){
-	$query = "SELECT messageID, LEFT(message, 50) AS summary FROM sitenotice ORDER BY messageID ASC";
+	$query = "SELECT messageID, LEFT(message, 50) AS summary, CHAR_LENGTH(message) AS length " .
+			"FROM sitenotice ORDER BY messageID ASC";
 	
 	$db = connectToDB();
 	
@@ -628,19 +629,19 @@ function printSitenoticeMessages(){
 		return "<b>There are currently no sitenotice messages.</b>";
 	}
 	
-	$table = "<table class=\"logLargeTable\">\n";
+	$table = "<table class=\"sitenoticeTable\">\n";
 	$table .= "<tr>\n";
-	$table .= "<th class=\"logLargeUserHeader\">ID</th>\n";
-	$table .= "<th class=\"logLargeUserHeader\">Text</th>\n";
-	$table .= "<th class=\"logLargeUserHeader\">&nbsp;</th>\n";
-	$table .= "<th class=\"logLargeUserHeader\">&nbsp;</th>\n";
+	$table .= "<th class=\"sitenoticeIDHeader\">ID</th>\n";
+	$table .= "<th class=\"sitenoticeTextHeader\">Text</th>\n";
+	$table .= "<th class=\"sitenoticeLinkHeader\">&nbsp;</th>\n";
+	$table .= "<th class=\"sitenoticeLinkHeader\">&nbsp;</th>\n";
 	$table .= "</tr>";
 	
 	for($i = 0; $i < $rows; $i++){
 		$rowData = mysql_fetch_assoc($result);
-		$table .= "<tr>\n";
+		$table .= "<tr class=\"" . ($i / 2 == 0 ? "even" : "odd") . "\">\n";
 		$table .= "<td>" . $rowData['messageID'] . "</td>\n";
-		$table .= "<td>\"" . $rowData['summary'] . " ...\"</td>\n";
+		$table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 50 ? " ..." : "") . "\"</td>\n";
 		$table .= "<td><a href=\"" . getRootURL() . "sitenotice.php?id=" . $rowData['messageID'] . "\">Edit</a></td>\n";
 		$table .= "<td><a href=\"" . getRootURL() . "sitenotice.php?delete=" . $rowData['messageID'] . "\">Delete</a></td>\n";
 		$table .= "</tr>\n";

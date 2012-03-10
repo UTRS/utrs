@@ -143,7 +143,7 @@ class Notice{
 			'<span style="color:$1">$2</span>', 
 			$string);
 		// handle /italics/
-		$string = preg_replace('/[^<]\/(.+?)[^<]\//', '<i>$1</i>', $string);
+		$string = preg_replace('/([^<])\/(.+?)([^<])\//', '$1<i>$2$3</i>', $string);
 		// handle *bolds*
 		$string = preg_replace('/\*(.+?)\*/', '<b>$1</b>', $string);
 		// handle _underlines_

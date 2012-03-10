@@ -12,7 +12,7 @@ class Notice{
 	private $message;
 	private $author;
 	private $lastEditTime;
-	private static $colorCodes = "(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{3,3}|#[0-9a-f]{6,6})";
+	const colorCodes = "(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-f]{3,3}|#[0-9a-f]{6,6})";
 	
 	public function __construct(array $vars, $fromDB){
 		if($fromDB){

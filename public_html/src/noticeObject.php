@@ -252,7 +252,7 @@ class Notice{
 	
 	public static function format($string){
 		$string = sanitizeText($string);
-		$this->validate($string);
+		Notice::validate($string);
 		
 		// while we have matching color tokens...
 		while(preg_match('~^.*?\[' . $this->colorCodes . '\].+?\[/\1\].*?$~i', $string)){

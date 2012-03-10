@@ -562,6 +562,12 @@ function printLastThirtyActions() {
 	
 	$query = mysql_query($sql, $db);
 	
+	if(!$query){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
 	$num_rows = mysql_num_rows($query);
 	
 	$HTMLOutput = "";
@@ -601,5 +607,41 @@ function printLastThirtyActions() {
 	$HTMLOutput .= "</table>";
 	
 	return $HTMLOutput;
+}
+
+function printSitenoticeMessages(){
+	$query = "SELECT messageID, LEFT(message, 50) AS summary FROM sitenotice ORDER BY messageID ASC";
+	
+	$db = connectToDB();
+	
+	$result = mysql_query($query, $db);
+	
+	if(!$result){
+		$error = mysql_error($db);
+		debug('ERROR: ' . $error . '<br/>');
+		throw new UTRSDatabaseException($error);
+	}
+	
+	$rows = mysql_num_rows($result);
+	
+	if($rows == 0){
+		return "<b>There are currently no sitenotice messages.</b>";
+	}
+	
+	$table = "<table class=\"appealList\">\n";
+	
+	for($i = 0; $i < $rows; $i++){
+		$rowData = mysql_fetch_assoc($result);
+		$table .= "<tr>\n";
+		$table .= "<td>" . $rowData['messageID'] . "</td>\n";
+		$table .= "<td>" . $rowData['summary'] . "</td>\n";
+		$table .= "<td><a href=\"" . getRootURL() . "sitenotice.php?id=" . $rowData['messageID'] . "\">Edit</a></td>\n";
+		$table .= "<td><a href=\"" . getRootURL() . "sitenotice.php?delete=" . $rowData['messageID'] . "\">Delete</a></td>\n";
+		$table .= "</tr>\n";
+	}
+	
+	$table .= "</table>\n";
+	
+	return $table;
 }
 ?>

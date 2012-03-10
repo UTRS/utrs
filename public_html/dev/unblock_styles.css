@@ -106,20 +106,30 @@ table.subheader_content td:hover{
 	#loginLink, #register, #stats, #mgmtTemp {display:none;}
 }
 
-#main textarea{
+#main textarea, #messageInfo{
 	width: 50%;	
 }
 
 @media all and (max-width:500px){
-	#main textarea{
+	#main textarea, #messageInfo{
 		width:100% !important;
 	}
 }
 
 @media all and (min-width:500px) and (max-width:750px){
-	#main textarea{
+	#main textarea, #messageInfo{
 		width:75% !important;
 	}
+}
+
+#messageInfo{
+	float: left;	
+}
+
+#messageInfo div{
+	width:50%;
+	margin:	5px 0px;
+	text-align: left;
 }
 
 #footer{

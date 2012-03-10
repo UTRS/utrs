@@ -610,7 +610,7 @@ function printLastThirtyActions() {
 }
 
 function printSitenoticeMessages(){
-	$query = "SELECT messageID, LEFT(message, 80) AS summary, CHAR_LENGTH(message) AS length " .
+	$query = "SELECT messageID, LEFT(message, 64) AS summary, CHAR_LENGTH(message) AS length " .
 			"FROM sitenotice ORDER BY messageID ASC";
 	
 	$db = connectToDB();
@@ -639,9 +639,9 @@ function printSitenoticeMessages(){
 	
 	for($i = 0; $i < $rows; $i++){
 		$rowData = mysql_fetch_assoc($result);
-		$table .= "<tr class=\"" . ($i % 2 == 0 ? "even" : "odd") . "\">\n";
+		$table .= "<tr class=\"" . ($i % 2 == 1 ? "odd" : "even") . "\">\n";
 		$table .= "<td style=\"text-align:center;\">" . $rowData['messageID'] . "</td>\n";
-		$table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 80 ? " ..." : "") . "\"</td>\n";
+		$table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 64 ? " ..." : "") . "\"</td>\n";
 		$table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?id=" . 
 			$rowData['messageID'] . "\">Edit</a></td>\n";
 		$table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?delete=" . 

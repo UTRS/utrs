@@ -22,14 +22,37 @@ class Notice{
 		}
 		else{
 			$mess = sanitizeText($vars['message']);
-			if(strlen($mess) > 2048){
-				throw new UTRSIllegalModificationException("Your message is too long to store in the database. " .
-				"Please shorten your message to less than 2048 characters. (Current length: " . strlen($mess) . ")");
-			}
+
+			validate($mess);
+			
 			$this->message = sanitizeText($mess);
 			$this->author = getCurrentUser();
 			
 			$this->insert();
+		}
+	}
+	
+	private function validate($message){
+		if(strlen($message) > 2048){
+			throw new UTRSIllegalModificationException("Your message is too long to store in the database. " .
+				"Please shorten your message to less than 2048 characters. (Current length: " . strlen($mess) . ")");
+		}
+		
+		$syntaxError = false;
+		
+		// search through each formatting type and ensure that none overlap
+		// *this /is not* ok/ - it'll break the page
+		// *this /is/ ok* - that'll display correctly
+		
+		if(strpos($message, "*") !== false){
+			$start = strpos($message, "*");
+			$end = strpos($message, "*", $start + 1);
+			if($end){
+				$substring = substr($message, $start, $end - $start);
+			}
+			else{
+				// unmatched is ok, will be ignored by regex
+			}
 		}
 	}
 	
@@ -143,12 +166,15 @@ class Notice{
 	public static function format($string){
 		$string = sanitizeText($string);
 		
-		// handle [red]color[/red]
-		// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
-		$string = preg_replace(
+		// while we have matching color tokens...
+		while(preg_match("/.*\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\].*?\[\/\1\].*/", $string)){
+			// handle [red]color[/red]
+			// supported tags: red, orange, yellow, green, blue, purple, grey, gray, three- or six-digit hex code
+			$string = preg_replace(
 			'/\[(red|green|blue|yellow|orange|purple|gray|grey|#[0-9a-fA-F]{6,6}|#[0-9a-fA-F]{3,3})\](.+?)\[\/\1\]/',
 			'<span style="color:$1">$2</span>', 
 			$string);
+		}
 		// handle /italics/
 		$string = preg_replace('/([^<])\/(.+?)([^<])\//', '$1<i>$2$3</i>', $string);
 		// handle *bolds*

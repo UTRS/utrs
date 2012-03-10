@@ -130,8 +130,8 @@ class Notice{
 	}
 	
 	private function checkForExistingToken($syntaxCodes, $match){
-		$syntaxError = "Your message contains overlapping formatting which will not render properly. Formatting" .
-			" sections opened within another formatting section must be closed before the preceding one is closed." .
+		$syntaxError = "Your message contains overlapping formatting which will not display properly. Special" .
+			" formats within special format must end before the preceding format ends." .
 			" For example, '<tt>this /string *is* formatted/ correctly</tt>', however " .
 			"'<tt>this *string /is* not/ correct</tt>' because the bold section ends before the italic section does." .
 			" Furthermore, links may not contain other links.";

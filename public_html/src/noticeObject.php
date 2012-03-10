@@ -79,7 +79,7 @@ class Notice{
 				}
 			}
 			else if($char == '{'){
-				if(substr($message, $i + 1, 4) = "http"){
+				if(substr($message, $i + 1, 4) == "http"){
 					//make sure we aren't already in a link
 					checkForExistingToken($syntaxCodes, '{');
 					// advance loop to next space to avoid issues with

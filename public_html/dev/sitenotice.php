@@ -38,6 +38,8 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 
 		// If creating a new one, make it and redirect on success
 		if(isset($_POST['save']) && isset($_GET['new'])){
+			$message = $_POST['message'];
+			$formatMessage = null;
 			$notice = new Notice($_POST, false);
 			
 			header("Location: " . getRootURL() . "sitenotice.php?id=" . $notice->getMessageId());
@@ -45,7 +47,12 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 	
 		// If updating an old one, change it and get new info on success
 		if(isset($_POST['save']) && isset($_GET['id'])){
+			// save in case of error
+			$message = $_POST['message'];
+			$formatMessage = null;
+			// update
 			$notice->update($_POST['message']);
+			// retrieve from updated notice
 			$message = $notice->getMessage();
 			$formatMessage = $notice->getFormattedMessage();
 			$success = "Changes successfully saved.";

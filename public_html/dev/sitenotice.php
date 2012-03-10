@@ -137,7 +137,7 @@ else{
 	}
 } // close else from if(!verifyAccess($GLOBALS['ADMIN'])){
 
-echo "\n\n";
+echo "<br/><br/>\n";
 
 skinFooter();
 ?>

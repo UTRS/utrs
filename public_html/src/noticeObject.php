@@ -135,7 +135,7 @@ class Notice{
 	}
 	
 	public function getFormattedMessage(){
-		return format($this->message);
+		return $this->format($this->message);
 	}
 	
 	public static function format($string){

@@ -104,6 +104,7 @@ ini_set('display_errors',1);
 	$privgroups[ '*'         ][ 'stats'       ] = 1;
 	$privgroups[ '*'         ][ 'svninfo'     ] = 1; //Do not change this, per consensus in the IRC channel.
 	$privgroups[ '*'         ][ 'sandinfo'    ] = 1;
+	$privgroups[ '*'         ][ 'ping'		  ] = 1;
 
 	$privgroups[ 'developer' ] = $privgroups['*']; // Developer group inherits '*'.
 	$privgroups[ 'developer' ][ 'sand-svnup'  	] = 1;
@@ -111,7 +112,6 @@ ini_set('display_errors',1);
 	$privgroups[ 'developer' ][ 'sand-pull' 	] = 1;
 	$privgroups[ 'developer' ][ 'rewrite-pull' 	] = 1;
 	$privgroups[ 'developer' ][ 'restart'		] = 1;
-	$privgroups[ 'developer' ][ 'ping'			] = 1;
 	
 	$privgroups[ 'bot'		 ][ 'sand-svnup'  	] = 1;
 	$privgroups[ 'bot'		 ][ 'rewrite-pull' 	] = 1;

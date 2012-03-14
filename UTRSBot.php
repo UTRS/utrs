@@ -95,7 +95,7 @@ ini_set('display_errors',1);
 		
 		'*!*@*'										=> '*'
 		);
-
+ 
 	// Groups
 	//         [ Group       ][ Privilege     ] = 1;
 	$privgroups[ '*'         ][ 'help'        ] = 1;

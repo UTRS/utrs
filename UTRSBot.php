@@ -518,13 +518,14 @@ ini_set('display_errors',1);
 			$output = 'Current version of UTRS interface: ';
 			$file = 'lastLiveDeploy';
 		}
-		$version = file_get_contents($file);
-		if($version){
-			irc($output . $version);
-		}
-		else{
+		$fileResource = fopen($file, 'r');
+		if(!$fileResource){
 			irc('ERROR: Unable to retrive version information from file ' . $file);
+			return;
 		}
+		$version = fgets($fileResource);
+		fclose($fileResource);
+		irc($output . $version);
 	}
 
 	// Code entry point.

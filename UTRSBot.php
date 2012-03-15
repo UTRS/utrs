@@ -510,7 +510,7 @@ ini_set('display_errors',1);
 	}
 	
 	function commandEcho($parsed){
-		irc($parsed['message']);
+		irc('PRIVMSG ' . $parsed['to'] . ' :' . $parsed['message']);
 	}
 	
 	function commandVersion($parsed){
@@ -529,7 +529,7 @@ ini_set('display_errors',1);
 		$fileResource = fopen($file, 'r');
 		if(!$fileResource){
 			$fp = $oldFP;
-			irc('PRIVMSG ' . $parsed['to'] . ' :' . 'ERROR: Unable to retrive version information from file ' . $file);
+			irc('PRIVMSG ' . $parsed['to'] . ' :ERROR: Unable to retrive version information from file ' . $file);
 			return;
 		}
 		$version = fgets($fileResource);

@@ -508,6 +508,8 @@ ini_set('display_errors',1);
 	}
 	
 	function commandVersion($parsed){
+		global $fp;
+		$oldFP = $fp; // just to be safe...
 		$output = '';
 		$file = '';
 		if(strpos($parsed['raw'], "beta")){
@@ -520,11 +522,13 @@ ini_set('display_errors',1);
 		}
 		$fileResource = fopen($file, 'r');
 		if(!$fileResource){
+			$fp = $oldFP;
 			irc('ERROR: Unable to retrive version information from file ' . $file);
 			return;
 		}
 		$version = fgets($fileResource);
 		fclose($fileResource);
+		$fp = $oldFP;
 		irc($output . $version);
 	}
 

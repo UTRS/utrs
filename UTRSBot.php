@@ -85,6 +85,7 @@ ini_set('display_errors',1);
 	addCommand( 'restart'    	, 'commandRestart'    	, false );
 	addCommand( 'ping'			, 'commandPing'			, false);
 	addCommand( 'version'       , 'commandVersion'      , false);
+	addCommand( 'echo'          , 'commandEcho'         , false);
 
 	// Users
 	// Nick!User@Host mask                 			=> Group
@@ -107,6 +108,7 @@ ini_set('display_errors',1);
 	$privgroups[ '*'         ][ 'sandinfo'    ] = 1;
 	$privgroups[ '*'         ][ 'ping'		  ] = 1;
 	$privgroups[ '*'         ][ 'version'     ] = 1;
+	$privgroups[ '*'         ][ 'echo'        ] = 1;
 
 	$privgroups[ 'developer' ] = $privgroups['*']; // Developer group inherits '*'.
 	$privgroups[ 'developer' ][ 'sand-svnup'  	] = 1;
@@ -507,12 +509,16 @@ ini_set('display_errors',1);
 		myq($sql);
 	}
 	
+	function commandEcho($parsed){
+		irc($parsed['message']);
+	}
+	
 	function commandVersion($parsed){
 		global $fp;
 		$oldFP = $fp; // just to be safe...
 		$output = '';
 		$file = '';
-		if(strpos($parsed['raw'], "beta")){
+		if(strpos($parsed['message'], "beta")){
 			$output = 'Current version of UTRS beta site: ';
 			$file = 'lastBetaDeploy';
 		}

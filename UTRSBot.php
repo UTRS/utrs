@@ -640,11 +640,22 @@ ini_set('display_errors',1);
 	// NOTIFICATIONS END
 	
 	// IRC START
+	$motd = true;
 	while( !feof( $fp ) ) {
+		while( !feof( $fp ) && $motd ) {
+			$data = trim( fgets( $fp, 512 ) );
+			echo 'Raw (' . strlen( $data ) . '): ' . $data . "\n";
+			$motd = (strpos($data, 'End of /NAMES list') === false);
+			if(!$motd){
+				irc('PRIVMSG '. $chan . ' :UTRSBot online.');
+			}
+		}
 		echo 'Begin parsing ...' . "\n";
-	        $data = trim( fgets( $fp, 512 ) );
+	    $data = trim( fgets( $fp, 512 ) );
 
 		echo 'Raw (' . strlen( $data ) . '): ' . $data . "\n";
+		
+		
 
 		$parsed = parseIrc( $data );
 

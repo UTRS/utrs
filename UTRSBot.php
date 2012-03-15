@@ -514,13 +514,19 @@ ini_set('display_errors',1);
 	}
 	
 	function commandVersion($parsed){
-		global $fp;
-		$oldFP = $fp; // just to be safe...
 		$output = '';
 		$file = '';
 		if(strpos($parsed['message'], "beta")){
 			$output = 'Current version of UTRS beta site: ';
 			$file = 'lastBetaDeploy';
+		}
+		else if(strpos($parsed['message'], "bot")){
+			$output = 'Current version of UTRSBot: ';
+			$file = 'lastUTRSBot';
+		}
+		else if(strpos($parsed['message'], "svn")){
+			$output = 'Last version checked out from SVN: ';
+			$file = 'lastCheckedOut';
 		}
 		else{
 			$output = 'Current version of UTRS interface: ';
@@ -534,7 +540,6 @@ ini_set('display_errors',1);
 		}
 		$version = fgets($fileResource);
 		fclose($fileResource);
-		$fp = $oldFP;
 		irc('PRIVMSG ' . $parsed['to'] . ' :' . $output . $version);
 	}
 

@@ -84,6 +84,7 @@ ini_set('display_errors',1);
 	//addCommand( 'sand-svnup' 	, 'commandSandSvnUp'  	, true  );
 	addCommand( 'restart'    	, 'commandRestart'    	, false );
 	addCommand( 'ping'			, 'commandPing'			, false);
+	addCommand( 'version'       , 'commandVersion'      , false);
 
 	// Users
 	// Nick!User@Host mask                 			=> Group
@@ -105,6 +106,7 @@ ini_set('display_errors',1);
 	$privgroups[ '*'         ][ 'svninfo'     ] = 1; //Do not change this, per consensus in the IRC channel.
 	$privgroups[ '*'         ][ 'sandinfo'    ] = 1;
 	$privgroups[ '*'         ][ 'ping'		  ] = 1;
+	$privgroups[ '*'         ][ 'version'     ] = 1;
 
 	$privgroups[ 'developer' ] = $privgroups['*']; // Developer group inherits '*'.
 	$privgroups[ 'developer' ][ 'sand-svnup'  	] = 1;
@@ -503,6 +505,26 @@ ini_set('display_errors',1);
 	function commandPing ($parsed) {
 		$sql = "INSERT INTO irc (Notification) VALUES ('PONG')";
 		myq($sql);
+	}
+	
+	function commandVersion($parsed){
+		$output = '';
+		$file = '';
+		if(strpos($parsed['raw'], "beta")){
+			$output = 'Current version of UTRS beta site: ';
+			$file = 'lastBetaDeploy';
+		}
+		else{
+			$output = 'Current version of UTRS interface: ';
+			$file = 'lastLiveDeploy';
+		}
+		$version = file_get_contents($file);
+		if($version){
+			irc($output . $version);
+		}
+		else{
+			irc('ERROR: Unable to retrive version information from file ' . $file);
+		}
 	}
 
 	// Code entry point.

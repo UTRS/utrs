@@ -529,13 +529,13 @@ ini_set('display_errors',1);
 		$fileResource = fopen($file, 'r');
 		if(!$fileResource){
 			$fp = $oldFP;
-			irc('ERROR: Unable to retrive version information from file ' . $file);
+			irc('PRIVMSG ' . $parsed['to'] . ' :' . 'ERROR: Unable to retrive version information from file ' . $file);
 			return;
 		}
 		$version = fgets($fileResource);
 		fclose($fileResource);
 		$fp = $oldFP;
-		irc($output . $version);
+		irc('PRIVMSG ' . $parsed['to'] . ' :' . $output . $version);
 	}
 
 	// Code entry point.

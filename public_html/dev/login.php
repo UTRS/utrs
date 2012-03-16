@@ -134,6 +134,7 @@ if($logout){
 }
 ?>
 
+<div id="loginBox">
 <p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
 
 <?php 
@@ -159,10 +160,8 @@ if($errors){
 </form>
 <p>You must have cookies enabled in order to log in.</p>
 
-<p>You must have cookies enabled in order to log in.</p>
-
 <p><a href="passReset.php">Forgot your password?</a></p>
-
+</div>
 <?php 
 skinFooter();
 ?>

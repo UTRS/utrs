@@ -416,10 +416,9 @@ tr.sitenoticeOdd{
 
 /* LOGIN PAGE */
 
-#inputBox {
+#loginBox, #inputBox {
 
    padding: 10px;
-   width: 400px;
 
 
    /* ROUNDED CORNERS */
@@ -464,8 +463,16 @@ tr.sitenoticeOdd{
 
 }
 
+#loginBox {
+	   width: 400px;
+}
 
-#inputBox input {
+#inputBox {
+	width: 700px;
+}
+
+
+#loginBox input, #inputBox input {
 
    text-align: center;
 

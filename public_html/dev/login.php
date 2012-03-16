@@ -134,7 +134,7 @@ if($logout){
 }
 ?>
 
-<div id="inputBox">
+<div id="loginBox">
 <p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
 
 <?php 

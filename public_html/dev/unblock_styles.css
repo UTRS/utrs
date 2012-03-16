@@ -472,6 +472,10 @@ tr.sitenoticeOdd{
 	text-align: left;
 }
 
+#inputBox textarea {
+	width: 100%;
+}
+
 
 #loginBox input {
 

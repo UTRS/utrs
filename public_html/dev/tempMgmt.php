@@ -8,6 +8,7 @@ require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
+require_once('src/logObject.php');
 require_once('src/statsLib.php');
 require_once('template.php');
 
@@ -62,6 +63,8 @@ try{
 				else{
 					throw new UTRSException("An unexpected error has occured. Please contact a tool developer.", 10000, null);
 				}
+				
+				Log::ircNotification("\x033New email template created called\x032 " . $template->getName() . "\x033 by\x032 " . $SESSION['user']);
 			}
 			else{
 				$template = Template::getTemplateById($_GET['id']);
@@ -77,6 +80,7 @@ try{
 				}
 				$template->setStatus($statusUser, $statusClose);
 				
+				Log::ircNotification("\x033Template\x032 " . $template->getName() . "\x033 has been updated by\x032 " . $SESSION['user']);
 			}
 		}
 		else if(isset($_POST['delete'])){

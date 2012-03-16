@@ -382,6 +382,8 @@ td.highlight{
 	background: #FFF2C5 !important;
 }
 
+/* SITE NOTICE */
+
 table.sitenoticeTable{
 	width:50%;	
 }
@@ -410,4 +412,88 @@ tr.sitenoticeEven{
 
 tr.sitenoticeOdd{
 	background-color:#EBEBEB;
+}
+
+/* LOGIN PAGE */
+
+#loginBox {
+
+   padding: 10px;
+   width: 400px;
+
+
+   /* ROUNDED CORNERS */
+
+   -moz-border-radius: 20px;
+   -webkit-border-radius: 20px;
+   -khtml-border-radius: 20px;
+   border-radius: 20px;
+
+
+
+   /* BACKGROUND GRADIANT */
+
+   /* SVG fallback(Opera 11.10-, IE9) */
+   background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjpyZ2JhKDI0OCwyNTIsMjU1LDEpOyIgLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOnJnYmEoMTc5LDE5MywyMTAsMSk7IiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjZ3JhZGllbnQpIiBoZWlnaHQ9IjEwMCUiIHdpZHRoPSIxMDAlIiAvPjwvc3ZnPg==);
+
+   /* Opera 11.10+ */
+   background: -o-linear-gradient(top, rgba(248,252,255,1), rgba(179,193,210,1));
+
+   /* Firefox 3.6+ */
+   background: -moz-linear-gradient(top, rgba(248,252,255,1), rgba(179,193,210,1));
+
+   /* Chrome 7+ & Safari 5.03+ */
+   background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(248,252,255,1)), color-stop(1, rgba(179,193,210,1)));
+
+   /* IE5.5 - IE7 */
+   filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFF8FCFF,EndColorStr=#FFB3C1D2);
+
+   /* IE8 */
+   -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFF8FCFF,EndColorStr=#FFB3C1D2)"
+
+
+   /* DROP SHADOW */
+
+   -moz-box-shadow: 3px 3px 4px #000;
+   -webkit-box-shadow: 3px 3px 4px #000;
+   box-shadow: 3px 3px 4px #000;
+   /* For IE 8 */
+   -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+   /* For IE 5.5 - 7 */
+   filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+
+}
+
+
+#username, #password {
+
+   text-align: center;
+
+   width: 200px;
+   -moz-box-shadow: 3px 3px 4px #000;
+   -webkit-box-shadow: 3px 3px 4px #000;
+   box-shadow: 3px 3px 4px #000;
+   /* For IE 8 */
+   -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+   /* For IE 5.5 - 7 */
+   filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+
+}
+
+#login {
+
+   width: 150px;
+
+   -moz-box-shadow: 3px 3px 4px #000;
+   -webkit-box-shadow: 3px 3px 4px #000;
+   box-shadow: 3px 3px 4px #000;
+   /* For IE 8 */
+   -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+   /* For IE 5.5 - 7 */
+   filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+
+   background-color: #F8FCFF;
+   border: 1px #000000 dotted;
+   height: 30px;
+   font-weight: bold;
 }

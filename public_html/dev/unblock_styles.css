@@ -469,10 +469,11 @@ tr.sitenoticeOdd{
 
 #inputBox {
 	width: 700px;
+	text-align: left;
 }
 
 
-#loginBox input, #inputBox input {
+#loginBox input {
 
    text-align: center;
 

@@ -126,7 +126,7 @@ else if(loggedIn()){
 skinHeader();
 ?>
 
-<center><b>Unblock Ticket Request System Login</b></center>
+<center><b>Unblock Ticket Request System Login</b>
 
 <?php 
 if($logout){
@@ -162,6 +162,7 @@ if($errors){
 
 <p><a href="passReset.php">Forgot your password?</a></p>
 </div>
+</center>
 <?php 
 skinFooter();
 ?>

@@ -136,8 +136,8 @@ function replaceTalkEditLink(){
 ');
 
 ?>
-<center><b>Welcome to the Unblock Ticket Request System.</b></center>
-
+<center><b>Welcome to the Unblock Ticket Request System.</b>
+<div id="inputBox">
 <p>Administrators who wish to assist in reviewing blocks through this system may register
 an account here. Your account must be approved by a tool administrator before it may 
 be used on this site. If you have already requested an account, but it has gone unapproved
@@ -196,6 +196,7 @@ else{
 
 	echo '<input type="submit" name="submit" value="Register"/>';
 	echo '</form>';
+	echo '</div></center>';
 }
 
 skinFooter();

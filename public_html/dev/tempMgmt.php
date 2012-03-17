@@ -88,13 +88,15 @@ try{
 			
 			$template = Template::getTemplateById($id);
 
+			$oldname = $template->getName();
+			
 			$template->delete();
 
 			$template = null;
 
 			header("Location: " . getRootURL() . "tempMgmt.php?deleted=" . $id);
 			
-			Log::ircNotification("\x033Template\x032 " . $template->getName() . "\x033 has been deleted by\x032 " . $_SESSION['user']);
+			Log::ircNotification("\x033Template\x032 " . $oldname . "\x033 has been deleted by\x032 " . $_SESSION['user']);
 		}
 	}
 }

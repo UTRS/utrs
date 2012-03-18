@@ -4,7 +4,7 @@ $ts_pw = posix_getpwuid(posix_getuid());
 $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/.my.cnf");
 
 
-$ircBotNetworkHost = "rowling.freenode.net";
+$ircBotNetworkHost = "irc.freenode.net";
 $ircBotNetworkPort = "6667";
 $ircBotNickServPassword = $ts_mycnf['ircBotPassword'];
 $ircBotNickname = "UTRSBot";

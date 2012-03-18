@@ -589,7 +589,7 @@ ini_set('display_errors',1);
 	irc( 'USER ' . $ident . ' "' . $host . '" "localhost" :' . $realname );
 	sleep( 5 );
 	irc( 'JOIN ' . $chan );
-	//irc( 'JOIN #wikipedia-en-unblock');
+	irc( 'JOIN #wikipedia-en-utrs');
 
 	myq('SELECT 1');
 	
@@ -641,7 +641,7 @@ nothing is broken.');
 				continue;
 			}
 			if ($result['unblock'] == 1) {
-				irc( 'PRIVMSG #wikipedia-en-unblock :' . str_replace( "\n", "\nPRIVMSG " . $chan . ' :', $rawdata ) );
+				irc( 'PRIVMSG #wikipedia-en-utrs :' . str_replace( "\n", "\nPRIVMSG " . $chan . ' :', $rawdata ) );
 			}
 			irc( 'PRIVMSG ' . $chan . ' :' . str_replace( "\n", "\nPRIVMSG " . $chan . ' :', $rawdata ) );
 			$lastToolMsg = time();

@@ -124,8 +124,9 @@ function skinFooter() {
 
 </div>
 <div id="footer">
+<?php if (loggedIn()) {?>
 <p style="text-align:center; font-size:small;">Users active in the last five minutes: <?php echo getLoggedInUsers(); ?></p>
-
+<?php }?>
 <p>The Unblock Ticket Request System is a project hosted on the Wikimedia Toolserver intended to assist
 users with the <a href="http://en.wikipedia.org/wiki/Wikipedia:Appealing_a_block" target="_NEW">unblock process</a> on the English Wikipedia. <br />
 This project is licensed under the

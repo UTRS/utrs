@@ -92,7 +92,7 @@ $success = false;
 					$log->addNewItem("Closed", 1);
 				}
 				$appeal->update();
-				Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $appeal->getHandlingAdmin()->getUsername() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID());
+				Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $appeal->getHandlingAdmin()->getUsername() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 			}
 			$success = true;
 		}

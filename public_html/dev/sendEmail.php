@@ -75,6 +75,9 @@ $success = false;
 				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
 				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 1);
 			}
+			
+			//Put the contents of the email into the log
+			$log->addNewItem($body);
 						
 			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
 				//Set the appeal status if the template is set up to do that.

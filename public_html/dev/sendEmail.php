@@ -77,7 +77,7 @@ $success = false;
 			}
 			
 			//Put the contents of the email into the log
-			$log->addNewItem($body);
+			//$log->addNewItem($body); //Disable because it shows the email in the templates.  Have a fix idea already but have to test it first.
 						
 			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
 				//Set the appeal status if the template is set up to do that.

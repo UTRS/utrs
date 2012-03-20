@@ -55,7 +55,7 @@ class Log {
 	public static function getCommentsByAppealId($id) {
 		$db = connectToDB();
 		
-		$query = "SELECT * from comment WHERE appealID = " . $id;
+		$query = "SELECT * from comment WHERE appealID = " . $id . " ORDER BY timestamp ASC;";
 		
 		$result = mysql_query($query, $db);
 		

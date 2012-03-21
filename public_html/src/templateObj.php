@@ -119,7 +119,7 @@ class Template{
 	public static function getTemplateList() {
 		$db = connectToDB();
 		
-		$query = "SELECT templateID, name FROM template";
+		$query = "SELECT templateID, name FROM template ORDER BY name ASC;";
 		
 		$result = mysql_query($query);
 		

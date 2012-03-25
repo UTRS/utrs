@@ -86,7 +86,7 @@ class Log {
 		
 		$comment = sanitizeText(mysql_real_escape_string($comment));
 		// add links to other appeals: UTRS-67
-		$comment = preg_replace("~\[\[(\d+)\]\]~", '<a href="' . getRootURL() . 'appeal.php?id=$1>$1</a>', $comment);
+		$comment = preg_replace("~\[\[(\d+)\]\]~", '<a href="' . getRootURL() . 'appeal.php?id=$1">$1</a>', $comment);
 		
 		$timestamp = time();
 		

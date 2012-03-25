@@ -85,8 +85,6 @@ class Log {
 		}
 		
 		$comment = sanitizeText(mysql_real_escape_string($comment));
-		// add links to other appeals: UTRS-67
-		$comment = preg_replace("~\[\[(\d+)\]\]~", '<a href="' . getRootURL() . 'appeal.php?id=$1">$1</a>', $comment);
 		
 		$timestamp = time();
 		
@@ -196,9 +194,13 @@ class Log {
 				$styleAction = "highlight";
 				$styleTime = "highlight";
 			}
+			$comment = $data['comment'];
+			// add links to other appeals: UTRS-67
+			$comment = preg_replace("~\[\[(\d+)\]\]~", '<a href="' . getRootURL() . 'appeal.php?id=$1">$1</a>', $comment);
+		
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $comment) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

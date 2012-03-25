@@ -84,12 +84,16 @@ class Log {
 			$action = 0;
 		}
 		
+		$comment = sanitizeText(mysql_real_escape_string($comment));
+		// add links to other appeals: UTRS-67
+		$comment = preg_replace("~\[\[(\d+)\]\]~", '<a href="' . getRootURL() . 'appeal.php?id=$1>$1</a>', $comment);
+		
 		$timestamp = time();
 		
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser, action) VALUES (";
 		$query .= $this->appealID . ", ";
 		$query .= "NOW() , '";
-		$query .= sanitizeText(mysql_real_escape_string($comment)) . "', ";
+		$query .= $comment . "', ";
 		$query .= $firstuserid . ", ";
 		$query .= $action . ");";
 		

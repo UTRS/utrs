@@ -49,6 +49,10 @@ class Appeal{
 	 * The appeal in question has been resolved
 	 */
 	public static $STATUS_CLOSED = 'CLOSED';
+	/**
+	 * Email blacklist in regex form
+	 */
+	public static $EMAIL_BLACKLIST = '~@(wiki(p|m)edia|mailinator)~';
 	
 	/**
 	 * Database ID number
@@ -377,6 +381,15 @@ class Appeal{
 			$email = $postVars["email"];
 			if(!validEmail($email)){
 				$errorMsgs .= "<br />You have not provided a valid email address.";
+			}
+			$matches = array();
+			if(preg_match(Appeal::$EMAIL_BLACKLIST, $email, $matches)){
+				if($matches[1] == "mailinator"){
+					$errorMsgs .= "Temporary email addresses, such as those issued by Mailinator, are not accepted.";
+				}
+				else{
+					$errorMsgs .= "The email address you have entered is blacklisted. You must enter an email address that you own.";
+				}
 			}
 		}
 		if(strpos($postVars["accountName"], "#") !== false | strpos($postVars["accountName"], "/") !== false |

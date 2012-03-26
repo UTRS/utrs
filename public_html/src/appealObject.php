@@ -385,10 +385,10 @@ class Appeal{
 			$matches = array();
 			if(preg_match(Appeal::$EMAIL_BLACKLIST, $email, $matches)){
 				if($matches[1] == "mailinator"){
-					$errorMsgs .= "Temporary email addresses, such as those issued by Mailinator, are not accepted.";
+					$errorMsgs .= "<br />Temporary email addresses, such as those issued by Mailinator, are not accepted.";
 				}
 				else{
-					$errorMsgs .= "The email address you have entered is blacklisted. You must enter an email address that you own.";
+					$errorMsgs .= "<br />The email address you have entered is blacklisted. You must enter an email address that you own.";
 				}
 			}
 		}

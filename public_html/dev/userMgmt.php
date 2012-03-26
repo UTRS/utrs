@@ -79,7 +79,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		}
 		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
 			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
-			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissions have been updated by\x032 " . $_SESSION['user'] . ".  Tool Admin: " . ($newAdmin ? 'true' : 'false') . " Tool Developer: " . ($newDeveloper ? 'true' : 'false') . " Checkuser:" . ($newCheckuser ? 'true' : 'false'));
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissions have been updated by\x032 " . $_SESSION['user'] . ".  Tool Admin: " . ($newAdmin ? 'true' : 'false') . " Tool Developer: " . ($newDeveloper ? 'true' : 'false') . " Checkuser: " . ($newCheckuser ? 'true' : 'false'));
 		}
 		// reset current user
 		$user = getCurrentUser();

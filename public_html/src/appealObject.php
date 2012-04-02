@@ -573,7 +573,7 @@ class Appeal{
 		
 		mysql_query($query, $db);
 		
-		$this->lastLogId = $log_idl
+		$this->lastLogId = $log_id;
 	}
 }
 

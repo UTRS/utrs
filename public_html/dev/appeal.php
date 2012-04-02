@@ -321,7 +321,7 @@ Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>
 <?php }?>
 <?php if (Appeal::getAppealCountByIP($appeal->getIP()) > 1) {?>
-Appeals by this IP: <a href="search.php?id=<?php $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
+Appeals by this IP: <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
 <?php }?>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 Blocking Admin: <b><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></b> |

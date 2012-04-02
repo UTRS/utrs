@@ -92,6 +92,7 @@ if ($_POST || $_GET) {
 	}
 }
 
+echo "<br><br>";
 
 skinFooter();
 

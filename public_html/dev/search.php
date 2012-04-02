@@ -33,6 +33,30 @@ if ($_POST) {
 	
 	$db = connectToDB();
 	
+	if (isset($_POST['id'])) {
+		
+		if (!is_numeric($_POST['id'])) {
+			throw UTRSIllegalArgumentException($_POST['id'], "a number", "search");
+		}
+		
+		$query = "SELECT ip FROM appeal WHERE appealID = " . $_POST['id'] . ";";
+		
+		$result = mysql_query($query, $db);
+		
+		if(!$result){
+			$error = mysql_error($db);
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$data = mysql_fetch_array($result);
+		
+		$ip_address = $data['ip'];
+		$md5_ip_address = md5($ip_address);
+		
+		$query = "SELECT DISTINCT a.appealID, '0' as score FROM appeal WHERE ip = " . $ip_address . " OR ip = " . $md5_ip_address . ";";
+		
+	} else {
+	
 	//Search
 	$search_terms = mysql_real_escape_string($_POST['search_terms']);
 	
@@ -42,7 +66,9 @@ if ($_POST) {
 	$query .= " WHERE a.appealID = c.appealID AND MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
 	$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE)";
 	$query .= " HAVING score > 0.2 ORDER BY score DESC;";
-		
+
+	}
+	
 	$result = mysql_query($query, $db);
 	
 	if(!$result){

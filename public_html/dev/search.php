@@ -35,7 +35,7 @@ if ($_POST || $_GET) {
 	
 	if (isset($_GET['id'])) {
 		
-		if (!is_numeric($_GETY['id'])) {
+		if (!is_numeric($_GET['id'])) {
 			throw UTRSIllegalArgumentException($_GET['id'], "a number", "search");
 		}
 		

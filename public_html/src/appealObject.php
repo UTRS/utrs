@@ -108,6 +108,10 @@ class Appeal{
 	 */
 	private $oldHandlingAdmin;
 	/**
+	 * Last log action
+	 */
+	private $lastLogId;
+	/**
 	 * Status of the appeal
 	 */
 	private $status;
@@ -557,6 +561,20 @@ class Appeal{
 		 }
 	}
 	
+	public function getLastLogId() {
+		return $this->lastLogId;
+	}
+	
+	public function updateLastLogId($log_id) {
+		
+		$db = ConnectToDB();
+		
+		$query = "UPDATE appeal SET lastLogId = " . $log_id . " WHERE appealID = " . $this->appealID . ";";
+		
+		mysql_query($query, $db);
+		
+		$this->lastLogId = $log_idl
+	}
 }
 
 ?>

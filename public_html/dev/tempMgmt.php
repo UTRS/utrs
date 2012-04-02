@@ -215,7 +215,7 @@ else{
 		</tr>
 		<tr>
 			<th style="text-align:left;">Template text:</th>
-			<td><?php echo $template->getText(); ?></td>
+			<td><?php echo str_replace("\n", "<br>", $template->getText()); ?></td>
 		</tr>
 	</table>
 <?php 		

@@ -159,7 +159,7 @@ class Log {
 			}
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(str_replace("\\r\\n", " ", $data['comment']),0,50) . $italicsEnd . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,50) . $italicsEnd . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		
@@ -200,7 +200,7 @@ class Log {
 		
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $comment) . $italicsEnd . "</td>";
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $comment)) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

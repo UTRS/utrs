@@ -22,6 +22,8 @@ function sanitizeText($text){
 	$text = str_replace("<", "&lt;", $text);
 	$text = str_replace(">", "&gt;", $text);
 	$text = str_replace("$", "&#36;", $text);
+	$text = str_replace("\"", "&quot;", $text);
+	$text = str_replace("'", "&apos;", $text);
 	return $text;
 }
 

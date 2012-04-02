@@ -334,15 +334,15 @@ Reserved by: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()
 <a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
-<div class="info"><?php echo $appeal->getAppeal(); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
-<div class="info"><?php echo $appeal->getIntendedEdits(); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
-<div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
+<div class="info"><?php echo sanitizeText($appeal->getAppeal()); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
+<div class="info"><?php echo sanitizeText($appeal->getIntendedEdits()); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
+<div class="info"><?php echo sanitizeText($appeal->getOtherInfo()); ?></div>
 <br>
 </td>
 <td valign=top class="right">

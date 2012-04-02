@@ -29,17 +29,17 @@ skinHeader();
 	</form>
 <?php
 	
-if ($_POST) {
+if ($_POST || $_GET) {
 	
 	$db = connectToDB();
 	
-	if (isset($_POST['id'])) {
+	if (isset($_GET['id'])) {
 		
-		if (!is_numeric($_POST['id'])) {
-			throw UTRSIllegalArgumentException($_POST['id'], "a number", "search");
+		if (!is_numeric($_GETY['id'])) {
+			throw UTRSIllegalArgumentException($_GET['id'], "a number", "search");
 		}
 		
-		$query = "SELECT ip FROM appeal WHERE appealID = " . $_POST['id'] . ";";
+		$query = "SELECT ip FROM appeal WHERE appealID = " . $_GET['id'] . ";";
 		
 		$result = mysql_query($query, $db);
 		

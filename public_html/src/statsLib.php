@@ -90,8 +90,8 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 			}
 			
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
-			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
+			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
+			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			if ($timestamp == 1) {
 				$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";

@@ -75,7 +75,7 @@ class Template{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		$query = "SELECT templateID, lastEditTime FROM template WHERE name='" . $this->name . "'";
+		$query = "SELECT templateID, lastEditTime FROM template WHERE name='" . mysql_real_escape_string($this->name) . "'";
 		
 		debug($query);
 		

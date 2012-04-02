@@ -299,7 +299,7 @@ function hideContextWindow() {
 
 </script>
 <div id='contextWindow'>
-	<div id='contextHeader'><a href="javascript:void()" onClick="hideContextWindow()">X</a></div>
+	<div id='contextHeader'><a href="javascript:void(0)" onClick="hideContextWindow()">X</a></div>
 	<div id='contextContent'></div>
 </div>
 <div id='appealContent'>
@@ -332,19 +332,19 @@ Reserved by: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()
 <a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a><br>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
 <div class="info"><?php echo $appeal->getAppeal(); ?></div>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
 <div class="info"><?php echo $appeal->getIntendedEdits(); ?></div>
-<h3><a href="javascript:void()" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo mysql_real_escape_string($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
 <div class="info"><?php echo $appeal->getOtherInfo(); ?></div>
 <br>
 </td>
 <td valign=top class="right">
-<h3><a href="javascript:void()" onClick="showContextWindow(actionsContextWindow);">Actions</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(actionsContextWindow);">Actions</a></h3>
 <div style="text-align:center;">
 	<?php
 	
@@ -532,7 +532,7 @@ Reserved by: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()
 $contextValue = "<?php echo mysql_real_escape_string($log->getLargeHTML()); ?>";
 
 </script>
-<h3><a href="javascript:void()" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
 </div>

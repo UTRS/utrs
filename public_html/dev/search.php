@@ -87,7 +87,7 @@ if ($_POST || $_GET) {
 		echo "<div class=\"search_body\"><i>" . $appeal->getAppeal() . "</i></div>";
 	}
 	
-	if ($i=0) {
+	if ($i==0) {
 		echo "No results returned.";
 	}
 }

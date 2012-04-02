@@ -426,7 +426,7 @@ class Appeal{
 	}
 	
 	public function getCommonName() {
-		if ($this->accountName) {
+		if ($this->accountName  && $this->hasAccount) {
 			return $this->accountName;
 		} else {
 			return $this->ipAddress;
@@ -434,7 +434,7 @@ class Appeal{
 	}
 	
 	public function getUserPage() {
-		if ($this->accountName) {
+		if ($this->accountName && $this->hasAccount) {
 			return "User:" . $this->accountName;
 		} else {
 			return "Special:Contributions/" . $this->ipAddress;

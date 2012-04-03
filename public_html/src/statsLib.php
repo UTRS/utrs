@@ -242,7 +242,7 @@ function printBacklog() {
 	$query .= " ORDER BY last_action ASC;";
 	*/
 	
-	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.last_action) as since_last_action";
+	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.timestamp) as since_last_action";
 	$query .= " FROM appeal a, comment c";
 	$query .= " WHERE a.lastLogId = c.commentID";
 	$query .= " AND c.comment = 'Closed'";

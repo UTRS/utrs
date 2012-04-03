@@ -245,11 +245,10 @@ function printBacklog() {
 	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.timestamp) as since_last_action";
 	$query .= " FROM appeal a, comment c";
 	$query .= " WHERE a.lastLogId = c.commentID";
-	$query .= " AND c.comment = 'Closed'";
+	$query .= " AND c.comment != 'Closed'";
 	$query .= " AND DateDiff(Now(), c.timestamp) > 7";
 	$query .= " ORDER BY c.timestamp ASC";
 	
-	echo $query;
 	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);

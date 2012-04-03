@@ -189,14 +189,8 @@ function printRecentClosed() {
 			//Grab the rowset
 			$data = mysql_fetch_array($result);
 			$appealId = $data['appealID'];
-			//Determine how we identify the user.  Use username if possible, IP if not
-			if ($data['wikiAccountName'] == NULL) {
-				$identity = $data['ip'];
-				$wpLink = "Special:Contributions/";
-			} else {
-				$identity = $data['wikiAccountName'];
-				$wpLink = "User:";
-			}
+			
+			$appeal = Appeal::getAppealById($data['appealID']);
 			//Determine if it's an odd or even row for formatting
 			if ($i % 2) {
 				$rowformat = "even";
@@ -205,9 +199,9 @@ function printRecentClosed() {
 			}
 			
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
-			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
+			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
+			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 			$requests .= "\t</tr>\n";
 		}
@@ -266,14 +260,7 @@ function printBacklog() {
 			//Grab the rowset
 			$data = mysql_fetch_array($result);
 			$appealId = $data['appealID'];
-			//Determine how we identify the user.  Use username if possible, IP if not
-			if ($data['wikiAccountName'] == NULL) {
-				$identity = $data['ip'];
-				$wpLink = "Special:Contributions/";
-			} else {
-				$identity = $data['wikiAccountName'];
-				$wpLink = "User:";
-			}
+			$appeal = Appeal::getAppealById($data['appealID']);
 			//Determine if it's an odd or even row for formatting
 			if ($i % 2) {
 				$rowformat = "even";
@@ -282,9 +269,9 @@ function printBacklog() {
 			}
 				
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $appealId . ".</td>\n";
-			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appealId . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wpLink . $identity, $secure) . "' target='_NEW'>" . $identity . "</a></td>\n";
+			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
+			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
 			$requests .= "\t</tr>\n";
 		}

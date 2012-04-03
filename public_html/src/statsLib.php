@@ -247,7 +247,7 @@ function printBacklog() {
 	$query .= " WHERE a.lastLogId = c.commentID";
 	$query .= " AND c.comment = 'Closed'";
 	$query .= " AND DateDiff(Now(), c.timestamp) > 7";
-	$query .= " ORDER BY last_action ASC";
+	$query .= " ORDER BY c.timestamp ASC";
 	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);

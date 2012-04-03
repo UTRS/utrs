@@ -163,7 +163,12 @@ class Log {
 			}
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,50) . $italicsEnd . "</td>";
+			if (strlen($data['comment']) > 150) {
+				$dots = "...";
+			} else {
+				$dots = "";
+			}
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150) . $italicsEnd . $dots . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 		

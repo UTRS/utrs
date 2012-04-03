@@ -154,6 +154,7 @@ function printRecentClosed() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
+	/*
 	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, l.timestamp";
 	$query .= " FROM appeal a,";
 	$query .= " (SELECT appealID, MAX(timestamp) as timestamp";
@@ -163,6 +164,14 @@ function printRecentClosed() {
 	$query .= " WHERE l.appealID = a.appealID";
 	$query .= " AND a.status = 'CLOSED'";
 	$query .= " ORDER BY l.timestamp DESC LIMIT 0,5";
+	*/
+	
+	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, c.timestamp";
+	$query .= " FROM appeal a, comment c";
+	$query .= " WHERE a.lastLogId = c.commentID";
+	$query .= " AND c.comment = 'Closed'";
+	$query .= " ORDER BY c.timestamp DESC LIMIT 0,5;";
+	
 	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
@@ -215,6 +224,7 @@ function printBacklog() {
 	$currentUser = getCurrentUser();
 	$secure = $currentUser->getUseSecure();
 	
+	/*
 	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), cc.last_action) as since_last_action";
 	$query .= " FROM appeal a LEFT JOIN";
 	$query .= " (SELECT timestamp, appealID, comment";
@@ -230,6 +240,14 @@ function printBacklog() {
 	$query .= " AND cc.last_action = c.timestamp";
 	$query .= " AND c.comment != 'Closed'";
 	$query .= " ORDER BY last_action ASC;";
+	*/
+	
+	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.last_action) as since_last_action";
+	$query .= " FROM appeal a, comment c";
+	$query .= " WHERE a.lastLogId = c.commentID";
+	$query .= " AND c.comment = 'Closed'";
+	$query .= " AND DateDiff(Now(), c.timestamp) > 7";
+	$query .= " ORDER BY last_action ASC";
 	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);

@@ -77,7 +77,7 @@ $success = false;
 			}
 			
 			//Put the contents of the email into the log
-			$log->addNewItem(str_replace($appeal->getEmail(), censorEmail($appeal->getEmail()),$body));
+			$log->addNewItem(str_replace($appeal->getEmail(), censorEmail($appeal->getEmail()),str_replace("{{adminname}}", $admin->getUsername(), str_replace("{{username}}", $appeal->getCommonName(), $_POST['emailText']))));
 						
 			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
 				//Set the appeal status if the template is set up to do that.

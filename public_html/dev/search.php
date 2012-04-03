@@ -55,7 +55,7 @@ if ($_POST || $_GET) {
 		$ip_address = $data['ip'];
 		$md5_ip_address = md5($ip_address);
 
-		$query = "SELECT DISTINCT appealID, '0' as score FROM appeal WHERE ip = '" . $ip_address . "' OR ip = '" . $md5_ip_address . "' ORDER BY timestamp DESC;";
+		$query = "SELECT DISTINCT appealID, '0' as score FROM appeal WHERE ip = '" . $ip_address . "' OR ip = '" . $md5_ip_address . "' OR MD5(ip) = '" . $ip_address . "' ORDER BY timestamp DESC;";
 
 	} else {
 

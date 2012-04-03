@@ -570,7 +570,9 @@ class Appeal{
 		$db = ConnectToDB();
 		
 		$query = "UPDATE appeal SET lastLogId = " . $log_id . " WHERE appealID = " . $this->appealID . ";";
-		echo $query;
+		
+		debug($query);
+		
 		mysql_query($query, $db);
 		
 		$this->lastLogId = $log_id;

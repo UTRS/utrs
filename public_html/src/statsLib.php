@@ -249,6 +249,8 @@ function printBacklog() {
 	$query .= " AND DateDiff(Now(), c.timestamp) > 7";
 	$query .= " ORDER BY c.timestamp ASC";
 	
+	echo $query;
+	
 	// get rows from DB. Throws UTRSDatabaseException
 	$result = mysql_query($query, $db);
 	

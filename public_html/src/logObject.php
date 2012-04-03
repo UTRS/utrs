@@ -105,6 +105,8 @@ class Log {
 		
 		$id = mysql_insert_id($db);
 		
+		Appeal::getAppealById($this->appealID)->updateLastLogId($id);
+		
 		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $seconduserid, 'action' => $action));
 		$this->Count++;
 	}

@@ -81,7 +81,6 @@ form{
 #subheader{
 	background-color: #f9f9f9;
 	height:auto;
-	min-height: 30px;
 	color: black;
 	width: 101%;
 	font-size: .95em;
@@ -96,26 +95,28 @@ form{
 	text-align:center;
 }
 
-table.subheader_content{
-	border: none;
-	border-collapse: collapse;
-	background: inherit;
-	height:30px;
+#navigation_menu {
+	list-style: none inside;
+	margin: 0;
+	padding: 0;
+	text-align: left;
 }
 
-table.subheader_content a:link,
-table.subheader_content a:visited, 
-table.subheader_content a:hover,
-table.subheader_content a:active{
+#navigation_menu li {
+	display: inline;
+}
+
+#navigation_menu li a {
+	display: block;
+	float: left;
+	padding: 0.3em 0.6em;
+}
+
+#navigation_menu li a {
 	color: black !important;
 }
 
-table.subheader_content td{
-	padding-right: 10px;
-	padding-left: 10px;
-}
-
-table.subheader_content td:hover{
+#navigation_menu li a:hover {
 	background-color: #e0e0e0 !important;
 }
 

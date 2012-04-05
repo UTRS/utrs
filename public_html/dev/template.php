@@ -54,65 +54,64 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
 </div>
 <?php }?>
 <div id="subheader">
-<table class="subheader_content">
-<tr>
+<ul id="navigation_menu">
 <?php if ($loggedIn) { ?>
-	<td id="home" onClick="document.location.href='<?php echo getRootURL() . 'home.php'; ?>';">
+	<li id="home">
 		<a href="<?php echo getRootURL() . 'home.php'; ?>">Home</a>
-	</td>
-	<td id="stats" onClick="document.location.href='<?php echo getRootURL() . 'statistics.php'; ?>';">
+	</li>
+	<li id="stats">
 		<a href="<?php echo getRootURL() . 'statistics.php'; ?>">Statistics</a>
-	</td>
-	<td id="mgmtTemp" onClick="document.location.href='<?php echo getRootURL() . 'tempMgmt.php'; ?>';">
+	</li>
+	<li id="mgmtTemp">
 		<a href="<?php echo getRootURL() . 'tempMgmt.php'; ?>">Manage/View Templates</a>
-	</td>
+	</li>
 	<?php if(verifyAccess($GLOBALS['ADMIN'])) { ?>
-	<td id="mgmtUser" onClick="document.location.href='<?php echo getRootURL() . 'userMgmt.php'; ?>';">
+	<li id="mgmtUser">
 		<a href="<?php echo getRootURL() . 'userMgmt.php'; ?>">User Management</a>
-	</td>
-	<td id="banMgmt" onClick="document.location.href='<?php echo getRootURL() . 'banMgmt.php'; ?>';">
+	</li>
+	<li id="banMgmt">
 		<a href="<?php echo getRootURL() . 'banMgmt.php'; ?>">Ban Management</a>
-	</td>
-	<td id="sitenoticeMgmt" onClick="document.location.href='<?php echo getRootURL() . 'sitenotice.php'; ?>';">
+	</li>
+	<li id="sitenoticeMgmt">
 		<a href="<?php echo getRootURL() . 'sitenotice.php'; ?>">Sitenotice Management</a>
-	</td>
+	</li>
 	<?php } ?>
-	<td id="search" onClick="document.location.href='<?php echo getRootURL() . 'search.php'; ?>';">
+	<li id="search">
 		<a href="<?php echo getRootURL() . 'search.php'; ?>">Search</a>
-	</td>
-	<td id="preferences" onClick="document.location.href='<?php echo getRootURL() . 'prefs.php'; ?>';">
+	</li>
+	<li id="preferences">
 		<a href="<?php echo getRootURL() . 'prefs.php'; ?>">Preferences</a>
-	</td>
-	<td id="privacyPolicy" onClick="document.location.href='<?php echo getRootURL() . 'privacy.php'; ?>';">
+	</li>
+	<li id="privacyPolicy">
 		<a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
-	</td>
+	</li>
 	<?php if(verifyAccess($GLOBALS['DEVELOPER'])) { ?>
-	<td id="massEmail" onClick="document.location.href='<?php echo getRootURL() . 'massEmail.php'; ?>';">
+	<li id="massEmail">
 		<a href="<?php echo getRootURL() . 'massEmail.php'; ?>">Send Mass Email</a>
-	</td>
+	</li>
 	<?php } ?>
-	<td id="logout" onClick="document.location.href='<?php echo getRootURL() . 'logout.php'; ?>';">
+	<li id="logout">
 		<a href="<?php echo getRootURL() . 'logout.php'; ?>">Logout</a>
-	</td>
+	</li>
 <?php } ELSE { ?>
-	<td id="appealForm" onClick="document.location.href='<?php echo getRootURL() . 'index.php'; ?>';">
-		<a href="<?php echo getRootURL() . 'index.php'; ?>">Appeal a Block
-	</td>
-	<td id="GAB" onClick="document.location.href='http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks';">
-		<a href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks
-	</td>
-	<td id="loginLink" onClick="document.location.href='<?php echo getRootURL() . 'login.php'; ?>';">
-		<a href="<?php echo getRootURL() . 'login.php'; ?>">Admins: Log in to review requests
-	</td>
-	<td id="register" onClick="document.location.href='<?php echo getRootURL() . 'register.php'; ?>';">
+	<li id="appealForm">
+		<a href="<?php echo getRootURL() . 'index.php'; ?>">Appeal a Block</a>
+	</li>
+	<li id="GAB">
+		<a href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
+	</li>
+	<li id="loginLink">
+		<a href="<?php echo getRootURL() . 'login.php'; ?>">Admins: Log in to review requests</a>
+	</li>
+	<li id="register">
 		<a href="<?php echo getRootURL() . 'register.php'; ?>">Admins: Request an account</a>
-	</td>
-	<td id="privacyPolicy" onClick="document.location.href='<?php echo getRootURL() . 'privacy.php'; ?>';">
+	</li>
+	<li id="privacyPolicy">
 		<a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
-	</td>
+	</li>
 <?php } ?>
-</tr>
-</table>
+</ul>
+<div style="clear: both"></div>
 </div>
 <div id="main">
 <?php

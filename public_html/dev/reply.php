@@ -10,6 +10,7 @@ require_once('src/appealObject.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/logObject.php');
+require_once('src/emailTemplates.class.php');
 require_once('template.php');
 
 $errors = '';
@@ -83,8 +84,9 @@ try{
 					"Review response by clicking here</a>\n<hr />\n";
 			$subject = "Response to unblock appeal";
 				
-			$body = str_replace("{{adminname}}", $admin->getUsername(), $body);
-			$body = str_replace("{{username}}", $appeal->getCommonName(), $body);
+			$et = new EmailTemplates($admin, $appeal);
+			$body = $et->apply_to($body);
+
 			$body = str_replace("\n", "<br/>", $body);
 				
 			mail($email, $subject, $body, $headers);

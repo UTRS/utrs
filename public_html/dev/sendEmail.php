@@ -8,6 +8,7 @@ require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/appealObject.php');
 require_once('src/logObject.php');
+require_once('src/emailTemplates.class.php');
 require_once('template.php');
 
 $errors = '';
@@ -60,10 +61,9 @@ $success = false;
 			$body .= $_POST['emailText'];
 			$subject = "Response to your unblock appeal";
 				
-			$body = str_replace("{{adminname}}", $admin->getUsername(), $body);
-			$body = str_replace("{{username}}", $appeal->getCommonName(), $body);
-			$body = str_replace("\n", "<br/>", $body);
-				
+			$et = new EmailTemplates($admin, $appeal);
+			$body = $et->apply_to($body);
+
 			mail($email, $subject, $body, $headers);
 			
 				
@@ -77,7 +77,7 @@ $success = false;
 			}
 			
 			//Put the contents of the email into the log
-			$log->addNewItem(str_replace($appeal->getEmail(), censorEmail($appeal->getEmail()),str_replace("{{adminname}}", $admin->getUsername(), str_replace("{{username}}", $appeal->getCommonName(), str_replace("\n", "<br/>", $_POST['emailText'])))));
+			$log->addNewItem($et->censor_email($et->apply_to($_POST['emailText'])));
 						
 			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
 				//Set the appeal status if the template is set up to do that.
@@ -172,6 +172,7 @@ $success = false;
 		     "message:</p>\n";
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
 		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
+		echo "<li>{{enwp|PAGE|TEXT}} - Gets replaced with a link to the page PAGE on the English Wikipedia, using the text TEXT.  (TEXT is optional, and the page URL will be used if this is omitted.</li>\n";
 		echo "<br>";
 		echo "<a href=\"appeal.php?id=" . $appeal->getID() . "\">Back to appeal</a>";
 	}

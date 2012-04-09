@@ -180,12 +180,12 @@ function verifyAccess($level){
 }
 
 /**
- * Returns http://toolserver.org/~unblock/ if on the live site or
+ * Returns http://toolserver.org/~unblock/p/ if on the live site or
  * http://toolserver.org/~unblock/beta/ if on the beta site
  */
 function getRootURL(){
 	if(strpos(__FILE__, "/utrs-beta/") === false){
-		return 'http://toolserver.org/~unblock/';
+		return 'http://toolserver.org/~unblock/p/';
 	}
 	else{
 		return 'http://toolserver.org/~unblock/beta/';

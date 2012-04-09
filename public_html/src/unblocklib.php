@@ -184,7 +184,7 @@ function verifyAccess($level){
  * http://toolserver.org/~unblock/beta/ if on the beta site
  */
 function getRootURL(){
-	if(strpos(__FILE__, "/beta/") === false){
+	if(strpos(__FILE__, "/utrs-beta/") === false){
 		return 'http://toolserver.org/~unblock/';
 	}
 	else{
@@ -220,7 +220,7 @@ function connectToDB($suppressOutput = false){
 		debug(mysql_error());
 		throw new UTRSDatabaseException("Failed to connect to database cluster sql-s1-user!");
 	}
-	if(strpos(__FILE__, "/beta/") === false){
+	if(strpos(__FILE__, "/utrs-beta/") === false){
 		// if the "live" site, connect to main DB
 		mysql_select_db("p_unblock", $db);
 	}

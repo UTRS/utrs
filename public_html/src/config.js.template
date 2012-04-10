@@ -6,5 +6,10 @@
         "database":  ""
     },
 
-    "site_root": "http://www.example.com/"
+    "site_root": "http://www.example.com/",
+
+    "recaptcha": {
+        "publickey":  "",
+        "privatekey": ""
+    }
 }

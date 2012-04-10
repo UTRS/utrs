@@ -5,14 +5,15 @@ ini_set('display_errors', 'On');
 
 require_once('recaptchalib.php');
 require_once('template.php');
+require_once('src/config.inc.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');
 require_once('src/banObject.php');
 require_once('src/logObject.php');
 
-$publickey = '6Le92MkSAAAAANADTBB8wdC433EHXGpuP_v1OaOO';
-$privatekey = '6Le92MkSAAAAAH1tkp8sTZj_lxjNyBX7jARdUlZd';
+$publickey = $CONFIG['recaptcha']['publickey'];
+$privatekey = $CONFIG['recaptcha']['privatekey'];
 $captchaErr = null;
 $errorMessages = '';
 $appeal = null;

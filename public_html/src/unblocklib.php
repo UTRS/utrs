@@ -214,13 +214,13 @@ function connectToDB($suppressOutput = false){
 		debug('connectToDB <br />');
 	}
 
-	$db = mysql_connect($CONFIG['db_host'], $CONFIG['db_user'], $CONFIG['db_password'], true);
+	$db = mysql_connect($CONFIG['db']['host'], $CONFIG['db']['user'], $CONFIG['db']['password'], true);
 	if($db == false){
 		debug(mysql_error());
-		throw new UTRSDatabaseException("Failed to connect to database server " . $CONFIG['db_host'] . "!");
+		throw new UTRSDatabaseException("Failed to connect to database server " . $CONFIG['db']['host'] . "!");
 	}
 
-	mysql_select_db($CONFIG['db_database'], $db);
+	mysql_select_db($CONFIG['db']['database'], $db);
 
 	if(!$suppressOutput){
 		debug('exiting connectToDB');

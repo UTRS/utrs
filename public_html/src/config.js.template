@@ -1,8 +1,10 @@
 {
-    "db_host":      "",
-    "db_user":      "",
-    "db_password":  "",
-    "db_database":  "",
+    "db": {
+        "host":      "",
+        "user":      "",
+        "password":  "",
+        "database":  ""
+    },
 
-    "site_root":    "http://www.example.com/"
+    "site_root": "http://www.example.com/"
 }

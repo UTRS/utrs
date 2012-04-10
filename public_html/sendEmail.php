@@ -171,8 +171,8 @@ $success = false;
 		     "they will not see your email address. You may use the following variables in your " .
 		     "message:</p>\n";
 		echo "<ul>\n<li>{{username}} - Gets replaced with " . $appeal->getCommonName() . "</li>\n";
-		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n</ul>\n";
-		echo "<li>{{enwp|PAGE|TEXT}} - Gets replaced with a link to the page PAGE on the English Wikipedia, using the text TEXT.  (TEXT is optional, and the page URL will be used if this is omitted.</li>\n";
+		echo "<li>{{adminname}} - Gets replaced with " . $admin->getUsername() . "</li>\n";
+		echo "<li>{{enwp|PAGE|TEXT}} - Gets replaced with a link to the page PAGE on the English Wikipedia, using the text TEXT.  (TEXT is optional, and the page URL will be used if this is omitted.</li>\n</ul>\n";
 		echo "<br>";
 		echo "<a href=\"appeal.php?id=" . $appeal->getID() . "\">Back to appeal</a>";
 	}

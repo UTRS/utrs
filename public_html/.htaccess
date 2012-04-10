@@ -1,14 +1,17 @@
+# Not technically necessary, since Apache will refuse to serve .htaccess files.
+# But leaving it here for now.  --cdhowie
 <Files .htaccess>
-order allow,deny
-deny from all
+    order allow,deny
+    deny from all
 </Files>
 
-IndexIgnore *
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>
 
 ErrorDocument 404 /error.php?code=404
 ErrorDocument 409 /error.php?code=409
 ErrorDocument 413 /error.php?code=413
 ErrorDocument 418 /error.php?code=418
-ErrorDocument 431 /error.php?code=431
 ErrorDocument 500 /error.php?code=500
 ErrorDocument 503 /error.php?code=503

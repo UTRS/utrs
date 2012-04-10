@@ -513,13 +513,13 @@ class Appeal{
 	public function setStatus($newStatus){
 		// TODO: query to check if status is closed; if so, whoever's reopening
 		// should be a tool admin
-		if(strcmp($newStatus, $this::$STATUS_NEW) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_USER) == 0
-		  || strcmp($newStatus, $this::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_CHECKUSER) == 0
-		  || strcmp($newStatus, $this::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, $this::$STATUS_CLOSED) == 0
-		  || strcmp($newStatus, $this::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, $this::$STATUS_AWAITING_REVIEWER) == 0){
+		if(strcmp($newStatus, self::$STATUS_NEW) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_USER) == 0
+		  || strcmp($newStatus, self::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_CHECKUSER) == 0
+		  || strcmp($newStatus, self::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, self::$STATUS_CLOSED) == 0
+		  || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0){
 			// TODO: query to modify the row
 			$this->status = $newStatus;
-			if ($this->status == $this::$STATUS_CLOSED) {
+			if ($this->status == self::$STATUS_CLOSED) {
 				User::getUserByUsername($_SESSION['user'])->incrementClose();
 			}
 		}

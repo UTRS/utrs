@@ -191,8 +191,8 @@ else{
 	echo '</span>';
 	
 	echo '<p>By registering an account, you are consenting to allow us to collect and store your email ' .
-	 'address and that you agree with the <a href="privacy.html">Privacy Policy</a>. We will not share ' .
-	 'it with any third party. For more information, please see our <a href="privacy.html">Privacy Policy.</a></p>';
+	 'address and that you agree with the <a href="privacy.php">Privacy Policy</a>. We will not share ' .
+	 'it with any third party. For more information, please see our <a href="privacy.php">Privacy Policy.</a></p>';
 
 	echo '<input type="submit" name="submit" value="Register"/>';
 	echo '</form>';

@@ -210,23 +210,28 @@ function debug($message){
 function connectToDB($suppressOutput = false){
 	global $CONFIG;
 
+	static $pdo = false;
+
 	if(!$suppressOutput){
 		debug('connectToDB <br />');
 	}
 
-	$db = mysql_connect($CONFIG['db']['host'], $CONFIG['db']['user'], $CONFIG['db']['password'], true);
-	if($db == false){
-		debug(mysql_error());
-		throw new UTRSDatabaseException("Failed to connect to database server " . $CONFIG['db']['host'] . "!");
+	if ($pdo !== false) {
+		return $pdo;
 	}
 
-	mysql_select_db($CONFIG['db']['database'], $db);
+	try {
+		$pdo = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password']);
+	} catch (PDOException $pdo_ex) {
+		debug($pdo_ex->getMessage());
+		throw new UTRSDatabaseException("Failed to connect to database server!");
+	}
 
 	if(!$suppressOutput){
 		debug('exiting connectToDB');
 	}
 
-	return $db;
+	return $pdo;
 }
 
 /**

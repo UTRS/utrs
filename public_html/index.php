@@ -185,10 +185,10 @@ else{
 echo '</span>';
 
 echo '<p>By submitting this unblock request, you are consenting to allow us to collect information about ' .
-     'your computer and that you agree with our <a href="privacy.html">Privacy Policy</a>.  This information ' .
+     'your computer and that you agree with our <a href="privacy.php">Privacy Policy</a>.  This information ' .
      'will in most cases allow us to distinguish you from any vandals editing from the same location. We do ' .
      'not store this information any longer than necessary, and do not share it with any third party. For more ' .
-     'information, please see our <a href="privacy.html">Privacy Policy.</a></p>';
+     'information, please see our <a href="privacy.php">Privacy Policy.</a></p>';
 
 echo '<input type="submit" name="submit" value="Submit Appeal"/>';
 echo '</form>';

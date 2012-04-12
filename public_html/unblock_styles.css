@@ -296,7 +296,7 @@ div.comments {
 .linklist ul{
     margin: 0;
     padding: 0;
-    float: left;
+    display: inline;
 }
 
 .linklist ul li:before {
@@ -312,8 +312,7 @@ content: "|";
 }
  
 .linklist ul li{
-	float: left;
-    display: inline;
+	display: inline;
     margin-left:0.1em;
     margin-right:0.1em;
 }

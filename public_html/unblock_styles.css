@@ -287,6 +287,39 @@ div.comments {
 	text-align: right;	
 }
 
+
+.linklist{
+	margin: 0;
+	padding:0;
+}
+
+.linklist ul{
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+.linklist ul li:before {
+content: "|";
+}
+
+.linklist ul li:first-child{
+	font-weight: bold;
+}
+
+.linklist ul li:first-child:before{
+	content: "";
+}
+ 
+.linklist ul li{
+	float: left;
+    display: inline;
+    margin-left:0.1em;
+    margin-right:0.1em;
+}
+
+
+
 #contextContent {
 	padding: 10px;
 	height: 410px;

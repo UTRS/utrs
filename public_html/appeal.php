@@ -315,7 +315,17 @@ if (isset($_GET['action'])) {
 <table class="appeal">
 <tr>
 <td valign=top class="left">
-<strong>Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a> | <a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a> | <a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a> | <a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a> | <a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a></strong><br>
+<div class="linklist">Account links:
+<ul>
+  <li><a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a></li>
+  <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a></li>
+  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a></li>
+  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), "wpTarget=" . $appeal->getCommonName() . "&limit=50"); ?>" target="_blank">Find block</a></li> 
+  <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a></li>
+  <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
+  <li><a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a></li>
+</ul>
+</div>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 <?php if (!$appeal->hasAccount() && $appeal->getAccountName()) {?>
 Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>
@@ -324,14 +334,22 @@ Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccoun
 Appeals by this IP: <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
 <?php }?>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
-Blocking Admin: <b><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></b> |
-<a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a> | 
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a><br>
+<div class="linklist">Blocking Admin:
+<ul>
+  <li><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
+  <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li>
+  <li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
+  </ul>
+  </div>
 <?php if ($appeal->getHandlingAdmin()) {?>
-Reserved by: <a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"> <?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a> | 
-<a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User Page</a> | 
-<a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a> | 
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a><br>
+<div class="linklist">Reserved by:
+<ul>
+<li><a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"><?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a></li> 
+<li><a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User Page</a></li> 
+<li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li> 
+<li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
+</ul>
+</div>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
 <h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>

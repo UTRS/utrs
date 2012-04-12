@@ -315,7 +315,14 @@ if (isset($_GET['action'])) {
 <table class="appeal">
 <tr>
 <td valign=top class="left">
-<strong>Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a> | <a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a> | <a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a> | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a> | <a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a> | <a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a></strong><br>
+<strong>Account links: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a>
+                     | <a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a>
+                     | <a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a>
+                     | <a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), "wpTarget=" . $appeal->getCommonName() . "&limit=50"); ?>" target="_blank">Find block</a> 
+                     | <a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a>
+                     | <a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a> 
+                     | <a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a>
+</strong><br>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
 <?php if (!$appeal->hasAccount() && $appeal->getAccountName()) {?>
 Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>

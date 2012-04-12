@@ -41,30 +41,35 @@ class Log {
 	public function __construct($vars) {
 		if ($vars) {
 			$this->appealID = $vars['appealID'];
-			$num_rows = mysql_num_rows($vars['dataset']);
+			$this->log = array();
 
-			for ($i = 0; $i < $num_rows; $i++) {
+			$query = $vars['dataset'];
+
+			while (($data = $query->fetch(PDO::FETCH_BOTH)) !== false) {
 				//Creates a new log item with the data
-				$data = mysql_fetch_array($vars['dataset']);
-				$this->log[$i] = new LogItem($data);
-				$this->Count = $i;
+				$this->log[] = new LogItem($data);
 			}
+
+			$this->Count = count($this->log);
+
+			$query->closeCursor();
 		}
 	}
 
 	public static function getCommentsByAppealId($id) {
 		$db = connectToDB();
 
-		$query = "SELECT * from comment WHERE appealID = " . $id . " ORDER BY timestamp ASC;";
+		$query = $db->prepare("SELECT * from comment WHERE appealID = :appealID ORDER BY timestamp ASC;");
 
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':appealID'	=> $id));
 
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
-		return new Log(array('dataset' => $result, 'appealID' => $id));
+		return new Log(array('dataset' => $query, 'appealID' => $id));
 	}
 
 	public function addNewItem($comment, $action = null) {
@@ -84,26 +89,26 @@ class Log {
 			$action = 0;
 		}
 
-		$comment = sanitizeText(mysql_real_escape_string($comment));
+		$comment = sanitizeText($comment);
 
 		$timestamp = time();
 
-		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser, action) VALUES (";
-		$query .= $this->appealID . ", ";
-		$query .= "NOW() , '";
-		$query .= $comment . "', ";
-		$query .= $firstuserid . ", ";
-		$query .= $action . ");";
+		$query = $db->prepare("
+			INSERT INTO comment (appealID, timestamp, comment, commentUser, action)
+			VALUES (:appealID, NOW(), :comment, :commentUser, :action)");
 
-
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':appealID'	=> $this->appealID,
+			':comment'	=> $comment,
+			':commentUser'	=> $firstuserid,
+			':action'	=> $action));
 
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
-		$id = mysql_insert_id($db);
+		$id = $db->lastInsertId();
 
 		//Only update for actual actions
 		if ($action == 1) {
@@ -117,24 +122,24 @@ class Log {
 	function addAppellantReply($reply){
 		$db = connectToDB();
 
-		$reply = sanitizeText(mysql_real_escape_string($reply));
+		$reply = sanitizeText($reply);
 
 		$timestamp = time();
 
-		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser) VALUES (";
-		$query .= $this->appealID . ", ";
-		$query .= "NOW() , '";
-		$query .= $reply . "', ";
-		$query .= "NULL);";
+		$query = $db->prepare("
+			INSERT INTO comment (appealID, timestamp, comment, commentUser)
+			VALUES (:appealID, NOW(), :comment, NULL)");
 
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':appealID'	=> $this->appealID,
+			':comment'	=> $reply));
 
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
-		$id = mysql_insert_id($db);
+		$id = $db->lastInsertId();
 
 		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
 		$this->Count++;
@@ -224,14 +229,16 @@ class Log {
 	public static function ircNotification($message, $notify_unblock = 0) {
 		$db = connectToDB();
 
-		$query = "INSERT INTO irc (notification, unblock) VALUES ('";
-		$query .= mysql_real_escape_string($message) . "', ";
-		$query .= $notify_unblock . ");";
+		$query = $db->prepare("
+			INSERT INTO irc (notification, unblock)
+			VALUES (:notification, :unblock)'");
 
-		$result = mysql_query($query, $db);
+		$result = $db->execute(array(
+			':notification'	=> $message,
+			':unblock'	=> $notify_unblock));
 
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 	}

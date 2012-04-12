@@ -1,0 +1,15 @@
+{
+    "db": {
+        "host":      "",
+        "user":      "",
+        "password":  "",
+        "database":  ""
+    },
+
+    "site_root": "http://www.example.com/",
+
+    "recaptcha": {
+        "publickey":  "",
+        "privatekey": ""
+    }
+}

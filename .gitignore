@@ -4,3 +4,6 @@
 
 # VIM swap files
 *.swp
+
+# Config files
+config.js

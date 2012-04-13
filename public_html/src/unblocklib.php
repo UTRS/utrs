@@ -28,6 +28,14 @@ function sanitizeText($text){
 	return $text;
 }
 
+function posted($key) {
+	if (isset($_POST[$key])) {
+		return htmlspecialchars($_POST[$key]);
+	}
+
+	return '';
+}
+
 function loggedIn(){	
 	if(!isset($_SESSION)){
 		session_name('UTRSLogin');

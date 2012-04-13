@@ -48,6 +48,14 @@ $success = false;
 			if(!isset($_POST['emailText']) | strlen($_POST['emailText']) == 0){
 				throw new UTRSIllegalModificationException("You cannot send a blank email.");
 			}
+		    $log = Log::getCommentsByAppealId($appeal->getID());
+			if ($_POST['template'] == "") {
+				$log->addNewItem("Sending email to user", 1);
+				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 1);
+			} else {
+				$log->addNewItem("Sending email to user using " . $_POST['template'] . " template", 1);
+				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 1);
+			}
 							
 			$prebody = "This is a reply to your Wikipedia unblock appeal from {{adminname}}, a Wikipedia administrator. " .
 			               "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
@@ -59,19 +67,8 @@ $success = false;
 			
 			$email_success = $appeal->sendEmail($body, $subject);
 				
-			if ($email_success) {	
-				$log = Log::getCommentsByAppealId($appeal->getID());
-				if ($_POST['template'] == "") {
-					$log->addNewItem("Sent email to user", 1);
-					Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 1);
-				} else {
-					$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
-					Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 1);
-				}
-			
-				//Put the contents of the email into the log
-				$log->addNewItem($et->censor_email($et->apply_to($_POST['emailText'])));
-						
+			if ($email_success) {
+								
 				if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
 					//Set the appeal status if the template is set up to do that.
 					if (isset($_POST['statusUser']) && $_POST['statusUser']) {

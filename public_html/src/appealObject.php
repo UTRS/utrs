@@ -578,18 +578,27 @@ class Appeal{
 		$this->lastLogId = $log_id;
 	}
 	
-	public function sendEmail($bodytemplate, $subject, $admin = null){
+	public function sendEmail($bodytemplate, $subject, $admin = false){
 		$success = false;
 		try {
-		$admin = $admin || get_current_user();
-		$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-		$et = new EmailTemplates($admin, $this);
-		$body = $et->apply_to($bodytemplate);
-		mail($email, $subject, $body, $headers);
-		$success = true;
+			if (!$admin){
+				$admin = getCurrentUser();
+			}
+			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			$et = new EmailTemplates($admin, $this);
+			$body = $et->apply_to($bodytemplate);
+			mail($this->emailAddress, $subject, $body, $headers);
+			$success = true;
+			//Put the contents of the email into the log
+			$log = Log::getCommentsByAppealId($this->getID());
+			$log->addNewItem($et->censor_email($et->apply_to($bodytemplate)));
+			
 		} catch (Exception $e) {
+			//log email failure
+			$log = Log::getCommentsByAppealId($this->getID());
+			$log->addNewItem("failed to send email");
 			$errors = $e->getMessage();
 		} 
 		return $success;

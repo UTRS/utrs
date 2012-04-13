@@ -77,7 +77,7 @@ class Log {
 			$seconduserid = null;
 		} else {
 			$firstuserid = User::getUserByUsername($username)->getUserId();
-			$seconduserid = $fistuserid;
+			$seconduserid = $firstuserid;
 		}
 		
 		if (!$action) {

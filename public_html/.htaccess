@@ -9,6 +9,8 @@
     IndexIgnore *
 </IfModule>
 
+php_flag magic_quotes_gpc Off
+
 ErrorDocument 404 /error.php?code=404
 ErrorDocument 409 /error.php?code=409
 ErrorDocument 413 /error.php?code=413

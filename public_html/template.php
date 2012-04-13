@@ -34,7 +34,7 @@ if($loggedIn){
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<link rel="stylesheet" href="unblock_styles.css">
+<link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
 <title>Unblock Ticket Request System - Register an Account</title>
 <?php if($script){
 	echo "<script type=\"text/javascript\">" . $script . "</script>";

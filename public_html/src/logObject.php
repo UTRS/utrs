@@ -67,18 +67,17 @@ class Log {
 		return new Log(array('dataset' => $result, 'appealID' => $id));
 	}
 
-	public function addNewItem($comment, $action = null, $username = "") {
+	public function addNewItem($comment, $action = null, $username = false) {
 		$db = connectToDB();
-		if (strcmp($username, "") == 0 && (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0)) {
+		if (!$username && (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0)) {
 			$username = $_SESSION['user'];
 		}
-		echo("Username is now $username \n"); 
-		if (strcmp($username, "") == 0){
+		if (!$username){
 			$firstuserid = "null";
 			$seconduserid = null;
 		} else {
 			$firstuserid = User::getUserByUsername($username)->getUserId();
-			$seconduserid = User::getUserByUsername($username)->getUserId();
+			$seconduserid = $fistuserid;
 		}
 		
 		if (!$action) {

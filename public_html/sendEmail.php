@@ -48,53 +48,48 @@ $success = false;
 			if(!isset($_POST['emailText']) | strlen($_POST['emailText']) == 0){
 				throw new UTRSIllegalModificationException("You cannot send a blank email.");
 			}
-				
-			$email = $appeal->getEmail();
-			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-			$body = "This is a reply to your Wikipedia unblock appeal from {{adminname}}, a Wikipedia administrator. " .
-			        "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
-					"to send a response, which may be necessary to further your appeal, please click the link below.\n".
-					"<a href=\"" . getRootURL() . "reply.php?id=" . $id . "&confirmEmail=" . $email . "\">" .
-					"Send a response by clicking here</a>\n<hr />\n";
-			$body .= $_POST['emailText'];
+							
+			$prebody = "This is a reply to your Wikipedia unblock appeal from {{adminname}}, a Wikipedia administrator. " .
+			               "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
+					       "to send a response, which may be necessary to further your appeal, please click the link below.\n".
+					       "<a href=\"" . getRootURL() . "reply.php?id=" . $id . "&confirmEmail=" . $appeal->getEmail() . "\">" .
+					       "Send a response by clicking here</a>\n<hr />\n";
+			$body = $prebody . $_POST['emailText'];
 			$subject = "Response to your unblock appeal";
-				
-			$et = new EmailTemplates($admin, $appeal);
-			$body = $et->apply_to($body);
-
-			mail($email, $subject, $body, $headers);
 			
+			$email_success = $appeal->sendEmail($body, $subject);
 				
-			$log = Log::getCommentsByAppealId($appeal->getID());
-			if ($_POST['template'] == "") {
-				$log->addNewItem("Sent email to user", 1);
-				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 1);
-			} else {
-				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
-				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 1);
-			}
+			if ($email_success) {	
+				$log = Log::getCommentsByAppealId($appeal->getID());
+				if ($_POST['template'] == "") {
+					$log->addNewItem("Sent email to user", 1);
+					Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 1);
+				} else {
+					$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
+					Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 1);
+				}
 			
-			//Put the contents of the email into the log
-			$log->addNewItem($et->censor_email($et->apply_to($_POST['emailText'])));
+				//Put the contents of the email into the log
+				$log->addNewItem($et->censor_email($et->apply_to($_POST['emailText'])));
 						
-			if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
-				//Set the appeal status if the template is set up to do that.
-				if (isset($_POST['statusUser']) && $_POST['statusUser']) {
-					$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
-					$log->addNewItem("Status change to AWAITING_USER", 1);
+				if (isset($_POST['statusUser']) || isset($_POST['statusClose'])) {
+					//Set the appeal status if the template is set up to do that.
+					if (isset($_POST['statusUser']) && $_POST['statusUser']) {
+						$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
+						$log->addNewItem("Status change to AWAITING_USER", 1);
+					}
+					if (isset($_POST['statusClose']) && $_POST['statusClose']) {
+						$appeal->setStatus(Appeal::$STATUS_CLOSED);
+						//Required to make the backlog work properly.  The timestamp of the 'email sent' log item and this one need a second seperation
+						sleep(1);
+						$log->addNewItem("Closed", 1);
+					}
+					$appeal->update();
+					Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $appeal->getHandlingAdmin()->getUsername() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 				}
-				if (isset($_POST['statusClose']) && $_POST['statusClose']) {
-					$appeal->setStatus(Appeal::$STATUS_CLOSED);
-					//Required to make the backlog work properly.  The timestamp of the 'email sent' log item and this one need a second seperation
-					sleep(1);
-					$log->addNewItem("Closed", 1);
-				}
-				$appeal->update();
-				Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $appeal->getHandlingAdmin()->getUsername() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+				$success = true;
 			}
-			$success = true;
+			
 		}
 		catch(Exception $e){
 			$errors = $e->getMessage();

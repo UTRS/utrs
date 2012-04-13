@@ -577,6 +577,23 @@ class Appeal{
 		
 		$this->lastLogId = $log_id;
 	}
+	
+	public function sendEmail($bodytemplate, $subject, $admin = null){
+		$success = false;
+		try {
+		$admin = $admin || get_current_user();
+		$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		$et = new EmailTemplates($admin, $this);
+		$body = $et->apply_to($bodytemplate);
+		mail($email, $subject, $body, $headers);
+		$success = true;
+		} catch (Exception $e) {
+			$errors = $e->getMessage();
+		} 
+		return $success;
+	}
 }
 
 ?>

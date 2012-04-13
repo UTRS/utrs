@@ -69,7 +69,7 @@ class Log {
 
 	public function addNewItem($comment, $action = null, $username = false) {
 		$db = connectToDB();
-		if (!$username && (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0)) {
+		if ($username === false && (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0)) {
 			$username = $_SESSION['user'];
 		}
 		if (!$username){

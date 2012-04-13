@@ -590,7 +590,7 @@ class Appeal{
 	public function sendEmail($bodytemplate, $subject, $admin = false){
 		$success = false;
 		try {
-			if (!$admin){
+			if ($admin === false){
 				$admin = getCurrentUser();
 			}
 			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";

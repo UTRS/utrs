@@ -67,26 +67,27 @@ class Log {
 		return new Log(array('dataset' => $result, 'appealID' => $id));
 	}
 
-	public function addNewItem($comment, $action = null) {
+	public function addNewItem($comment, $action = null, $username = "") {
 		$db = connectToDB();
-
-		if (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0) {
-			$user = User::getUserByUsername($_SESSION['user']);
-			//I have to use two user ids here because the sql query requires null to be sent as a string.
-			$firstuserid = $user->getUserId();
-			$seconduserid = $user->getUserId();
-		} else {
+		if (strcmp($username, "") == 0 && (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0)) {
+			$username = $_SESSION['user'];
+		}
+		echo("Username is now $username \n"); 
+		if (strcmp($username, "") == 0){
 			$firstuserid = "null";
 			$seconduserid = null;
+		} else {
+			$firstuserid = User::getUserByUsername($username)->getUserId();
+			$seconduserid = User::getUserByUsername($username)->getUserId();
 		}
-
+		
 		if (!$action) {
 			$action = 0;
 		}
+		
+		$timestamp = time();
 
 		$comment = sanitizeText(mysql_real_escape_string($comment));
-
-		$timestamp = time();
 
 		$query = "INSERT INTO comment (appealID, timestamp, comment, commentUser, action) VALUES (";
 		$query .= $this->appealID . ", ";
@@ -109,7 +110,7 @@ class Log {
 		if ($action == 1) {
 			Appeal::getAppealById($this->appealID)->updateLastLogId($id);
 		}
-
+	
 		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $seconduserid, 'action' => $action));
 		$this->Count++;
 	}

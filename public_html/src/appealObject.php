@@ -514,8 +514,8 @@ class Appeal{
 		}
 	}
 	
-	public function setStatus($newStatus, $username = ""){
-		if (strcmp($username, "") == 0){
+	public function setStatus($newStatus, $username = false){
+		if ($username === false){
 			$username = $_SESSION['user'];
 		}
 		// TODO: query to check if status is closed; if so, whoever's reopening

@@ -439,11 +439,11 @@ th.sitenoticeLinkHeader{
 	color: #EFEFEF !important;
 }
 
-tr.sitenoticeEven{
+table.sitenoticeTable tr:nth-child(even){
 	background-color:#F8FCFF;
 }
 
-tr.sitenoticeOdd{
+table.sitenoticeTable tr:nth-child(odd){
 	background-color:#EBEBEB;
 }
 

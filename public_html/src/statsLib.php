@@ -82,14 +82,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 			$data = mysql_fetch_array($result);
 			$appeal = Appeal::getAppealById($data['appealID']);
 			
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
@@ -191,14 +184,8 @@ function printRecentClosed() {
 			$appealId = $data['appealID'];
 			
 			$appeal = Appeal::getAppealById($data['appealID']);
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
@@ -261,14 +248,8 @@ function printBacklog() {
 			$data = mysql_fetch_array($result);
 			$appealId = $data['appealID'];
 			$appeal = Appeal::getAppealById($data['appealID']);
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-				
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+										
+			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
 			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
@@ -375,14 +356,8 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 			$userId = $data['userID'];
 			$username = $data['username'];
 			$wikiAccount = "User:" . $data['wikiAccount'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$list .= "\t<tr>\n";
 			$list .= "\t\t<td>" . $userId . ".</td>\n";
 			$list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
 			$list .= "\t\t<td>" . $username . "</td>\n";
@@ -477,14 +452,8 @@ function printUserLogs($userId){
 			$action = $data['action'];
 			$reason = $data['reason'];
 			$hideTarget = $data['hideTarget'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$list .= "\t<tr>\n";
 			$list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
 			$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
 						($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
@@ -528,14 +497,8 @@ function printTemplateList(){
 			$data = mysql_fetch_array($result);
 			$id = $data['templateID'];
 			$name = $data['name'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$list .= "\t<tr>\n";
 			$list .= "\t\t<td>" . $name . "</td>\n";
 			$list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
 			if(verifyAccess($GLOBALS['ADMIN'])){

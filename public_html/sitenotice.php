@@ -140,7 +140,7 @@ else{
 		</form>
 		
 		<h3>Formatting</h3>
-		<p>You may add basic formatting to your message using the following syntax:
+		<p>You may add basic formatting to your message using the following syntax:</p>
 		<ul>
 			<li><tt>*bold text*</tt> &rarr; <b>bold text</b></li>
 			<li><tt>/italic text/</tt> &rarr; <i>italic text</i></li>
@@ -148,7 +148,7 @@ else{
 			<li><tt>{http://enwp.org link text}</tt> &rarr; <a href="http://enwp.org">link text</a></li>
 			<li><tt>[red]red text[/red]</tt> &rarr; <span style="color:red">red text</span></li>
 		</ul>
-		Other acceptable colors include "orange", "yellow", "green", "blue", "purple", "grey", "gray", or any
+		<p>Other acceptable colors include "orange", "yellow", "green", "blue", "purple", "grey", "gray", or any
 		three- or six-digit hexadecimal color code starting with a # sign (i.e. #000, #FFFFFF, #a2b3c4, etc.).
 		Links must start with the http:// or https:// prefix.</p>
 		

@@ -318,11 +318,11 @@ if (isset($_GET['action'])) {
 <div class="linklist">Account links:
 <ul>
   <li><a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a></li>
-  <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a></li>
-  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a></li>
-  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), "wpTarget=" . $appeal->getCommonName() . "&limit=50"); ?>" target="_blank">Find block</a></li> 
-  <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a></li>
-  <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
+  <li><a href="<?php echo getWikiLink("User_talk:" . urlencode($appeal->getCommonName()), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a></li>
+  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . urlencode($appeal->getCommonName())); ?>" target="_blank">Block Log</a></li>
+  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), "wpTarget=" . urlencode($appeal->getCommonName()) . "&limit=50"); ?>" target="_blank">Find block</a></li> 
+  <li><a href="<?php echo getWikiLink("Special:Contributions/" . urlencode($appeal->getCommonName()), $user->getUseSecure()); ?>" target="_blank">Contribs</a></li>
+  <li><a href="<?php echo getWikiLink("Special:Unblock/" . urlencode($appeal->getCommonName()), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
   <li><a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a></li>
 </ul>
 </div>
@@ -336,18 +336,18 @@ Appeals by this IP: <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <div class="linklist">Blocking Admin:
 <ul>
-  <li><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
-  <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li>
-  <li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
+  <li><a href="<?php echo getWikiLink("User:" . urlencode($appeal->getBlockingAdmin()), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
+  <li><a href="<?php echo getWikiLink("User_talk:" . urlencode($appeal->getBlockingAdmin()), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li>
+  <li><a href="<?php echo getWikiLink("Special:EmailUser/" . urlencode($appeal->getBlockingAdmin()), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
   </ul>
   </div>
 <?php if ($appeal->getHandlingAdmin()) {?>
 <div class="linklist">Reserved by:
 <ul>
 <li><a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"><?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a></li> 
-<li><a href="<?php echo getWikiLink("User:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User Page</a></li> 
-<li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li> 
-<li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
+<li><a href="<?php echo getWikiLink("User:" . urlencode($appeal->getHandlingAdmin()->getWikiAccount()), $user->getUseSecure()); ?>" target=\"_blank\"> User Page</a></li> 
+<li><a href="<?php echo getWikiLink("User_talk:" . urlencode($appeal->getHandlingAdmin()->getWikiAccount()), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li> 
+<li><a href="<?php echo getWikiLink("Special:EmailUser/" . urlencode($appeal->getHandlingAdmin()->getWikiAccount()), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
 </ul>
 </div>
 <?php } ?>

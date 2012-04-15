@@ -1,4 +1,7 @@
 <?php
+require_once('exceptions.php');
+require_once('unblocklib.php');
+
 $params = array_merge($_GET, $_POST);
 $method = $_GET.count() == 0 ? 'Post' : 'Get';
 if (!isset($params['action'])){
@@ -34,22 +37,53 @@ if (!isset($params['action'])){
 class Api{
 	static function displayHelp(){
 		//TODO: write this out.
-		echo("action required");
+		echo("You have tried to call the UTRS api with bad parameters");
 	}
 	
 	static function login($user, $pass){
 		if (!$user || !pass){
 			self::displayHelp();
 		} else {
-			throw new UTRSException("not yet implemented");
+			throw new UTRSException("API login not yet implemented. The api is only available for logged in users for now");
 		}
 	}
 	
 	static function get_related($id, $searchby){
+		$returnarray = array();
+				
+		$basequery = "SELECT appeal.appealID, appeal.status, COALESCE(appeal.wikiAccountName, appeal.ip) as target, last_comment.timestamp
+				      FROM appeal
+				      INNER JOIN (
+				        SELECT max(timestamp) as timestamp, appealID
+				        FROM comment
+				        GROUP BY appealID ) as last_comment
+				      on appeal.appealID = last_comment.appealID \n";
 		switch ($searchby){
 			case 'email':
-				$query = "SELECT "
+				$where = sprintf("WHERE email = (SELECT email FROM appeal WHERE appealID = %d)", mysql_real_escape_string($id));
+				break;
+			case 'account':
+				$where = sprintf("WHERE wikiAccountName = (SELECT wikiAccountName FROM appeal WHERE appealID = %d)", mysql_real_escape_string($id));
+				break;
+			case 'ip':
+				$where = sprintf("WHERE ip = (SELECT ip FROM appeal WHERE appealID = %d)", mysql_real_escape_string($id));
+				break;
+			default:
+				self::displayHelp();
+				return;
 		}
+		$query = $basequery . $where . "\n ORDER BY last_comment.timestamp DESC";
+			
+		$sqlresult = mysql_query($query);
+		
+		$returnarray['metatdata'] = array( 'num_results' => mysql_num_rows(''));
+		$returnarray['results'] = array();
+				
+		while($row = mysql_fetch_assoc($sqlresult)){
+			$returnarray[] = $row;		
+		}
+		
+		return json_encode($returnarray);
 	}
 		
 }

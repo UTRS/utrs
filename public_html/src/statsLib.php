@@ -19,10 +19,10 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 	$db = connectToDB();
 	
 	if ($timestamp == 0) {
-		$query = "SELECT appeal.appealID, wikiAccountName, ip FROM appeal";
+		$query = "SELECT " . Appeal::getColumnsForSelect() . " FROM appeal";
 	} else {
-		$query = "SELECT *, l.timestamp FROM appeal,";
-		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) l";
+		$query = "SELECT " . Appeal::getColumnsForSelect() . ", l.timestamp FROM appeal,";
+		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) AS l";
 	}
 	$query .= " WHERE";
 	//Parse all of the criteria
@@ -80,7 +80,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 		for ($i=0; $i < $rows; $i++) {
 			//Grab the rowset
 			$data = mysql_fetch_array($result);
-			$appeal = Appeal::getAppealById($data['appealID']);
+			$appeal = new Appeal($data);
 			
 			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";

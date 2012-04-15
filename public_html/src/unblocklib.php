@@ -220,8 +220,7 @@ function connectToDB($suppressOutput = false){
 		debug(mysql_error());
 		throw new UTRSDatabaseException("Failed to connect to database cluster sql-s1-user!");
 	}
-	echo __FILE__;
-	if(strpos(__FILE__, "/beta/") === false){
+	if(strpos(__FILE__, "/utrs-beta/") === false){
 		// if the "live" site, connect to main DB
 		mysql_select_db("p_unblock", $db);
 	}

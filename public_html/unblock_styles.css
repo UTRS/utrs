@@ -218,11 +218,11 @@ table.appealList td{
 	padding-right: 3px;
 }
 
-tr.odd{
+table.appealList tr:nth-child(odd){
 	background: inherit;
 }
 
-tr.even{
+table.appealList tr:nth-child(even){
 	background: #EBEBEB !important;
 }
 
@@ -439,11 +439,11 @@ th.sitenoticeLinkHeader{
 	color: #EFEFEF !important;
 }
 
-tr.sitenoticeEven{
+table.sitenoticeTable tr:nth-child(even){
 	background-color:#F8FCFF;
 }
 
-tr.sitenoticeOdd{
+table.sitenoticeTable tr:nth-child(odd){
 	background-color:#EBEBEB;
 }
 

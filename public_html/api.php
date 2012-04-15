@@ -7,6 +7,9 @@ $method = count($_GET) == 0 ? 'Post' : 'Get';
 if (!isset($params['action'])){
 	Api::displayHelp();
 } else {
+	//if not logged in, kick back to api.php without parameters, which displays help;
+	verifyLogin('api.php');
+	
 	switch ($params['action']){
 		case 'login':
 			if ($method == 'Get'){

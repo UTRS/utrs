@@ -234,15 +234,31 @@ tr.even{
 	width:100%;
 }
 
-div.info {
-	padding: 10px;
-	border: 1px solid #ddd;
-	width:95%;
-	background:#fff;
-	height: 105px;
-	overflow-y: scroll;
-	word-wrap: break-word;
+
+@media all and (max-width:500px){
+	div.info {
+		padding: 10px;
+		border: 1px solid #ddd;
+		width:95%;
+		background:#fff;
+		height: 105px;
+		overflow-y: scroll;
+		word-wrap: break-word;
+	}
 }
+
+@media all and (min-width:500px){
+	div.info {
+		padding: 10px;
+		border: 1px solid #ddd;
+		width:500px;
+		background:#fff;
+		height: 105px;
+		overflow-y: scroll;
+		word-wrap: break-word;
+	}
+}
+
 
 table.appeal {
 	height:100%;

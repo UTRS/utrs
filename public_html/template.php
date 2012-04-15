@@ -40,6 +40,7 @@ if($loggedIn){
 	echo "<script type=\"text/javascript\">" . $script . "</script>";
 }
 ?>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >

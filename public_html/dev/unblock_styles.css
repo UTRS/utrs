@@ -241,7 +241,7 @@ div.info {
 	background:#fff;
 	height: 105px;
 	overflow-y: scroll;
-	text-wrap: unrestricted;
+	word-wrap: break-word;
 }
 
 table.appeal {

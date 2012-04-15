@@ -27,12 +27,12 @@ function sanitizeText($text){
 	return $text;
 }
 
-function loggedIn(){	
+function loggedIn(){
 	if(!isset($_SESSION)){
 		session_name('UTRSLogin');
 		session_start();
 	}
-	
+
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];
@@ -61,16 +61,16 @@ function loggedIn(){
 function registerLogin($userID, $db){
 	$query = "SELECT * FROM loggedInUsers WHERE userID='" . $userID . "'";
 	debug($query);
-	
+
 	$result = mysql_query($query, $db);
 	if(!$result){
 		$error = mysql_error($db);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
-	
+
 	$rows = mysql_num_rows($result);
-	
+
 	if($rows){
 		$query = "UPDATE loggedInUsers SET lastPageView=NOW() WHERE userID='" . $userID . "'";
 	}
@@ -78,7 +78,7 @@ function registerLogin($userID, $db){
 		$query = "INSERT INTO loggedInUsers (userID, lastPageView) VALUES ('" . $userID . "', NOW())";
 	}
 	debug($query);
-	
+
 	$result = mysql_query($query, $db);
 	if(!$result){
 		$error = mysql_error($db);
@@ -91,32 +91,32 @@ function getLoggedInUsers(){
 	$db = connectToDB();
 	// Clear old users: Trash collection
 	$query = "DELETE FROM loggedInUsers WHERE lastPageView < SUBTIME(NOW(), '0:5:0');";
-	
+
 	$result = mysql_query($query, $db);
-	
+
 	if(!$result){
 		$error = mysql_error($db);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
-	
+
 	// should be within the last give minutes, I think
 	$query = "SELECT userID FROM loggedInUsers";
-	
+
 	debug($query);
-	
+
 	$result = mysql_query($query, $db);
-	
+
 	if(!$result){
 		$error = mysql_error($db);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
-	
+
 	$users = "";
-	
+
 	$rows = mysql_num_rows($result);
-	
+
 	for($i = 0; $i < $rows; $i++){
 		$data = mysql_fetch_assoc($result);
 		$user = User::getUserById($data['userID']);
@@ -125,7 +125,7 @@ function getLoggedInUsers(){
 		}
 		$users .= $user->getUsername();
 	}
-	
+
 	return $users;
 }
 
@@ -152,7 +152,7 @@ function verifyLogin($destination = 'home.php'){
  * VALID ARGUMENTS:
  * -1 - Only checkusers may view this
  *  0 - Any approved user, including inactive ones, can view (or above)
- *  1 - Only active users may view this 
+ *  1 - Only active users may view this
  *  2 - Only tool administrators may view this (or above)
  *  3 - Only tool developers may view this
  * Invalid arguments will result in an exception.
@@ -160,16 +160,16 @@ function verifyLogin($destination = 'home.php'){
  */
 function verifyAccess($level){
 	// validate
-	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] & 
+	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] &
 			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER']){
 		throw new UTRSIllegalArgumentException($level, '-1, 0, 1, 2, or 3', 'verifyAccess()');
 	}
-	
+
 	$user = getCurrentUser();
 	if($user == null){
 		return false;
 	}
-	
+
 	switch($level){
 		case $GLOBALS['CHECKUSER']: return $user->isCheckuser(); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
@@ -220,6 +220,7 @@ function connectToDB($suppressOutput = false){
 		debug(mysql_error());
 		throw new UTRSDatabaseException("Failed to connect to database cluster sql-s1-user!");
 	}
+	echo __FILE__;
 	if(strpos(__FILE__, "/beta/") === false){
 		// if the "live" site, connect to main DB
 		mysql_select_db("p_unblock", $db);
@@ -246,16 +247,16 @@ function getWikiLink($page, $useSecure = false, $queryOptions = ''){
 	if($useSecure){
 		$url .= "s";
 	}
-	
+
 	$url .= "://en.wikipedia.org/";
-	
+
 	if($queryOptions){
 		$url .= "w/index.php?title=" . $page . "&" . $queryOptions;
 	}
 	else{
 		$url .= 'wiki/' . $page;
 	}
-	
+
 	return $url;
 }
 
@@ -362,8 +363,8 @@ function validEmail($email)
 			}
 			// if last
 			else if($i == ($length - 1)){
-				return false; // can't be last, as that escapes the @, 
-				              // making the address not actually have an @ 
+				return false; // can't be last, as that escapes the @,
+				              // making the address not actually have an @
 			}
 			else{
 				$escapeNext = true;
@@ -401,14 +402,14 @@ function validEmail($email)
 	$domain = preg_replace("/\(.*?\)/", "", $domain);
 	// IP address wrapped in [] (e.g. [127.0.0.1])
 	if(!(preg_match("/^\[((2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3,3}".
-	   "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\]$/", $domain)) && 
+	   "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\]$/", $domain)) &&
 		!(preg_match("/^[a-zA-Z0-9-]+?(\.[a-zA-Z0-9-]+?){0,}$/", $domain))){
 		return false;
 	}
 	else if(strlen($domain) > 255){
 		return false;
 	}
-	
+
 	return true; // yay!
 }
 

@@ -1,9 +1,9 @@
 <?php
-require_once('exceptions.php');
-require_once('unblocklib.php');
+require_once('src/exceptions.php');
+require_once('src/unblocklib.php');
 
 $params = array_merge($_GET, $_POST);
-$method = $_GET.count() == 0 ? 'Post' : 'Get';
+$method = count($_GET) == 0 ? 'Post' : 'Get';
 if (!isset($params['action'])){
 	Api::displayHelp();
 } else {
@@ -50,8 +50,10 @@ class Api{
 	
 	static function get_related($id, $searchby){
 		$returnarray = array();
-				
-		$basequery = "SELECT appeal.appealID, appeal.status, COALESCE(appeal.wikiAccountName, appeal.ip) as target, last_comment.timestamp
+		
+		$db = connectToDB();
+						
+		$basequery = "SELECT appeal.appealID, appeal.status, COALESCE(appeal.wikiAccountName, appeal.ip) as blocked, last_comment.timestamp
 				      FROM appeal
 				      INNER JOIN (
 				        SELECT max(timestamp) as timestamp, appealID
@@ -73,17 +75,17 @@ class Api{
 				return;
 		}
 		$query = $basequery . $where . "\n ORDER BY last_comment.timestamp DESC";
-			
-		$sqlresult = mysql_query($query);
 		
-		$returnarray['metatdata'] = array( 'num_results' => mysql_num_rows(''));
+		$sqlresult = mysql_query($query, $db);
+		
+		$returnarray['metadata'] = array( 'num_results' => mysql_num_rows($sqlresult));
 		$returnarray['results'] = array();
 				
 		while($row = mysql_fetch_assoc($sqlresult)){
-			$returnarray[] = $row;		
+			$returnarray['results'][] = $row;		
 		}
 		
-		return json_encode($returnarray);
+		print json_encode($returnarray);
 	}
 		
 }

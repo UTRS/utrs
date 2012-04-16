@@ -237,10 +237,11 @@ table.appealList tr:nth-child(even){
 div.info {
 	padding: 10px;
 	border: 1px solid #ddd;
-	width:95%;
+	width:650px;
 	background:#fff;
 	height: 105px;
 	overflow-y: scroll;
+	word-wrap: break-word;
 }
 
 table.appeal {

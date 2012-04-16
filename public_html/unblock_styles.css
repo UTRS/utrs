@@ -237,7 +237,6 @@ table.appealList tr:nth-child(even){
 div.info {
 	padding: 10px;
 	border: 1px solid #ddd;
-	width:650px;
 	background:#fff;
 	height: 105px;
 	overflow-y: scroll;
@@ -247,6 +246,7 @@ div.info {
 table.appeal {
 	height:100%;
 	width:100%;
+        table-layout:fixed;
 }
 
 td.left {

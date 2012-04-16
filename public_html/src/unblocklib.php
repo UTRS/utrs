@@ -237,8 +237,10 @@ function connectToDB($suppressOutput = false){
  *  as an associative array.
  */
 function getWikiLink($basepage, $useSecure = false, array $queryOptions = array()){
+	//trigger_error("basepage: $basepage");
+	//trigger_error("url encoded: " .urlencode($basepage));
 	$prefix = $useSecure ? "https:" : "http:";
-	$url = sprintf("%s//en.wikipedia.org/wiki/%s/", $prefix, urlencode($basepage));
+	$url = sprintf("%s//en.wikipedia.org/wiki/%s", $prefix, urlencode($basepage));
 	$first = true;
 	foreach($queryOptions as $key => $value){
 		$savekey = urlencode($key);

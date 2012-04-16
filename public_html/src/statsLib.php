@@ -92,7 +92,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:".$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			if ($timestamp == 1) {
 				$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 			}
@@ -201,7 +201,7 @@ function printRecentClosed() {
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" . $appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 			$requests .= "\t</tr>\n";
 		}
@@ -271,7 +271,7 @@ function printBacklog() {
 			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" .$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
 			$requests .= "\t</tr>\n";
 		}

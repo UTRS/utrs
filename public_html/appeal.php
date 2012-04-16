@@ -319,11 +319,11 @@ if (isset($_GET['action'])) {
 <ul>
   <li><a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">User Page</a></li>
   <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a></li>
-  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), "page=User:" . $appeal->getCommonName()); ?>" target="_blank">Block Log</a></li>
-  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), "wpTarget=" . $appeal->getCommonName() . "&limit=50"); ?>" target="_blank">Find block</a></li> 
+  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => "User:" . $appeal->getCommonName())); ?>" target="_blank">Block Log</a></li>
+  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank">Find block</a></li> 
   <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a></li>
   <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
-  <li><a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), "type=signup"); ?>" target="_blank">Create Account</a></li>
+  <li><a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li>
 </ul>
 </div>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>

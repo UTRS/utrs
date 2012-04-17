@@ -51,6 +51,10 @@ class Appeal extends Model {
 	 */
 	public static $STATUS_CLOSED = 'CLOSED';
 	/**
+	 * the requester has been emailed with a reminder of his appeal
+	 */
+	public static $STATUS_REMINDED = 'REMINDED';
+	/**
 	 * Email blacklist in regex form
 	 */
 	public static $EMAIL_BLACKLIST = '~@(wiki(p|m)edia|mailinator)~';
@@ -543,17 +547,22 @@ class Appeal extends Model {
 		}
 	}
 	
-	public function setStatus($newStatus){
+	public function setStatus($newStatus, $username = false){
+		if ($username === false){
+			$username = $_SESSION['user'];
+		}
 		// TODO: query to check if status is closed; if so, whoever's reopening
 		// should be a tool admin
+		
 		if(strcmp($newStatus, self::$STATUS_NEW) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_USER) == 0
 		  || strcmp($newStatus, self::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_CHECKUSER) == 0
 		  || strcmp($newStatus, self::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, self::$STATUS_CLOSED) == 0
-		  || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0){
+		  || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0
+		  || strcmp($newStatus, self::$STATUS_REMINDED) == 0){
 			// TODO: query to modify the row
 			$this->status = $newStatus;
 			if ($this->status == self::$STATUS_CLOSED) {
-				User::getUserByUsername($_SESSION['user'])->incrementClose();
+				User::getUserByUsername($username)->incrementClose();
 			}
 		}
 		else{
@@ -610,6 +619,32 @@ class Appeal extends Model {
 		mysql_query($query, $db);
 		
 		$this->lastLogId = $log_id;
+	}
+	
+	public function sendEmail($bodytemplate, $subject, $admin = false){
+		$success = false;
+		try {
+			if ($admin === false){
+				$admin = getCurrentUser();
+			}
+			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			$et = new EmailTemplates($admin, $this);
+			$body = $et->apply_to($bodytemplate);
+			mail($this->emailAddress, $subject, $body, $headers);
+			$success = true;
+			//Put the contents of the email into the log
+			$log = Log::getCommentsByAppealId($this->getID());
+			$log->addNewItem($et->censor_email($et->apply_to($bodytemplate)), 0, $admin->getUsername());
+			
+		} catch (Exception $e) {
+			//log email failure
+			$log = Log::getCommentsByAppealId($this->getID());
+			$log->addNewItem("failed to send email", 0 , $admin->getUsername());
+			$errors = $e->getMessage();
+		} 
+		return $success;
 	}
 }
 

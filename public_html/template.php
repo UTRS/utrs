@@ -34,12 +34,13 @@ if($loggedIn){
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<link rel="stylesheet" href="unblock_styles.css">
+<link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
 <title>Unblock Ticket Request System - Register an Account</title>
 <?php if($script){
 	echo "<script type=\"text/javascript\">" . $script . "</script>";
 }
 ?>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >

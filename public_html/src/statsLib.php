@@ -19,10 +19,10 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 	$db = connectToDB();
 	
 	if ($timestamp == 0) {
-		$query = "SELECT appeal.appealID, wikiAccountName, ip FROM appeal";
+		$query = "SELECT " . Appeal::getColumnsForSelect() . " FROM appeal";
 	} else {
-		$query = "SELECT *, l.timestamp FROM appeal,";
-		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) l";
+		$query = "SELECT " . Appeal::getColumnsForSelect() . ", l.timestamp FROM appeal,";
+		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) AS l";
 	}
 	$query .= " WHERE";
 	//Parse all of the criteria
@@ -80,19 +80,12 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 		for ($i=0; $i < $rows; $i++) {
 			//Grab the rowset
 			$data = mysql_fetch_array($result);
-			$appeal = Appeal::getAppealById($data['appealID']);
+			$appeal = new Appeal($data);
 			
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:".$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			if ($timestamp == 1) {
 				$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 			}
@@ -191,17 +184,11 @@ function printRecentClosed() {
 			$appealId = $data['appealID'];
 			
 			$appeal = Appeal::getAppealById($data['appealID']);
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" . $appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 			$requests .= "\t</tr>\n";
 		}
@@ -261,17 +248,11 @@ function printBacklog() {
 			$data = mysql_fetch_array($result);
 			$appealId = $data['appealID'];
 			$appeal = Appeal::getAppealById($data['appealID']);
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-				
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
+										
+			$requests .= "\t<tr>\n";
 			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
 			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" .$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
 			$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
 			$requests .= "\t</tr>\n";
 		}
@@ -375,14 +356,8 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 			$userId = $data['userID'];
 			$username = $data['username'];
 			$wikiAccount = "User:" . $data['wikiAccount'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$list .= "\t<tr>\n";
 			$list .= "\t\t<td>" . $userId . ".</td>\n";
 			$list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
 			$list .= "\t\t<td>" . $username . "</td>\n";
@@ -477,14 +452,8 @@ function printUserLogs($userId){
 			$action = $data['action'];
 			$reason = $data['reason'];
 			$hideTarget = $data['hideTarget'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$list .= "\t<tr>\n";
 			$list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
 			$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
 						($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
@@ -528,14 +497,8 @@ function printTemplateList(){
 			$data = mysql_fetch_array($result);
 			$id = $data['templateID'];
 			$name = $data['name'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
+						
+			$list .= "\t<tr>\n";
 			$list .= "\t\t<td>" . $name . "</td>\n";
 			$list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
 			if(verifyAccess($GLOBALS['ADMIN'])){
@@ -638,7 +601,7 @@ function printSitenoticeMessages(){
 	
 	for($i = 0; $i < $rows; $i++){
 		$rowData = mysql_fetch_assoc($result);
-		$table .= "<tr class=\"sitenotice" . ($i % 2 == 1 ? "Odd" : "Even") . "\">\n";
+		$table .= "<tr>\n";
 		$table .= "<td style=\"text-align:center;\">" . $rowData['messageID'] . "</td>\n";
 		$table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 64 ? " ..." : "") . "\"</td>\n";
 		$table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?id=" . 

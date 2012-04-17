@@ -37,7 +37,7 @@ to view it for the explicit purpose of reviewing your block on the English Wikip
 
 <p>We store this data in a secure database, which is visible only to UTRS developers, several of whom
 are identified to the Wikimedia Foundation, just as Checkusers are required to do. In order to assist 
-with reviewing your block, this information is provided to UTRS volunteers as follows:
+with reviewing your block, this information is provided to UTRS volunteers as follows:</p>
 <ul>
 <li>Your email address will be obscured for most people reviewing your block. All emails we send you 
 will be sent through the system, so there is no need for volunteers to view your email address in 
@@ -54,7 +54,7 @@ block. Again, this is necessary to allow us to look up your block and determine 
 access to the CheckUser tool on Wikipedia. CheckUsers need to see your useragent to help 
 differentiate you from the person the block is intended for, and UTRS developers need to see this 
 information to ensure the tool is working properly.</li>
-</ul></p>
+</ul>
 <p>At no point will your data be provided to a third party for any purpose; furthermore, this 
 information will be removed from our system no more than one week after your appeal is closed. This
 removal process is automated, so you don't need to worry about anyone forgetting to hit the "delete"

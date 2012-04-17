@@ -28,6 +28,14 @@ function sanitizeText($text){
 	return $text;
 }
 
+function posted($key) {
+	if (isset($_POST[$key])) {
+		return htmlspecialchars($_POST[$key]);
+	}
+
+	return '';
+}
+
 function loggedIn(){	
 	if(!isset($_SESSION)){
 		session_name('UTRSLogin');
@@ -217,24 +225,22 @@ function connectToDB($suppressOutput = false){
  * Returns a URL to the given page on the English Wikipedia.
  * @param String $page the page to link to, including namespace
  * @param boolean $useSecure true to use the secure server
- * @param String $queryOptions query options, such as used on some log pages,
- *  separated by (but not starting with) &'s.
+ * @param array $queryOptions query options, such as used on some log pages,
+ *  as an associative array.
  */
-function getWikiLink($page, $useSecure = false, $queryOptions = ''){
-	$url = "http";
-	if($useSecure){
-		$url .= "s";
+function getWikiLink($basepage, $useSecure = false, array $queryOptions = array()){
+	//trigger_error("basepage: $basepage");
+	//trigger_error("url encoded: " .urlencode($basepage));
+	$prefix = $useSecure ? "https:" : "http:";
+	$url = sprintf("%s//en.wikipedia.org/wiki/%s", $prefix, urlencode($basepage));
+	$first = true;
+	foreach($queryOptions as $key => $value){
+		$savekey = urlencode($key);
+		$savevalue = urlencode($value);
+		$separator = $first ? '?' : '&';
+		$url .= "$separator$savekey=$savevalue";
+		$first = false;
 	}
-	
-	$url .= "://en.wikipedia.org/";
-	
-	if($queryOptions){
-		$url .= "w/index.php?title=" . $page . "&" . $queryOptions;
-	}
-	else{
-		$url .= 'wiki/' . $page;
-	}
-	
 	return $url;
 }
 

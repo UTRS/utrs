@@ -40,6 +40,7 @@ class EmailTemplates {
 	public function apply_to($text) {
 		$text = preg_replace_callback('/{{([^}]+)}}/', array($this, 'template_replace_callback'), $text);
 		$text = str_replace("\n", "<br />", $text);
+		$text = str_replace("\r", "", $text);
 
 		return $text;
 	}

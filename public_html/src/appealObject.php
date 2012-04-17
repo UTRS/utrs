@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
+require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
 
@@ -9,7 +10,7 @@ require_once('unblocklib.php');
  * This class contains information relevant to a single unblock appeal.
  * 
  */
-class Appeal{
+class Appeal extends Model {
 	
 	/**
 	 * IP addresses belonging to the Toolserver that may get in the way
@@ -57,69 +58,98 @@ class Appeal{
 	/**
 	 * Database ID number
 	 */
-	private $appealID;
+	protected $appealID;
 	/**
 	 * The IP address used to make the request; presumably the blocked one
 	 * if the appealer doesn't have an account or it's an auto or rangeblock.
 	 */
-	private $ipAddress;
+	protected $ipAddress;
 	/**
 	 * The appealer's email address
 	 */
-	private $emailAddress;
+	protected $emailAddress;
 	/**
 	 * If the user already has an account
 	 */
-	private $hasAccount;
+	protected $hasAccount;
 	/**
 	 * The user's existing or desired account name
 	 */
-	private $accountName;
+	protected $accountName;
 	/**
 	 * If this is an auto- or range-block
 	 */
-	private $isAutoBlock;
+	protected $isAutoBlock;
 	/**
 	 * The blocking administrator
 	 */
-	private $blockingAdmin;
+	protected $blockingAdmin;
 	/**
 	 * The text of the appeal
 	 */
-	private $appeal;
+	protected $appeal;
 	/**
 	 * What edits the user intends to make if unblocked
 	 */
-	private $intendedEdits;
+	protected $intendedEdits;
 	/**
 	 * Other information
 	 */
-	private $otherInfo;
+	protected $otherInfo;
 	/**
 	 * Time the request was placed
 	 */
-	private $timestamp;
+	protected $timestamp;
 	/**
 	 * The admin handling the appeal
 	 */
-	private $handlingAdmin;
+	protected $handlingAdmin;
+	protected $handlingAdminObject;
 	/**
 	 * The old admin handling the appeal
 	 */
-	private $oldHandlingAdmin;
+	protected $oldHandlingAdmin;
 	/**
 	 * Last log action
 	 */
-	private $lastLogId;
+	protected $lastLogId;
 	/**
 	 * Status of the appeal
 	 */
-	private $status;
+	protected $status;
 	
 	/**
 	 * User agent
 	 */
-	private $useragent;
+	protected $useragent;
+
+	// Maps from DB columns to object fields.
+	private static $columnMap = array(
+		'appealID'		=> 'appealID',
+		'email'			=> 'emailAddress',
+		'ip'			=> 'ipAddress',
+		'wikiAccountName'	=> 'accountName',
+		'autoblock'		=> 'isAutoBlock',
+		'hasAccount'		=> 'hasAccount',
+		'blockingAdmin'		=> 'blockingAdmin',
+		'timestamp'		=> 'timestamp',
+		'appealText'		=> 'appeal',
+		'intendedEdits'		=> 'intendedEdits',
+		'otherInfo'		=> 'otherInfo',
+		'status'		=> 'status',
+		'handlingAdmin'		=> 'handlingAdmin',
+		'oldHandlingAdmin'	=> 'oldHandlingAdmin',
+		'lastLogId'		=> 'lastLogId');
+
+	private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
+
+	public static function getColumnMap() {
+		return self::$columnMap;
+	}
+
+	public static function getColumnsForSelect($table_alias = 'appeal') {
+		return parent::getColumnsForSelect(array_keys(self::$columnMap), 'appeal_', $table_alias);
+	}
 	
 	/**
 	 * Build a Appeal object. If $fromDB is true, the mappings in $values
@@ -132,52 +162,28 @@ class Appeal{
 	 * @param array $values the information to include in this appeal
 	 * @param boolean $fromDB is this from the database?
 	 */
-	public function __construct(array $values, $fromDB){
+	public function __construct($values = false){
 		debug('In constuctor for Appeal <br/>');
-		if(!$fromDB){
-			debug('Obtaining values from form <br/>');
-			Appeal::validate($values); // may throw an exception
-		
-			$this->ipAddress = Appeal::getIPFromServer();
-			$this->emailAddress = sanitizeText($values['email']);
-			$this->hasAccount = (boolean) $values['registered'];
-			$this->accountName = sanitizeText($values['accountName']);
-			$this->isAutoBlock = (boolean) (isset($values['autoBlock']) ? $values['autoBlock'] : false);
-			$this->blockingAdmin = sanitizeText($values['blockingAdmin']);
-			$this->appeal = sanitizeText($values['appeal']);
-			$this->intendedEdits = sanitizeText($values['edits']);
-			$this->otherInfo = sanitizeText($values['otherInfo']);
-			$this->handlingAdmin = null;
-			$this->oldHandlingAdmin = null;
-			$this->status = Appeal::$STATUS_NEW;
-			
-			debug('Setting values complete <br/>');
-			
-			Appeal::insert();
+
+		// Set defaults
+		$this->ipAddress = self::getIPFromServer();
+		$this->status = self::$STATUS_NEW;
+		$this->handlingAdmin = null;
+		$this->handlingAdminObject = null;
+
+		// False means "uncached", getUserAgent() will fetch it when
+		// called, if the user has permission.
+		$this->useragent = false;
+
+		if (is_array($values)) {
+			$this->populate($values);
 		}
-		else{
-			debug('Obtaining values from DB <br/>');
-			$this->appealID = $values['appealID'];
-			$this->ipAddress = $values['ip'];
-			$this->emailAddress = $values['email'];
-			$this->hasAccount = $values['hasAccount'];
-			$this->accountName = $values['wikiAccountName'];
-			$this->isAutoBlock = $values['autoblock'];
-			$this->blockingAdmin = $values['blockingAdmin'];
-			$this->appeal = $values['appealText'];
-			$this->intendedEdits = $values['intendedEdits'];
-			$this->otherInfo = $values['otherInfo'];
-			$this->timestamp = $values['timestamp'];
-			if ($values['handlingAdmin']) {
-				$this->handlingAdmin = User::getUserById($values['handlingAdmin']);
-			} else {
-				$this->handlingAdmin = null;
-			}
-			$this->oldHandlingAdmin = $values['oldHandlingAdmin'];
-			$this->status = $values['status'];
-			$this->useragent = Appeal::getCheckUserData($this->appealID);
-		}
+
 		debug('Exiting constuctor <br/>');
+	}
+
+	public function populate($map) {
+		$this->populateFromMap(self::$columnMap, 'appeal_', $map);
 	}
 	
 	public static function getIPFromServer(){
@@ -200,8 +206,9 @@ class Appeal{
 	public static function getAppealByID($id){
 		$db = connectToDB();
 		
-		$query = 'SELECT * FROM appeal ';
-		$query .= 'WHERE appealID = \'' . $id . '\'';
+		$query = "
+			SELECT " . self::getColumnsForSelect() . " FROM appeal
+			WHERE appealID = '" . (int)$id . "'";
 		
 		$result = mysql_query($query, $db);
 		if(!$result){
@@ -218,7 +225,7 @@ class Appeal{
 		
 		$values = mysql_fetch_assoc($result);
 		
-		return new Appeal($values, true);
+		return new Appeal($values);
 	}
 	
 	public static function getCheckUserData($appealID) {
@@ -250,6 +257,8 @@ class Appeal{
 	}
 	
 	public function insert(){
+		$this->validate();
+
 		debug('In insert for Appeal <br/>');
 		
 		$db = connectToDB();
@@ -320,8 +329,8 @@ class Appeal{
 		debug('connected to database');
 		
 		$query = "UPDATE appeal SET ";
-		if ($this->handlingAdmin != null) {
-			$query .= "handlingAdmin = " . $this->handlingAdmin->getUserId() . ", ";
+		if ($this->getHandlingAdminId() != null) {
+			$query .= "handlingAdmin = " . $this->getHandlingAdminId() . ", ";
 		} else {
 			$query .= "handlingAdmin = null, ";
 		}
@@ -347,42 +356,40 @@ class Appeal{
 	
 	}
 	
-	public static function validate(array $postVars){
+	public function validate(){
 		debug('Entering validate for Appeal <br/>');
 		$errorMsgs = "";
-		$hasAccount = false;
 		$emailErr = false;
 		
 		// confirm that all required fields exist
-		if(!isset($postVars["email"]) || strcmp(trim($postVars["email"]), '') == 0 ){
+		if(!isset($this->emailAddress) || strcmp(trim($this->emailAddress), '') == 0 ){
 			$emailErr = true;
 			$errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
 		}
-		if(!isset($postVars["registered"])){
+		if(!isset($this->hasAccount)){
 			$errorMsgs .= "<br />We need to know if you have an account on the English Wikipedia.";
 		}
-		else{
-			$hasAccount = $postVars["registered"];
+		if($this->hasAccount){
+			if(!isset($this->accountName) || strcmp(trim($this->accountName), '') == 0 ){
+				$errorMsgs .= "<br />If you have an account, we need to know the name of your account.";
+			}
+			if(!isset($this->isAutoBlock)){
+				$errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
+			}
 		}
-		if($hasAccount && (!isset($postVars["accountName"]) || strcmp(trim($postVars["accountName"]), '') == 0 )){
-			$errorMsgs .= "<br />If you have an account, we need to know the name of your account.";
-		}
-		if($hasAccount && !isset($postVars["autoBlock"])){
-			$errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
-		}
-		if(!isset($postVars["blockingAdmin"]) || strcmp(trim($postVars["blockingAdmin"]), '') == 0){
+		if(!isset($this->blockingAdmin) || strcmp(trim($this->blockingAdmin), '') == 0){
 			$errorMsgs .= "<br />We need to know which administrator placed your block.";
 		}
-		if(!isset($postVars["appeal"]) || strcmp(trim(sanitizeText($postVars["appeal"])), '') == 0){
+		if(!isset($this->appeal) || strcmp(trim($this->appeal), '') == 0){
 			$errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
 		}
-		if(!isset($postVars["edits"]) || strcmp(trim(sanitizeText($postVars["edits"])), '') == 0){
+		if(!isset($this->intendedEdits) || strcmp(trim($this->intendedEdits), '') == 0){
 			$errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
 		}
 		
 		// validate fields
-		if(!$emailErr && isset($postVars["email"])){
-			$email = $postVars["email"];
+		if(!$emailErr){
+			$email = $this->emailAddress;
 			if(!validEmail($email)){
 				$errorMsgs .= "<br />You have not provided a valid email address.";
 			}
@@ -396,15 +403,15 @@ class Appeal{
 				}
 			}
 		}
-		if(strpos($postVars["accountName"], "#") !== false | strpos($postVars["accountName"], "/") !== false |
-		   strpos($postVars["accountName"], "|") !== false | strpos($postVars["accountName"], "[") !== false |
-		   strpos($postVars["accountName"], "]") !== false | strpos($postVars["accountName"], "{") !== false |
-		   strpos($postVars["accountName"], "}") !== false | strpos($postVars["accountName"], "<") !== false |
-		   strpos($postVars["accountName"], ">") !== false | strpos($postVars["accountName"], "@") !== false |
-		   strpos($postVars["accountName"], "%") !== false | strpos($postVars["accountName"], ":") !== false | 
-		   strpos($postVars["accountName"], '$') !== false){
-		   	$errorMsgs .= 'The username you have entered is invalid. Usernames ' .
-		   	 	'may not contain the characters # / | [ ] { } < > @ % : $';
+
+		if (isset($this->accountName)) {
+			foreach (explode(' ', self::$badAccountCharacters) as $c) {
+				if (strpos($this->accountName, $c) !== false) {
+					$errorMsgs .= '<br />The username you have entered is invalid. Usernames ' .
+						'may not contain the characters ' . self::$badAccountCharacters;
+					break;
+				}
+			}
 		}
 		
 		// TODO: add queries to check if account exists or not
@@ -478,7 +485,28 @@ class Appeal{
 	}
 	
 	public function getHandlingAdmin(){
-		return $this->handlingAdmin;
+		if (!is_null($this->handlingAdminObject)) {
+			return $this->handlingAdminObject;
+		}
+
+		if (!is_null($this->handlingAdmin)) {
+			$this->handlingAdminObject = User::getUserById($this->handlingAdmin);
+			return $this->handlingAdminObject;
+		}
+
+		return null;
+	}
+
+	public function getHandlingAdminId() {
+		if (!is_null($this->handlingAdminObject)) {
+			return $this->handlingAdminObject->getUserId();
+		}
+
+		if (!is_null($this->handlingAdmin)) {
+			return $this->handlingAdmin;
+		}
+
+		return null;
 	}
 	
 	public function getOldHandlingAdmin(){
@@ -490,6 +518,11 @@ class Appeal{
 	}
 	
 	public function getUserAgent() {
+		if ($this->useragent !== false) {
+			return $this->useragent;
+		}
+
+		$this->useragent = $this->getCheckUserData($this->appealID);
 		return $this->useragent;
 	}
 	
@@ -530,33 +563,34 @@ class Appeal{
 	}
 	
 	public function setHandlingAdmin($admin, $saveadmin = 0){
-		if($this->handlingAdmin != null && $admin != null){
+		if($this->getHandlingAdminId() != null && $admin != null){
 			throw new UTRSIllegalModificationException("This request is already reserved. "
 			  . "If the person holding this ticket seems to be unavailable, ask a tool "
 			  . "admin to break their reservation.");
 		}
 		
-		if ($this->handlingAdmin == null && $admin == null) {
+		if ($this->getHandlingAdminId() == null && $admin == null) {
 			return false;
 		}
 		// TODO: Add a check to ensure that each person is only handling one 
 		// at a time? Or allow multiple reservations?
 		
 		// TODO: query to modify the row
-		if ($saveadmin == 1 && $this->handlingAdmin != NULL) {
-			$this->oldHandlingAdmin = $this->handlingAdmin->getUserId();
+		if ($saveadmin == 1 && $this->getHandlingAdminId() != NULL) {
+			$this->oldHandlingAdmin = $this->getHandlingAdminId();
 		}
-		if ($admin != null) {
-				$this->handlingAdmin = User::getUserById($admin);
-		} else {
-				$this->handlingAdmin = null;
-		}
+
+		$this->handlingAdmin = $admin;
+		$this->handlingAdminObject = null;	// Invalidate cache
+
 		return true;
 	}
 	
 	public function returnHandlingAdmin() {
 		 if ($this->oldHandlingAdmin != NULL) {
-		 	$this->handlingAdmin = User::getUserById($this->oldHandlingAdmin);
+		 	$this->handlingAdmin = $this->oldHandlingAdmin;
+			$this->handlingAdminObject = null;
+
 		 	$this->oldHandlingAdmin = null;
 		 }
 	}

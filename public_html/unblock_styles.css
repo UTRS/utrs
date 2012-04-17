@@ -544,3 +544,17 @@ table.sitenoticeTable tr:nth-child(odd){
    height: 30px;
    font-weight: bold;
 }
+
+.mail-preview {
+	font-size: small;
+	float: left;
+	width: 50%;
+}
+
+.mail-preview-inner {
+	padding: 1em;
+}
+
+.mail-preview .info {
+	height: 210px;
+}

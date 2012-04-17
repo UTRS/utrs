@@ -30,12 +30,13 @@ if(loggedIn()){
 	header("Location: " . getRootURL() . "home.php");
 }
 
+$success = false;
+
 // Handle submitted form
 if(isset($_POST["submit"])){
 	
 	debug('form submitted <br/>');
 	
-	$success = false;
 	try{
 		if (isset($privatekey)) {
 			// verify captcha

@@ -12,8 +12,8 @@ require_once('src/appealObject.php');
 require_once('src/banObject.php');
 require_once('src/logObject.php');
 
-$publickey = $CONFIG['recaptcha']['publickey'];
-$privatekey = $CONFIG['recaptcha']['privatekey'];
+$publickey = @$CONFIG['recaptcha']['publickey'];
+$privatekey = @$CONFIG['recaptcha']['privatekey'];
 $captchaErr = null;
 $errorMessages = '';
 $appeal = null;
@@ -37,18 +37,20 @@ if(isset($_POST["submit"])){
 	
 	$success = false;
 	try{
-		// verify captcha
-		$resp = recaptcha_check_answer($privatekey,
-				$_SERVER["REMOTE_ADDR"],
-				$_POST["recaptcha_challenge_field"],
-				$_POST["recaptcha_response_field"]);
-			
-		if(!$resp->is_valid) {
-			$captchaErr = $resp->error;
-			throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
+		if (isset($privatekey)) {
+			// verify captcha
+			$resp = recaptcha_check_answer($privatekey,
+					$_SERVER["REMOTE_ADDR"],
+					$_POST["recaptcha_challenge_field"],
+					$_POST["recaptcha_response_field"]);
+				
+			if(!$resp->is_valid) {
+				$captchaErr = $resp->error;
+				throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
+			}
+
+			debug('captcha valid <br/>');
 		}
-		
-		debug('captcha valid <br/>');
 		
 		$ip = Appeal::getIPFromServer();
 		$email = $_POST["appeal_email"];
@@ -165,14 +167,16 @@ echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('app
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
 echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
 
-echo '<span class="overridePre">';
-if($captchaErr == null){
-	echo recaptcha_get_html($publickey);
+if (isset($privatekey)) {
+	echo '<span class="overridePre">';
+	if($captchaErr == null){
+		echo recaptcha_get_html($publickey);
+	}
+	else{
+		echo recaptcha_get_html($publickey, $captchaErr);
+	}
+	echo '</span>';
 }
-else{
-	echo recaptcha_get_html($publickey, $captchaErr);
-}
-echo '</span>';
 
 echo '<p>By submitting this unblock request, you are consenting to allow us to collect information about ' .
      'your computer and that you agree with our <a href="privacy.php">Privacy Policy</a>.  This information ' .

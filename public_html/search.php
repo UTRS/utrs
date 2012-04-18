@@ -41,7 +41,7 @@ if ($_POST || $_GET) {
 			throw UTRSIllegalArgumentException($_GET['id'], "a number", "search");
 		}
 
-		$query = $db->prepare("SELECT ip FROM appeal WHERE appealID = :appealID";
+		$query = $db->prepare("SELECT ip FROM appeal WHERE appealID = :appealID");
 
 		$result = $query->execute(array(
 			':appealID'	=> $_GET['id']));

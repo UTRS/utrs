@@ -50,8 +50,6 @@ class Log {
 				$this->log[] = new LogItem($data);
 			}
 
-			$this->Count = count($this->log);
-
 			$query->closeCursor();
 		}
 	}
@@ -115,8 +113,7 @@ class Log {
 			Appeal::getAppealById($this->appealID)->updateLastLogId($id);
 		}
 
-		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $seconduserid, 'action' => $action));
-		$this->Count++;
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $seconduserid, 'action' => $action));
 	}
 
 	function addAppellantReply($reply){
@@ -141,8 +138,7 @@ class Log {
 
 		$id = $db->lastInsertId();
 
-		$this->log[$this->Count + 1] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
-		$this->Count++;
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
 	}
 
 	public function getSmallHTML() {

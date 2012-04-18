@@ -88,7 +88,7 @@ class Ban{
 		
 		$query = $db->prepare('SELECT * FROM banList WHERE banID = :banID');
 
-		$result = $db->execute(array(
+		$result = $query->execute(array(
 			':banID'	=> $id));
 		
 		if(!$result){
@@ -138,7 +138,7 @@ class Ban{
 		
 		// safety - remove any existing bans on the same target
 		$query = $db->prepare("DELETE FROM banList WHERE target = :target");
-		$db->execute(array(
+		$query->execute(array(
 			':target'	=> $this->getTarget()));
 		// not checking for errors here, if this fails it's probably ok
 
@@ -147,7 +147,7 @@ class Ban{
 		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) != 0;
 		debug("Has expiry: " . $hasExpiry . "\n");
 		
-		$query->prepare("
+		$query = $db->prepare("
 			INSERT INTO banList
 			(target, timestamp, expiry, reason, admin, isIP)
 			VALUES (:target, :timestamp, :expiry, :reason, :admin, :isIP)");
@@ -165,6 +165,7 @@ class Ban{
 			':timestamp'	=> $timestamp,
 			':expiry'	=> $expiry,
 			':reason'	=> $this->reason,
+			':admin'	=> $this->admin->getUserId(),
 			':isIP'		=> (bool)$this->isIP));
 		
 		if(!$result){

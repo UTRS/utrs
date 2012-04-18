@@ -41,53 +41,79 @@ if ($_POST || $_GET) {
 			throw UTRSIllegalArgumentException($_GET['id'], "a number", "search");
 		}
 
-		$query = "SELECT ip FROM appeal WHERE appealID = " . $_GET['id'] . ";";
+		$query = $db->prepare("SELECT ip FROM appeal WHERE appealID = :appealID";
 
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':appealID'	=> $_GET['id']));
 
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
-		$data = mysql_fetch_array($result);
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
 
 		$ip_address = $data['ip'];
 		$md5_ip_address = md5($ip_address);
 
-		$query = "SELECT DISTINCT appealID, '0' as score FROM appeal WHERE ip = '" . $ip_address . "' OR ip = '" . $md5_ip_address . "' OR MD5(ip) = '" . $ip_address . "' ORDER BY timestamp DESC;";
+		$query = $db->prepare("
+			SELECT DISTINCT appealID, '0' as score
+			FROM appeal
+			WHERE ip = :ip
+			   OR ip = :md5ip
+			   OR MD5(ip) = :iptwo
+			ORDER BY timestamp DESC;");
 
+		$result = $query->execute(array(
+			':ip'		=> $ip_address,
+			':md5ip'	=> $md5_ip_address,
+			':iptwo'	=> $ip_address));
 	} else {
-
 		//Search
-		$search_terms = mysql_real_escape_string($_POST['search_terms']);
+		$search_terms = $_POST['search_terms'];
 
-		$query = "SELECT DISTINCT a.appealID, MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
-		$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE) as score";
-		$query .= " FROM appeal a, comment c";
-		$query .= " WHERE a.appealID = c.appealID AND MATCH (a.email, a.wikiAccountName, a.blockingAdmin, a.appealText, a.intendedEdits, a.otherInfo, c.comment)";
-		$query .= " AGAINST('" . $search_terms . "' IN BOOLEAN MODE)";
-		$query .= " HAVING score > 0.2 ORDER BY score DESC;";
+		$query = $db->prepare("
+			SELECT DISTINCT
+				a.appealID,
+				MATCH (
+					a.email,
+					a.wikiAccountName,
+					a.blockingAdmin,
+					a.appealText,
+					a.intendedEdits,
+					a.otherInfo,
+					c.comment
+				) AGAINST(:searchterms IN BOOLEAN MODE) AS score
+			FROM appeal AS a, comment AS c
 
+			WHERE a.appealID = c.appealID
+
+			HAVING score > 0.2
+			ORDER BY score DESC");
+
+		$result = $query->execute(array(
+			':searchterms'		=> $search_terms));
 	}
 
-	$result = mysql_query($query, $db);
-
 	if(!$result){
-		$error = mysql_error($db);
+		$error = var_export($db->errorInfo(), true);
 		throw new UTRSDatabaseException($error);
 	}
 
-	$rows = mysql_num_rows($result);
 	echo "<h2>Results</h2>";
-	for ($i=0; $i < $rows; $i++) {
-		$data = mysql_fetch_array($result);
+
+	$found_any = false;
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$found_any = true;
+
 		$appeal = Appeal::getAppealByID($data['appealID']);
 		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . $data['score'] . "</div>";
 		echo "<div class=\"search_body\"><i>" . $appeal->getAppeal() . "</i></div>";
 	}
+	$query->closeCursor();
 	
-	if ($i==0) {
+	if (!$found_any) {
 		echo "No results returned.";
 	}
 }

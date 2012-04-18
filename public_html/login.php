@@ -34,83 +34,80 @@ if(isset($_POST['login'])){
 		$db = connectToDB(true);
 		// all checks here will be conducted without the use of objects, so as to avoid
 		// inadvertent output to the screen
-		$user = mysql_real_escape_string($_POST['username']);
+		$user = $_POST['username'];
 		$password = hash('sha512', $_POST['password']);
 
 		debug('User: ' . $user . '  Password hash: ' . $password . '<br/>');
 
-		$query = 'SELECT passwordHash FROM user WHERE username=\'' . $user . '\'';
+		$query = $db->prepare('SELECT passwordHash FROM user WHERE username = :username';
 
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':username'	=> $user));
 
 		if($result === false){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 
-		if(mysql_num_rows($result) == 0){
+		$row = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if($row === false){
 			throw new UTRSCredentialsException('The username you entered does not exist in our records. '
 			. 'You may request an account by clicking the link above.');
 		}
-		if(mysql_num_rows($result) != 1){
-			throw new UTRSDatabaseException('There is more than one record for that username. '
-			. 'Please contact a tool developer immediately.');
+
+		if(strcmp($password, $row['passwordHash']) === 0){
+			debug('Building session, password is a match<br/>');
+			session_id('UTRSLogin'. time());
+			session_name('UTRSLogin');
+			session_start();
+			$_SESSION['user'] = $user;
+			$_SESSION['passwordHash'] = $password;
+			
+			// now that the session has been started, we can check access...
+			if(!verifyAccess($GLOBALS['APPROVED'])){
+				// force logout
+				$_SESSION['user'] = null;
+				$_SESSION['passwordHash'] = null;
+				$params = session_get_cookie_params();
+				setcookie(session_name(), '', time() - 42000,
+				$params["path"], $params["domain"],
+				$params["secure"], $params["httponly"]
+				);
+
+				session_destroy();
+				// send error message
+				throw new UTRSCredentialsException('Your account has not yet been approved. All '
+				  . 'accounts must be approved by a tool administator for security reasons. '
+				  . 'If you have not yet made an edit to your Wikipedia talk page to confirm '
+				  . 'your identity, please do so now.');
+			}
+			if(!verifyAccess($GLOBALS['ACTIVE'])){
+				$userObj = getCurrentUser();
+				// force logout
+				$_SESSION['user'] = null;
+				$_SESSION['passwordHash'] = null;
+				$params = session_get_cookie_params();
+				setcookie(session_name(), '', time() - 42000,
+				$params["path"], $params["domain"],
+				$params["secure"], $params["httponly"]
+				);
+
+				session_destroy();
+				// send error message
+				throw new UTRSCredentialsException('Your account is currently listed as inactive. '
+				  . 'The reason given for disabling your account is: "' . $userObj->getComments() 
+				  . '" Please contact a tool administrator to have your account reactivated.');
+			}
+
+			header("Location: " . $destination);
+			exit;
 		}
 		else{
-			$row = mysql_fetch_assoc($result);
-
-			if(strcmp($password, $row['passwordHash']) === 0){
-				debug('Building session, password is a match<br/>');
-				session_id('UTRSLogin'. time());
-				session_name('UTRSLogin');
-				session_start();
-				$_SESSION['user'] = $user;
-				$_SESSION['passwordHash'] = $password;
-				
-				// now that the session has been started, we can check access...
-				if(!verifyAccess($GLOBALS['APPROVED'])){
-					// force logout
-					$_SESSION['user'] = null;
-					$_SESSION['passwordHash'] = null;
-					$params = session_get_cookie_params();
-					setcookie(session_name(), '', time() - 42000,
-					$params["path"], $params["domain"],
-					$params["secure"], $params["httponly"]
-					);
-
-					session_destroy();
-					// send error message
-					throw new UTRSCredentialsException('Your account has not yet been approved. All '
-					  . 'accounts must be approved by a tool administator for security reasons. '
-					  . 'If you have not yet made an edit to your Wikipedia talk page to confirm '
-					  . 'your identity, please do so now.');
-				}
-				if(!verifyAccess($GLOBALS['ACTIVE'])){
-					$userObj = getCurrentUser();
-					// force logout
-					$_SESSION['user'] = null;
-					$_SESSION['passwordHash'] = null;
-					$params = session_get_cookie_params();
-					setcookie(session_name(), '', time() - 42000,
-					$params["path"], $params["domain"],
-					$params["secure"], $params["httponly"]
-					);
-
-					session_destroy();
-					// send error message
-					throw new UTRSCredentialsException('Your account is currently listed as inactive. '
-					  . 'The reason given for disabling your account is: "' . $userObj->getComments() 
-					  . '" Please contact a tool administrator to have your account reactivated.');
-				}
-
-				header("Location: " . $destination);
-				exit;
-			}
-			else{
-				throw new UTRSCredentialsException('The username and password you provided do not match. ' . 
-						'<a href="passReset.php">Click here</a> to reset your password.');
-			}
+			throw new UTRSCredentialsException('The username and password you provided do not match. ' . 
+					'<a href="passReset.php">Click here</a> to reset your password.');
 		}
 	}
 	catch(UTRSException $e){

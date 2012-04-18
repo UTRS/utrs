@@ -10,19 +10,18 @@ $sitenoticeText = "";
 
 if($loggedIn){
 	try{
-		$query = "SELECT message FROM sitenotice ORDER BY messageID ASC";
 		$db = connectToDB();
-		$result = mysql_query($query, $db);
-		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
+		$query = $db->query("SELECT message FROM sitenotice ORDER BY messageID ASC");
+		if($query === false){
+			$error = var_export($db->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
 		}
-		$rows = mysql_num_rows($result);
-		if($rows != 0){
-			for($i = 0; $i < $rows; $i++){
-				$message = mysql_fetch_assoc($result);
-				$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
-			}
+
+		while (($message = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+			$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
 		}
+
+		$query->closeCursor();
 	}
 	catch(UTRSException $e){
 		$sitenoticeText = "<li>An error occured when getting the sitenotice: " . $e->getMessage() . "</li>\n";

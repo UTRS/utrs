@@ -42,6 +42,10 @@ class Api{
 		//TODO: write this out.
 		echo("You have tried to call the UTRS api with bad parameters");
 	}
+
+	static function writeError($text) {
+		echo json_encode(array('error' => $text));
+	}
 	
 	static function login($user, $pass){
 		if (!$user || !pass){
@@ -62,31 +66,39 @@ class Api{
 				        SELECT max(timestamp) as timestamp, appealID
 				        FROM comment
 				        GROUP BY appealID ) as last_comment
-				      on appeal.appealID = last_comment.appealID \n";
+				      on appeal.appealID = last_comment.appealID
+
+				      %s
+
+				      ORDER BY last_comment.timestamp DESC";
+
+		$params = array(':appealID' => $id);
+
 		switch ($searchby){
 			case 'email':
-				$where = sprintf("WHERE email = (SELECT email FROM appeal WHERE appealID = %d)", mysql_real_escape_string($id));
+				$where = "WHERE email = (SELECT email FROM appeal WHERE appealID = :appealID)";
 				break;
 			case 'account':
-				$where = sprintf("WHERE wikiAccountName = (SELECT wikiAccountName FROM appeal WHERE appealID = %d)", mysql_real_escape_string($id));
+				$where = "WHERE wikiAccountName = (SELECT wikiAccountName FROM appeal WHERE appealID = :appealID)";
 				break;
 			case 'ip':
-				$where = sprintf("WHERE ip = (SELECT ip FROM appeal WHERE appealID = %d)", mysql_real_escape_string($id));
+				$where = "WHERE ip = (SELECT ip FROM appeal WHERE appealID = :appealID)";
 				break;
 			default:
 				self::displayHelp();
 				return;
 		}
-		$query = $basequery . $where . "\n ORDER BY last_comment.timestamp DESC";
-		
-		$sqlresult = mysql_query($query, $db);
-		
-		$returnarray['metadata'] = array( 'num_results' => mysql_num_rows($sqlresult));
-		$returnarray['results'] = array();
-				
-		while($row = mysql_fetch_assoc($sqlresult)){
-			$returnarray['results'][] = $row;		
+
+		$query = $db->prepare(sprintf($basequery, $where));
+
+		$sqlresult = $query->execute($params);
+
+		if (!$sqlresult) {
+			self::writeError('Database error.');
+			return;
 		}
+		
+		$returnarray['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
 		
 		print json_encode($returnarray);
 	}

@@ -1,9 +1,9 @@
 {
     "db": {
-        "host":      "",
+        "dsn":       "mysql:host=;dbname=;"
+
         "user":      "",
-        "password":  "",
-        "database":  ""
+        "password":  ""
     },
 
     "site_root": "http://www.example.com/",

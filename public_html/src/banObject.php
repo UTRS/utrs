@@ -86,23 +86,22 @@ class Ban{
 	public static function getBanByID($id){
 		$db = connectToDB();
 		
-		$query = 'SELECT * FROM banList ';
-		$query .= 'WHERE banID = \'' . $id . '\'';
+		$query = $db->prepare('SELECT * FROM banList WHERE banID = :banID');
+
+		$result = $query->execute(array(
+			':banID'	=> $id));
 		
-		$result = mysql_query($query, $db);
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
+
+		$values = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if($values === false){
 			throw new UTRSDatabaseException('No results were returned for ban ID ' . $id);
 		}
-		if(mysql_num_rows($result) != 1){
-			throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for ban ID ' . $id);
-		}
-		
-		$values = mysql_fetch_assoc($result);
 		
 		return new Ban($values, true);
 	}
@@ -138,50 +137,45 @@ class Ban{
 		$db = connectToDB();
 		
 		// safety - remove any existing bans on the same target
-		$query = "DELETE FROM banList WHERE target='" . $this->getTarget() . "'";
-		mysql_query($query);
+		$query = $db->prepare("DELETE FROM banList WHERE target = :target");
+		$query->execute(array(
+			':target'	=> $this->getTarget()));
 		// not checking for errors here, if this fails it's probably ok
+
 		$time = time();
 		$format = "Y-m-d H:i:s";
 		$hasExpiry = isset($values['durationAmt']) && strlen($values['durationAmt']) != 0;
 		debug("Has expiry: " . $hasExpiry . "\n");
 		
-		$query = "INSERT INTO banList (target, timestamp, expiry, reason, admin, isIP) VALUES ('";
-		$query .= $this->target . "', '";
-		$query .= date($format, $time) . "', ";
-		if($hasExpiry){
-			// "+3 days"
-			$query .= "'" . date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time)) . "', '";
-		} 
-		else{
-			$query .= mysql_escape_string("NULL") . ", '";
+		$query = $db->prepare("
+			INSERT INTO banList
+			(target, timestamp, expiry, reason, admin, isIP)
+			VALUES (:target, :timestamp, :expiry, :reason, :admin, :isIP)");
+
+		if ($hasExpiry) {
+			$expiry = date($format, strtotime("+" . $values['durationAmt'] . " " . $values['durationUnit'], $time));
+		} else {
+			$expiry = null;
 		}
-		$query .= mysql_real_escape_string($this->reason) . "', '";
-		$query .= $this->admin->getUserId() . "', '";
-		$query .= ($this->isIP ? "1" : "0") . "')";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+
+		$timestamp = date($format, $time);
+
+		$result = $query->execute(array(
+			':target'	=> $this->target,
+			':timestamp'	=> $timestamp,
+			':expiry'	=> $expiry,
+			':reason'	=> $this->reason,
+			':admin'	=> $this->admin->getUserId(),
+			':isIP'		=> (bool)$this->isIP));
 		
 		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
+			$error = var_export($db->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
 		}
 		
-		$this->banID = mysql_insert_id($db);
-		$query = "SELECT timestamp, expiry FROM banList WHERE banID='" . $this->banID . "'";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
-		
-		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
-		}
-		
-		$data = mysql_fetch_assoc($result);
-		$this->timestamp = $data['timestamp'];
-		$this->expiry = $data['expiry'];
+		$this->banID = $db->lastInsertId();
+		$this->timestamp = $timestamp;
+		$this->expiry = $expiry;
 	}
 	
 	public function getBanID(){
@@ -215,14 +209,14 @@ class Ban{
 	public function delete(){
 		$db = connectToDB();
 		
-		$query = "DELETE FROM banList WHERE banID='" . $this->banID . "'";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("DELETE FROM banList WHERE banID = :banID");
+
+		$result = $query->execute(array(
+			':banID'	=> $this->banID));
 		
 		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
+			$error = var_export($db->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
 		}
 		
 		$this->target = null;
@@ -251,58 +245,48 @@ class Ban{
 		$ip = md5($ip);
 		
 		$db = connectToDB();
-		
-		$email = mysql_real_escape_string($email);
-		$name = mysql_real_escape_string($name);
-		
-		$target = "target='";
+
+		$params = array();
+		$pieces = array();
+
 		if($ip){
-			$target .= $ip . "'";
+			$params[':ip'] = $ip;
+			$pieces[] = 'target = :ip';
 		}
 		if($email){
-			if($target){
-				$target .= " OR target='";
-			}
-			$target .= $email . "'";
+			$params[':email'] = $email;
+			$pieces[] = 'target = :email';
 		}
 		if($name){
-			if($target){
-				$target .= " OR target='";
-			}
-			$target .= $name . "'";
+			$params[':name'] = $name;
+			$pieces[] = 'target = :name';
+		}
+
+		if (count($pieces) == 0) {
+			// All arguments had no value; no point in checking anything.
+			return false;
 		}
 		
-		// get a list of indefinite bans on the target
-		$query = "SELECT * FROM banList WHERE (" . $target . ") AND expiry IS NULL";
+		// Changed this to work with one query only, the two ORDER BY
+		// clauses cause NULL expiry (indefinite) to be sorted first,
+		// then the rest by expiry time.
+		$query = $db->prepare("
+			SELECT * FROM banList
+			WHERE (" . implode(' OR ', $pieces) . ")
+			  AND (expiry IS NULL OR expiry > NOW())
+			ORDER BY expiry IS NULL DESC, expiry DESC");
 		
-		debug($query);
-		
-		$result = mysql_query($query);
+		$result = $query->execute($params);
 		
 		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
+			$error = var_export($db->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
 		}
-		
-		if(mysql_num_rows($result) > 0){
-			// if any, return one, doesn't matter which
-			$data = mysql_fetch_assoc($result);
-			return new Ban($data, true);
-		}
-		
-		// if no indefinites, grab list of all other bans, longest first
-		$query = "SELECT * FROM banList WHERE (" . $target . ") AND expiry IS NOT NULL AND expiry > NOW() ORDER BY expiry DESC";
-		
-		debug($query);
-		
-		$result = mysql_query($query);
-		
-		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
-		}
-		
-		if(mysql_num_rows($result) > 0){
-			// if any, return first one
-			$data = mysql_fetch_assoc($result);
+
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if ($data !== false) {
 			return new Ban($data, true);
 		}
 		
@@ -311,33 +295,29 @@ class Ban{
 	}
 	
 	/**
-	 * Returns all active bans as objects in an array, or false if there are none. Lower indices expire first.
+	 * Returns all active bans as objects in an array. Lower indices expire first.
 	 * @throws UTRSDatabaseException
 	 */
 	public static function getAllActiveBans(){
 		// get all active bans, soonest to expire first
-		$query = "SELECT * FROM banList WHERE expiry IS NULL OR expiry > NOW() ORDER BY expiry ASC";
-		
 		$db = connectToDB();
+
+		$query = $db->prepare("SELECT * FROM banList WHERE expiry IS NULL OR expiry > NOW() ORDER BY expiry ASC");
 		
-		$result = mysql_query($query, $db);
+		$result = $query->execute();
 		
 		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
-		}
-		
-		$rows = mysql_num_rows($result);
-		
-		if($rows == 0){
-			return false;
+			$error = var_export($db->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
 		}
 		
 		$bans = array();
 		
-		for($i = 0; $i < $rows; $i++){
-			$data = mysql_fetch_assoc($result);
-			$bans[$i] = new Ban($data, true);
+		while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+			$bans[] = new Ban($data, true);
 		}
+
+		$query->closeCursor();
 		
 		return $bans;
 	}

@@ -23,26 +23,22 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 	        "Reply-to: UTRS Development Team <unblock@toolserver.org>\r\n";
 		
 		$db = connectToDB();
-		$query = "SELECT email FROM user WHERE approved='1' AND active='1'";
-		debug($query);
-		$result = mysql_query($query, $db);
-		if(!$result){
-			$error = mysql_error($db);
+		$query = $db->query("SELECT email FROM user WHERE approved='1' AND active='1'");
+		if($query === false){
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		$rows = mysql_num_rows($result);
-		if($rows == 0){
+
+		$emails = array();
+		while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+			$emails[] = $data['email'];
+		}
+		$query->closeCursor();
+
+		if(count($emails) == 0){
 			throw new UTRSDatabaseException("There are no users to send emails to? Check the database...");
 		}
-		$emails = '';
-		for($i = 0; $i < $rows; $i++){
-			$data = mysql_fetch_assoc($result);
-			if($emails){
-				$emails .= ', ';
-			}
-			$emails .= $data['email'];
-		}
-		$headers .= "Bcc: " . $emails;
+		$headers .= "Bcc: " . implode(', ', $emails);
 		
 		mail("", $subject, $body, $headers);
 		

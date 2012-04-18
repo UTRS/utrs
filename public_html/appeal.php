@@ -533,15 +533,13 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 			if (!$templates) {
 				echo "<option>No templates available</option>";
 			} else {
-			
 				echo "<option value='-1'>Please select</option>";
 				
-				$rows = mysql_num_rows($templates);
-				
-				for ($i = 0; $i < $rows; $i++) {
-					$data = mysql_fetch_array($templates);
+				while (($data = $templates->fetch(PDO::FETCH_ASSOC)) !== false) {
 					echo "<option value='" . $data['templateID'] . "'>" . $data['name'] . "</option>";
 				}
+
+				$templates->closeCursor();
 			}
 		
 		?>
@@ -549,7 +547,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 </div>
 <script type="text/javascript">
 
-$contextValue = "<?php echo mysql_real_escape_string($log->getLargeHTML()); ?>";
+$contextValue = <?php echo json_encode($log->getLargeHTML()); ?>;
 
 </script>
 <h3><a href="javascript:void(0)" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>

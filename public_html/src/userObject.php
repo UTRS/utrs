@@ -69,38 +69,47 @@ class User{
 		debug('in insert for User <br />');
 		
 		$db = connectToDB();
-		
-		$query = 'INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff)';
-		$query .= ' VALUES (\'' . mysql_real_escape_string($this->username) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->email) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->wikiAccount) . '\', ';
-		$query .= '\'' . $this->useSecure . '\', ';
-		$query .= '\'' . $this->passwordHash . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->diff) . '\')';
-		
-		debug($query . '<br/>');
-		
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare('
+			INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff)
+			VALUES (:username, :email, :wikiAccount, :useSecure, :passwordHash, :diff)');
+
+		$result = $query->execute(array(
+			':username'	=> $this->username,
+			':email'	=> $this->email,
+			':wikiAccount'	=> $this->wikiAccount,
+			':useSecure'	=> $this->useSecure,
+			':passwordHash'	=> $this->passwordHash,
+			':diff'		=> $this->diff));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
 		debug('Insert complete <br/>');
-		
-		$query = "SELECT userID, registered FROM user WHERE username='" . $this->username . "'";
-		debug($query . '<br/>');
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("SELECT userID, registered FROM user WHERE username = :username");
+
+		$result = $query->execute(array(
+			':username'	=> $this->username));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
-		$row = mysql_fetch_assoc($result);
+
+		$row = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if ($row === false) {
+			throw new UTRSDatabaseException('Unable to fetch newly-inserted user record.');
+		}
 		
 		$this->userId = $row['userID'];
-		$this->registered = $row['registered'];		
+		$this->registered = $row['registered'];
 		
 		UserMgmtLog::insert('created account', 'New account', $this->userId, $this->userId);
 		
@@ -110,22 +119,21 @@ class User{
 	public static function getUserById($id){
 		$db = connectToDB();
 		
-		$query = 'SELECT * FROM user WHERE userID=\'' . $id . '\'';
+		$query = $db->prepare('SELECT * FROM user WHERE userID = :userID');
+		$result = $query->execute(array(
+			':userID'	=> $id));
 		
-		$result = mysql_query($query, $db);
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
+
+		$values = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if ($values === false) {
 			throw new UTRSDatabaseException('No results were returned for user ID ' . $id);
 		}
-		if(mysql_num_rows($result) != 1){
-			throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for user ID ' . $id);
-		}
-		
-		$values = mysql_fetch_assoc($result);
 		
 		return new User($values, true);
 	}
@@ -133,22 +141,22 @@ class User{
 	public static function getUserByUsername($username){
 		$db = connectToDB();
 		
-		$query = 'SELECT * FROM user WHERE username=\'' . $username . '\'';
+		$query = $db->prepare('SELECT * FROM user WHERE username = :username');
 		
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':username'	=> $username));
+		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
+
+		$values = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if ($values === false) {
 			throw new UTRSDatabaseException('No results were returned for username ' . $username);
 		}
-		if(mysql_num_rows($result) != 1){
-			throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for user ID ' . $id);
-		}
-		
-		$values = mysql_fetch_assoc($result);
 		
 		return new User($values, true);
 	}
@@ -242,17 +250,24 @@ class User{
 		if ($newReply) {
 			$replyNotify = 1;
 		}
-		$query = "UPDATE user SET useSecure='" . $secureInt . "', email='" . $newEmail . "', replyNotify='" . $replyNotify . "' ";
-		$query .= "WHERE userID='" . $this->userId . "'";
-		
-		debug($query);
-		
+
 		$db = connectToDB();
-		
-		$result = mysql_query($query, $db);
-		
+
+		$query = $db->prepare("
+			UPDATE user
+			SET useSecure = :useSecure,
+			    email = :email,
+			    replyNotify = :replyNotify
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':useSecure'	=> $secureInt,
+			':email'	=> $newEmail,
+			':replyNotify'	=> $replyNotify,
+			':userID'	=> $this->userId));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -268,33 +283,36 @@ class User{
 		}
 		
 		// ok to update
-		$query = "UPDATE user SET passwordHash='" . $newpass . 
-			"', resetConfirm=NULL, resetTime=NULL WHERE userID='" . $this->userId . "'";
-		
-		debug($query);
-		
 		$db = connectToDB();
-		
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("
+			UPDATE user
+			SET passwordHash = :passwordHash,
+			    resetConfirm = NULL,
+			    resetTime = NULL
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':passwordHash'	=> $newpass,
+			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 	}
 	
 	public function approve($admin){
-		$query = "UPDATE user SET approved='1' WHERE userID='" . $this->userId . "'";
-		
 		$db = connectToDB();
+
+		$query = $db->prepare("UPDATE user SET approved = 1 WHERE userID = :userID");
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -316,20 +334,23 @@ class User{
 			
 		// notify user
 		mail($this->email, "UTRS account approved", $emailBody, $headers);
-			
 	}
 	
 	public function disable($admin, $comments){
-		$query = "UPDATE user SET active='0', comments='" . $comments . "' WHERE userID='" . $this->userId . "'";
-		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			UPDATE user
+			SET active = 0,
+			    comments = :comments
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':comments'	=> $comments,
+			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -349,16 +370,19 @@ class User{
 	}
 	
 	public function enable($admin){
-		$query = "UPDATE user SET active='1', comments=NULL WHERE userID='" . $this->userId . "'";
-		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			UPDATE user
+			SET active = 1,
+			    comments = NULL
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -371,29 +395,27 @@ class User{
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin){
 		// safety checks
-		if(!$adminFlag){
-			$adminFlag = false;
-		}
-		if(!$devFlag){
-			$devFlag = false;
-		}
-		if(!$cuFlag){
-			$cuFlag = false;
-		}
-		
-		$query = "UPDATE user SET toolAdmin='" . ($adminFlag ? "1', " : "0', ") .
-		                         "developer='" . ($devFlag ? "1', " : "0', ") .
-		                         "checkuser='" . ($cuFlag ? "1' " : "0' ") .
-		                         "WHERE userID='" . $this->userId . "'";
+		$adminFlag = (bool)$adminFlag;
+		$devFlag = (bool)$devFlag;
+		$cuFlag = (bool)$cuFlag;
 		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
-		
+		$query = $db->prepare("
+			UPDATE user
+			SET toolAdmin = :toolAdmin,
+			    developer = :developer,
+			    checkuser = :checkuser
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':toolAdmin'	=> $adminFlag,
+			':developer'	=> $devFlag,
+			':checkuser'	=> $cuFlag,
+			':userID'	=> $this->userId));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -415,17 +437,19 @@ class User{
 		
 		$oldName = $this->getUsername();
 		
-		$query = "UPDATE user SET username='" . $newName . "' " .
-		         "WHERE userID='" . $this->userId . "'";
-		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			UPDATE user
+			SET username = :username
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':username'	=> $newName,
+			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -437,17 +461,15 @@ class User{
 	}
 	
 	public function incrementClose() {
-		
-		$query = "UPDATE user SET closed = closed + 1 WHERE userID = " . $this->getUserId() . ";";
-		
 		$db = connectToDB();
 		
-		debug($query);
+		$query = $db->prepare("UPDATE user SET closed = closed + 1 WHERE userID = :userID");
 		
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':userID'	=> $this->getUserId()));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -455,19 +477,26 @@ class User{
 	
 	public function generateResetInfo(){
 		mt_srand(time());
-		// 16777216 = 16^6
-		// 268435456 = 16^7
-		$rand = mt_rand(16777216, 268435456);
+		//  0x1000000 = 16^6
+		// 0x10000000 = 16^7
+		$rand = mt_rand( 0x1000000,
+		                0x10000000);
 		$confirmCode = base_convert($rand, 10, 16);
 		
-		$query = "UPDATE user SET resetConfirm='" . $confirmCode . 
-			"', resetTime=CURRENT_TIMESTAMP WHERE userID='" . $this->getUserId() . "'";
-		
 		$db = connectToDB();
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("
+			UPDATE user
+			SET resetConfirm = :resetConfirm,
+			    resetTime = CURRENT_TIMESTAMP
+			WHERE userID = :userID");
+		
+		$result = $query->execute(array(
+			':resetConfirm'	=> $confirmCode,
+			':userID'	=> $this->getUserId()));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -476,21 +505,24 @@ class User{
 	}
 	
 	public function verifyConfirmation($confirmCode){
-		$query = "SELECT resetConfirm, resetTime FROM user WHERE userID='" . $this->getUserId() . "'";
-		
 		$db = connectToDB();
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("SELECT resetConfirm, resetTime FROM user WHERE userID = :userID");
+		
+		$result = $query->execute(array(
+			':userID'	=> $this->getUserId()));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
-		$data = mysql_fetch_assoc($result);
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
 		
 		// If reset time does not exist (not sure how the DB returns NULLs)
-		if(!isset($data['resetTime']) || !$data['resetTime'] || strcmp($data['resetTime'], "NULL") == 0){
+		if($data === false || !isset($data['resetTime']) || !$data['resetTime'] || strcmp($data['resetTime'], "NULL") == 0){
 			throw new UTRSIllegalModificationException("The confirmation code provided is not valid. Please fill " .
 				"out the form below to request a password reset.");
 		}

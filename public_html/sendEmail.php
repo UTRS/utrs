@@ -126,12 +126,10 @@ $admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
 				
 			echo "<option value='-1'>Please select</option>";
 		
-			$rows = mysql_num_rows($templates);
-		
-			for ($i = 0; $i < $rows; $i++) {
-				$data = mysql_fetch_array($templates);
+			while (($data = $templates->fetch(PDO::FETCH_ASSOC)) !== false) {
 				echo "<option value='" . $data['templateID'] . "'>" . $data['name'] . "</option>";
 			}
+			$templates->closeCursor();
 		}
 		
 		?>

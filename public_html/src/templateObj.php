@@ -59,59 +59,48 @@ class Template{
 	private function insert(){
 		$db = connectToDB(true); // going to take place prior to a potential redirection
 		
-		$query = "INSERT INTO template (name, text, lastEditUser, statusUser, statusClose) VALUES ('";
-		$query .= mysql_real_escape_string($this->name) . "', '";
-		$query .= mysql_real_escape_string($this->text) . "', '";
-		$query .= $this->lastEditUser->getUserId() . "', ";
-		$query .= $this->statusUser . ", ";
-		$query .= $this->statusClose . ")";
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			INSERT INTO template
+			(name, text, lastEditUser, statusUser, statusClose)
+			VALUES (:name, :text, :lastEditUser, :statusUser, :statusClose)");
+
+		$result = $query->execute(array(
+			':name'		=> $this->name,
+			':text'		=> $this->text,
+			':lastEditUser'	=> $this->lastEditUser->getUserId(),
+			':statusUser'	=> $this->statusUser,
+			':statusClose'	=> $this->statusClose));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
-		
-		$query = "SELECT templateID, lastEditTime FROM template WHERE name='" . mysql_real_escape_string($this->name) . "'";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
-		
-		if(!$result){
-			$error = mysql_error($db);
-			debug('ERROR: ' . $error . '<br/>');
-			throw new UTRSDatabaseException($error);
-		}
-		
-		$data = mysql_fetch_assoc($result);
-		
-		$this->templateID = $data['templateID'];
-		$this->lastEditTime = $data['lastEditTime'];
+
+		$this->templateID = $db->lastInsertId();
+
+		$this->updateLastEditTime($db);
 	}
 	
 	public static function getTemplateById($id){
 		$db = connectToDB();
 		
-		$query = 'SELECT * FROM template WHERE templateID=\'' . $id . '\'';
+		$query = $db->prepare('SELECT * FROM template WHERE templateID = :templateID');
+
+		$result = $query->execute(array(
+			':templateID'	=> $id));
 		
-		$result = mysql_query($query, $db);
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
+
+		$values = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if($values === false){
 			throw new UTRSDatabaseException('No results were returned for template ID ' . $id);
 		}
-		if(mysql_num_rows($result) != 1){
-			throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for template ID ' . $id);
-		}
-		
-		$values = mysql_fetch_assoc($result);
 		
 		return new Template($values, true);
 	}
@@ -119,19 +108,14 @@ class Template{
 	public static function getTemplateList() {
 		$db = connectToDB();
 		
-		$query = "SELECT templateID, name FROM template ORDER BY name ASC;";
+		$query = $db->query("SELECT templateID, name FROM template ORDER BY name ASC;");
 		
-		$result = mysql_query($query);
-		
-		if(!$result){
-			$error = mysql_error($db);
+		if($query === false){
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
-			return null;
-		}
 		
-		return $result;	
+		return $query;
 	}
 	
 	public function getId(){
@@ -168,20 +152,19 @@ class Template{
 	 * @param database_reference $db
 	 */
 	private function updateLastEditTime($db){
+		$query = $db->prepare("SELECT lastEditTime FROM template WHERE templateID = :templateID");
 		
-		$query = "SELECT lastEditTime FROM template WHERE templateID='" . $this->templateID . "'";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':templateID'	=> $this->templateID));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
-		$data = mysql_fetch_assoc($result);
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
 		
 		$this->lastEditTime = $data['lastEditTime'];
 	}
@@ -195,19 +178,22 @@ class Template{
 	 */
 	public function setName($newName){
 		$user = getCurrentUser();
-		$sqlName = mysql_real_escape_string($newName);
-		
-		$query = "UPDATE template SET name='" . $sqlName . "', lastEditUser='" . $user->getUserId() . 
-					"' WHERE templateID='" . $this->templateID . "'";
 		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
-		
+		$query = $db->prepare("
+			UPDATE template
+			SET name = :name,
+			    lastEditUser = :lastEditUser
+			WHERE templateID = :templateID");
+
+		$result = $query->execute(array(
+			':name'		=> $newName,
+			':lastEditUser'	=> $user->getUserId(),
+			':templateID'	=> $this->templateID));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -227,19 +213,22 @@ class Template{
 	 */
 	public function setText($newText){		
 		$user = getCurrentUser();
-		$sqlText = mysql_real_escape_string($newText);
-		
-		$query = "UPDATE template SET text='" . $sqlText . "', lastEditUser='" . $user->getUserId() . 
-					"' WHERE templateID='" . $this->templateID . "'";
 		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
-		
+		$query = $db->prepare("
+			UPDATE template
+			SET text = :text,
+			    lastEditUser = :lastEditUser
+			WHERE templateID = :templateID");
+
+		$result = $query->execute(array(
+			':text'		=> $newText,
+			':lastEditUser'	=> $user->getUserId(),
+			':templateID'	=> $this->templateID));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -253,18 +242,23 @@ class Template{
 	public function setStatus($statusUser, $statusClose) {
 		$user = getCurrentUser();
 		
-		$query = "UPDATE template SET statusUser=" . $statusUser . ", statusClose=" . $statusClose . ", lastEditUser='" . $user->getUserId() .
-							"' WHERE templateID='" . $this->templateID . "'";
-		
-		
 		$db = connectToDB();
 		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			UPDATE template
+			SET statusUser = :statusUser,
+			    statusClose = :statusClose,
+			    lastEditUser = :lastEditUser
+			WHERE templateID = :templateID");
+
+		$result = $query->execute(array(
+			':statusUser'	=> $statusUser,
+			':statusClose'	=> $statusClose,
+			':lastEditUser'	=> $user->getUserId(),
+			':templateID'	=> $this->templateID));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -277,16 +271,15 @@ class Template{
 	}
 	
 	public function delete(){
-		$query = "DELETE FROM template WHERE templateID='" . $this->templateID . "'";
-		
 		$db = connectToDB();
 		
-		debug($query);
+		$query = $db->prepare("DELETE FROM template WHERE templateID = :templateID");
 		
-		$result = mysql_query($query, $db);
+		$result = $query->execute(array(
+			':templateID'	=> $this->templateID));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}

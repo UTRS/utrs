@@ -206,24 +206,24 @@ class Appeal extends Model {
 	public static function getAppealByID($id){
 		$db = connectToDB();
 		
-		$query = "
+		$query = $db->prepare("
 			SELECT " . self::getColumnsForSelect() . " FROM appeal
-			WHERE appealID = '" . (int)$id . "'";
+			WHERE appealID = :appealID");
+
+		$result = $query->execute(array(
+			':appealID'	=> $id));
 		
-		$result = mysql_query($query, $db);
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
-		if(mysql_num_rows($result) == 0){
+
+		$values = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if ($values === false) {
 			throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
 		}
-		if(mysql_num_rows($result) != 1){
-			throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for appeal ID ' . $id);
-		}
-		
-		$values = mysql_fetch_assoc($result);
 		
 		return new Appeal($values);
 	}
@@ -232,28 +232,25 @@ class Appeal extends Model {
 		if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {
 			$db = connectToDB();
 			
-			$query = "SELECT useragent FROM cuData WHERE appealID = " . $appealID . ";";
+			$query = $db->prepare("SELECT useragent FROM cuData WHERE appealID = :appealID");
 			
-			$result = mysql_query($query, $db);
+			$result = $query->execute(array(
+				':appealID'	=> $appealID));
+			
 			if(!$result){
-				$error = mysql_error($db);
+				$error = var_export($db->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
-			if(mysql_num_rows($result) == 0){
-				return null;
+
+			$values = $query->fetch(PDO::FETCH_ASSOC);
+			$query->closeCursor();
+
+			if ($values !== false) {
+				return $values['useragent'];
 			}
-			if(mysql_num_rows($result) != 1){
-				throw new UTRSDatabaseException('Please contact a tool developer. More '
-				. 'than one result was returned for appeal ID ' . $appealID);
-			}
-			
-			$values = mysql_fetch_assoc($result);
-			
-			return $values['useragent'];
-		} else {
-			return null;
 		}
-		
+
+		return null;
 	}
 	
 	public function insert(){
@@ -265,55 +262,63 @@ class Appeal extends Model {
 		
 		debug('Database connected <br/>');
 		
-		$query = 'INSERT INTO appeal (email, ip, ';
-		$query .= ($this->accountName ? 'wikiAccountName, ' : '');
-		$query .= 'autoblock, hasAccount, blockingAdmin, appealText, ';
-		$query .= 'intendedEdits, otherInfo, status) VALUES (';
-		$query .= '\'' . mysql_real_escape_string($this->emailAddress) . '\', ';
-		$query .= '\'' . $this->ipAddress . '\', ';
-		$query .= ($this->accountName ? '\'' . mysql_real_escape_string($this->accountName, $db) . '\', ' : '');
-		$query .= ($this->isAutoBlock ? '\'1\', ' : '\'0\', ');
-		$query .= ($this->hasAccount ? '\'1\', ' : '\'0\', ');
-		$query .= '\'' . mysql_real_escape_string($this->blockingAdmin, $db) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->appeal, $db) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->intendedEdits, $db) . '\', ';
-		$query .= '\'' . mysql_real_escape_string($this->otherInfo, $db) . '\', ';
-		$query .= '\'' . $this->status . '\')';
-		
-		debug($query . ' <br/>');
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			INSERT INTO appeal
+			(email, ip, wikiAccountName, autoblock, hasAccount,
+				blockingAdmin, appealText, intendedEdits,
+				otherInfo, status)
+			VALUES
+			(:email, :ip, :wikiAccountName, :autoblock, :hasAccount,
+				:blockingAdmin, :appealText, :intendedEdits,
+				:otherInfo, :status)");
+
+		$result = $query->execute(array(
+			':email'		=> $this->emailAddress,
+			':ip'			=> $this->ipAddress,
+			':wikiAccountName'	=> $this->accountName,
+			':autoblock'		=> (bool)$this->isAutoBlock,
+			':hasAccount'		=> (bool)$this->hasAccount,
+			':blockingAdmin'	=> $this->blockingAdmin,
+			':appealText'		=> $this->appeal,
+			':intendedEdits'	=> $this->intendedEdits,
+			':otherInfo'		=> $this->otherInfo,
+			':status'		=> $this->status));
+
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
 		debug('Insert complete <br/>');
 		
-		$this->appealID = mysql_insert_id($db);
+		$this->appealID = $db->lastInsertId();
 		
 		debug('Getting timestamp <br/>');
 		
-		$query = 'SELECT timestamp FROM appeal WHERE appealID = \'' . $this->appealID . '\'';
-		$result = mysql_query($query, $db);
-		$row = mysql_fetch_assoc($result);
+		$query = $db->prepare('SELECT timestamp FROM appeal WHERE appealID = :appealID');
 		
+		$result = $db->execute(array(
+			':appealID'	=> $this->appealID));
+
+		$row = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
 		$this->timestamp = $row["timestamp"];
 		
 		debug('Primary insert complete. Beginning useragent retrieval.<br/>');
+
+		$query = $db->prepare('
+			INSERT INTO cuData
+			(appealID, useragent)
+			VALUES (:appealID, :useragent)');
+
+		$result = $query->execute(array(
+			':appealID'	=> $this->appealID,
+			':useragent'	=> $_SERVER['HTTP_USER_AGENT']));
 		
-		$query = 'INSERT INTO cuData (appealID, useragent) VALUES (\'';
-		$query .= $this->appealID;
-		$query .= '\', \'';
-		$query .= $_SERVER['HTTP_USER_AGENT'];
-		$query .= '\')';
-		
-		$this->useragent = sanitizeText($_SERVER['HTTP_USER_AGENT']);
-		
-		$result = mysql_query($query, $db);
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -327,27 +332,22 @@ class Appeal extends Model {
 		$db = connectToDB();
 		
 		debug('connected to database');
-		
-		$query = "UPDATE appeal SET ";
-		if ($this->getHandlingAdminId() != null) {
-			$query .= "handlingAdmin = " . $this->getHandlingAdminId() . ", ";
-		} else {
-			$query .= "handlingAdmin = null, ";
-		}
-		if ($this->oldHandlingAdmin != null) {
-			$query .= "oldHandlingAdmin = " . $this->oldHandlingAdmin . ", ";
-		} else {
-			$query .= "oldHandlingAdmin = null, ";
-		}
-		$query .= "status = '" . $this->status . "' ";
-		$query .= "WHERE appealID = " . $this->appealID . ";";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare('
+			UPDATE appeal
+			SET handlingAdmin = :handlingAdmin,
+			    oldHandlingAdmin = :oldHandlingAdmin,
+			    status = :status
+			WHERE appealID = :appealID');
+
+		$result = $query->execute(array(
+			':handlingAdmin'	=> $this->getHandlingAdminId(),
+			':oldHandlingAdmin'	=> $this->oldHandlingAdmin,
+			':status'		=> $this->status,
+			':appealID'		=> $this->appealID));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -530,17 +530,26 @@ class Appeal extends Model {
 		
 		$db = connectToDB();
 		
-		$query = "SELECT COUNT(*) as count FROM appeal WHERE ip = '" . $ip . "' OR ip = '" . md5($ip) . "' OR MD5(ip) = '" . $ip . "';";
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare("
+			SELECT COUNT(*) as count
+			FROM appeal
+			WHERE ip = :ip
+			   OR ip = :md5ip
+			   OR MD5(ip) = :iptwo");
+
+		$result = $query->execute(array(
+			':ip'		=> $ip,
+			':md5ip'	=> md5($ip),
+			':iptwo'	=> $ip)); // This is bound twice on purpose. -- cdhowie
 		
 		if(!$result){
 			return 0;
-		} else {
-			$data = mysql_fetch_array($result);
-			return $data['count'];
 		}
+		
+		$count = $query->fetchColumn();
+		$query->closeCursor();
+
+		return $count;
 	}
 	
 	public function setStatus($newStatus){
@@ -603,12 +612,15 @@ class Appeal extends Model {
 		
 		$db = ConnectToDB();
 		
-		$query = "UPDATE appeal SET lastLogId = " . $log_id . " WHERE appealID = " . $this->appealID . ";";
-		
-		debug($query);
-		
-		mysql_query($query, $db);
-		
+		$query = $db->prepare("
+			UPDATE appeal
+			SET lastLogId = :lastLogId
+			WHERE appealID = :appealID");
+
+		$result = $query->execute(array(
+			':lastLogId'	=> $log_id,
+			':appealID'	=> $this->appealID));
+
 		$this->lastLogId = $log_id;
 	}
 }

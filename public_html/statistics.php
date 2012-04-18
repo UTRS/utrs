@@ -24,31 +24,32 @@ function getDBstatement($table, $field, $wildcard, $phrase, $userlevel) {
 		$db = connectToDB();
 		
 		if (isset($field) && $wildcard) {
-			$query = "SELECT * FROM `".$table."` WHERE `".$field."` LIKE '%'";
+			$query = "SELECT COUNT(*) FROM `".$table."` WHERE `".$field."` LIKE '%'";
 		}
 		else if (isset($field) && !$wildcard) {
-			$query = "SELECT * FROM `".$table."` WHERE `".$field."` = 1";
+			$query = "SELECT COUNT(*) FROM `".$table."` WHERE `".$field."` = 1";
 		}
 		else if (!isset($field) && !$wildcard) {
-			$query = "SELECT * FROM `".$table."`";
+			$query = "SELECT COUNT(*) FROM `".$table."`";
 		}
 		else {throw new UTRSDatabaseException("Error in configuration of SQL command with the table '".$table);
 		}
 		if (!isset($query)) {
 			throw new UTRSDatabaseException("No SQL Query set.");
 		}
+
+		$query = $db->query($query);
 		
-		mysql_query($query);
-		echo $phrase, mysql_affected_rows(), "<br>";
-		
-		debug($query . '<br/>');
-		
-		$result = mysql_query($query, $db);
-		if(!$result){
-			$error = mysql_error($db);
+		if($query === false){
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
+		
+		$count = $query->fetchColumn();
+		$query->closeCursor();
+
+		echo $phrase, $count, "<br>";
 		
 		debug('complete <br/>');
 	}

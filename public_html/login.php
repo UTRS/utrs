@@ -39,7 +39,7 @@ if(isset($_POST['login'])){
 
 		debug('User: ' . $user . '  Password hash: ' . $password . '<br/>');
 
-		$query = $db->prepare('SELECT passwordHash FROM user WHERE username = :username';
+		$query = $db->prepare('SELECT passwordHash FROM user WHERE username = :username');
 
 		$result = $query->execute(array(
 			':username'	=> $user));

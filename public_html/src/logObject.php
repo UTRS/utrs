@@ -231,9 +231,9 @@ class Log {
 
 		$query = $db->prepare("
 			INSERT INTO irc (notification, unblock)
-			VALUES (:notification, :unblock)'");
+			VALUES (:notification, :unblock)");
 
-		$result = $db->execute(array(
+		$result = $query->execute(array(
 			':notification'	=> $message,
 			':unblock'	=> $notify_unblock));
 

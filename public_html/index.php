@@ -5,7 +5,6 @@ ini_set('display_errors', 'On');
 
 require_once('recaptchalib.php');
 require_once('template.php');
-require_once('src/config.inc.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');

@@ -244,7 +244,6 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 ?>
 <script type="text/javascript">
 
-var closeTemplate = 16;
 var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br>" +
 						   "<b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br>" +
 						   "<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br>" +
@@ -256,10 +255,8 @@ var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal 
 						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"
 
 function doClose() {
-	var response = confirm("Do you want to send a response to the user?")
+	var response = confirm("Are you sure you want to close this appeal without sending a response?")
 	if (response) {
-		window.location='sendEmail.php?tid=' + closeTemplate + '&id=<?php echo $_GET['id']; ?>';
-	} else {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close';
 	}
 }

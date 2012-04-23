@@ -393,7 +393,7 @@ function getNumberAppealsClosedByUser($userId){
 		':handlingAdmin'	=> $userId));
 	
 	if(!$result){
-		$error = var_export($db->errorInfo(), true);
+		$error = var_export($query->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
@@ -417,7 +417,7 @@ function printUserLogs($userId){
 		':target'	=> $userId));
 	
 	if(!$result){
-		$error = var_export($db->errorInfo(), true);
+		$error = var_export($query->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}

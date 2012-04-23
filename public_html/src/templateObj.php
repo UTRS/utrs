@@ -72,7 +72,7 @@ class Template{
 			':statusClose'	=> $this->statusClose));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -91,7 +91,7 @@ class Template{
 			':templateID'	=> $id));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -158,7 +158,7 @@ class Template{
 			':templateID'	=> $this->templateID));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -193,7 +193,7 @@ class Template{
 			':templateID'	=> $this->templateID));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -228,7 +228,7 @@ class Template{
 			':templateID'	=> $this->templateID));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -258,7 +258,7 @@ class Template{
 			':templateID'	=> $this->templateID));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -279,7 +279,7 @@ class Template{
 			':templateID'	=> $this->templateID));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}

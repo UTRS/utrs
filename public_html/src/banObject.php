@@ -92,7 +92,7 @@ class Ban{
 			':banID'	=> $id));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -169,7 +169,7 @@ class Ban{
 			':isIP'		=> (bool)$this->isIP));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 		
@@ -215,7 +215,7 @@ class Ban{
 			':banID'	=> $this->banID));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 		
@@ -279,7 +279,7 @@ class Ban{
 		$result = $query->execute($params);
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -307,7 +307,7 @@ class Ban{
 		$result = $query->execute();
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 		

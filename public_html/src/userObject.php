@@ -83,7 +83,7 @@ class User{
 			':diff'		=> $this->diff));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -96,7 +96,7 @@ class User{
 			':username'	=> $this->username));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -124,7 +124,7 @@ class User{
 			':userID'	=> $id));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -147,7 +147,7 @@ class User{
 			':username'	=> $username));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -267,7 +267,7 @@ class User{
 			':userID'	=> $this->userId));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -297,7 +297,7 @@ class User{
 			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -312,7 +312,7 @@ class User{
 			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -350,7 +350,7 @@ class User{
 			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -382,7 +382,7 @@ class User{
 			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -415,7 +415,7 @@ class User{
 			':userID'	=> $this->userId));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -449,7 +449,7 @@ class User{
 			':userID'	=> $this->userId));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -469,7 +469,7 @@ class User{
 			':userID'	=> $this->getUserId()));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -496,7 +496,7 @@ class User{
 			':userID'	=> $this->getUserId()));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -513,7 +513,7 @@ class User{
 			':userID'	=> $this->getUserId()));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}

@@ -349,15 +349,15 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 </div>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
-<div class="info"><?php echo sanitizeText($appeal->getAppeal()); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
-<div class="info"><?php echo sanitizeText($appeal->getIntendedEdits()); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
-<div class="info"><?php echo sanitizeText($appeal->getOtherInfo()); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getAppeal()))); ?>)">Why do you believe you should be unblocked?</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">If you are unblocked, what articles do you intend to edit?</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getIntendedEdits())); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getOtherInfo()))); ?>)">Is there anything else you would like us to consider when reviewing your block?</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getOtherInfo())); ?></div>
 <br>
 </td>
 <td valign=top class="right">

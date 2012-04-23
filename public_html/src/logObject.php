@@ -63,7 +63,7 @@ class Log {
 			':appealID'	=> $id));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -102,7 +102,7 @@ class Log {
 			':action'	=> $action));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -132,7 +132,7 @@ class Log {
 			':comment'	=> $reply));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -234,7 +234,7 @@ class Log {
 			':unblock'	=> $notify_unblock));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 	}

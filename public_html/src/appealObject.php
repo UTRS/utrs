@@ -214,7 +214,7 @@ class Appeal extends Model {
 			':appealID'	=> $id));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -238,7 +238,7 @@ class Appeal extends Model {
 				':appealID'	=> $appealID));
 			
 			if(!$result){
-				$error = var_export($db->errorInfo(), true);
+				$error = var_export($query->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
 
@@ -285,7 +285,7 @@ class Appeal extends Model {
 			':status'		=> $this->status));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -298,7 +298,7 @@ class Appeal extends Model {
 		
 		$query = $db->prepare('SELECT timestamp FROM appeal WHERE appealID = :appealID');
 		
-		$result = $db->execute(array(
+		$result = $query->execute(array(
 			':appealID'	=> $this->appealID));
 
 		$row = $query->fetch(PDO::FETCH_ASSOC);
@@ -318,7 +318,7 @@ class Appeal extends Model {
 			':useragent'	=> $_SERVER['HTTP_USER_AGENT']));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -347,7 +347,7 @@ class Appeal extends Model {
 			':appealID'		=> $this->appealID));
 		
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}

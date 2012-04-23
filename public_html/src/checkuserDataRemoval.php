@@ -65,7 +65,7 @@ try{
 				':appealID'	=> $appeal['appealID']));
 
 			if(!$update){
-				$error = var_export($db->errorInfo(), true);
+				$error = var_export($obscure_appeal_stmt->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
 
@@ -74,7 +74,7 @@ try{
 				':appealID'	=> $appeal['appealID']));
 
 			if(!$delete){
-				$error = var_export($db->errorInfo(), true);
+				$error = var_export($delete_cudata_stmt->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
 

@@ -45,7 +45,7 @@ if(isset($_POST['login'])){
 			':username'	=> $user));
 
 		if($result === false){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}

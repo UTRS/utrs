@@ -47,7 +47,7 @@ if ($_POST || $_GET) {
 			':appealID'	=> $_GET['id']));
 
 		if(!$result){
-			$error = var_export($db->errorInfo(), true);
+			$error = var_export($query->errorInfo(), true);
 			throw new UTRSDatabaseException($error);
 		}
 
@@ -97,7 +97,7 @@ if ($_POST || $_GET) {
 	}
 
 	if(!$result){
-		$error = var_export($db->errorInfo(), true);
+		$error = var_export($query->errorInfo(), true);
 		throw new UTRSDatabaseException($error);
 	}
 

@@ -5,7 +5,7 @@ ini_set('session.use_cookies', '1');
 
 require_once('exceptions.php');
 require_once('userObject.php');
-require_once('src/config.inc.php');
+require_once(dirname(__FILE__) . '/config.inc.php');
 
 $GLOBALS['CHECKUSER'] = -1;
 $GLOBALS['APPROVED'] = 0;

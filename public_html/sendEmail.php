@@ -42,7 +42,8 @@ if ($appeal->getHandlingAdmin() == null ||
 $admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
 	displayError("<b>Access denied:</b> You must hold the reservation on appeal number " . $id . " to send an email to that user.");
 } else{
-$success = false;
+	$success = false;
+
 	if(isset($_POST['submit'])){
 		try{
 			if(!isset($_POST['emailText']) | strlen($_POST['emailText']) == 0){
@@ -99,6 +100,11 @@ $success = false;
 		catch(Exception $e){
 			$errors = $e->getMessage();
 		}
+	} elseif (isset($_POST['preview'])) {
+		$body = $_POST['emailText'];
+
+		$et = new EmailTemplates($admin, $appeal);
+		$preview_content = $et->apply_to($body);
 	}
 
 
@@ -108,6 +114,7 @@ $success = false;
 	}
 	else{
 		?>
+		<div>
 		<SELECT onChange="if (this.selectedIndex != 0) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>'}">
 		<?php
 			
@@ -119,36 +126,57 @@ $success = false;
 				
 			echo "<option value='-1'>Please select</option>";
 		
-			$rows = mysql_num_rows($templates);
-		
-			for ($i = 0; $i < $rows; $i++) {
-				$data = mysql_fetch_array($templates);
+			while (($data = $templates->fetch(PDO::FETCH_ASSOC)) !== false) {
 				echo "<option value='" . $data['templateID'] . "'>" . $data['name'] . "</option>";
 			}
+			$templates->closeCursor();
 		}
 		
 		?>
 		</SELECT>
+		</div>
 		<?php
+
+		if (isset($preview_content)) {
+			?>
+			<div class="mail-preview">
+				<div class="mail-preview-inner">
+					<h3>Rendered preview</h3>
+					<div class="info"><?php echo $preview_content ?></div>
+				</div>
+			</div>
+			<div class="mail-preview">
+				<div class="mail-preview-inner">
+					<h3>Raw HTML preview</h3>
+					<div class="info"><?php echo htmlspecialchars($preview_content) ?></div>
+				</div>
+			</div>
+			<?php
+		}
+
 		echo "<h3>Send an email to " . $appeal->getCommonName() . "</h3>\n";
 		if($errors){
 			displayError($errors);
 		}
 
-		
 		$template = null;
 		if(isset($_GET['tid'])){
 			$template = Template::getTemplateById($_GET['tid']);
+			$email_text = $template->getText();
+		}
+		
+		if (isset($_POST['emailText'])) {
+			$email_text = $_POST['emailText'];
 		}
 
 		echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id;
-		if($template){
+		if(isset($template)){
 			echo "&tid=" . $template->getId();
 		}
 		echo "\">\n"; // closes <form>
 		echo "<textarea name=\"emailText\" id=\"emailText\" rows=\"15\" cols=\"60\">";
-		if($template){
-			echo $template->getText();
+		if(isset($email_text)){
+			echo htmlspecialchars($email_text);
 		}
 		echo "</textarea>\n";
 		if ($template) {
@@ -165,6 +193,7 @@ $success = false;
 		}
 		echo "<input type=\"hidden\" name=\"template\" id=\"template\" value=\"" . $template->getName() . "\">";
 		echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Send Email\" />";
+		echo "<input type=\"submit\" name=\"preview\" id=\"preview\" value=\"Preview\" />";
 		echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";
 		echo "</form>";
 		echo "<p>The user will be given your UTRS username to say who sent the response, however " .

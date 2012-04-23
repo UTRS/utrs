@@ -37,17 +37,20 @@ class UserMgmtLog{
 		}
 		
 		$db = connectToDB();
+
+		$query = $db->prepare('
+			INSERT INTO userMgmtLog (action, reason, target, doneBy, hideTarget)
+			VALUES (:action, :reason, :target, :doneBy, :hideTarget)');
+
+		$result = $query->execute(array(
+			':action'	=> $logAction,
+			':reason'	=> $logReason,
+			':target'	=> $targetUserId,
+			':doneBy'	=> $doneByUserId,
+			':hideTarget'	=> $hideTarget));
 		
-		$query = 'INSERT INTO userMgmtLog (action, reason, target, doneBy, hideTarget) VALUES (';
-		$query .= '\'' . $logAction . '\', ';
-		$query .= '\'' . $logReason . '\', ';
-		$query .= '\'' . $targetUserId . '\', ';
-		$query .= '\'' . $doneByUserId . '\', ';
-		$query .= '\'' . $hideTarget . '\')';
-		
-		$result = mysql_query($query, $db);
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}

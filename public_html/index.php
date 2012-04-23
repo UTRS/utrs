@@ -11,8 +11,8 @@ require_once('src/appealObject.php');
 require_once('src/banObject.php');
 require_once('src/logObject.php');
 
-$publickey = $CONFIG['recaptcha']['publickey'];
-$privatekey = $CONFIG['recaptcha']['privatekey'];
+$publickey = @$CONFIG['recaptcha']['publickey'];
+$privatekey = @$CONFIG['recaptcha']['privatekey'];
 $captchaErr = null;
 $errorMessages = '';
 $appeal = null;
@@ -29,29 +29,33 @@ if(loggedIn()){
 	header("Location: " . getRootURL() . "home.php");
 }
 
+$success = false;
+
 // Handle submitted form
 if(isset($_POST["submit"])){
 	
 	debug('form submitted <br/>');
 	
 	try{
-		// verify captcha
-		$resp = recaptcha_check_answer($privatekey,
-				$_SERVER["REMOTE_ADDR"],
-				$_POST["recaptcha_challenge_field"],
-				$_POST["recaptcha_response_field"]);
-			
-		if(!$resp->is_valid) {
-			$captchaErr = $resp->error;
-			throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
+		if (isset($privatekey)) {
+			// verify captcha
+			$resp = recaptcha_check_answer($privatekey,
+					$_SERVER["REMOTE_ADDR"],
+					$_POST["recaptcha_challenge_field"],
+					$_POST["recaptcha_response_field"]);
+				
+			if(!$resp->is_valid) {
+				$captchaErr = $resp->error;
+				throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
+			}
+
+			debug('captcha valid <br/>');
 		}
 		
-		debug('captcha valid <br/>');
-		
 		$ip = Appeal::getIPFromServer();
-		$email = $_POST["email"];
-		$registered = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
-		$wikiAccount = (isset($_POST["accountName"]) ? $_POST["accountName"] : null);
+		$email = $_POST["appeal_email"];
+		$registered = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
+		$wikiAccount = (isset($_POST["appeal_wikiAccountName"]) ? $_POST["appeal_wikiAccountName"] : null);
 		 
 		$ban = Ban::isBanned($ip, $email, $wikiAccount);
 		if($ban){
@@ -71,13 +75,13 @@ if(isset($_POST["submit"])){
 			}
 			throw new UTRSCredentialsException($message);
 		}
-
-		Appeal::validate($_POST);
-		
-		debug('validation done <br/>');
 	
-		$appeal = new Appeal($_POST, false);
+		$appeal = new Appeal($_POST);
 		debug('object created <br/>');
+
+		$appeal->insert();
+
+		$success = true;
 		
 		$log = Log::getCommentsByAppealId($appeal->getID());
 		$log->addNewItem("Appeal Created", 1);
@@ -85,32 +89,20 @@ if(isset($_POST["submit"])){
 	}
 	catch(UTRSException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;
-		$email = $_POST["email"];
-		$blocker = $_POST["blockingAdmin"];
-		$appealText = sanitizeText($_POST["appeal"]);
-		$edits = sanitizeText($_POST["edits"]);
-		$otherInfo = sanitizeText($_POST["otherInfo"]);
-		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
-		$wikiAccount = $_POST["accountName"];
-		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
+		$hasAccount = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
+		$autoBlock = (isset($_POST["appeal_autoblock"]) ? ($_POST["appeal_autoblock"] ? true : false) : false);
 		// TODO: not sure how to include the other fields due to the javascript
 	}
 	catch(ErrorException $ex){
 		$errorMessages = $ex->getMessage() . $errorMessages;
-		$email = $_POST["email"];
-		$blocker = $_POST["blockingAdmin"];
-		$appealText = $_POST["appeal"];
-		$edits = $_POST["edits"];
-		$otherInfo = $_POST["otherInfo"];
-		$hasAccount = (isset($_POST["registered"]) ? ($_POST["registered"] ? true : false) : false);
-		$wikiAccount = $_POST["accountName"];
-		$autoBlock = (isset($_POST["autoBlock"]) ? ($_POST["autoBlock"] ? true : false) : false);
+		$hasAccount = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
+		$autoBlock = (isset($_POST["appeal_autoblock"]) ? ($_POST["appeal_autoblock"] ? true : false) : false);
 	}
 }
 
-skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
-var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"autoBlock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
-var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"accountName\\\" value=\\\"" . $wikiAccount . "\\\"/><br />\";
+skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
+var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
+var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function hasAccount(){
@@ -121,7 +113,7 @@ function hasAccount(){
 function noAccount() {
 	var span = document.getElementById(\"variableQuestionSection\");
 	span.innerHTML = desiredAccountInput;
-} " . (isset($_POST['registered']) ? "
+} " . (isset($_POST['appeal_hasAccount']) ? "
 
 window.onload = function ()
 {
@@ -159,30 +151,32 @@ how to receive assistance, please see those links.</p>
 if($errorMessages){
 	displayError($errorMessages);
 }
-if($appeal != null){
+if($success){
 	displaySuccess("Thank you! Your appeal has been accepted and will be reviewed soon.");
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
-echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="email" value="' . $email . '"/><br /><br />';
-echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="registered" value="1" onClick="hasAccount()" ' . (isset($_POST['registered']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="registered" value="0" onClick="noAccount()" ' . (isset($_POST['registered']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
+echo '<label id="emailLabel" for="accountName" class="required">What is your email address? We will need this to respond to your appeal.</label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
+echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
-echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, which administrator placed this block?</label>  <input id="blockingAdmin" type="text" name="blockingAdmin" value="' . $blocker . '"/><br /><br />';
+echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, which administrator placed this block?</label>  <input id="blockingAdmin" type="text" name="appeal_blockingAdmin" value="' . posted('appeal_blockingAdmin') . '"/><br /><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
-echo '<textarea id="appeal" name="appeal" rows="5" >' . $appealText . '</textarea><br /><br />';
+echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
-echo '<textarea id="edits" name="edits" rows="5" >' . $edits . '</textarea><br /><br />';
+echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
-echo '<textarea id="otherInfo" name="otherInfo" rows="3" >' . $otherInfo . '</textarea><br /><br />';
+echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
 
-echo '<span class="overridePre">';
-if($captchaErr == null){
-	echo recaptcha_get_html($publickey);
+if (isset($privatekey)) {
+	echo '<span class="overridePre">';
+	if($captchaErr == null){
+		echo recaptcha_get_html($publickey);
+	}
+	else{
+		echo recaptcha_get_html($publickey, $captchaErr);
+	}
+	echo '</span>';
 }
-else{
-	echo recaptcha_get_html($publickey, $captchaErr);
-}
-echo '</span>';
 
 echo '<p>By submitting this unblock request, you are consenting to allow us to collect information about ' .
      'your computer and that you agree with our <a href="privacy.php">Privacy Policy</a>.  This information ' .

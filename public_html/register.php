@@ -9,8 +9,8 @@ require_once('src/userObject.php');
 require_once('src/logObject.php');
 require_once('template.php');
 
-$publickey = $CONFIG['recaptcha']['publickey'];
-$privatekey = $CONFIG['recaptcha']['privatekey'];
+$publickey = @$CONFIG['recaptcha']['publickey'];
+$privatekey = @$CONFIG['recaptcha']['privatekey'];
 $captchaErr = null;
 $errorMessages = '';
 
@@ -34,18 +34,20 @@ if(isset($_POST["submit"])){
 		$useSecure = isset($_POST["useSecure"]);
 		$diff = $_POST["diff"];
 		
-		// verify captcha
-		$resp = recaptcha_check_answer($privatekey,
-				$_SERVER["REMOTE_ADDR"],
-				$_POST["recaptcha_challenge_field"],
-				$_POST["recaptcha_response_field"]);
+		if (isset($publickey)) {
+			// verify captcha
+			$resp = recaptcha_check_answer($privatekey,
+					$_SERVER["REMOTE_ADDR"],
+					$_POST["recaptcha_challenge_field"],
+					$_POST["recaptcha_response_field"]);
+				
+			if(!$resp->is_valid) {
+				$captchaErr = $resp->error;
+				$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
+			}
 			
-		if(!$resp->is_valid) {
-			$captchaErr = $resp->error;
-			$errorMessages = 'The response you provided to the captcha was not correct. Please try again.';
+			debug('captcha valid <br/>');
 		}
-		
-		debug('captcha valid <br/>');
 		
 		$username = TRIM($username);
 		$email = TRIM($email);
@@ -181,14 +183,16 @@ else{
 	echo '<center><small>(Link opens in a new window or tab)</small></center>';
 	echo '<label id="diffLabel" for="diff" class="required">Confirmation diff:</label> <input id="diff" name="diff" type="text" value="' . $diff . '"/><br/><br/>';
 	
-	echo '<span class="overridePre">';
-	if($captchaErr == null){
-		echo recaptcha_get_html($publickey);
+	if (isset($publickey)) {
+		echo '<span class="overridePre">';
+		if($captchaErr == null){
+			echo recaptcha_get_html($publickey);
+		}
+		else{
+			echo recaptcha_get_html($publickey, $captchaErr);
+		}
+		echo '</span>';
 	}
-	else{
-		echo recaptcha_get_html($publickey, $captchaErr);
-	}
-	echo '</span>';
 	
 	echo '<p>By registering an account, you are consenting to allow us to collect and store your email ' .
 	 'address and that you agree with the <a href="privacy.php">Privacy Policy</a>. We will not share ' .

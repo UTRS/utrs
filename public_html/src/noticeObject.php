@@ -142,39 +142,47 @@ class Notice{
 			}
 		}
 	}
-	
-	private function insert(){
-				
+
+	private function updateTime() {
 		$db = connectToDB();
-		
-		$query = "INSERT INTO sitenotice (message, author) VALUES ('" . 
-				mysql_escape_string($this->message) . "', '" . $this->author->getUserId() . "')";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("SELECT time FROM sitenotice WHERE messageID = :messageId");
+		$result = $query->execute(array(
+			':messageId'	=> $this->messageId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
-		$this->messageId = mysql_insert_id($db);
-		
-		$query = "SELECT time FROM sitenotice WHERE messageID='" . $this->messageId . "'";
-		
-		$result = mysql_query($query, $db);
-		
-		if(!$result){
-			$error = mysql_error($db);
-			debug('ERROR: ' . $error . '<br/>');
-			throw new UTRSDatabaseException($error);
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		if ($data === false) {
+			throw new UTRSDatabaseException('Sitenotice was added but could not be found.');
 		}
-		
-		$data = mysql_fetch_assoc($result);
 		
 		$this->lastEditTime = $data['time'];
+
+		$query->closeCursor();
+	}
+	
+	private function insert(){
+		$db = connectToDB();
+
+		$query = $db->prepare("INSERT INTO sitenotice (message, author) VALUES (:message, :author)");
+		$result = $query->execute(array(
+			':message'	=> $this->message,
+			':author'	=> $this->author->getUserId()));
+		
+		if(!$result){
+			$error = var_export($db->errorInfo(), true);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->messageId = $db->lastInsertId();
+
+		$this->updateTime();
 	}
 	
 	public function update($message){
@@ -182,49 +190,36 @@ class Notice{
 		
 		$db = connectToDB();
 		
-		$query = "UPDATE sitenotice SET message = '" . mysql_escape_string($message) . 
-			"', author = '" . getCurrentUser()->getUserId() . "' WHERE messageID = '" . 
-			$this->messageId . "'";
-		
-		debug($query);
-		
-		$result = mysql_query($query, $db);
+		$query = $db->prepare(
+			"UPDATE sitenotice SET message = :message, author = :author " .
+			"WHERE messageID = :messageId");
+
+		$result = $query->execute(array(
+			':message'	=> $message,
+			':author'	=> getCurrentUser()->getUserId(),
+			':messageId'	=> $this->messageId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
 		$this->message = $message;
 		$this->author = getCurrentUser();
-		
-		$query = "SELECT time FROM sitenotice WHERE messageID='" . $this->messageId . "'";
-		
-		$result = mysql_query($query, $db);
-		
-		if(!$result){
-			$error = mysql_error($db);
-			debug('ERROR: ' . $error . '<br/>');
-			throw new UTRSDatabaseException($error);
-		}
-		
-		$data = mysql_fetch_assoc($result);
-		
-		$this->lastEditTime = $data['time'];
+
+		$this->updateTime();
 	}
 	
 	public static function delete($messageId){
-		$query = "DELETE FROM sitenotice WHERE messageID='" . $messageId . "'";
-		
-		debug($query);
-		
 		$db = connectToDB();
-		
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("DELETE FROM sitenotice WHERE messageID = :messageId");
+		$result = $query->execute(array(
+			':messageId'	=> $messageId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
@@ -318,21 +313,26 @@ class Notice{
 	}
 	
 	public static function getNoticeById($messageId){
-		$query = "SELECT * FROM sitenotice WHERE messageId = '" . $messageId . "'";
-		
-		debug($query);
-		
 		$db = connectToDB();
-		
-		$result = mysql_query($query, $db);
+
+		$query = $db->prepare("SELECT * FROM sitenotice WHERE messageId = :messageId");
+		$result = $query->execute(array(
+			':messageId'	=> $messageId));
 		
 		if(!$result){
-			$error = mysql_error($db);
+			$error = var_export($db->errorInfo(), true);
 			debug('ERROR: ' . $error . '<br/>');
 			throw new UTRSDatabaseException($error);
 		}
 		
-		return new Notice(mysql_fetch_assoc($result), true);
+		$row = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+		if ($row === false) {
+			throw new UTRSDatabaseException("No sitenotice with ID $messageId.");
+		}
+
+		return new Notice($row, true);
 	}
 }
 

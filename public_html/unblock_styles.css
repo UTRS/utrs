@@ -218,11 +218,11 @@ table.appealList td{
 	padding-right: 3px;
 }
 
-tr.odd{
+table.appealList tr:nth-child(odd){
 	background: inherit;
 }
 
-tr.even{
+table.appealList tr:nth-child(even){
 	background: #EBEBEB !important;
 }
 
@@ -237,15 +237,16 @@ tr.even{
 div.info {
 	padding: 10px;
 	border: 1px solid #ddd;
-	width:95%;
 	background:#fff;
 	height: 105px;
 	overflow-y: scroll;
+	word-wrap: break-word;
 }
 
 table.appeal {
 	height:100%;
 	width:100%;
+        table-layout:fixed;
 }
 
 td.left {
@@ -286,6 +287,38 @@ div.comments {
 	height: 20px;
 	text-align: right;	
 }
+
+
+.linklist{
+	margin: 0;
+	padding:0;
+}
+
+.linklist ul{
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+
+.linklist ul li:before {
+content: "| ";
+}
+
+.linklist ul li:first-child{
+	font-weight: bold;
+}
+
+.linklist ul li:first-child:before{
+	content: "";
+}
+ 
+.linklist ul li{
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+
 
 #contextContent {
 	padding: 10px;
@@ -407,11 +440,11 @@ th.sitenoticeLinkHeader{
 	color: #EFEFEF !important;
 }
 
-tr.sitenoticeEven{
+table.sitenoticeTable tr:nth-child(even){
 	background-color:#F8FCFF;
 }
 
-tr.sitenoticeOdd{
+table.sitenoticeTable tr:nth-child(odd){
 	background-color:#EBEBEB;
 }
 
@@ -510,4 +543,18 @@ tr.sitenoticeOdd{
    border: 1px #000000 dotted;
    height: 30px;
    font-weight: bold;
+}
+
+.mail-preview {
+	font-size: small;
+	float: left;
+	width: 50%;
+}
+
+.mail-preview-inner {
+	padding: 1em;
+}
+
+.mail-preview .info {
+	height: 210px;
 }

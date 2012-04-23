@@ -10,19 +10,18 @@ $sitenoticeText = "";
 
 if($loggedIn){
 	try{
-		$query = "SELECT message FROM sitenotice ORDER BY messageID ASC";
 		$db = connectToDB();
-		$result = mysql_query($query, $db);
-		if(!$result){
-			throw new UTRSDatabaseException(mysql_error($db));
+		$query = $db->query("SELECT message FROM sitenotice ORDER BY messageID ASC");
+		if($query === false){
+			$error = var_export($db->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
 		}
-		$rows = mysql_num_rows($result);
-		if($rows != 0){
-			for($i = 0; $i < $rows; $i++){
-				$message = mysql_fetch_assoc($result);
-				$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
-			}
+
+		while (($message = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+			$sitenoticeText .= "<li>" . Notice::format($message['message']) . "</li>";
 		}
+
+		$query->closeCursor();
 	}
 	catch(UTRSException $e){
 		$sitenoticeText = "<li>An error occured when getting the sitenotice: " . $e->getMessage() . "</li>\n";
@@ -34,12 +33,13 @@ if($loggedIn){
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
-<link rel="stylesheet" href="unblock_styles.css">
+<link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
 <title>Unblock Ticket Request System - Register an Account</title>
 <?php if($script){
 	echo "<script type=\"text/javascript\">" . $script . "</script>";
 }
 ?>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >

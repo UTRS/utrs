@@ -19,10 +19,10 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 	$db = connectToDB();
 	
 	if ($timestamp == 0) {
-		$query = "SELECT appeal.appealID, wikiAccountName, ip FROM appeal";
+		$query = "SELECT " . Appeal::getColumnsForSelect() . " FROM appeal";
 	} else {
-		$query = "SELECT *, l.timestamp FROM appeal,";
-		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) l";
+		$query = "SELECT " . Appeal::getColumnsForSelect() . ", l.timestamp FROM appeal,";
+		$query .= " (SELECT appealID, MAX(timestamp) as timestamp FROM comment GROUP BY appealID) AS l";
 	}
 	$query .= " WHERE";
 	//Parse all of the criteria
@@ -42,16 +42,16 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 	}
 	
 	debug($query);
+
+	$query = $db->query($query);
 	
-	$result = mysql_query($query, $db);
-	
-	if(!$result){
-		$error = mysql_error($db);
+	if($query === false){
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
 	
-	return $result;
+	return $query;
 }
 
 /**
@@ -66,43 +66,34 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 	$secure = $currentUser->getUseSecure();
 	
 	// get rows from DB. Throws UTRSDatabaseException
-	$result = queryAppeals($criteria, $limit, $orderby, $timestamp);
+	$query = queryAppeals($criteria, $limit, $orderby, $timestamp);
 	
-	$rows = mysql_num_rows($result);
-	
-	//If there are no new unblock requests
-	if ($rows == 0) {
-		$norequests = "<b>No unblock requests in queue</b>";
-		return $norequests;
-	} else {
-		$requests = "<table class=\"appealList\">";
-		//Begin formatting the unblock requests
-		for ($i=0; $i < $rows; $i++) {
-			//Grab the rowset
-			$data = mysql_fetch_array($result);
-			$appeal = Appeal::getAppealById($data['appealID']);
-			
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
-			if ($timestamp == 1) {
-				$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
-			}
-			$requests .= "\t</tr>\n";
+	$requests = "<table class=\"appealList\">";
+	$foundone = false;
+
+	//Begin formatting the unblock requests
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
+
+		$appeal = new Appeal($data);
+		
+		$requests .= "\t<tr>\n";
+		$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
+		$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
+		$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:".$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+		if ($timestamp == 1) {
+			$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
 		}
-		
-		$requests .= "</table>";
-		
-		return $requests;
+		$requests .= "\t</tr>\n";
 	}
+
+	$query->closeCursor();
+
+	if (!$foundone) {
+		return "<b>No unblock requests in queue</b>";
+	}
+
+	return $requests . "</table>";
 }
 
 /**
@@ -166,50 +157,37 @@ function printRecentClosed() {
 	$query .= " ORDER BY l.timestamp DESC LIMIT 0,5";
 	*/
 	
-	$query = "SELECT a.appealID, a.wikiAccountName, a.ip, c.timestamp";
-	$query .= " FROM appeal a, comment c";
-	$query .= " WHERE a.lastLogId = c.commentID";
-	$query .= " AND c.comment = 'Closed'";
-	$query .= " ORDER BY c.timestamp DESC LIMIT 0,5;";
-	
-	
-	// get rows from DB. Throws UTRSDatabaseException
-	$result = mysql_query($query, $db);
-	
-	$rows = mysql_num_rows($result);
-	
-	//If there are no new unblock requests
-	if ($rows == 0) {
-		$norequests = "<b>No unblock requests in queue</b>";
-		return $norequests;
-	} else {
-		$requests = "<table class=\"appealList\">";
-		//Begin formatting the unblock requests
-		for ($i=0; $i < $rows; $i++) {
-			//Grab the rowset
-			$data = mysql_fetch_array($result);
-			$appealId = $data['appealID'];
-			
-			$appeal = Appeal::getAppealById($data['appealID']);
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
-			$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
-			$requests .= "\t</tr>\n";
-		}
+	$query = $db->query("
+		SELECT " . Appeal::getColumnsForSelect('a') . ", c.timestamp
+		FROM appeal AS a, comment AS c
+		WHERE a.lastLogId = c.commentID
+		  AND c.comment = 'Closed'
+		ORDER BY c.timestamp DESC LIMIT 0,5;");
+
+	$requests = "<table class=\"appealList\">";
+	$foundone = false;
+
+	//Begin formatting the unblock requests
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
 		
-		$requests .= "</table>";
-		
-		return $requests;
+		$appeal = new Appeal($data);
+					
+		$requests .= "\t<tr>\n";
+		$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
+		$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
+		$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" . $appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+		$requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
+		$requests .= "\t</tr>\n";
 	}
+
+	$query->closeCursor();
+
+	if (!$foundone) {
+		return "<b>No unblock requests in queue</b>";
+	}
+
+	return $requests . "</table>";
 }
 
 function printBacklog() {
@@ -236,50 +214,38 @@ function printBacklog() {
 	$query .= " ORDER BY last_action ASC;";
 	*/
 	
-	$query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), c.timestamp) as since_last_action";
-	$query .= " FROM appeal a, comment c";
-	$query .= " WHERE a.lastLogId = c.commentID";
-	$query .= " AND c.comment != 'Closed'";
-	$query .= " AND DateDiff(Now(), c.timestamp) > 7";
-	$query .= " ORDER BY c.timestamp ASC";
+	$query = $db->query("
+		SELECT DISTINCT " . Appeal::getColumnsForSelect('a') . ", DateDiff(Now(), c.timestamp) AS since_last_action
+		FROM appeal AS a, comment AS c
+		WHERE a.lastLogId = c.commentID
+		  AND c.comment != 'Closed'
+		  AND DateDiff(Now(), c.timestamp) > 7
+		ORDER BY c.timestamp ASC");
 	
+	$requests = "<table class=\"appealList\">";
+	$foundone = false;
 	
-	// get rows from DB. Throws UTRSDatabaseException
-	$result = mysql_query($query, $db);
-	
-	$rows = mysql_num_rows($result);
-	
-	//If there are no new unblock requests
-	if ($rows == 0) {
-		$norequests = "<b>No unblock requests in queue</b>";
-		return $norequests;
-	} else {
-		$requests = "<table class=\"appealList\">";
-		//Begin formatting the unblock requests
-		for ($i=0; $i < $rows; $i++) {
-			//Grab the rowset
-			$data = mysql_fetch_array($result);
-			$appealId = $data['appealID'];
-			$appeal = Appeal::getAppealById($data['appealID']);
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-				
-			$requests .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-			$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
-			$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($appeal->getUserPage(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
-			$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
-			$requests .= "\t</tr>\n";
-		}
-	
-		$requests .= "</table>";
-	
-		return $requests;
+	//Begin formatting the unblock requests
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
+
+		$appeal = new Appeal($data);
+
+		$requests .= "\t<tr>\n";
+		$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
+		$requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
+		$requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" .$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
+		$requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
+		$requests .= "\t</tr>\n";
 	}
+
+	$query->closeCursor();
+
+	if (!$foundone) {
+		return "<b>No unblock requests in queue</b>";
+	}
+
+	return $requests . "</table>";
 }
 
 function printReviewer() {
@@ -344,15 +310,15 @@ function queryUsers(array $criteria = array(), $limit = "", $orderby = ""){
 	
 	debug($query);
 	
-	$result = mysql_query($query, $db);
+	$query = $db->query($query);
 	
-	if(!$result){
-		$error = mysql_error($db);
+	if($query === false){
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
 	
-	return $result;
+	return $query;
 }
 
 function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
@@ -361,39 +327,32 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 	
 	$result = queryUsers($criteria, $limit, $orderBy);
 	
-	$rows = mysql_num_rows($result);
+	$list = "<table class=\"appealList\">";
+	$foundone = false;
 	
-	if($rows == 0){
-		echo "<b>No users meet this criteria.</b>";
+	//Begin formatting the unblock requests
+	while (($data = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
+
+		$userId = $data['userID'];
+		$username = $data['username'];
+		$wikiAccount = "User:" . $data['wikiAccount'];
+					
+		$list .= "\t<tr>\n";
+		$list .= "\t\t<td>" . $userId . ".</td>\n";
+		$list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
+		$list .= "\t\t<td>" . $username . "</td>\n";
+		$list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "' target='_NEW'>" . $wikiAccount . "</a></td>\n";
+		$list .= "\t</tr>\n";
 	}
-	else{
-		$list = "<table class=\"appealList\">";
-		//Begin formatting the unblock requests
-		for ($i=0; $i < $rows; $i++) {
-			//Grab the rowset
-			$data = mysql_fetch_array($result);
-			$userId = $data['userID'];
-			$username = $data['username'];
-			$wikiAccount = "User:" . $data['wikiAccount'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$list .= "\t\t<td>" . $userId . ".</td>\n";
-			$list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
-			$list .= "\t\t<td>" . $username . "</td>\n";
-			$list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink($wikiAccount, $secure) . "' target='_NEW'>" . $wikiAccount . "</a></td>\n";
-			$list .= "\t</tr>\n";
-		}
-		
-		$list .= "</table>";
-		
-		return $list;
+
+	$result->closeCursor();
+
+	if (!$foundone) {
+		return "<b>No users meet this criteria.</b>";
 	}
+
+	return $list . "</table>";
 }
 
 function printUnapprovedAccounts(){
@@ -421,22 +380,28 @@ function printDevelopers(){
 }
 
 function getNumberAppealsClosedByUser($userId){
-	$query = "SELECT COUNT(*) AS numClosed FROM appeal WHERE status = '" . Appeal::$STATUS_CLOSED . 
-			 "' AND handlingAdmin = '" . $userId . "'";
-	
 	$db = connectToDB();
-	
-	$result = mysql_query($query, $db);
+
+	$query = $db->prepare("
+		SELECT COUNT(*) AS numClosed
+		FROM appeal
+		WHERE status = :status
+		  AND handlingAdmin = :handlingAdmin");
+
+	$result = $query->execute(array(
+		':status'		=> Appeal::$STATUS_CLOSED,
+		':handlingAdmin'	=> $userId));
 	
 	if(!$result){
-		$error = mysql_error($db);
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
 	
-	$data = mysql_fetch_assoc($result);
+	$count = $query->fetchColumn();
+	$query->closeCursor();
 	
-	return $data['numClosed'];
+	return $count;
 }
 
 function printUserLogs($userId){
@@ -446,128 +411,104 @@ function printUserLogs($userId){
 	
 	$db = connectToDB();
 	
-	$query = "SELECT * FROM userMgmtLog WHERE target='" . $userId . "'";
+	$query = $db->prepare("SELECT * FROM userMgmtLog WHERE target = :target");
 	
-	debug($query);
-	
-	$result = mysql_query($query, $db);
+	$result = $query->execute(array(
+		':target'	=> $userId));
 	
 	if(!$result){
-		$error = mysql_error($db);
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
 	
-	$rows = mysql_num_rows($result);
+	$target = User::getUserById($userId);
+
+	$list = "<table class=\"appealList\">";
+	$foundone = false;
 	
+	//Begin formatting the logs
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
+
+		$doneById = $data['doneBy'];
+		$doneBy = User::getUserById($doneById);
+		$timestamp = $data['timestamp'];
+		$action = $data['action'];
+		$reason = $data['reason'];
+		$hideTarget = $data['hideTarget'];
+					
+		$list .= "\t<tr>\n";
+		$list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
+		$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
+					($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
+		$list .= "\t</tr>\n";
+	}
+
+	$query->closeCursor();
+
 	// shouldn't happen, but meh
-	if($rows == 0){
-		echo "<b>No logs exist for this user.</b>";
+	if (!$foundone) {
+		return "<b>No logs exist for this user.</b>";
 	}
-	else{
-		$target = User::getUserById($userId);
-		$list = "<table class=\"appealList\">";
-		//Begin formatting the logs
-		for ($i=0; $i < $rows; $i++) {
-			//Grab the rowset
-			$data = mysql_fetch_array($result);
-			$doneById = $data['doneBy'];
-			$doneBy = User::getUserById($doneById);
-			$timestamp = $data['timestamp'];
-			$action = $data['action'];
-			$reason = $data['reason'];
-			$hideTarget = $data['hideTarget'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
-			$list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
-						($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
-			$list .= "\t</tr>\n";
-		}
-		
-		$list .= "</table>";
-		
-		return $list;
-	}
+
+	return $list . "</table>";
 }
 
 function printTemplateList(){
-	
 	$db = connectToDB();
 	
-	$query = "SELECT templateID, name FROM template";
+	$query = $db->query("SELECT templateID, name FROM template");
 	
-	debug($query);
-	
-	$result = mysql_query($query, $db);
-	
-	if(!$result){
-		$error = mysql_error($db);
+	if($query === false){
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
 	
-	$rows = mysql_num_rows($result);
+	$user = getCurrentUser();
+
+	$list = "<table class=\"appealList\">";
+	$foundone = false;
 	
-	// shouldn't happen, but meh
-	if($rows == 0){
-		echo "<b>No templates currently exist.</b>";
-	}
-	else{
-		$user = getCurrentUser();
-		$list = "<table class=\"appealList\">";
-		//Begin formatting the logs
-		for ($i=0; $i < $rows; $i++) {
-			//Grab the rowset
-			$data = mysql_fetch_array($result);
-			$id = $data['templateID'];
-			$name = $data['name'];
-			//Determine if it's an odd or even row for formatting
-			if ($i % 2) {
-				$rowformat = "even";
-			} else {
-				$rowformat = "odd";
-			}
-			
-			$list .= "\t<tr class=\"" . $rowformat . "\">\n";
-			$list .= "\t\t<td>" . $name . "</td>\n";
-			$list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
-			if(verifyAccess($GLOBALS['ADMIN'])){
-				$list .= "Edit";
-			}
-			else{
-				$list .= "View";
-			}
-			$list .= "</a></td>\n\t</tr>\n";
+	//Begin formatting the logs
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
+
+		$id = $data['templateID'];
+		$name = $data['name'];
+					
+		$list .= "\t<tr>\n";
+		$list .= "\t\t<td>" . $name . "</td>\n";
+		$list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
+		if(verifyAccess($GLOBALS['ADMIN'])){
+			$list .= "Edit";
 		}
-		
-		$list .= "</table>";
-		
-		return $list;
+		else{
+			$list .= "View";
+		}
+		$list .= "</a></td>\n\t</tr>\n";
 	}
+
+	$query->closeCursor();
+
+	if (!$foundone) {
+		return "<b>No templates currently exist.</b>";
+	}
+
+	return $list . "</table>";
 }
 
 function printLastThirtyActions() {
-	
 	$db = connectToDB();
 	
-	$sql = "SELECT * FROM comment WHERE action = 1 ORDER BY timestamp DESC LIMIT 0,30;";
+	$query = $db->query("SELECT * FROM comment WHERE action = 1 ORDER BY timestamp DESC LIMIT 0,30;");
 	
-	$query = mysql_query($sql, $db);
-	
-	if(!$query){
-		$error = mysql_error($db);
+	if($query === false){
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
-	
-	$num_rows = mysql_num_rows($query);
 	
 	$HTMLOutput = "";
 
@@ -579,11 +520,13 @@ function printLastThirtyActions() {
 	$HTMLOutput .= "<th class=\"logLargeTimeHeader\">Timestamp</th>";
 	$HTMLOutput .= "</tr>";
 
-	for ($i = 0; $i < $num_rows; $i++) {
+	$i = 0;
+
+	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$styleUser = ($i%2 == 1) ? "largeLogUserOne" : "largeLogUserTwo";
 		$styleAction = ($i%2 == 1) ? "largeLogActionOne" : "largeLogActionTwo";
 		$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
-		$data = mysql_fetch_array($query);
+
 		$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
 		$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
 		$italicsStart = ($data['action']) ? "<i>" : "";
@@ -601,7 +544,11 @@ function printLastThirtyActions() {
 		$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . str_replace("\\r\\n", "<br>", $data['comment']) . $italicsEnd . "</td>";
 		$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $timestamp . "</td>";
 		$HTMLOutput .= "</tr>";
+
+		$i++;
 	}
+
+	$query->closeCursor();
 
 	$HTMLOutput .= "</table>";
 	
@@ -609,24 +556,23 @@ function printLastThirtyActions() {
 }
 
 function printSitenoticeMessages(){
-	$query = "SELECT messageID, LEFT(message, 64) AS summary, CHAR_LENGTH(message) AS length " .
-			"FROM sitenotice ORDER BY messageID ASC";
-	
 	$db = connectToDB();
 	
-	$result = mysql_query($query, $db);
+	$query = $db->query("
+		SELECT
+			 messageID,
+			 LEFT(message, 64) AS summary,
+			 CHAR_LENGTH(message) AS length
+		FROM sitenotice
+		ORDER BY messageID ASC");
 	
-	if(!$result){
-		$error = mysql_error($db);
+	if($query === false){
+		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
 	
-	$rows = mysql_num_rows($result);
-	
-	if($rows == 0){
-		return "<b>There are currently no sitenotice messages.</b>";
-	}
+	$foundone = false;
 	
 	$table = "<table class=\"sitenoticeTable\">\n";
 	$table .= "<tr>\n";
@@ -636,9 +582,10 @@ function printSitenoticeMessages(){
 	$table .= "<th class=\"sitenoticeLinkHeader\">&nbsp;</th>\n";
 	$table .= "</tr>";
 	
-	for($i = 0; $i < $rows; $i++){
-		$rowData = mysql_fetch_assoc($result);
-		$table .= "<tr class=\"sitenotice" . ($i % 2 == 1 ? "Odd" : "Even") . "\">\n";
+	while (($rowData = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+		$foundone = true;
+
+		$table .= "<tr>\n";
 		$table .= "<td style=\"text-align:center;\">" . $rowData['messageID'] . "</td>\n";
 		$table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 64 ? " ..." : "") . "\"</td>\n";
 		$table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?id=" . 
@@ -647,9 +594,13 @@ function printSitenoticeMessages(){
 			$rowData['messageID'] . "\">Delete</a></td>\n";
 		$table .= "</tr>\n";
 	}
+
+	$query->closeCursor();
+
+	if(!$foundone){
+		return "<b>There are currently no sitenotice messages.</b>";
+	}
 	
-	$table .= "</table>\n";
-	
-	return $table;
+	return $table . "</table>\n";
 }
 ?>

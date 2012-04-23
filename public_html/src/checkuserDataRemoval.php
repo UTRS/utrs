@@ -23,38 +23,61 @@ try{
 		
 	echo "Running query: " . $query . "\n";
 
-	$result = mysql_query($query, $db);
+	$stmt = $db->query($query);
 
-	if(!$result){
-		throw new UTRSDatabaseException(mysql_error($db));
+	if($stmt === false){
+		$error = var_export($db->errorInfo(), true);
+		throw new UTRSDatabaseException($error);
 	}
-	$rows = mysql_num_rows($result);
+
+	$results = $stmt->fetchAll(PDO::FETCH_BOTH);
+	$stmt->closeCursor();
+
+	$rows = count($results);
+
 	if($rows == 0){
 		echo "There are no recently closed appeals that need data removed.\n";
 	}
 	else{
+		echo "Preparing statements...\n";
+
+		$obscure_appeal_stmt = $db->prepare("
+			UPDATE appeal
+			SET email = NULL,
+			    ip = :ip
+			WHERE appealID = :appealID");
+
+		$delete_cudata_stmt = $db->prepare("
+			DELETE FROM cuData
+			WHERE appealID = :appealID");
 
 		echo "Getting appeal IDs from " . $rows . " appeals...\n";
 
 		echo "Starting to remove private data...\n";
 
-		for($i = 0; $i < $rows; $i++){
-			$appeal = mysql_fetch_array($result);
+		foreach ($results as $appeal) {
 			echo "Processing appeal #" . $appeal['appealID'] . "\n";
-			
-			$query = "UPDATE appeal SET email = NULL, ip = '" . md5($appeal['ip']) . "' WHERE appealID = '" . $appeal['appealID'] . "'";
-			echo "\tRunning query: " . $query . "\n";
-			$update = mysql_query($query, $db);
+
+			echo "\tObscuring IP address and blanking email address...\n";
+
+			$update = $obscure_appeal_stmt->execute(array(
+				':ip'	=> md5($appeal['id']),
+				':appealID'	=> $appeal['appealID']));
+
 			if(!$update){
-				throw new UTRSDatabaseException(mysql_error($db));
+				$error = var_export($db->errorInfo(), true);
+				throw new UTRSDatabaseException($error);
 			}
-			// else
-			$query = "DELETE FROM cuData WHERE appealID = '" . $appeal['appealID'] . "'";
-			echo "\tRunning query: " . $query . "\n";
-			$delete = mysql_query($query, $db);
+
+			echo "\tDeleting CU data...\n";
+			$delete = $delete_cudata_stmt->execute(array(
+				':appealID'	=> $appeal['appealID']));
+
 			if(!$delete){
-				throw new UTRSDatabaseException(mysql_error($db));
+				$error = var_export($db->errorInfo(), true);
+				throw new UTRSDatabaseException($error);
 			}
+
 			echo "Appeal #" . $appeal['appealID'] . " complete.\n";
 		}
 	}

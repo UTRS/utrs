@@ -422,4 +422,8 @@ function censorEmail($email){
 	return $email;
 }
 
+function getHeadCommit() {
+	return @trim(@`git rev-parse HEAD`);
+}
+
 ?>

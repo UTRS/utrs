@@ -131,7 +131,8 @@ users with the <a href="http://en.wikipedia.org/wiki/Wikipedia:Appealing_a_block
 This project is licensed under the
 <a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later</a>.<br />
 For questions or assistance with the Unblock Ticket Request System, please email our development team at
-<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a>.</p>
+<a href="mailto:unblock@toolserver.org">unblock&#64;toolserver.org</a>.<br />
+Version <?php echo getHeadCommit() ?>.</p>
 </div>
 </body>
 </html>

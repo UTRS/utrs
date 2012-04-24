@@ -229,8 +229,10 @@ function connectToDB($suppressOutput = false){
  *  as an associative array.
  */
 function getWikiLink($basepage, $useSecure = false, array $queryOptions = array()){
-	//trigger_error("basepage: $basepage");
-	//trigger_error("url encoded: " .urlencode($basepage));
+	// MediaWiki doesn't properly decode +, so turn spaces into _ before
+	// urlencode gets a chance to turn them into +.
+	$basepage = str_replace(' ', '_', $basepage);
+
 	$prefix = $useSecure ? "https:" : "http:";
 	$url = sprintf("%s//en.wikipedia.org/wiki/%s", $prefix, urlencode($basepage));
 	$first = true;

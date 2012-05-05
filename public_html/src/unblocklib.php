@@ -111,7 +111,7 @@ function getLoggedInUsers(){
 	
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$user = User::getUserById($data['userID']);
-		$users[] = $user->getUsername();
+		$users[] = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
 	}
 	
 	return implode(', ', $users);

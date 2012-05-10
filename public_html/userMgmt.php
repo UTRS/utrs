@@ -45,9 +45,10 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 					        "has been deactivated.");
 		}
 		// check credentials (unlikely someone will spoof the POST header, but just in case)
-		if((($newCheckuser != $checkuser) || ($newCheckuser != $developer)) && (!$user->isCheckuser() || !$user->isDeveloper())){
+		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() || !$user->isDeveloper())){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					        "changes. The checkuser flag may only be changed by developers or checkusers. ");
+					        "changes. The checkuser flag may only be changed by developers who also have the " .
+					        "checkuser flag.");
 		}
 		if(($newDeveloper != $developer) & !$user->isDeveloper()){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
@@ -254,7 +255,7 @@ echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"develop
      ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr>";
 echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr></table>";
+     ($user->isDeveloper() & $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr></table>";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";

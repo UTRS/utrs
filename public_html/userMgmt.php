@@ -45,7 +45,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 					        "has been deactivated.");
 		}
 		// check credentials (unlikely someone will spoof the POST header, but just in case)
-		if((($newCheckuser != $checkuser) || ($newCheckuser != $developer)) && (!$user->isCheckuser() || !$user->isDeveloper())){
+		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() && !$user->isDeveloper())){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
 					        "changes. The checkuser flag may only be changed by developers or checkusers. ");
 		}

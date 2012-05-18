@@ -528,7 +528,12 @@ function printLastThirtyActions() {
 		$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
 
 		$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
-		$username = ($data['commentUser']) ? User::getUserById($data['commentUser'])->getUserName() : Appeal::getAppealByID($data['appealID'])->getCommonName();
+		if ($data['commentUser']) {
+			$user = User::getUserById($data['commentUser']);
+			$username = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
+		} else {
+			$username = Appeal::getAppealByID($data['appealID'])->getCommonName();
+		}
 		$italicsStart = ($data['action']) ? "<i>" : "";
 		$italicsEnd = ($data['action']) ? "</i>" : "";
 		$appeal = "<a href=\"appeal.php?id=" . $data['appealID'] . "\">" . Appeal::getAppealById($data['appealID'])->getCommonName() . "</a>";

@@ -127,6 +127,11 @@ window.onload = function ()
 ?>
 <center><b>Welcome to the Unblock Ticket Request System.</b>
 <div id="inputBox">
+<?php
+if($success){
+	displaySuccess("Thank you! Your appeal has been accepted and will be reviewed soon.");
+} else {
+?>
 <p>If you are presently blocked from editing on Wikipedia (which you may verify by 
 clicking <a href="http://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=edit">here</a>), you may fill out
 the form below to have an administrator review your block. Please complete all fields labelled in 
@@ -150,9 +155,6 @@ how to receive assistance, please see those links.</p>
 <?php 
 if($errorMessages){
 	displayError($errorMessages);
-}
-if($success){
-	displaySuccess("Thank you! Your appeal has been accepted and will be reviewed soon.");
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
@@ -186,6 +188,8 @@ echo '<p>By submitting this unblock request, you are consenting to allow us to c
 
 echo '<input type="submit" name="submit" value="Submit Appeal"/>';
 echo '</form>';
+
+} /* !$success */
 ?>
 
 <p>Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace "your reason here" with your appeal.</p>

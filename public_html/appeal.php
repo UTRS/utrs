@@ -244,7 +244,6 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 ?>
 <script type="text/javascript">
 
-var closeTemplate = 16;
 var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br>" +
 						   "<b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br>" +
 						   "<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br>" +
@@ -256,10 +255,8 @@ var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal 
 						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"
 
 function doClose() {
-	var response = confirm("Do you want to send a response to the user?")
+	var response = confirm("Are you sure you want to close this appeal without sending a response?")
 	if (response) {
-		window.location='sendEmail.php?tid=' + closeTemplate + '&id=<?php echo $_GET['id']; ?>';
-	} else {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close';
 	}
 }
@@ -352,15 +349,15 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 </div>
 <?php } ?>
 <?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIP() . " " . $appeal->getUserAgent()); ?>')">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
 <?php }?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getAppeal()); ?>')">Why do you believe you should be unblocked?</a></h3>
-<div class="info"><?php echo sanitizeText($appeal->getAppeal()); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getIntendedEdits()); ?>')">If you are unblocked, what articles do you intend to edit?</a></h3>
-<div class="info"><?php echo sanitizeText($appeal->getIntendedEdits()); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow('<?php echo sanitizeText($appeal->getOtherInfo()); ?>')">Is there anything else you would like us to consider when reviewing your block?</a></h3>
-<div class="info"><?php echo sanitizeText($appeal->getOtherInfo()); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getAppeal()))); ?>)">Why do you believe you should be unblocked?</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">If you are unblocked, what articles do you intend to edit?</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getIntendedEdits())); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getOtherInfo()))); ?>)">Is there anything else you would like us to consider when reviewing your block?</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getOtherInfo())); ?></div>
 <br>
 </td>
 <td valign=top class="right">

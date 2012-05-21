@@ -111,7 +111,7 @@ function getLoggedInUsers(){
 	
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$user = User::getUserById($data['userID']);
-		$users[] = $user->getUsername();
+		$users[] = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
 	}
 	
 	return implode(', ', $users);
@@ -420,6 +420,10 @@ function censorEmail($email){
 	$domainStart = strpos($email, "@");
 	$email = "******" . substr($email, $domainStart);
 	return $email;
+}
+
+function getHeadCommit() {
+	return @trim(@`git rev-parse HEAD`);
 }
 
 ?>

@@ -75,12 +75,9 @@ class Log {
 
 		if (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0) {
 			$user = User::getUserByUsername($_SESSION['user']);
-			//I have to use two user ids here because the sql query requires null to be sent as a string.
-			$firstuserid = $user->getUserId();
-			$seconduserid = $user->getUserId();
+			$userid = $user->getUserId();
 		} else {
-			$firstuserid = "null";
-			$seconduserid = null;
+			$userid = null;
 		}
 
 		if (!$action) {
@@ -98,7 +95,7 @@ class Log {
 		$result = $query->execute(array(
 			':appealID'	=> $this->appealID,
 			':comment'	=> $comment,
-			':commentUser'	=> $firstuserid,
+			':commentUser'	=> $userid,
 			':action'	=> $action));
 
 		if(!$result){
@@ -113,7 +110,7 @@ class Log {
 			Appeal::getAppealById($this->appealID)->updateLastLogId($id);
 		}
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $seconduserid, 'action' => $action));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action));
 	}
 
 	function addAppellantReply($reply){

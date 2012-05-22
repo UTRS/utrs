@@ -18,6 +18,10 @@ class Appeal extends Model {
 	 */
 	public static $TOOLSERVER_IPS = '91.198.174.197,91.198.174.204';
 	/**
+	 * The appeal has not yet passed email verification
+	 */
+	public static $STATUS_UNVERIFIED = 'UNVERIFIED';
+	/**
 	 * The appeal is new and has not yet been addressed
 	 */
 	public static $STATUS_NEW = 'NEW';
@@ -123,6 +127,11 @@ class Appeal extends Model {
 	 */
 	protected $useragent;
 
+	/**
+	 * Email verification token
+	 */
+	protected $emailToken;
+
 	// Maps from DB columns to object fields.
 	private static $columnMap = array(
 		'appealID'		=> 'appealID',
@@ -139,7 +148,8 @@ class Appeal extends Model {
 		'status'		=> 'status',
 		'handlingAdmin'		=> 'handlingAdmin',
 		'oldHandlingAdmin'	=> 'oldHandlingAdmin',
-		'lastLogId'		=> 'lastLogId');
+		'lastLogId'		=> 'lastLogId',
+		'emailToken'		=> 'emailToken');
 
 	private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
 
@@ -176,13 +186,21 @@ class Appeal extends Model {
 		$appeal = new Appeal($values);
 
 		$appeal->ipAddress = self::getIPFromServer();
-		$appeal->status = self::$STATUS_NEW;
+		$appeal->status = self::$STATUS_UNVERIFIED;
 		$appeal->handlingAdmin = null;
 		$appeal->handlingAdminObject = null;
 
 		// False means "uncached", getUserAgent() will fetch it when
 		// called, if the user has permission.
 		$appeal->useragent = false;
+
+		// Generate email token
+		$token = '';
+		for ($i = 0; $i < 32; $i++) {
+			$token .= sprintf("%02x", mt_rand(0, 255));
+		}
+
+		$appeal->emailToken = $token;
 
 		return $appeal;
 	}
@@ -275,11 +293,11 @@ class Appeal extends Model {
 			INSERT INTO appeal
 			(email, ip, wikiAccountName, autoblock, hasAccount,
 				blockingAdmin, appealText, intendedEdits,
-				otherInfo, status)
+				otherInfo, status, emailToken)
 			VALUES
 			(:email, :ip, :wikiAccountName, :autoblock, :hasAccount,
 				:blockingAdmin, :appealText, :intendedEdits,
-				:otherInfo, :status)");
+				:otherInfo, :status, :emailToken)");
 
 		$result = $query->execute(array(
 			':email'		=> $this->emailAddress,
@@ -291,7 +309,8 @@ class Appeal extends Model {
 			':appealText'		=> $this->appeal,
 			':intendedEdits'	=> $this->intendedEdits,
 			':otherInfo'		=> $this->otherInfo,
-			':status'		=> $this->status));
+			':status'		=> $this->status,
+			':emailToken'		=> $this->emailToken));
 
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);
@@ -534,6 +553,10 @@ class Appeal extends Model {
 		$this->useragent = $this->getCheckUserData($this->appealID);
 		return $this->useragent;
 	}
+
+	public function getEmailToken() {
+		return $this->emailToken;
+	}
 	
 	public static function getAppealCountByIP($ip) {
 		
@@ -631,6 +654,31 @@ class Appeal extends Model {
 			':appealID'	=> $this->appealID));
 
 		$this->lastLogId = $log_id;
+	}
+
+	public function verifyEmail($token) {
+		if ($this->status !== self::$STATUS_UNVERIFIED) {
+			throw new UTRSIllegalModificationException('The email address for this appeal has already been verified.');
+		}
+
+		if ($token !== $this->emailToken) {
+			throw new UTRSIllegalModificationException('Invalid email confirmation token.  Please ensure that you have copied and pasted the verification URL correctly.');
+		}
+
+		$db = ConnectToDB();
+
+		$query = $db->prepare("
+			UPDATE appeal
+			SET status = :status,
+			    emailToken = NULL
+			WHERE appealID = :appealID");
+
+		$result = $query->execute(array(
+			':status'	=> self::$STATUS_NEW,
+			':appealID'	=> $this->appealID));
+
+		$this->status = self::$STATUS_NEW;
+		$this->emailToken = null;
 	}
 }
 

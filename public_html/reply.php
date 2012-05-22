@@ -30,6 +30,24 @@ try{
 		throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .
 		   "This security step assures us that we are still talking to the same person. Thank you.");
 	}
+	if(isset($_GET['token'])) {
+		// Email address verification.
+		$appeal->verifyEmail($_GET['token']);
+
+		$log = Log::getCommentsByAppealId($appeal->getID());
+
+		$log->addNewItem('Email address verified, status changed to NEW.', 1);
+
+		Log::ircNotification("\x033 Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
+		 	$appeal->getID() . " \x033) has passed email verification and is now NEW. URL: " .
+		 	getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+
+		skinHeader();
+		displaySuccess('Thank you for verifying your email address.  Your appeal has been updated and will be reviewed shortly.');
+		skinFooter();
+
+		exit();
+	}
 	if(strcmp($appeal->getStatus(), Appeal::$STATUS_CLOSED) === 0){
 		throw new UTRSIllegalModificationException("Your appeal has been marked as closed, which means the adminstrator" .
 		   " reviewing your appeal feels the matter is resolved. If you received a message that indicates you will be " .

@@ -248,6 +248,11 @@ function printBacklog() {
 	return $requests . "</table>";
 }
 
+function printUnverified() {
+	$criteria = array('status' => Appeal::$STATUS_UNVERIFIED);
+	return printAppealList($criteria);
+}
+
 function printReviewer() {
 	$criteria = array('status' => Appeal::$STATUS_AWAITING_REVIEWER);
 	return printAppealList($criteria);

@@ -81,6 +81,22 @@ if(isset($_POST["submit"])){
 
 		$appeal->insert();
 
+		// Send confirmation email.
+		$confirmURL = getRootURL() . "reply.php?id=". $appeal->getID() .
+			"&confirmEmail=" . urlencode($appeal->getEmail()) .
+			"&token=" . $appeal->getEmailToken();
+
+		$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		$body = "This is an automated message from the English Wikipedia Unblock Ticket Request System. " .
+			"In order for your appeal to be processed, you need to confirm that the email address " .
+			"you entered with your appeal is valid. To do this, simply click the link below.  If you " .
+			"did not file an appeal then simply do nothing, and the appeal will be deleted.<br /><br />" .
+			"<a href=\"" . htmlspecialchars($confirmURL) . "\">" . htmlspecialchars($confirmURL) . "</a>";
+
+		mail($appeal->getEmail(), "Unblock appeal email address confirmation", $body, $headers);
+
 		$success = true;
 		
 		$log = Log::getCommentsByAppealId($appeal->getID());
@@ -129,7 +145,7 @@ window.onload = function ()
 <div id="inputBox">
 <?php
 if($success){
-	displaySuccess("Thank you! Your appeal has been accepted and will be reviewed soon.");
+	displaySuccess("Your appeal has been recorded and is pending email address verification.  Please check your email inbox for a message from UTRS.  If you can't find such a message in your inbox, please check your junk mail folder.");
 } else {
 ?>
 <p>If you are presently blocked from editing on Wikipedia (which you may verify by 

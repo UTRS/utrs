@@ -75,7 +75,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$foundone = true;
 
-		$appeal = new Appeal($data);
+		$appeal = Appeal::newTrusted($data);
 		
 		$requests .= "\t<tr>\n";
 		$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
@@ -171,7 +171,7 @@ function printRecentClosed() {
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$foundone = true;
 		
-		$appeal = new Appeal($data);
+		$appeal = Appeal::newTrusted($data);
 					
 		$requests .= "\t<tr>\n";
 		$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
@@ -229,7 +229,7 @@ function printBacklog() {
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$foundone = true;
 
-		$appeal = new Appeal($data);
+		$appeal = Appeal::newTrusted($data);
 
 		$requests .= "\t<tr>\n";
 		$requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";

@@ -162,24 +162,33 @@ class Appeal extends Model {
 	 * @param array $values the information to include in this appeal
 	 * @param boolean $fromDB is this from the database?
 	 */
-	public function __construct($values = false){
+	private function __construct($values = false){
 		debug('In constuctor for Appeal <br/>');
-
-		// Set defaults
-		$this->ipAddress = self::getIPFromServer();
-		$this->status = self::$STATUS_NEW;
-		$this->handlingAdmin = null;
-		$this->handlingAdminObject = null;
-
-		// False means "uncached", getUserAgent() will fetch it when
-		// called, if the user has permission.
-		$this->useragent = false;
 
 		if (is_array($values)) {
 			$this->populate($values);
 		}
 
 		debug('Exiting constuctor <br/>');
+	}
+
+	public static function newUntrusted($values) {
+		$appeal = new Appeal($values);
+
+		$appeal->ipAddress = self::getIPFromServer();
+		$appeal->status = self::$STATUS_NEW;
+		$appeal->handlingAdmin = null;
+		$appeal->handlingAdminObject = null;
+
+		// False means "uncached", getUserAgent() will fetch it when
+		// called, if the user has permission.
+		$appeal->useragent = false;
+
+		return $appeal;
+	}
+
+	public static function newTrusted($values) {
+		return new Appeal($values);
 	}
 
 	public function populate($map) {
@@ -225,7 +234,7 @@ class Appeal extends Model {
 			throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
 		}
 		
-		return new Appeal($values);
+		return self::newTrusted($values);
 	}
 	
 	public static function getCheckUserData($appealID) {

@@ -75,8 +75,8 @@ if(isset($_POST["submit"])){
 			}
 			throw new UTRSCredentialsException($message);
 		}
-	
-		$appeal = new Appeal($_POST);
+
+		$appeal = Appeal::newUntrusted($_POST);
 		debug('object created <br/>');
 
 		$appeal->insert();

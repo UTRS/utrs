@@ -341,9 +341,18 @@ class Appeal extends Model {
 			(appealID, useragent)
 			VALUES (:appealID, :useragent)');
 
+		//Prepare cuData string
+		$cuData = gethostbyaddr($this->getIP()) . "<br />";
+
+		if ($this->getIP() != $_SERVER['HTTP_X_FORWARDED_FOR']) {
+			$cuData .= $_SERVER['HTTP_X_FORWARDED_FOR'] . " " . gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']) . "<br />";
+		}
+
+		$cuData .=  $_SERVER['HTTP_USER_AGENT'];
+
 		$result = $query->execute(array(
 			':appealID'	=> $this->appealID,
-			':useragent'	=> $_SERVER['HTTP_USER_AGENT']));
+			':useragent'	=> $cuData));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

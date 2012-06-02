@@ -344,7 +344,7 @@ class Appeal extends Model {
 		//Prepare cuData string
 		$cuData = gethostbyaddr($this->getIP()) . "<br />";
 
-		if ($this->getIP() != $_SERVER['HTTP_X_FORWARDED_FOR']) {
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $this->getIP() != $_SERVER['HTTP_X_FORWARDED_FOR'])  {
 			$cuData .= $_SERVER['HTTP_X_FORWARDED_FOR'] . " " . gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']) . "<br />";
 		}
 

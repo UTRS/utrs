@@ -1,7 +1,7 @@
 <?php
 
 abstract class Model {
-	protected static function getColumnsForSelect($columns, $column_prefix, $table_alias = false)
+	protected static function getColumnsForSelectBase($columns, $column_prefix, $table_alias = false)
 	{
 		$aliased = array();
 		foreach ($columns as $col) {

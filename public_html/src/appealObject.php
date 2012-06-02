@@ -125,7 +125,7 @@ class Appeal extends Model {
 	/**
 	 * User agent
 	 */
-	protected $useragent;
+	protected $useragent = false;
 
 	/**
 	 * Email verification token

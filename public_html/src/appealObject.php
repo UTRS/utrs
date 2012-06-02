@@ -256,7 +256,7 @@ class Appeal extends Model {
 	}
 	
 	public static function getCheckUserData($appealID) {
-		if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['ADMIN'])) {
+		if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {
 			$db = connectToDB();
 			
 			$query = $db->prepare("SELECT useragent FROM cuData WHERE appealID = :appealID");

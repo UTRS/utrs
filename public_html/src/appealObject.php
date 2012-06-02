@@ -157,7 +157,7 @@ class Appeal extends Model {
 		return self::$columnMap;
 	}
 
-	public static function getColumnsForSelect($table_alias = 'appeal') {
+	public static function getColumnsForSelect($columns = null, $column_prefix = null, $table_alias = 'appeal') {
 		return parent::getColumnsForSelect(array_keys(self::$columnMap), 'appeal_', $table_alias);
 	}
 	

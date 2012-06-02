@@ -158,7 +158,7 @@ function printRecentClosed() {
 	*/
 	
 	$query = $db->query("
-		SELECT " . Appeal::getColumnsForSelect('a') . ", c.timestamp
+		SELECT " . Appeal::getColumnsForSelect(null, null, 'a') . ", c.timestamp
 		FROM appeal AS a, comment AS c
 		WHERE a.lastLogId = c.commentID
 		  AND c.comment = 'Closed'
@@ -215,7 +215,7 @@ function printBacklog() {
 	*/
 	
 	$query = $db->query("
-		SELECT DISTINCT " . Appeal::getColumnsForSelect('a') . ", DateDiff(Now(), c.timestamp) AS since_last_action
+		SELECT DISTINCT " . Appeal::getColumnsForSelect(null, null, 'a') . ", DateDiff(Now(), c.timestamp) AS since_last_action
 		FROM appeal AS a, comment AS c
 		WHERE a.lastLogId = c.commentID
 		  AND c.comment != 'Closed'

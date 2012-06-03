@@ -356,6 +356,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">If you are unblocked, what articles do you intend to edit?</a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getIntendedEdits())); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getBlockReason()))); ?>)">Why do you think there is a block currently affecting you? If you believe it's in error, tell us how.</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getBlockReason())); ?></div>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getOtherInfo()))); ?>)">Is there anything else you would like us to consider when reviewing your block?</a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getOtherInfo())); ?></div>
 <br>

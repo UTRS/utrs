@@ -97,6 +97,10 @@ class Appeal extends Model {
 	 */
 	protected $intendedEdits;
 	/**
+	* Why the user thinks they are blocked
+	*/
+	protected $blockReason;
+	/**
 	 * Other information
 	 */
 	protected $otherInfo;
@@ -144,6 +148,7 @@ class Appeal extends Model {
 		'timestamp'		=> 'timestamp',
 		'appealText'		=> 'appeal',
 		'intendedEdits'		=> 'intendedEdits',
+		'blockReason'		=> 'blockReason',
 		'otherInfo'		=> 'otherInfo',
 		'status'		=> 'status',
 		'handlingAdmin'		=> 'handlingAdmin',
@@ -293,11 +298,11 @@ class Appeal extends Model {
 			INSERT INTO appeal
 			(email, ip, wikiAccountName, autoblock, hasAccount,
 				blockingAdmin, appealText, intendedEdits,
-				otherInfo, status, emailToken)
+				blockReason, otherInfo, status, emailToken)
 			VALUES
 			(:email, :ip, :wikiAccountName, :autoblock, :hasAccount,
 				:blockingAdmin, :appealText, :intendedEdits,
-				:otherInfo, :status, :emailToken)");
+				:blockReason, :otherInfo, :status, :emailToken)");
 
 		$result = $query->execute(array(
 			':email'		=> $this->emailAddress,
@@ -308,6 +313,7 @@ class Appeal extends Model {
 			':blockingAdmin'	=> $this->blockingAdmin,
 			':appealText'		=> $this->appeal,
 			':intendedEdits'	=> $this->intendedEdits,
+			':blockReason'	=> $this->blockReason,
 			':otherInfo'		=> $this->otherInfo,
 			':status'		=> $this->status,
 			':emailToken'		=> $this->emailToken));
@@ -420,6 +426,9 @@ class Appeal extends Model {
 		if(!isset($this->appeal) || strcmp(trim($this->appeal), '') == 0){
 			$errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
 		}
+		if(!isset($this->blockReason) || strcmp(trim($this->blockReason), '') == 0){
+			$errorMsgs .= "<br />You have not told us what you think the reason you are blocked is.";
+		}
 		if(!isset($this->intendedEdits) || strcmp(trim($this->intendedEdits), '') == 0){
 			$errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
 		}
@@ -511,6 +520,10 @@ class Appeal extends Model {
 	
 	public function getIntendedEdits(){
 		return $this->intendedEdits;
+	}
+	
+	public function getBlockReason(){
+		return $this->blockReason;
 	}
 	
 	public function getOtherInfo(){

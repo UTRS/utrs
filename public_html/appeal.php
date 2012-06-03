@@ -86,7 +86,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 		$error = "Cannot release hold on appeal";
 	}
 }
-
+		
 //Status change
 if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "status") {
 	switch ($_GET['value']) {
@@ -110,22 +110,22 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$error = "Cannot set AWAITING_CHECKUSER status";
 			}
 			break;
-		case "return":
+		case "return":		  
 			if (!(
 				//Appeal is not in checkuser or admin status
-				($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN) ||
+				($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 				//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-				$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) ||
+				($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
 				//Appeal is in admin status and user is not admin
-				$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+				($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 				//There is no old handling admin
-				$appeal->getOldHandlingAdmin() == null ||
+				//($appeal->getOldHandlingAdmin() == null) ||
 				//Appeal is closed and not an admin
-				$appeal->getStatus() == Appeal::$STATUS_CLOSED
+				($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 					$appeal->returnHandlingAdmin();
-					$log->addNewItem('Appeal reservation returned to ' . $appeal->getHandlingAdmin()->getUsername());
+					$log->addNewItem('Appeal reservation returned to tool users.');
 					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
 			} else {
 				$error = "Cannot return appeal to old handling tool user";
@@ -417,15 +417,17 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	$disabled = "";
 	if (
 		//Appeal is not in checkuser or admin status
-		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN) ||
+		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
 		//Appeal is in admin status and user is not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//There is no old handling admin
-		$appeal->getOldHandlingAdmin() == null ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
+		//If it is in the proxy queue, allow through
+		//!($appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY) ||
+		//There is no old handling admin - Not going to work, i've mod'd the comment to not require the old admin
+		//$appeal->getOldHandlingAdmin() == null ||
 		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED
+		($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 		) {
 		$disabled = "disabled='disabled'";
 	}
@@ -434,19 +436,19 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	$disabled = "";
 	if (
 		//When it is already in STATUS_AWAITING_USER status
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
-		//When not handling user and not admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
-		//In AWAITING_ADMIN status and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//Awaiting checkuser and not CU or admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
-		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-		) {
-		$disabled = "disabled='disabled'";
+	    $appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
+	    //When not assigned
+	    !($appeal->getHandlingAdmin()) ||
+	    //When not handling user and not admin
+	    !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
+	    //In AWAITING_ADMIN status and not admin
+	    ($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
+	    //Awaiting checkuser and not CU or admin
+	    ($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
+	    //Appeal is closed and not an admin
+	    ($appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN']))
+	    ) {
+	    $disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
 	echo "<hr style='width:200px;'>";
@@ -458,13 +460,13 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		//When not assigned
 		!($appeal->getHandlingAdmin()) ||
 		//When not handling user and not admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
+		(!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) ||
 		//In AWAITING_ADMIN status and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 		//Awaiting checkuser and not CU or admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
 		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
+		($appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN']))
 		) {
 		$disabled = "disabled='disabled'";
 	}

@@ -320,7 +320,7 @@ if (isset($_GET['action'])) {
   <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank">Find block</a></li> 
   <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a></li>
   <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
-  <li><a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li>
+  <!-- <li><a href="<?php //echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li> We are unable to create accounts right now--> 
 </ul>
 </div>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
@@ -431,7 +431,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Return\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
 	//Awaiting user button
 	$disabled = "";
 	if (
@@ -450,8 +450,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	    ) {
 	    $disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . " value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
-	echo "<hr style='width:200px;'>";
+	echo "<input type=\"button\" " . $disabled . " value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	echo "<hr style='width:475px;'>";
 	//On Hold button
 	$disabled = "";
 	if (
@@ -470,7 +470,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (
@@ -489,7 +489,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Proxy\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
 	//Awaiting admin
 	$disabled = "";
 	if (

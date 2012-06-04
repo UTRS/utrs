@@ -11,6 +11,7 @@ class UserMgmtLog{
 
 	private $logId;
 	private $action;
+	private $change;
 	private $reason;
 	private $timestamp;
 	private $target;
@@ -22,6 +23,7 @@ class UserMgmtLog{
 		
 		$this->logId = $vars['logID'];
 		$this->action = $vars['action'];
+		$this->change = $vars['change'];
 		$this->reason = $vars['reason'];
 		$this->timestamp = $vars['timestamp'];
 		$this->target = User::getUserById($vars['target']);
@@ -29,7 +31,7 @@ class UserMgmtLog{
 		$this->hideTarget = $vars['hideTarget'];
 	}
 
-	public static function insert($logAction, $logReason, $targetUserId, $doneByUserId, $hideTarget = 0){
+	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $hideTarget = 0){
 		debug('in insert for userMgmtLog<br/>');
 		
 		if($hideTarget === true){
@@ -38,12 +40,11 @@ class UserMgmtLog{
 		
 		$db = connectToDB();
 
-		$query = $db->prepare('
-			INSERT INTO userMgmtLog (action, reason, target, doneBy, hideTarget)
-			VALUES (:action, :reason, :target, :doneBy, :hideTarget)');
+		$query = $db->prepare('INSERT INTO userMgmtLog (action, change, reason, target, doneBy, hideTarget) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
 
 		$result = $query->execute(array(
 			':action'	=> $logAction,
+			':change'   => $logChange."'",
 			':reason'	=> $logReason,
 			':target'	=> $targetUserId,
 			':doneBy'	=> $doneByUserId,

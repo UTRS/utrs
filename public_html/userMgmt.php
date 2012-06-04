@@ -25,12 +25,11 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 	$admin = $requestedUser->isAdmin();
 	$checkuser = $requestedUser->isCheckuser();
 	$developer = $requestedUser->isDeveloper();
-	$comments = $requestedUser->getComments();
 
 	try{
 		$newApproved = isset($_POST['approved']);
 		$newActive = isset($_POST['active']);
-		$newComments = $_POST['comments'];
+		$reason = $_POST['reason'];
 		$newAdmin = isset($_POST['admin']);
 		$newDeveloper = isset($_POST['developer']);
 		$newCheckuser = isset($_POST['checkuser']);
@@ -40,9 +39,9 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			throw new UTRSIllegalModificationException("You must approve this account in order to " .
 				            "make any other access changes.");
 		}
-		if(!$newActive & !$newComments){
-			throw new UTRSIllegalModificationException("You must provide a reason why this account " .
-					        "has been deactivated.");
+		if(!$newActive & !$reason){
+			throw new UTRSIllegalModificationException("You must provide a reason for the user rights " .
+					        "change.");
 		}
 		// check credentials (unlikely someone will spoof the POST header, but just in case)
 		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() && !$user->isDeveloper())){
@@ -77,8 +76,12 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been enabled by\x032 " . $_SESSION['user']);
 		}
 		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
-			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user);
-			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissions have been updated by\x032 " . $_SESSION['user'] . ".  Tool Admin: " . ($newAdmin ? 'true' : 'false') . " Tool Developer: " . ($newDeveloper ? 'true' : 'false') . " Checkuser: " . ($newCheckuser ? 'true' : 'false'));
+			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user, $reason);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissions have been changed by\x032 " . $_SESSION['user'] . " to the following flags: ". 
+			($newAdmin == TRUE)? "Administrator":"". ($newCheckuser == TRUE || $newDeveloper == TRUE)? ",":"".
+			($newCheckuser == TRUE)? "Checkuser":"". ($newDeveloper == TRUE)? ",":"".
+			($newDeveloper == TRUE)? "Developer":"");
+			//Tool Admin: " . ($newAdmin ? 'true' : 'false') . " Tool Developer: " . ($newDeveloper ? 'true' : 'false') . " Checkuser: " . ($newCheckuser ? 'true' : 'false'));
 		}
 		// reset current user
 		$user = getCurrentUser();
@@ -244,17 +247,17 @@ if(!$approved){
 }
 echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
      "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n</td></tr>";
-echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
-	 " />Reason for deactivating this account:</label>\n";
-echo "<textarea name=\"comments\" id=\"comments\" rows=\"3\" cols=\"30\" />" . $comments . "</textarea>\n</td></tr>";
 echo "<tr><td><label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> </td><td>&#09; <input name=\"admin\" " .
-	 "id=\"admin\" type=\"checkbox\" " . ($admin ? "checked=\"checked\"" : "") . " />\n</td></tr>";
+	 "id=\"admin\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($admin ? "checked=\"checked\"" : "") . " />\n</td></tr>";
 echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> </td><td>&#09; " .
-     "<input name=\"developer\" id=\"developer\" type=\"checkbox\" " . ($developer ? "checked=\"checked\" " : " " ) . 
+     "<input name=\"developer\" id=\"developer\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($developer ? "checked=\"checked\" " : " " ) . 
      ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr>";
 echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
-     "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\" " . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr></table>";
+     "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($checkuser ? "checked=\"checked\" " : " " ) . 
+     ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
+	 " />Reason for changes to this account:</label>\n";
+echo "<textarea name=\"reason\" id=\"reason\" rows=\"1\" cols=\"50\" />" . "</textarea>\n</td></tr></table>";
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";

@@ -393,7 +393,7 @@ class User{
 		UserMgmtLog::insert("enabled account", "", $this->userId, $admin->userId);
 	}
 	
-	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin){
+	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $reason){
 		// safety checks
 		$adminFlag = (bool)$adminFlag;
 		$devFlag = (bool)$devFlag;
@@ -424,10 +424,16 @@ class User{
 		$this->checkuser = $cuFlag;
 		$this->developer = $devFlag;
 		
-		UserMgmtLog::insert("changed permissions for", "Admin: " . ($adminFlag ? "true" : "false") . 
-		            " Developer: " . ($devFlag ? "true" : "false") . " Checkuser: " . ($cuFlag ? "true" : "false"), 
-					$this->userId, $admin->userId);
+		UserMgmtLog::insert("changed permissions for\'", 
+					(($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
+					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
+					($devFlag == TRUE)? "Developer":""), $reason, $this->userId, $admin->userId);
+		echo "changed permissions for\"". 
+					($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
+					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
+					($devFlag == TRUE)? "Developer":"". $reason. $this->userId. $admin->userId;
 	}
+	
 	
 	public function renameUser($newName, $admin){
 		if($admin->getUserId() == $this->getUserId()){

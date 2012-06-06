@@ -52,11 +52,6 @@ echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 <h2>Awaiting tool admin</h2>
 <?php echo printToolAdmin();?>
 
-<h2>Backlog</h2>
-<?php echo printBacklog(); ?>
-
-<h2>Awaiting email verification</h2>
-<?php echo printUnverified(); ?>
 </td>
 <td style="width:33%" valign=top>
 <h2>Waiting on me</h2>

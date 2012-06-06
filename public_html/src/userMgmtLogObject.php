@@ -40,7 +40,7 @@ class UserMgmtLog{
 		
 		$db = connectToDB();
 
-		$query = $db->prepare('INSERT INTO userMgmtLog (action, change, reason, target, doneBy, hideTarget) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
+		$query = $db->prepare('INSERT INTO userMgmtLog (`action`, `change`, `reason`, `target`, `doneBy`, `hideTarget`) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
 
 		$result = $query->execute(array(
 			':action'	=> $logAction,

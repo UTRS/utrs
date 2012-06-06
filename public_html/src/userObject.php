@@ -424,7 +424,7 @@ class User{
 		$this->checkuser = $cuFlag;
 		$this->developer = $devFlag;
 		
-		UserMgmtLog::insert("changed permissions for\'", 
+		UserMgmtLog::insert("changed permissions for", 
 					(($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
 					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
 					($devFlag == TRUE)? "Developer":""), $reason, $this->userId, $admin->userId);

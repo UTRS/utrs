@@ -563,7 +563,7 @@ class Appeal extends Model {
 		return $this->oldHandlingAdmin;
 	}
 	
-	public static function getStatus(){
+	public function getStatus(){
 		return $this->status;
 	}
 	

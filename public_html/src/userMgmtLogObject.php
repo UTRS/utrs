@@ -44,7 +44,7 @@ class UserMgmtLog{
 
 		$result = $query->execute(array(
 			':action'	=> $logAction,
-			':change'   => $logChange."'",
+			':change'   => $logChange,
 			':reason'	=> $logReason,
 			':target'	=> $targetUserId,
 			':doneBy'	=> $doneByUserId,

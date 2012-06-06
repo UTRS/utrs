@@ -152,6 +152,7 @@ CREATE TABLE `user` (
 CREATE TABLE `userMgmtLog` (
   `logID` int(11) NOT NULL AUTO_INCREMENT,
   `action` varchar(255) NOT NULL,
+  `change` varchar(256) NOT NULL,
   `reason` varchar(1024) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `target` int(11) NOT NULL,

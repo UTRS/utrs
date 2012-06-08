@@ -111,7 +111,7 @@ class User{
 		$this->userId = $row['userID'];
 		$this->registered = $row['registered'];
 		
-		UserMgmtLog::insert('created account', 'New account', $this->userId, $this->userId);
+		UserMgmtLog::insert('created account', 'Requested new account', 'New account', $this->userId, $this->userId, 0);
 		
 		debug('exiting user insert <br/>');
 	}
@@ -319,7 +319,7 @@ class User{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", "Autorized", $this->userId, $admin->userId);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -358,7 +358,7 @@ class User{
 		$this->active = false;
 		$this->comments = $comments;
 		
-		UserMgmtLog::insert("disabled account", $comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId);
 		
 		$emailBody = "Hello " . $this->username . ",\n\nThis is to notify you that your account on the Unblock " .
 		    "Ticket Request System has been disabled by " . $admin->getUsername() . ". The reason given for this " .
@@ -390,7 +390,7 @@ class User{
 		$this->active = true;
 		$this->comments = null;
 		
-		UserMgmtLog::insert("enabled account", "", $this->userId, $admin->userId);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $comments, $this->userId, $admin->userId);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $reason){
@@ -460,7 +460,7 @@ class User{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), true);
+		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), true);
 		
 		Log::ircNotification("\x032" . $oldName . "\x033 has been renamed to \x032" . $newName . 
 		    "\x033 by \x032" . $admin->getUsername(), 1);

@@ -61,7 +61,7 @@ try{
 			echo "\tObscuring IP address and blanking email address...\n";
 
 			$update = $obscure_appeal_stmt->execute(array(
-				':ip'	=> md5($appeal['id']),
+				':ip'	=> md5($appeal['ip']),
 				':appealID'	=> $appeal['appealID']));
 
 			if(!$update){

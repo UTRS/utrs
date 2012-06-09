@@ -87,10 +87,10 @@ if(verifyAccess($GLOBALS['ADMIN'])){
 
 skinHeader('', true);
 
-echo "<h2>Sitenotice Management</h2>\n";
+echo "<h2>Hook Management</h2>\n";
 
 if(!verifyAccess($GLOBALS['ADMIN'])){
-	displayError("<b>Access denied:</b> Sitenotice management is only available to tool administrators.");
+	displayError("<b>Access denied:</b> Hook management is only available to tool administrators.");
 }
 else{
 	if($success){
@@ -102,62 +102,79 @@ else{
 
 	echo "\n";
 
-	if(isset($_GET['id']) || isset($_GET['new'])){
-		if(isset($_GET['id'])){
-			?>
-			<div id="messageInfo" >
-				<div id="messageIdLabel">Message ID:</div>
-				<div id="messageId"><?php echo $notice->getMessageId();?></div>
-				<div id="authorLabel">Last author:</div>
-				<div id="author">
-					<a href="<?php echo getRootURL() + "userMgmt.php?id=" . $notice->getAuthor()->getUserId();?>">
-						<?php echo $notice->getAuthor()->getUsername();?>
-					</a>
-				</div>
-				<div id="timeLabel">Time of last edit:</div>
-				<div id="timeId"><?php echo $notice->getLastEditTime();?></div>
-			</div>
-			<br clear="all"/>
-			<?php
-		} // close if(isset($_GET['id'])){
+	$db = connectToDB();
 
-		if($formatMessage){
-			?>
-			<h3>Preview</h3>
-			<p><?php echo $formatMessage; ?></p>
-			<?php
-		} // close if($formatMessage){
+	$query = $db->prepare("SELECT data FROM config WHERE `config` = 'installed_hooks';");
 
-		?>
-		<form
-			id="sitenoticeEdit"
-			name="sitenoticeEdit"
-			method="POST"
-			action="sitenotice.php?<?php echo (isset($_GET['new']) ? "new=true" : "id=" . $_GET['id']);?>">
-<textarea name="message" id="message" rows="6" cols="60"><?php echo $message; ?></textarea>
-<input type="submit" name="save" id="save" value="Save Message" style="font-weight:bold"/> <!--
-		    --><input type="submit" name="preview" id="preview" value="Preview Message"/>
-		</form>
+	$result = $query->execute();
 
-		<h3>Formatting</h3>
-		<p>You may add basic formatting to your message using the following syntax:</p>
-		<ul>
-			<li><tt>*bold text*</tt> &rarr; <b>bold text</b></li>
-			<li><tt>/italic text/</tt> &rarr; <i>italic text</i></li>
-			<li><tt>_underlined text_</tt> &rarr; <u>underlined text</u></li>
-			<li><tt>{http://enwp.org link text}</tt> &rarr; <a href="http://enwp.org">link text</a></li>
-			<li><tt>[red]red text[/red]</tt> &rarr; <span style="color:red">red text</span></li>
-		</ul>
-		<p>Other acceptable colors include "orange", "yellow", "green", "blue", "purple", "grey", "gray", or any
-		three- or six-digit hexadecimal color code starting with a # sign (i.e. #000, #FFFFFF, #a2b3c4, etc.).
-		Links must start with the http:// or https:// prefix.</p>
+	if(!$result){
+		$error = var_export($query->errorInfo(), true);
+		throw new UTRSDatabaseException($error);
+	}
 
-		<p>Inappropriate messages or links will result in deactivation of your account.</p>
-		<?php
-	} // close if(isset($_GET['id']) || isset($_GET['new'])){
-	else{
-		echo "<a href=\"" . getRootURL() . "sitenotice.php?new=true\">Create a new sitenotice message</a><br/><br/>\n";
-		echo printSitenoticeMessages();
+	$values = $query->fetch(PDO::FETCH_ASSOC);
+	$query->closeCursor();
+
+	$hookArray = unserialize($values['data']);
+
+	//Going to interject here and perform any installations
+
+	if (isset($_GET['install'])) {
+		array_push($hookArray, $_GET['install']);
+
+		sort($hookArray);
+
+		$query = $db->prepare("UPDATE config SET data = :hook_name WHERE `config` = 'installed_hooks';");
+
+		$result = $query->execute(Array(":hook_name" => serialize($hookArray)));
+
+		if(!$result){
+			$error = var_export($query->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
+		}
+	}
+
+	//Also going to uninstall
+
+	if (isset($_GET['uninstall'])) {
+		unset($hookArray[array_search($_GET['uninstall'], $hookArray)]);
+
+		$hookArray = array_values($hookArray);
+
+		sort($hookArray);
+
+		$query = $db->prepare("UPDATE config SET data = :hook_name WHERE `config` = 'installed_hooks';");
+
+		$result = $query->execute(Array(":hook_name" => serialize($hookArray)));
+
+		if(!$result){
+			$error = var_export($query->errorInfo(), true);
+			throw new UTRSDatabaseException($error);
+		}
+	}
+
+	$hook_count = count($hookArray);
+
+	echo "<h3>Installed Hooks</h3>";
+	for ($i = 0; $i < $hook_count; $i++) {
+			echo $hookArray[$i] . " - <a href=\"?uninstall=" . $hookArray[$i] . "\">Uninstall</a><br>";
+	}
+
+	echo "<br><h3>Uninstalled Hooks</h3>";
+
+	//path to directory to scan
+	$directory = "hooks/";
+
+	//get all image files with a .jpg extension.
+	$hooks = glob($directory . "*.php");
+
+	//print each file name
+	foreach($hooks as $hook)
+	{
+		$hook_name = substr(substr($hook, 6), 0, -4);
+		if (!in_array($hook_name, $hookArray))
+			echo $hook_name . " - <a href=\"?install=" . $hook_name . "\">Install</a><br>";
 	}
 } // close else from if(!verifyAccess($GLOBALS['ADMIN'])){
 

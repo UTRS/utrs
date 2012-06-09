@@ -27,7 +27,7 @@ try{
 
 			$name = $_POST['name'];
 			$text = $_POST['text'];
-			
+
 			if (isset($_POST['statusUser'])) {
 				$statusUser = 1;
 			} else {
@@ -42,7 +42,7 @@ try{
 			if(strlen($name) == 0 | strlen($text) == 0){
 				throw new UTRSIllegalModificationException("All fields are required.");
 			}
-				
+
 			if(strlen($name) > 40){
 				throw new UTRSIllegalModificationException("The name of a template must be less than 40 characters" .
 				   " long. The name you have entered is " . strlen($name) . " characters in length.");
@@ -55,7 +55,7 @@ try{
 			// now actually process the request
 			if(strcmp($_GET['id'],'new') == 0){
 				$template = new Template($_POST, false);
-					
+
 				if($template != null){
 					// load the "view/edit" screen
 					header("Location: " . getRootURL() . 'tempMgmt.php?id=' . $template->getId());
@@ -63,7 +63,7 @@ try{
 				else{
 					throw new UTRSException("An unexpected error has occured. Please contact a tool developer.", 10000, null);
 				}
-				
+
 				Log::ircNotification("\x033New email template created called\x032 " . $template->getName() . "\x033 by\x032 " . $_SESSION['user']);
 			}
 			else{
@@ -79,23 +79,23 @@ try{
 					$template->setText($text);
 				}
 				$template->setStatus($statusUser, $statusClose);
-				
+
 				Log::ircNotification("\x033Template\x032 " . $template->getName() . "\x033 has been updated by\x032 " . $_SESSION['user']);
 			}
 		}
 		else if(isset($_POST['delete'])){
 			$id = $_GET['id'];
-			
+
 			$template = Template::getTemplateById($id);
 
 			$oldname = $template->getName();
-			
+
 			$template->delete();
 
 			$template = null;
 
 			header("Location: " . getRootURL() . "tempMgmt.php?deleted=" . $id);
-			
+
 			Log::ircNotification("\x033Template\x032 " . $oldname . "\x033 has been deleted by\x032 " . $_SESSION['user']);
 		}
 	}
@@ -104,13 +104,13 @@ catch(UTRSException $e){
 	$errors = $e->getMessage();
 }
 
-skinHeader();
+skinHeader('', true);
 
 echo "<h2>Template Management</h2>\n";
 
 // default list screen
 if(!isset($_GET['id'])){
-	
+
 	if(verifyAccess($GLOBALS['ADMIN'])){
 		if(isset($_GET['deleted'])){
 			displaySuccess("Successfully deleted Template #" . $_GET['deleted']);
@@ -129,16 +129,16 @@ else if(strcmp($_GET['id'], 'new') == 0){
 	}
 	else{
 		echo "<h3>New template</h3>";
-		
+
 		if($errors){
 			displayError($errors);
 		}
-		
+
 		$name = (isset($_POST['name']) ? $_POST['name'] : null);
 		$text = (isset($_POST['text']) ? $_POST['text'] : null);
 		$statusUser = (isset($_POST['statusUser']) ? "CHECKED" : null);
 		$statusClose = (isset($_POST['statusClose']) ? "CHECKED" : null);
-		
+
 		echo "<form name=\"createTemplate\" id=\"createTemplate\" method=\"POST\" action=\"tempMgmt.php?id=new\">\n";
 		echo "<label name=\"nameLabel\" id=\"nameLabel\" for=\"name\" class=\"required\">Name:</label> ";
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
@@ -178,7 +178,7 @@ else{
 			<th style="text-align:left;">Last modified at:</th>
 			<td><?php echo $template->getLastEditTime(); ?></td>
 		</tr>
-<?php 
+<?php
 	if($admin){
 		echo "</table>\n";
 		echo "<form name=\"editTemplate\" id=\"editTemplate\" method=\"POST\" action=\"tempMgmt.php?id=" . $template->getId() . "\">\n";
@@ -186,21 +186,21 @@ else{
 		echo "<input name=\"name\" id=\"name\" type=\"text\" length=\"40\" value=\"" . $name . "\" />\n";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"text\" class=\"required\">Text:</label>\n";
 		echo "<textarea name=\"text\" id=\"text\" rows=\"12\" cols=\"60\">" . $text . "</textarea>\n";
-		
+
 		$checked = "";
 		if ($template->getStatusUser()) {
 			$checked = "CHECKED";
 		}
 		echo "<input type=\"checkbox\" " . $checked . " id=\"statusUser\" name=\"statusUser\" value=\"true\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusUser\"> If this option is set, an appeal will be set to AWAITING_USER once the email is sent.</label><br>\n";
-		
+
 		$checked = "";
 		if ($template->getStatusClose()) {
 			$checked = "CHECKED";
 		}
 		echo "<input type=\"checkbox\" " . $checked . " id=\"statusClose\" name=\"statusClose\" value=\"true\">";
 		echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> If this option is set, an appeal will be set to CLOSED once the email is sent.</label>";
-		
+
 		echo "<table style=\"background:none; border:none; width:500px;\"><tr>\n";
 		echo "<td style=\"text-align:left;\"><input name=\"submit\" id=\"submit\" type=\"submit\" value=\"Save Template\" /></td>\n";
 		echo "<td style=\"text-align:right;\"><input name=\"delete\" id=\"delete\" type=\"submit\" value=\"Delete\" /></td>\n";
@@ -218,7 +218,7 @@ else{
 			<td><?php echo str_replace("\n", "<br>", $template->getText()); ?></td>
 		</tr>
 	</table>
-<?php 		
+<?php
 	} // closes else from if($admin)
 } // closes else from else if(strcmp($_GET['id'], 'new') == 0){
 

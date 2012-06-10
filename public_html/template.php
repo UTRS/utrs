@@ -202,8 +202,7 @@ if($loggedIn){
             },
             update:  function (event, ui) {
                 if (ui.item.parent().attr('id') == 'bottomZone')
-                    buildArray();
-                	location.reload(true);
+                    buildArray(true);
             }
           });
 
@@ -211,13 +210,12 @@ if($loggedIn){
           $( "#trashbin" ).sortable({
               update:  function (event, ui) {
                   if (ui.item.parent().attr('id') == 'trashbin')
-                      buildArray();
-                  	location.reload(true);
+                      buildArray(true);
               }
               });
           $( "#trashbin" ).disableSelection();
 
-      function buildArray() {
+      function buildArray(reload) {
 
     	  hookArray = null;
     	  hookArray = new Array(3);
@@ -231,14 +229,18 @@ if($loggedIn){
 				}
           })
 
-          sendToServer();
+          sendToServer(reload);
       }
 
-      function sendToServer() {
+      function sendToServer(reload) {
                $("#Zone1").sortable({disabled: true});
                $("#Zone2").sortable({disabled: true});
                $("#Zone3").sortable({disabled: true});
-			   $.post("updateHome.php", { data: serialize(hookArray) }, function(data) {
+               //alert(serialize(hookArray));
+			   $.post("updateHome.php", { data: serialize(hookArray) }, function(data, reload) {
+				  if (reload) {
+					   location.reload(true)
+				  }
                   //alert("Data Loaded: " + data);
                   $("#Zone1").sortable({disabled: false});
                   $("#Zone2").sortable({disabled: false});

@@ -608,11 +608,35 @@ text-align: left;
 }
 
 #hookContainer ul {
+   list-style: none;
    display: inline;
    width: 28%;
    margin-left: 10px;
    -moz-border-radius: 15px;
    border-radius: 15px;
-   height: 600px;
+   height: 1000px;
    float: left;
+}
+
+#bottomZoneContainer {
+	list-style: none;
+	float: left;
+	height: 30px;
+}
+
+#bottomZoneContainer ul li {
+	float: left;
+	border: 1px #000 dotted;
+	list-style: none;
+	padding: 5px;
+}
+
+
+#trashbincontainer {
+	float: right;
+	height: 30px;
+}
+
+#trashbin {
+	height: 30px;
 }

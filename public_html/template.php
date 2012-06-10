@@ -48,62 +48,197 @@ if($loggedIn){
    #sortable li span { position: absolute; margin-left: -1.3em; }
    </style>
    <script>
+   function serialize (mixed_value) {
+	    // http://kevin.vanzonneveld.net
+	    // +   original by: Arpad Ray (mailto:arpad@php.net)
+	    // +   improved by: Dino
+	    // +   bugfixed by: Andrej Pavlovic
+	    // +   bugfixed by: Garagoth
+	    // +      input by: DtTvB (http://dt.in.th/2008-09-16.string-length-in-bytes.html)
+	    // +   bugfixed by: Russell Walker (http://www.nbill.co.uk/)
+	    // +   bugfixed by: Jamie Beck (http://www.terabit.ca/)
+	    // +      input by: Martin (http://www.erlenwiese.de/)
+	    // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	    // -    depends on: utf8_encode
+	    // %          note: We feel the main purpose of this function should be to ease the transport of data between php & js
+	    // %          note: Aiming for PHP-compatibility, we have to translate objects to arrays
+	    // *     example 1: serialize(['Kevin', 'van', 'Zonneveld']);
+	    // *     returns 1: 'a:3:{i:0;s:5:"Kevin";i:1;s:3:"van";i:2;s:9:"Zonneveld";}'
+	    // *     example 2: serialize({firstName: 'Kevin', midName: 'van', surName: 'Zonneveld'});
+	    // *     returns 2: 'a:3:{s:9:"firstName";s:5:"Kevin";s:7:"midName";s:3:"van";s:7:"surName";s:9:"Zonneveld";}'
+
+	    var _getType = function (inp) {
+	        var type = typeof inp, match;
+	        var key;
+	        if (type == 'object' && !inp) {
+	            return 'null';
+	        }
+	        if (type == "object") {
+	            if (!inp.constructor) {
+	                return 'object';
+	            }
+	            var cons = inp.constructor.toString();
+	            match = cons.match(/(\w+)\(/);
+	            if (match) {
+	                cons = match[1].toLowerCase();
+	            }
+	            var types = ["boolean", "number", "string", "array"];
+	            for (key in types) {
+	                if (cons == types[key]) {
+	                    type = types[key];
+	                    break;
+	                }
+	            }
+	        }
+	        return type;
+	    };
+	    var type = _getType(mixed_value);
+	    var val, ktype = '';
+
+	    switch (type) {
+	        case "function":
+	            val = "";
+	            break;
+	        case "boolean":
+	            val = "b:" + (mixed_value ? "1" : "0");
+	            break;
+	        case "number":
+	            val = (Math.round(mixed_value) == mixed_value ? "i" : "d") + ":" + mixed_value;
+	            break;
+	        case "string":
+	            //mixed_value = this.utf8_encode(mixed_value);
+	            val = "s:" + encodeURIComponent(mixed_value).replace(/%../g, 'x').length + ":\"" + mixed_value + "\"";
+	            break;
+	        case "array":
+	        case "object":
+	            val = "a";
+	            /*
+	            if (type == "object") {
+	                var objname = mixed_value.constructor.toString().match(/(\w+)\(\)/);
+	                if (objname == undefined) {
+	                    return;
+	                }
+	                objname[1] = this.serialize(objname[1]);
+	                val = "O" + objname[1].substring(1, objname[1].length - 1);
+	            }
+	            */
+	            var count = 0;
+	            var vals = "";
+	            var okey;
+	            var key;
+	            for (key in mixed_value) {
+	                ktype = _getType(mixed_value[key]);
+	                if (ktype == "function") {
+	                    continue;
+	                }
+
+	                okey = (key.match(/^[0-9]+$/) ? parseInt(key, 10) : key);
+	                vals += this.serialize(okey) +
+	                        this.serialize(mixed_value[key]);
+	                count++;
+	            }
+	            val += ":" + count + ":{" + vals + "}";
+	            break;
+	        case "undefined": // Fall-through
+	        default: // if the JS object has a property which contains a null value, the string cannot be unserialized by PHP
+	            val = "N";
+	            break;
+	    }
+	    if (type != "object" && type != "array") {
+	        val += ";";
+	    }
+	    return val;
+	}
+
    $(function() {
 
-      deny = 1;
-      oldindex = 0;
-      oldcolumn = 0;
+	  var hookArray;
 
-      $( "#Zone1" ).sortable({ connectWith: '#Zone2, #Zone3',
+      $( "#Zone1" ).sortable({ connectWith: '#Zone2, #Zone3, #trashbin',
         start: function (event, ui) {
-            oldindex = ui.item.index()
-            oldcolumn = 1
             $("#Zone1").css('border','1px #000000 solid');
             $("#Zone2").css('border','1px #000000 solid');
             $("#Zone3").css('border','1px #000000 solid');
+            $("#trashbin").css('border','1px #000000 solid');
         },
         update:  function (event, ui) {
             if (ui.item.parent().attr('id') == 'Zone1')
-               sendToServer(ui.item.attr('id'),1,ui.item.index());
+               buildArray();
         }
       });
       $( "#Zone1" ).disableSelection();
-      $( "#Zone2" ).sortable({ connectWith: '#Zone1, #Zone3',
+      $( "#Zone2" ).sortable({ connectWith: '#Zone1, #Zone3, #trashbin',
         start: function (event, ui) {
-            oldindex = ui.item.index()
-            oldcolumn = 2
             $("#Zone1").css('border','1px #000000 solid');
             $("#Zone2").css('border','1px #000000 solid');
             $("#Zone3").css('border','1px #000000 solid');
+            $("#trashbin").css('border','1px #000000 solid');
         },
         update:  function (event, ui) {
             if (ui.item.parent().attr('id') == 'Zone2')
-               sendToServer(ui.item.attr('id'),2,ui.item.index());
+                buildArray();
         }
       });
       $( "#Zone2" ).disableSelection();
-      $( "#Zone3" ).sortable({ connectWith: '#Zone2, #Zone1',
-        start: function (event, ui) {
-            oldindex = ui.item.index()
-            oldcolumn = 3
-            $("#Zone1").css('border','1px #000000 solid');
-            $("#Zone2").css('border','1px #000000 solid');
-            $("#Zone3").css('border','1px #000000 solid');
-        },
-        update:  function (event, ui) {
-            if (ui.item.parent().attr('id') == 'Zone3')
-               sendToServer(ui.item.attr('id'),3,ui.item.index());
-        }
-      });
+      $( "#Zone3" ).sortable({ connectWith: '#Zone2, #Zone1, #trashbin',
+          start: function (event, ui) {
+              $("#Zone1").css('border','1px #000000 solid');
+              $("#Zone2").css('border','1px #000000 solid');
+              $("#Zone3").css('border','1px #000000 solid');
+              $("#trashbin").css('border','1px #000000 solid');
+          },
+          update:  function (event, ui) {
+              if (ui.item.parent().attr('id') == 'Zone3')
+                  buildArray();
+          }
+        });
 
-      $( "#Zone3" ).disableSelection();
+        $( "#Zone3" ).disableSelection();
+        $( "#bottomZone" ).sortable({ connectWith: '#Zone1, #Zone2, #Zone1',
+            start: function (event, ui) {
+                $("#Zone1").css('border','1px #000000 solid');
+                $("#Zone2").css('border','1px #000000 solid');
+                $("#Zone3").css('border','1px #000000 solid');
+            },
+            update:  function (event, ui) {
+                if (ui.item.parent().attr('id') == 'bottomZone')
+                    buildArray();
+                	location.reload(true);
+            }
+          });
 
+          $( "#bottomZone" ).disableSelection();
+          $( "#trashbin" ).sortable({
+              update:  function (event, ui) {
+                  if (ui.item.parent().attr('id') == 'trashbin')
+                      buildArray();
+                  	location.reload(true);
+              }
+              });
+          $( "#trashbin" ).disableSelection();
 
-      function sendToServer(item, column, index) {
+      function buildArray() {
+
+    	  hookArray = null;
+    	  hookArray = new Array(3);
+
+          $("#hookContainer").children().each( function(index) {
+				if (index < 3) {
+	                hookArray[index] = new Array($("#Zone" + (index + 1)).length);
+					$("#Zone" + (index + 1)).children().each( function(zoneindex) {
+							hookArray[(index)][zoneindex] = this.id;
+					})
+				}
+          })
+
+          sendToServer();
+      }
+
+      function sendToServer() {
                $("#Zone1").sortable({disabled: true});
                $("#Zone2").sortable({disabled: true});
                $("#Zone3").sortable({disabled: true});
-               $.post("updateHome.php", { item: item, column: column, index: index, oldindex: oldindex, oldcolumn: oldcolumn }, function(data) {
+			   $.post("updateHome.php", { data: serialize(hookArray) }, function(data) {
                   //alert("Data Loaded: " + data);
                   $("#Zone1").sortable({disabled: false});
                   $("#Zone2").sortable({disabled: false});
@@ -179,6 +314,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    </li>
 <?php } ?>
 </ul>
+<div style="clear: both"></div>
 </div>
 <div style="clear: both"></div>
 <?php

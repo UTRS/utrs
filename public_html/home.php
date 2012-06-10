@@ -25,10 +25,9 @@ skinHeader();
 echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 
 //Get user's personalized hooks
-echo "<div id=\"hookContainer\">";
 getHooks();
-echo "<br style=\"clear: both;\">";
-echo "</div>";
+
+echo "<div style=\"clear: both\"></div>";
 
 //Template footer()
 skinFooter();

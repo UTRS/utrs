@@ -1,5 +1,8 @@
 <?
 
+require_once('src/unblocklib.php');
+
+
 $installedHooks = array();
 $hooksArray = array();
 $hooksArray[1] = array();

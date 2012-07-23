@@ -547,12 +547,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		?>
 	</SELECT>
 </div>
-<script type="text/javascript">
-
-$contextValue = <?php echo json_encode($log->getLargeHTML()); ?>;
-
-</script>
-<h3><a href="javascript:void(0)" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML())) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
 </div>

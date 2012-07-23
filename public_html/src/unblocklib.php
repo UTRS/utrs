@@ -208,7 +208,7 @@ function connectToDB($suppressOutput = false){
 	}
 
 	try {
-		$pdo = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password']);
+		$pdo = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 	} catch (PDOException $pdo_ex) {
 		debug($pdo_ex->getMessage());
 		throw new UTRSDatabaseException("Failed to connect to database server!");

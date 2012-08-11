@@ -33,7 +33,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		$newAdmin = isset($_POST['admin']);
 		$newDeveloper = isset($_POST['developer']);
 		$newCheckuser = isset($_POST['checkuser']);
-			
+
 		// check required fields
 		if(!$approved & !$newApproved){
 			throw new UTRSIllegalModificationException("You must approve this account in order to " .
@@ -54,22 +54,22 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		}
 		// carry out changes
 		if(!$approved & $newApproved){
-			
+
 			//Approve user in database
 			$requestedUser->approve($user);
-			
+
 			//Notify IRC of approval
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been approved by\x032 " . $_SESSION['user']);
-			
+
 		}
 		if($active & !$newActive){
-			
+
 			//Mark user disabled in the database
 			$requestedUser->disable($user, $newComments);
-			
+
 			//Notify IRC of the change
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been disabled by\x032 " . $_SESSION['user']);
-			
+
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);
@@ -95,7 +95,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 	$userId = $_GET['userId'];
 	$requestedUser = User::getUserById($userId);
 	$newName = trim($_POST['newName']);
-	
+
 	try{
 		if(!isset($_POST['newName']) || !$newName){
 			throw new UTRSIllegalModificationException("You must provide a new username in order to rename this user.");
@@ -108,7 +108,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		   strpos($newName, "]") !== false | strpos($newName, "{") !== false |
 		   strpos($newName, "}") !== false | strpos($newName, "<") !== false |
 		   strpos($newName, ">") !== false | strpos($newName, "@") !== false |
-		   strpos($newName, "%") !== false | strpos($newName, ":") !== false | 
+		   strpos($newName, "%") !== false | strpos($newName, ":") !== false |
 		   strpos($newName, '$') !== false){
 		   	throw new UTRSIllegalModificationException('The username you have entered is invalid. Usernames ' .
 		   	 	'may not contain the characters # / | [ ] { } < > @ % : $');
@@ -116,7 +116,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		try{
 			$existingUser = User::getUserByUsername($newName);
 			// if no exception, then there's a problem
-			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName . 
+			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName .
 				"\". Please enter another username.");
 		}
 		catch(UTRSDatabaseException $e){
@@ -128,7 +128,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 				throw $e;
 			}
 		}
-		
+
 		$requestedUser->renameUser($newName, $user);
 	}
 	catch(UTRSException $e){
@@ -158,24 +158,24 @@ function setRequired(required) {
 	else{
 		label.className='required';
 	}
-}");
+}", true);
 
 
 echo "<h2>User management</h2>";
 
 if(!verifyAccess($GLOBALS['ADMIN'])){
-	
+
 	if (!isset($_GET['userId'])) {
 		displayError("<b>Access denied:</a> User management is only available to tool administrators. "
 		    . "Please click on one of the links above to return to another page.");
 	} else {
 		$user = User::getUserById($_GET['userId']);
-		
+
 		?>
-		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> | 
-<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> | 
+		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
+<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
 <a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
-		<?php 
+		<?php
 		echo "<h2>Assigned Appeals</h2>";
 		echo printAssigned($user->getUserId());
 		echo "<br>";
@@ -184,7 +184,7 @@ if(!verifyAccess($GLOBALS['ADMIN'])){
 	}
 }
 else{
-	
+
 	if(isset($_GET['userId'])){
 		$user = getCurrentUser();
 		$secure = $user->getUseSecure();
@@ -199,7 +199,7 @@ else{
 		$registered = $requestedUser->getRegistered();
 		$numClosed = $requestedUser->getClosed();
 		$wikiAccount = "User:" . $requestedUser->getWikiAccount();
-		
+
 		echo "<h3>" . $requestedUser->getUsername() . "</h3>";
 		if($errors){
 			displayError($errors);
@@ -237,13 +237,13 @@ else{
 
 			<h4>Access levels</h4>
 			<table>
-<?php 
+<?php
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
 // if not approved, require that the account be approved before any other changes are made
 if(!$approved){
 	echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
 		 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" /> " .
-		 "(<a target=\"_blank\" href=\"" . $requestedUser->getDiff() . "\">Confirmation diff</a>)\n</td></tr>";	
+		 "(<a target=\"_blank\" href=\"" . $requestedUser->getDiff() . "\">Confirmation diff</a>)\n</td></tr>";
 }
 echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
      "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n</td></tr>";
@@ -276,7 +276,7 @@ echo "</form>\n";
 		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" value=\"" . (isset($_POST['newName']) ? $_POST['newName'] : "") . "\"/>\n";
 		echo "<input type=\"submit\" name=\"rename\" id=\"rename\" value=\"Rename user\" \>\n";
 		echo "</form>\n";
-		
+
 		?>
 		</td>
 	</tr>
@@ -293,13 +293,13 @@ echo "</form>\n";
 	</tr>
 </table>
 
-<?php 
+<?php
 	} // closes if(isset($_GET['userId']))
 	else{
 ?>
 
 
-<table style="background:none; border:none; width:100%;" cellspacing="0" cellpadding="0">
+<table style="background:none; border:none; width:80%;" cellspacing="0" cellpadding="0">
 <tr>
 <td style="width:50%" valign="top">
 <h3>Unapproved accounts</h3>
@@ -332,7 +332,7 @@ echo "</form>\n";
 </tr>
 </table>
 
-<?php 
+<?php
 	} // ends the else block from if(isset($_GET['userId']))
 
 } // ends the else block from if(!verifyAccess($GLOBALS['ADMIN']))

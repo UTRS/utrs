@@ -23,7 +23,7 @@ try{
 	if(!verifyAccess($GLOBALS['ADMIN'])){
 		throw new UTRSCredentialsException("Ban management is limited to tool administrators.");
 	}
-	
+
 	// set target if link followed from appeals page
 	if(isset($_GET['appeal'])){
 		$appeal = Appeal::getAppealByID($_GET['appeal']);
@@ -44,7 +44,7 @@ try{
 
 	// create ban & redirect if new ban form submitted
 	if(isset($_POST['submit'])){
-		// if not manually entered, grab from above switch 
+		// if not manually entered, grab from above switch
 		if(!isset($_POST['target'])){
 			$_POST['target'] = $target;
 		}
@@ -62,22 +62,22 @@ try{
 
 		// handles all validation, spits out exceptions if there's a problem
 		$ban = new Ban($_POST);
-		
-		Log::ircNotification("\x033A new " . $type . " ban has been created by \x032" . $_SESSION['user'] . 
+
+		Log::ircNotification("\x033A new " . $type . " ban has been created by \x032" . $_SESSION['user'] .
 			"\x033 Expires:\x032 " . ($ban->getExpiry() ? $ban->getExpiry() : "Indefinite"));
-		
+
 		// revert to view / delete screen
 		header("Location: " . getRootURL() . "banMgmt.php?id=" . $ban->getBanID());
 	}
-	
+
 	// delete ban
 	if(isset($_POST['delete'])){
 		$id = $_GET['id'];
 		$ban = Ban::getBanByID($id);
 		$ban->delete();
-		
+
 		Log::ircNotification("\x033Ban #" . $id . " has been deleted by \x032" . $_SESSION['user']);
-		
+
 		header("Location: " . getRootURL() . "banMgmt.php?delete=true");
 	}
 }
@@ -85,13 +85,13 @@ catch(UTRSException $e){
 	$errors = $e->getMessage();
 }
 
-skinHeader();
+skinHeader('', true);
 
 ?>
 
 <h2>Ban management</h2>
 
-<?php 
+<?php
 if($errors){
 	displayError($errors);
 }
@@ -154,7 +154,7 @@ if(isset($_GET['new']) || isset($_GET['appeal'])){
 			<tr>
 				<td><input name="submit" id="submit" type="submit" value="Submit" /></td>
 				<td></td>
-			</tr>	
+			</tr>
 		</table>
 	</form>
 <?php
@@ -197,11 +197,11 @@ else if(isset($_GET['id'])){
 // ban list
 else{
 	echo "<p><a href=\"" . getRootURL() . "banMgmt.php?new=true\">Set a new ban</a></p>\n\n";
-	
+
 	if(isset($_GET['delete'])){
-		displaySuccess("Ban deleted.");	
+		displaySuccess("Ban deleted.");
 	}
-	
+
 	$bans = Ban::getAllActiveBans();
 	if($bans){
 		$i = 0;
@@ -226,7 +226,7 @@ else{
 	else{
 		echo "<p><b>There are no active bans currently in the system.</b></p>";
 	}
-	
+
 } // close else
 
 } //close verifyAccess(admin)

@@ -28,7 +28,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 
 	try{
 		$newApproved = isset($_POST['approved']);
-		$newActive = isset($_POST['active']);
+    $newActive = isset($_POST['active']);
 		$reason = $_POST['reason'];
 		$newAdmin = isset($_POST['admin']);
 		$newDeveloper = isset($_POST['developer']);
@@ -40,9 +40,14 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 				            "make any other access changes.");
 		}
 		if(!$newActive & !$reason){
+      echo "Old: ".$active." New: ".$newActive;
 			throw new UTRSIllegalModificationException("You must provide a reason for the user rights " .
 					        "change.");
 		}
+    else if (!$active & !$reason) {
+      echo "Old: ".$active." New: ".$newActive;
+      $reason = "Account (re)activation";
+    }
 		// check credentials (unlikely someone will spoof the POST header, but just in case)
 		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() && !$user->isDeveloper())){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
@@ -56,7 +61,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		if(!$approved & $newApproved){
 			
 			//Approve user in database
-			$requestedUser->approve($user);
+			$requestedUser->approve($user, $newComments);
 			
 			//Notify IRC of approval
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been approved by\x032 " . $_SESSION['user']);
@@ -65,14 +70,14 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		if($active & !$newActive){
 			
 			//Mark user disabled in the database
-			$requestedUser->disable($user, $newComments);
+			$requestedUser->disable($user, $reason);
 			
 			//Notify IRC of the change
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been disabled by\x032 " . $_SESSION['user']);
 			
 		}
 		else if(!$active & $newActive){
-			$requestedUser->enable($user);
+			$requestedUser->enable($user, $newComments);
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been enabled by\x032 " . $_SESSION['user']);
 		}
 		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
@@ -257,38 +262,27 @@ echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkus
      ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
 echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for changes to this account:</label>\n";
-echo "<textarea name=\"reason\" id=\"reason\" rows=\"1\" cols=\"50\" />" . "</textarea>\n</td></tr></table>";
+echo "<input type=\"text\" name=\"reason\" id=\"reason\" size=\"60\" />" . "</input>\n</td></tr></table>";  
 echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit changes\" \> ";
 echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=\"setRequired(" . !$active . ")\" \>\n";
 echo "</form>\n";
 ?>
+<?php
+
+		echo "<form name=\"renameuser\" id=\"renameuser\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
+		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" size=\"30\" value=\"" . (isset($_POST['newName']) ? $_POST['newName'] : "") . "\"/>\n";
+		echo "<input type=\"submit\" name=\"rename\" id=\"rename\" value=\"Rename user\" \>\n";
+		echo "</form>\n";
+		
+?>
+      <h4>Assigned cases</h4>
+      <?php echo printAssigned($userId); ?>
+      <h4>Closed cases</h4>
+			<?php echo printClosed($userId); ?>
 		</td>
 		<td style="width:60%;" valign="top">
 			<h4>Logs for this user</h4>
 			<?php echo printUserLogs($userId); ?>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<?php
-
-		echo "<form name=\"renameuser\" id=\"renameuser\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
-		echo "<label name=\"newNameLabel\" for=\"newName\" class=\"required\">Rename this user to:</label> <input type=\"text\" name=\"newName\" id=\"newName\" length=\"30\" value=\"" . (isset($_POST['newName']) ? $_POST['newName'] : "") . "\"/>\n";
-		echo "<input type=\"submit\" name=\"rename\" id=\"rename\" value=\"Rename user\" \>\n";
-		echo "</form>\n";
-		
-		?>
-		</td>
-	</tr>
-		<td colspan="2">
-			<h4>Assigned cases</h4>
-			<?php echo printAssigned($userId); ?>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<h4>Closed cases</h4>
-			<?php echo printClosed($userId); ?>
 		</td>
 	</tr>
 </table>

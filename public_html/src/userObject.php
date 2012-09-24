@@ -303,7 +303,7 @@ class User{
 		}
 	}
 	
-	public function approve($admin){
+	public function approve($admin, $reason){
 		$db = connectToDB();
 
 		$query = $db->prepare("UPDATE user SET approved = 1 WHERE userID = :userID");
@@ -318,8 +318,9 @@ class User{
 		}
 		
 		$this->approved = true;
+    $this->reason = $reason;
 		
-		UserMgmtLog::insert("approved account", "", "Autorized", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", $this->reason, $this->userId, $admin->userId);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -333,6 +334,7 @@ class User{
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 			
 		// notify user
+    // Need catch for if mailserver doesn't exist or fails --DQ
 		mail($this->email, "UTRS account approved", $emailBody, $headers);
 	}
 	
@@ -365,21 +367,21 @@ class User{
 		    "action is: \"" . $comments . "\". You may contact any tool administrator to have your account " .
 		    "reactivated.\n\nSincerely,\nThe UTRS Development Team";
 		
-		// notify user
+		// notify user - disable, local reasons
 		mail($this->email, "UTRS account disabled", $emailBody, "From: UTRS Development Team <unblock@toolserver.org>");
 	}
-	
-	public function enable($admin){
+	//Need to add comment reason for DB setup
+	public function enable($admin, $reason){
 		$db = connectToDB();
 		
 		$query = $db->prepare("
 			UPDATE user
 			SET active = 1,
-			    comments = NULL
+			    comments = :reason
 			WHERE userID = :userID");
 
 		$result = $query->execute(array(
-			':userID'	=> $this->userId));
+			':userID'	=> $this->userId, ':reason'	=> $reason));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);
@@ -388,9 +390,9 @@ class User{
 		}
 		
 		$this->active = true;
-		$this->comments = null;
-		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $comments, $this->userId, $admin->userId);
+		$this->reason = $reason;
+
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->reason, $this->userId, $admin->userId);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $reason){

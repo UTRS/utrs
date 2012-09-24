@@ -15,13 +15,13 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 	try{
 		if(!isset($_POST['subject']) | strlen($_POST['subject']) == 0 |
 		   !isset($_POST['emailBody']) | strlen($_POST['emailBody']) == 0){
-			throw new UTRSIllegalModificationException("All fields are required.");   	
+			throw new UTRSIllegalModificationException("All fields are required.");
 		}
 		$subject = $_POST['subject'];
 		$body = $_POST['emailBody'];
-		$headers = "From: UTRS Development Team <unblock@toolserver.org>\r\n" . 
+		$headers = "From: UTRS Development Team <unblock@toolserver.org>\r\n" .
 	        "Reply-to: UTRS Development Team <unblock@toolserver.org>\r\n";
-		
+
 		$db = connectToDB();
 		$query = $db->query("SELECT email FROM user WHERE approved='1' AND active='1'");
 		if($query === false){
@@ -39,9 +39,9 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 			throw new UTRSDatabaseException("There are no users to send emails to? Check the database...");
 		}
 		$headers .= "Bcc: " . implode(', ', $emails);
-		
+
 		mail("", $subject, $body, $headers);
-		
+
 		Log::ircNotification("\x037,0<<ANNOUNCEMENT>> Mass email has been sent by " . $_SESSION['user']);
 	}
 	catch(UTRSException $e){
@@ -49,14 +49,14 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 	}
 }
 
-skinHeader();
+skinHeader('', true);
 
 if(!verifyAccess($GLOBALS['DEVELOPER'])){
 	displayError("<b>Access denied:</b> This function is only available to tool developers.");
 }
 else{
 	echo "<h3>Developer mass email function</h3>\n";
-	
+
 	if($errors){
 		displayError($errors);
 	}
@@ -68,7 +68,7 @@ else{
 <p>This function will send an email to all currently approved and active users of UTRS. This
 should only be used to announce upcoming tool maintenance, downtime, or uptime, or otherwise
 announce large-scale changes to the tool. Abuse of this may constitute violation of Toolserver
-rules and thus may result in loss of your access as a developer to this project or your 
+rules and thus may result in loss of your access as a developer to this project or your
 Toolserver account as a whole.</p>
 
 <form name="sendEmail" id="sendEmail" method="POST" action="massEmail.php">
@@ -82,7 +82,7 @@ Toolserver account as a whole.</p>
 be sent from the unblock@toolserver.org email address. You must identify yourself in this
 email as the one sending it. You are responsible for the content of this email.</p>
 
-<?php 
+<?php
 }
 
 skinFooter();

@@ -198,5 +198,3 @@ INSERT INTO `config` (`config`, `data`) VALUES
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
-

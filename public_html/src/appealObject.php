@@ -16,7 +16,7 @@ class Appeal extends Model {
 	 * IP addresses belonging to the Toolserver that may get in the way
 	 * of identifying the requestor's IP
 	 */
-	public static $TOOLSERVER_IPS = '91.198.174.197,91.198.174.204,185.15.59.204';
+	public static $TOOLSERVER_IPS = '91.198.174.197,91.198.174.204,185.15.59.204,185.15.59.197';
 	/**
 	 * The appeal has not yet passed email verification
 	 */

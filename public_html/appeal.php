@@ -86,7 +86,7 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 		$error = "Cannot release hold on appeal";
 	}
 }
-
+		
 //Status change
 if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "status") {
 	switch ($_GET['value']) {
@@ -110,22 +110,22 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$error = "Cannot set AWAITING_CHECKUSER status";
 			}
 			break;
-		case "return":
+		case "return":		  
 			if (!(
 				//Appeal is not in checkuser or admin status
-				($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN) ||
+				($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 				//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-				$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) ||
+				($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
 				//Appeal is in admin status and user is not admin
-				$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+				($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 				//There is no old handling admin
-				$appeal->getOldHandlingAdmin() == null ||
+				//($appeal->getOldHandlingAdmin() == null) ||
 				//Appeal is closed and not an admin
-				$appeal->getStatus() == Appeal::$STATUS_CLOSED
+				($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 					$appeal->returnHandlingAdmin();
-					$log->addNewItem('Appeal reservation returned to ' . $appeal->getHandlingAdmin()->getUsername());
+					$log->addNewItem('Appeal reservation returned to tool users.');
 					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
 			} else {
 				$error = "Cannot return appeal to old handling tool user";
@@ -307,6 +307,7 @@ if (isset($_GET['action'])) {
 	}
 }
 
+if ($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED) {
 ?>
 <h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
 <table class="appeal">
@@ -320,7 +321,7 @@ if (isset($_GET['action'])) {
   <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank">Find block</a></li> 
   <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Contribs</a></li>
   <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
-  <li><a href="<?php echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li>
+  <!-- <li><a href="<?php //echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li> We are unable to create accounts right now--> 
 </ul>
 </div>
 Request timestamp: <?php echo $appeal->getTimestamp(); ?><br>
@@ -356,6 +357,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">If you are unblocked, what articles do you intend to edit?</a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getIntendedEdits())); ?></div>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getBlockReason()))); ?>)">Why do you think there is a block currently affecting you? If you believe it's in error, tell us how.</a></h3>
+<div class="info"><?php echo nl2br(htmlspecialchars($appeal->getBlockReason())); ?></div>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getOtherInfo()))); ?>)">Is there anything else you would like us to consider when reviewing your block?</a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getOtherInfo())); ?></div>
 <br>
@@ -417,39 +420,41 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	$disabled = "";
 	if (
 		//Appeal is not in checkuser or admin status
-		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN) ||
+		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
 		//Appeal is in admin status and user is not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//There is no old handling admin
-		$appeal->getOldHandlingAdmin() == null ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
+		//If it is in the proxy queue, allow through
+		//!($appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY) ||
+		//There is no old handling admin - Not going to work, i've mod'd the comment to not require the old admin
+		//$appeal->getOldHandlingAdmin() == null ||
 		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED
+		($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Return\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
 	//Awaiting user button
 	$disabled = "";
 	if (
 		//When it is already in STATUS_AWAITING_USER status
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
-		//When not handling user and not admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
-		//In AWAITING_ADMIN status and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//Awaiting checkuser and not CU or admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
-		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-		) {
-		$disabled = "disabled='disabled'";
+	    $appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
+	    //When not assigned
+	    !($appeal->getHandlingAdmin()) ||
+	    //When not handling user and not admin
+	    !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
+	    //In AWAITING_ADMIN status and not admin
+	    ($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
+	    //Awaiting checkuser and not CU or admin
+	    ($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
+	    //Appeal is closed and not an admin
+	    ($appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN']))
+	    ) {
+	    $disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . " value=\"User\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
-	echo "<hr style='width:200px;'>";
+	echo "<input type=\"button\" " . $disabled . " value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	echo "<hr style='width:475px;'>";
 	//On Hold button
 	$disabled = "";
 	if (
@@ -458,17 +463,17 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		//When not assigned
 		!($appeal->getHandlingAdmin()) ||
 		//When not handling user and not admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
+		(!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) ||
 		//In AWAITING_ADMIN status and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 		//Awaiting checkuser and not CU or admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
 		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
+		($appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN']))
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (
@@ -487,7 +492,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Proxy\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
 	//Awaiting admin
 	$disabled = "";
 	if (
@@ -542,12 +547,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		?>
 	</SELECT>
 </div>
-<script type="text/javascript">
-
-$contextValue = <?php echo json_encode($log->getLargeHTML()); ?>;
-
-</script>
-<h3><a href="javascript:void(0)" onClick="showContextWindow($contextValue)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML())) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
 </div>
@@ -567,7 +567,8 @@ $contextValue = <?php echo json_encode($log->getLargeHTML()); ?>;
 </div>
 
 <?php 
-
+}
+else displayError("You may not view appeals that have not been email verified.");
 skinFooter();
 
 ?>

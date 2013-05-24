@@ -22,6 +22,7 @@ CREATE TABLE `appeal` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `appealText` varchar(4096) NOT NULL,
   `intendedEdits` varchar(1024) NOT NULL,
+  `blockReason` varchar(1024) NOT NULL,
   `otherInfo` varchar(1024) DEFAULT NULL,
   `status` varchar(255) NOT NULL,
   `handlingAdmin` int(11) DEFAULT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE `appeal` (
   PRIMARY KEY (`appealID`),
   KEY `handlingAdmin` (`handlingAdmin`),
   FULLTEXT KEY `email` (`email`,`wikiAccountName`,`blockingAdmin`,`appealText`,`intendedEdits`,`otherInfo`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -46,7 +47,7 @@ CREATE TABLE `banList` (
   PRIMARY KEY (`banID`),
   UNIQUE KEY `target` (`target`),
   KEY `admin` (`admin`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -62,7 +63,7 @@ CREATE TABLE `comment` (
   KEY `appealID` (`appealID`),
   KEY `commentUser` (`commentUser`),
   FULLTEXT KEY `comment` (`comment`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -80,7 +81,7 @@ CREATE TABLE `irc` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `unblock` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ircID`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -98,7 +99,7 @@ CREATE TABLE `sitenotice` (
   `author` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`messageID`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -113,7 +114,7 @@ CREATE TABLE `template` (
   PRIMARY KEY (`templateID`),
   UNIQUE KEY `name` (`name`),
   KEY `lastEditUserIdx` (`lastEditUser`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -144,13 +145,14 @@ CREATE TABLE `user` (
   KEY `active` (`active`),
   KEY `toolAdmin` (`toolAdmin`),
   KEY `registered` (`registered`)
-) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userMgmtLog` (
   `logID` int(11) NOT NULL AUTO_INCREMENT,
   `action` varchar(255) NOT NULL,
+  `change` varchar(256) NOT NULL,
   `reason` varchar(1024) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `target` int(11) NOT NULL,
@@ -159,7 +161,29 @@ CREATE TABLE `userMgmtLog` (
   PRIMARY KEY (`logID`),
   KEY `target` (`target`),
   KEY `doneBy` (`doneBy`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--HOOK TOOL
+
+CREATE TABLE IF NOT EXISTS `hooks` (
+  `user_id` int(11) NOT NULL,
+  `hook_class` varchar(32) NOT NULL,
+  `zone` int(11) NOT NULL,
+  `order` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `config` (
+  `config` varchar(16) NOT NULL,
+  `data` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `config` (`config`, `data`) VALUES
+('installed_hooks', 'a:12:{i:0;s:13:"AwaitingProxy";i:1;s:16:"AwaitingReviewer";i:2;s:17:"AwaitingToolAdmin";i:3;s:12:"AwaitingUser";i:4;s:7:"Backlog";i:5;s:15:"CheckUserNeeded";i:6;s:14:"ClosedRequests";i:7;s:7:"MyQueue";i:8;s:11:"NewRequests";i:9;s:6:"OnHold";i:10;s:17:"UnverifiedAppeals";i:11;s:11:"WaitingOnMe";}');
+
+--End of hook tool
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50001 DROP TABLE IF EXISTS `actionAppealLog`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -174,3 +198,5 @@ CREATE TABLE `userMgmtLog` (
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+

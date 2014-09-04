@@ -15,6 +15,7 @@ require_once('src/appealObject.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/logObject.php');
+require_once('src/emailTemplates.class.php');
 require_once('template.php');
 
 // make sure user is logged in, if not, kick them out
@@ -127,6 +128,36 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					$appeal->returnHandlingAdmin();
 					$log->addNewItem('Appeal reservation returned to tool users.');
 					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
+					
+					$admin = $appeal->getHandlingAdmin();
+					
+					Log::ircNotification("\x033" . ($admin ? "Attention\x032 " . $admin->getUsername() . "\x033: " : "") . 
+						"An appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
+						$appeal->getID() . " \x033) has been returned to you and the status has been updated to AWAITING_REVIEWER URL: " .
+						getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+					
+					//Email notification to the admin handling the appeal
+					
+					if ($admin->replyNotify()) {
+						$email = $admin->getEmail();
+						$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+						$headers .= "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+						$body = "Hello {{adminname}}, \n\n" .
+								"This is a notification that an appeal has been returned to your queue.  ".
+								"<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
+								"to review the reply, please click the link below.\n".
+								"<a href=\"" . getRootURL() . "appeal.php?id=" . $appeal->getID() . "\">" .
+								"Review response by clicking here</a>\n<hr />\n";
+						$subject = "Response to unblock appeal";
+							
+						$et = new EmailTemplates($admin, $appeal);
+						$body = $et->apply_to($body);
+			
+						$body = str_replace("\n", "<br/>", $body);
+							
+						mail($email, $subject, $body, $headers);
+					}
 			} else {
 				$error = "Cannot return appeal to old handling tool user";
 			}
@@ -307,7 +338,7 @@ if (isset($_GET['action'])) {
 	}
 }
 
-if ($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED) {
+if ($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED || verifyAccess($GLOBALS['ADMIN'])) {
 ?>
 <h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
 <table class="appeal">

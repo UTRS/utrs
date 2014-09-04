@@ -12,6 +12,7 @@ verifyLogin('statistics.php');
 
 $errorMessages = '';
 
+
 //Template header()
 skinHeader();
 
@@ -22,7 +23,7 @@ function getDBstatement($table, $field, $wildcard, $phrase, $userlevel) {
 		debug('Query number of ' .$phrase.'<br />');
 		
 		$db = connectToDB();
-		
+
 		if (isset($field) && $wildcard) {
 			$query = "SELECT COUNT(*) FROM `".$table."` WHERE `".$field."` LIKE '%'";
 		}
@@ -55,6 +56,23 @@ function getDBstatement($table, $field, $wildcard, $phrase, $userlevel) {
 	}
 	
 }
+
+function getTopAdmins() {
+	$db = connectToDB();
+
+	$query = "select count(*) as Total, username FROM user, appeal where userID = handlingAdmin Group by username ORDER BY Total DESC LIMIT 0,10;";
+	
+	$query = $db->query($query);
+	
+	echo "<h4>Thank you</h4>";
+	
+	while ($row = $query->fetch()) {
+		echo $row["Total"] . " - " . $row["username"] . "<br>";
+	}
+	
+	echo "<br>";
+}
+
 getDBstatement("user", "username", True, "Number of tool users: ", "APPROVED");
 getDBstatement("user", "approved", False, "Number of tool users approved: ", "APPROVED");
 getDBstatement("user", "active", False, "Number of tool users active: ", "APPROVED");
@@ -65,6 +83,8 @@ getDBstatement("template", Null, False, "Number of email templates: ", "ACTIVE")
 getDBstatement("cuData", Null, False, "Number of Useragents in DB: ", "DEVELOPER");
 
 echo "<br>";
+
+getTopAdmins();
 
 echo "<h4>Last 30 Actions</h4>";
 echo printLastThirtyActions();

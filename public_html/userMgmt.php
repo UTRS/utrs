@@ -296,7 +296,17 @@ echo "</form>\n";
 <?php
 	} // closes if(isset($_GET['userId']))
 	else{
+		
+		
+//Generate the perms list in a single API call to Wikipedia for all users
+global $wikiPerms;
+
+if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
+	getPermsDB();
+}
+
 ?>
+<span style="font-size: 8px;">(<a href="userMgmt.php?checkperms=yes">Check Permissions</a>)</span>
 
 
 <table style="background:none; border:none; width:80%;" cellspacing="0" cellpadding="0">

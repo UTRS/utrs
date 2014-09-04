@@ -36,10 +36,17 @@ skinHeader();
 
 $appeal = Appeal::getAppealByID($id);
 $admin = getCurrentUser();
+$log = Log::getCommentsByAppealId($appeal->getID());
+
+//If there is no admin with it reserved, reserve it for the current user
+if ($appeal->getHandlingAdmin() == null) {
+		$appeal->setHandlingAdmin($admin->getUserId());
+		$appeal->update();
+		$log->addNewItem('Reserved appeal', 1);
+}
 
 // confirm you have permission to email
-if ($appeal->getHandlingAdmin() == null ||
-$admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
+if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
 	displayError("<b>Access denied:</b> You must hold the reservation on appeal number " . $id . " to send an email to that user.");
 } else{
 	$success = false;
@@ -68,7 +75,6 @@ $admin->getUserId() != $appeal->getHandlingAdmin()->getUserId()) {
 			mail($email, $subject, $body, $headers);
 			
 				
-			$log = Log::getCommentsByAppealId($appeal->getID());
 			if ($_POST['template'] == "") {
 				$log->addNewItem("Sent email to user", 1);
 				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 1);

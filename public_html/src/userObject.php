@@ -19,6 +19,7 @@ class User{
 	private $checkuser;
 	private $developer;
 	private $useSecure;
+	private $acceptToS;
 	private $replyNotify;
 	private $passwordHash;
 	private $comments;
@@ -39,6 +40,7 @@ class User{
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
 			$this->useSecure = ($vars['useSecure'] == 1 || $vars['useSecure'] == '1' ? true : false);
+			$this->acceptToS = ($vars['acceptToS'] == 1 || $vars['acceptToS'] == '1' ? true : false);
 			$this->replyNotify = $vars['replyNotify'];
 			$this->comments = $vars['comments'];
 			$this->registered = $vars['registered'];
@@ -55,6 +57,7 @@ class User{
 			$this->checkuser = 0;
 			$this->developer = 0;
 			$this->useSecure = isset($vars['useSecure']);
+			$this->acceptToS = 1;
 			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
 			$this->closed = 0;
@@ -71,8 +74,8 @@ class User{
 		$db = connectToDB();
 
 		$query = $db->prepare('
-			INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff)
-			VALUES (:username, :email, :wikiAccount, :useSecure, :passwordHash, :diff)');
+			INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff, acceptToS)
+			VALUES (:username, :email, :wikiAccount, :useSecure, :passwordHash, :diff, 1)');
 
 		$result = $query->execute(array(
 			':username'	=> $this->username,
@@ -221,7 +224,33 @@ class User{
 		return $this->registered;
 	}
 	
-	public function replyNotify() {
+	public function getAcceptToS() {
+		return $this->acceptToS; 
+	}
+	
+	public function setAcceptToS() {
+		
+		$db = connectToDB();
+
+		$query = $db->prepare("
+			UPDATE user
+			SET acceptToS = 1
+			WHERE userID = :userID");
+
+		$result = $query->execute(array(
+			':userID'	=> $this->userId));
+
+		if(!$result){
+			$error = var_export($query->errorInfo(), true);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+		}
+		
+		$this->acceptToS = 1;
+		
+	}
+	
+	public function replyNotify() {	
 		return $this->replyNotify;
 	}
 	

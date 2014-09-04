@@ -129,8 +129,13 @@ function verifyLogin($destination = 'home.php'){
 	// if user has somehow lost access, kick them out
 	$user = User::getUserByUsername($_SESSION['user']);
 	if(!$user->isApproved() | !$user->isActive()){
-		header("Location: " . getRootURL() . 'logout.php');
-		exit;
+			header("Location: " . getRootURL() . 'logout.php');
+			exit;
+	} else {	
+		if (!$user->getAcceptToS() && $_SERVER['REQUEST_URI'] != "/accepttos.php") {
+			header("Location: " . getRootURL() . 'accepttos.php');
+			exit;
+		}
 	}
 }
 

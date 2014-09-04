@@ -19,106 +19,104 @@ $accessGranted = false;
 $submitted = false;
 
 if(!isset($_GET['id'])){
-	// if not supposed to be here, send to appeals page
-	header("Location: " . getRootURL() . "index.php");
+   // if not supposed to be here, send to appeals page
+   header("Location: " . getRootURL() . "index.php");
 }
 try{
-	$id = $_GET['id'];
-	$appeal = Appeal::getAppealByID($id);
+   $id = $_GET['id'];
+   $appeal = Appeal::getAppealByID($id);
 
-	if(!isset($_GET['confirmEmail']) || strcmp($_GET['confirmEmail'], $appeal->getEmail()) !== 0){
-		throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .
-		   "This security step assures us that we are still talking to the same person. Thank you.");
-	}
-	if(isset($_GET['token'])) {
-		// Email address verification.
-		$appeal->verifyEmail($_GET['token']);
+   if(!isset($_GET['confirmEmail']) || strcmp($_GET['confirmEmail'], $appeal->getEmail()) !== 0){
+      throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .
+         "This security step assures us that we are still talking to the same person. Thank you.");
+   }
+   if(isset($_GET['token'])) {
+      // Email address verification.
+      $appeal->verifyEmail($_GET['token']);
 
-		$log = Log::getCommentsByAppealId($appeal->getID());
+      $log = Log::getCommentsByAppealId($appeal->getID());
 
-		$log->addNewItem('Email address verified, status changed to NEW.', 1);
+      $log->addNewItem('Email address verified, status changed to NEW.', 1);
 
-		Log::ircNotification("\x033 Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
-		 	$appeal->getID() . " \x033) has passed email verification and is now NEW. URL: " .
-		 	getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+      Log::ircNotification("\x033 Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
+         $appeal->getID() . " \x033) has passed email verification and is now NEW. URL: " .
+         getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
 
-		skinHeader();
-		displaySuccess('Thank you for verifying your email address.  Your appeal has been updated and will be reviewed shortly.');
-		skinFooter();
+      skinHeader();
+      displaySuccess('Thank you for verifying your email address.  Your appeal has been updated and will be reviewed shortly.');
+      skinFooter();
 
-		exit();
-	}
-	if(strcmp($appeal->getStatus(), Appeal::$STATUS_CLOSED) === 0){
-		throw new UTRSIllegalModificationException("Your appeal has been marked as closed, which means the adminstrator" .
-		   " reviewing your appeal feels the matter is resolved. If you received a message that indicates you will be " .
-		   "unblocked, but you still cannot edit, please try again in a few minutes. If you are still unable to edit," .
-		   " you may wish to post <tt>{{unblock|&lt;contents of your email here&gt;}}</tt> to your " .
-		   "<a href=\"http://enwp.org/Special:Mytalk\">User Talk: page</a>. If your appeal was declined, then you may " .
-		   "wish to appeal again in several month's time, or appeal to the Ban Appeals Subcommittee by emailing " .
-		   "arbcom-l AT lists DOT wikimedia DOT org.");
-		   
-	}
-	
-	$accessGranted = true;
+      exit();
+   }
+   if(strcmp($appeal->getStatus(), Appeal::$STATUS_CLOSED) === 0){
+         $body = Template::getTemplateById(65)->getText();
+         $et = new EmailTemplates("Ban Appeals Subcomittee", $appeal);
+         $body = $et->apply_to($body);
 
-	if(isset($_POST['submit'])){
-		$submitted = true;
-		
-		$log = Log::getCommentsByAppealId($appeal->getID());
-		
-		$reply = $_POST['reply'];
-		if(strlen($reply) === 0){
-			throw new UTRSIllegalModificationException("You may not post a blank reply.");
-		}
-		
-		//Post the reply to the log
-		
-		$log->addAppellantReply($reply);
-		
-		// IRC Notification
-		
-		$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
-		$appeal->update();
-		$admin = $appeal->getHandlingAdmin();
-		
-		Log::ircNotification("\x033" . ($admin ? "Attention\x032 " . $admin->getUsername() . "\x033: " : "") . 
-			"A reply has been made to appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
-		 	$appeal->getID() . " \x033) and the status has been updated to AWAITING_REVIEWER URL: " .
-		 	getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
-		
-		//Email notification to the admin handling the appeal
-		
-		if ($admin->replyNotify()) {
-			$email = $admin->getEmail();
-			$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-			$body = "Hello {{adminname}}, \n\n" .
-					"This is a notification that a reply has been made to a Wikipedia unblock appeal".
-					" from {{username}} that you have reserved. " .
-			        "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
-					"to review the reply, please click the link below.\n".
-					"<a href=\"" . getRootURL() . "appeal.php?id=" . $id . "\">" .
-					"Review response by clicking here</a>\n<hr />\n";
-			$subject = "Response to unblock appeal";
-				
-			$et = new EmailTemplates($admin, $appeal);
-			$body = $et->apply_to($body);
+      throw new UTRSIllegalModificationException($body);
+         
+   }
+   
+   $accessGranted = true;
 
-			$body = str_replace("\n", "<br/>", $body);
-				
-			mail($email, $subject, $body, $headers);
-		}
-	}
+   if(isset($_POST['submit'])){
+      $submitted = true;
+      
+      $log = Log::getCommentsByAppealId($appeal->getID());
+      
+      $reply = $_POST['reply'];
+      if(strlen($reply) === 0){
+         throw new UTRSIllegalModificationException("You may not post a blank reply.");
+      }
+      
+      //Post the reply to the log
+      
+      $log->addAppellantReply($reply);
+      
+      // IRC Notification
+      
+      $appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
+      $appeal->update();
+      $admin = $appeal->getHandlingAdmin();
+      
+      Log::ircNotification("\x033" . ($admin ? "Attention\x032 " . $admin->getUsername() . "\x033: " : "") . 
+         "A reply has been made to appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
+         $appeal->getID() . " \x033) and the status has been updated to AWAITING_REVIEWER URL: " .
+         getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+      
+      //Email notification to the admin handling the appeal
+      
+      if ($admin->replyNotify()) {
+         $email = $admin->getEmail();
+         $headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
+         $headers .= "MIME-Version: 1.0\r\n";
+         $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+         $body = "Hello {{adminname}}, \n\n" .
+               "This is a notification that a reply has been made to a Wikipedia unblock appeal".
+               " from {{username}} that you have reserved. " .
+                 "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
+               "to review the reply, please click the link below.\n".
+               "<a href=\"" . getRootURL() . "appeal.php?id=" . $id . "\">" .
+               "Review response by clicking here</a>\n<hr />\n";
+         $subject = "Response to unblock appeal";
+
+         $et = new EmailTemplates($admin, $appeal);
+         $body = $et->apply_to($body);
+
+         $body = str_replace("\n", "<br/>", $body);
+            
+         mail($email, $subject, $body, $headers);
+      }
+   }
 }
 catch(UTRSException $e){
-	$errors = $e->getMessage();
+   $errors = $e->getMessage();
 }
 
 skinHeader();
 
 if(!$accessGranted){
-	displayError($errors);
+   displayError($errors);
 }
 else{
 ?>
@@ -134,10 +132,10 @@ been heavily delayed, you can post a response to bring attention to it again.</p
 <?php } // closes if(!$submitted | $errors )
 
 if($submitted && !$errors){
-	displaySuccess("Your response has been successfully posted. We will be in touch with you again soon.");
+   displaySuccess("Your response has been successfully posted. We will be in touch with you again soon.");
 }
 else if($errors){
-	displayError($errors);
+   displayError($errors);
 }
 
 if(!$submitted || $errors ){

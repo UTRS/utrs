@@ -18,6 +18,14 @@ that by requesting unblocking here, you are not at risk of exposing your identit
 same time, however, in order to properly process your unblock request, we do need to collect certain
 information that will allow us to distinguish you from others editing from the same or a nearby location.</p>
 
+<h4>Wikimedia Labs Disclaimer</h4>
+<p>By using this project, you agree that any private information you give to this project may be made publicly available and not be treated as confidential.
+
+<p>By using this project, you agree that the volunteer administrators of this project will have access to any data you submit. This can include your IP address, your username/password combination for accounts created in Labs services, and any other information that you send. The volunteer administrators of this project are bound by the Wikimedia Labs Terms of Use, and are not allowed to share this information or use it in any non-approved way.
+
+<p>Since access to this information is fundamental to the operation of Wikimedia Labs, these terms regarding use of your data expressly override the Wikimedia Foundation's Privacy Policy as it relates to the use and access of your personal information.
+
+
 <h4>What data do we collect, and why?</h4>
 
 <p>This system records your IP Address and useragent data.  This information may be processed overseas and your

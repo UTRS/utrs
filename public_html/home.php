@@ -25,6 +25,7 @@ skinHeader();
 echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
 
 //Get user's personalized hooks
+init();
 getHooks();
 
 echo "<div style=\"clear: both\"></div>";

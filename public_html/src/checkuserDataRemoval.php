@@ -16,9 +16,14 @@ try{
 	$closedAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
 		"comment = 'Closed' AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
 
+        // appeals that are unverified for more than 6 days
+        $unverifiedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE status = 'Unverified' " .
+                " AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
+
 	// grab appeals and IPs
-	$query = "SELECT appealID, ip FROM appeal WHERE appealID = ANY (" . $closedAppealsSubquery . ")" .
-				" AND email IS NOT NULL" .
+	$query = "SELECT appealID, ip FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
+			        " OR appealID = ANY (" . $unverifiedAppealsSubquery . "))" .	
+                                " AND email IS NOT NULL" .
 				" AND ip LIKE '%.%.%.%'";
 		
 	echo "Running query: " . $query . "\n";
@@ -51,6 +56,10 @@ try{
 			DELETE FROM cuData
 			WHERE appealID = :appealID");
 
+                $close_unverify_stmt = $db->prepare("
+                        UPDATE appeal SET status = 'CLOSED'
+                        WHERE appealID = :appealID");
+
 		echo "Getting appeal IDs from " . $rows . " appeals...\n";
 
 		echo "Starting to remove private data...\n";
@@ -77,6 +86,15 @@ try{
 				$error = var_export($delete_cudata_stmt->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
+
+                        echo "\tClosing appeal...\n";
+                        $close = $close_unverify_stmt->execute(array(
+                                ':appealID'     => $appeal['appealID']));
+
+                        if(!$close){
+                                $error = var_export($close_unverify_stmt->errorInfo(), true);
+                                throw new UTRSDatabaseException($error);
+                        }
 
 			echo "Appeal #" . $appeal['appealID'] . " complete.\n";
 		}

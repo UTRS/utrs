@@ -77,6 +77,7 @@ if ($_POST || $_GET) {
 			SELECT DISTINCT
 				a.appealID,
 				MATCH (
+					a.appealID,
 					a.email,
 					a.wikiAccountName,
 					a.blockingAdmin,

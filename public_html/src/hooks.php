@@ -66,7 +66,7 @@ function getHooks() {
      for ($i = 1; $i <= 3; $i++) {
 
         echo "<ul valign=\"top\" id=\"Zone" . $i . "\">";
-
+        echo "Installed Hooks: ".$installedHooks;
          for ($hook = 0; $hook < count($hooksArray[$i]); $hook++) {
          	if (in_array($hooksArray[$i][$hook], $installedHooks)) {
 	            echo "<li id=\"" . $hooksArray[$i][$hook] . "\">";

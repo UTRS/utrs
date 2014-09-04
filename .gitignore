@@ -7,3 +7,6 @@
 
 # Config files
 config.js
+
+#do not upload beta
+beta/*

@@ -54,6 +54,13 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
    return $query;
 }
 
+function printCUData(){
+    $query = "select count(*) from cuData"
+    debug($query);
+    $query = $db->query($query);
+    return $query
+  }
+
 /**
 * Returns a list in an HTML table
 * @param Array $criteria the column and value to filter by

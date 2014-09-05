@@ -69,6 +69,8 @@ function getHooks() {
 
          for ($hook = 0; $hook < count($hooksArray[$i]); $hook++) {
          	if (in_array($hooksArray[$i][$hook], $installedHooks)) {
+          #If you are erroring on the line above, make sure there is data in mysql databasename.config
+          #TO FIX: Add this to default mysqldump --DQ
 	            echo "<li id=\"" . $hooksArray[$i][$hook] . "\">";
 	            require_once("hooks/" . $hooksArray[$i][$hook] . ".php");
 	            $hooksArray[$i][$hook] = new $hooksArray[$i][$hook]();

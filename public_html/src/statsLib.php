@@ -84,6 +84,7 @@ function printCUData(){
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
       foreach ($data as $value) {
+        echo $value;
         $lastAppealID = $value;
       }
     }

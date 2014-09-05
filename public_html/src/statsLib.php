@@ -65,10 +65,7 @@ function printCUData(){
       throw new UTRSDatabaseException($error);
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-    echo "Debug 1: ".$data;
-      for($line in $data) {
-        echo $line;
-      }
+      echo "Debug 1: ".$data;
     }
     $query->closeCursor();
     return $query;

@@ -87,7 +87,7 @@ function printCUData(){
         $lastAppealID = $value;
       }
     }
-    
+    echo $lastAppealID;
     $query = "select timestamp from appeal where appealID=".$lastAppealID;
     debug($query);
     $query = $db->query($query);

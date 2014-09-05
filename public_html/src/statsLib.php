@@ -56,7 +56,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 
 function printCUData(){
     $db = connectToDB();
-    $query = "select count(*) from cuData"
+    $query = "select count(*) from cuData";
     debug($query);
     $query = $db->query($query);
     $query->closeCursor();

@@ -66,11 +66,11 @@ function printCUData(){
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
       foreach ($data as $value) {
-        echo "Debug 1: ".$value;
+        $fullvalue .= $value;
       }
     }
     $query->closeCursor();
-    return $query;
+    return $fullvalue;
   }
 
 /**

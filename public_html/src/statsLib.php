@@ -59,7 +59,9 @@ function printCUData(){
     $query = "select count(*) from cuData";
     debug($query);
     $query = $db->query($query);
+    echo "Debug 1: ".$query;
     $query->closeCursor();
+    echo "Debug 2: ".$query;
     return $query;
   }
 

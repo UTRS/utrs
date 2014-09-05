@@ -83,13 +83,11 @@ function printCUData(){
       throw new UTRSDatabaseException($error);
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-      $fullvalue.="Test data: ".$data;
       foreach ($data as $value) {
-        $fullvalue.="Test: ".$value;
         $lastAppealID = $value;
       }
-    }   /*
-    $fullvalue.= $lastAppealID;
+    }   
+    
     $query = "select timestamp from appeal where appealID=".$lastAppealID;
     debug($query);
     $query = $db->query($query);
@@ -102,7 +100,7 @@ function printCUData(){
       foreach ($data as $value) {
         $fullvalue .= $value;
       }
-    } */
+    }
     
     $query->closeCursor();
     return $fullvalue;

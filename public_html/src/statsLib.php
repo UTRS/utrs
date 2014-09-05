@@ -95,7 +95,7 @@ function printCUData(){
     if($query === false){
       $error = var_export($db->errorInfo(), true);
       debug('ERROR: ' . $error . '<br/>');
-      throw new UTRSDatabaseException($error);
+      #throw new UTRSDatabaseException($error);
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
       foreach ($data as $value) {

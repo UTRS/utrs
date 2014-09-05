@@ -83,7 +83,7 @@ function printCUData(){
       throw new UTRSDatabaseException($error);
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-      $fullvalue.="Test data: ".$data
+      $fullvalue.="Test data: ".$data;
       foreach ($data as $value) {
         $fullvalue.="Test: ".$value;
         $lastAppealID = $value;

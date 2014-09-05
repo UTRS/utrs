@@ -1,6 +1,6 @@
 <?php
 
-class CheckUserAppeals
+class cuNumber
 {
 
    public function __construct() {

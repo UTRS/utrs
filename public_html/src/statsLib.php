@@ -71,8 +71,8 @@ function printCUData(){
       }
     }
     
-    $fullvalue.= " appeals have checkuser data in them.<br>"
-    $fullvalue.= "Latest appeal with CU data at:<br>"
+    $fullvalue.= " appeals have checkuser data in them.<br>" ;
+    $fullvalue.= "Latest appeal with CU data at:<br>";
     
     $query = "select appealID from cuData limit 1";
     debug($query);

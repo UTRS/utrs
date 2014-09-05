@@ -54,58 +54,6 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
    return $query;
 }
 
-function printCUData(){
-    $fullvalue = "";
-    $db = connectToDB();
-    $query = "select count(*) from cuData";
-    debug($query);
-    $query = $db->query($query);
-    if($query === false){
-      $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
-      throw new UTRSDatabaseException($error);
-    }
-    while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-      foreach ($data as $value) {
-        $fullvalue .= $value;
-      }
-    }
-    
-    $fullvalue.= " appeals have checkuser data in them.<br>" ;
-    $fullvalue.= "Latest appeal with CU data at:<br>";
-    
-    $query = "select appealID from cuData limit 1";
-    debug($query);
-    $query = $db->query($query);
-    if($query === false){
-      $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
-      throw new UTRSDatabaseException($error);
-    }
-    while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-      foreach ($data as $value) {
-        $lastAppealID = $value;
-      }
-    }   
-    
-    $query = "select timestamp from appeal where appealID=".$lastAppealID;
-    debug($query);
-    $query = $db->query($query);
-    if($query === false){
-      $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
-      throw new UTRSDatabaseException($error);
-    }
-    while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-      foreach ($data as $value) {
-        $fullvalue .= $value;
-      }
-    }
-    
-    $query->closeCursor();
-    return $fullvalue;
-  }
-
 /**
 * Returns a list in an HTML table
 * @param Array $criteria the column and value to filter by

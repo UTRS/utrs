@@ -66,6 +66,9 @@ function printCUData(){
     }
     $data = $query->fetch(PDO::FETCH_ASSOC);
     echo "Debug 1: ".$data;
+    for($line in $data) {
+        echo $line;
+    }
     $query->closeCursor();
     echo "Debug 2: ".$query;
     return $query;

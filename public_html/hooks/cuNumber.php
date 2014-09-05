@@ -1,6 +1,6 @@
 <?php
 
-class CheckUserNeeded
+class CheckUserAppeals
 {
 
    public function __construct() {

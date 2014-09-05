@@ -84,11 +84,10 @@ function printCUData(){
     }
     while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
       foreach ($data as $value) {
-        echo $value;
         $lastAppealID = $value;
       }
     }
-    echo $lastAppealID;
+    $fullvalue.= $lastAppealID;
     $query = "select timestamp from appeal where appealID=".$lastAppealID;
     debug($query);
     $query = $db->query($query);

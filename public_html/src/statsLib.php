@@ -59,6 +59,11 @@ function printCUData(){
     $query = "select count(*) from cuData";
     debug($query);
     $query = $db->query($query);
+    if($query === false){
+      $error = var_export($db->errorInfo(), true);
+      debug('ERROR: ' . $error . '<br/>');
+      throw new UTRSDatabaseException($error);
+    }
     echo "Debug 1: ".$query;
     $query->closeCursor();
     echo "Debug 2: ".$query;

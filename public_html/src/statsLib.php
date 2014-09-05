@@ -64,13 +64,13 @@ function printCUData(){
       debug('ERROR: ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
     }
-    $data = $query->fetch(PDO::FETCH_ASSOC);
+    while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
     echo "Debug 1: ".$data;
-    for($line in $data) {
+      for($line in $data) {
         echo $line;
+      }
     }
     $query->closeCursor();
-    echo "Debug 2: ".$query;
     return $query;
   }
 

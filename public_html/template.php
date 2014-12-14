@@ -331,10 +331,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
 
 function skinFooter() {
 ?>
-
-<br style="clear: both;">
-
-</div>
+<br style="clear:both;"></div>
 <div id="footer">
 <?php if (loggedIn()) {?>
 <p style="text-align:center; font-size:small;">Users active in the last five minutes: <?php echo getLoggedInUsers(); ?></p>

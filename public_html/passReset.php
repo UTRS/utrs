@@ -46,7 +46,7 @@ if(isset($_POST['submit'])){
 			"reset, and you will still be able to log in. The link above will expire after 48 hours.\n\n";
 		$body .= "Thank you,\nThe UTRS Developement Team";
 		$subject = "UTRS Password Reset Confirmation";
-		$from = "From: UTRS Development Team <unblock@toolserver.org>";
+		$from = "From: UTRS Development Team <utrs-developers@googlegroups.com>";
 		mail($email, $subject, $body, $from);
 	}
 	catch(UTRSException $e){
@@ -83,7 +83,7 @@ else if(isset($_GET['confirm'])){
 		         "inform us of the problem.\n\n";
 		$body .= "Thank you,\nThe UTRS Developement Team";
 		$subject = "UTRS Password Reset Complete";
-		$from = "From: UTRS Development Team <unblock@toolserver.org>";
+		$from = "From: UTRS Development Team <utrs-developers@googlegroups.com>";
 		mail($user->getEmail(), $subject, $body, $from);
 		unset($password);
 		unset($passwordHash);

@@ -10,3 +10,6 @@ config.js
 
 #do not upload beta
 beta/*
+
+#ignore potential htaccess
+*.htaccess

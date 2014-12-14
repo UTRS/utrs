@@ -75,8 +75,8 @@ known to the foundation.</p>
 <h4>What are your rights with regard to this information?</h4>
 
 <p>If you wish to see what information has been collected on you by this system, you may email the 
-development team at <a href="mailto:unblock@toolserver.org?subject=UTRS%20information%20request">
-unblock@toolserver.org</a> to request all information associated with your appeal.</p>
+development team at <a href="mailto:utrs-developers@googlegroups.com?subject=UTRS%20information%20request">
+utrs-developers@googlegroups.com</a> to request all information associated with your appeal.</p>
 
 <p>If you do not wish for this information to be collected by UTRS, you may appeal via your talk 
 page on Wikipedia, or by email to <a href="mailto:unblock-en-l@lists.wikimedia.org">
@@ -88,13 +88,13 @@ up your block.</p>
 
 <p>If you have already entered an appeal at UTRS and wish for your information to be deleted 
 immediately, please email the development team at 
-<a href="mailto:unblock@toolserver.org?subject=UTRS%20appeal%20removal%20request">unblock@toolserver.org</a> 
+<a href="mailto:utrs-developers@googlegroups.com?subject=UTRS%20appeal%20removal%20request">utrs-developers@googlegroups.com</a> 
 to have your appeal deleted from the database. You will then need to appeal your block through one 
 of the alternate venues mentioned above. Again, please note that this information will be automatically 
 removed one week after your appeal is resolved.</p>
 
 <p>If you have any questions about this policy, please contact the development team at 
-<a href="mailto:unblock@toolserver.org?subject=Privacy%20questions">unblock@toolserver.org</a>.</p>
+<a href="mailto:utrs-developers@googlegroups.com?subject=Privacy%20questions">utrs-developers@googlegroups.com</a>.</p>
 <?php 
 
 skinFooter();

@@ -144,7 +144,7 @@ function replaceTalkEditLink(){
 an account here. Your account must be approved by a tool administrator before it may 
 be used on this site. If you have already requested an account, but it has gone unapproved
 for some time, please email the development team at 
-<a href="mailto:utrs-developers@googlegroups.com?subject=Account approval">unblock@toolserver.org</a>.</p>
+<a href="mailto:utrs-developers@googlegroups.com?subject=Account approval">utrs-developers@googlegroups.com</a>.</p>
 
 <p>After completing this form, please add a new section to your user talk page, with the
 heading "UTRS Account Request", while logged into your administrator account in order

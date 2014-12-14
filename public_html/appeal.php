@@ -596,6 +596,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 </tr>
 </table>
 </div>
+</div>
 
 <?php 
 }

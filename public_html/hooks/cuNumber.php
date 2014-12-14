@@ -8,12 +8,12 @@ class cuNumber
    }
 
    public function getOutput() {
-
-      echo "<h2>Number of appeals with CU data:</h2>";
-      echo $this->getNumOfCuData() . " appeals have checkuser data in them.<br>" ;
-      echo "Latest appeal with CU data at:<br>" . $this->getOldestCuData() . "<br>";
-      echo "<a href=\"/src/checkuserDataRemoval.php\">Run Now</a>";
-
+      if(verifyAccess($GLOBALS['DEVELOPER'])){
+        echo "<h2>Number of appeals with CU data:</h2>";
+        echo $this->getNumOfCuData() . " appeals have checkuser data in them.<br>" ;
+        echo "Latest appeal with CU data at:<br>" . $this->getOldestCuData() . "<br>";
+        echo "<a href=\"/src/checkuserDataRemoval.php\">Run Now</a>";
+      }
    }
 
    private function getNumOfCuData(){

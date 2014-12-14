@@ -115,7 +115,7 @@ catch(Exception $e){
 	$body .= "Thanks,\nUTRS";
 	$subject = "URGENT: Private data removal failed";
 	
-	mail('unblock@toolserver.org', $subject, $body);
+	mail('utrs-developers@googlegroups.com', $subject, $body);
 }
 
 exit;

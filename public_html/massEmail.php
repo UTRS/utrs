@@ -19,8 +19,8 @@ if(verifyAccess($GLOBALS['DEVELOPER']) & isset($_POST['submit'])){
 		}
 		$subject = $_POST['subject'];
 		$body = $_POST['emailBody'];
-		$headers = "From: UTRS Development Team <unblock@toolserver.org>\r\n" .
-	        "Reply-to: UTRS Development Team <unblock@toolserver.org>\r\n";
+		$headers = "From: UTRS Development Team <utrs-developers@googlegroups.com>\r\n" .
+	        "Reply-to: UTRS Development Team <utrs-developers@googlegroups.com>\r\n";
 
 		$db = connectToDB();
 		$query = $db->query("SELECT email FROM user WHERE approved='1' AND active='1'");
@@ -67,9 +67,9 @@ else{
 
 <p>This function will send an email to all currently approved and active users of UTRS. This
 should only be used to announce upcoming tool maintenance, downtime, or uptime, or otherwise
-announce large-scale changes to the tool. Abuse of this may constitute violation of Toolserver
+announce large-scale changes to the tool. Abuse of this may constitute violation of WMF Labs
 rules and thus may result in loss of your access as a developer to this project or your
-Toolserver account as a whole.</p>
+WMF Labs account as a whole.</p>
 
 <form name="sendEmail" id="sendEmail" method="POST" action="massEmail.php">
 <label for="subject" id="subjectLabel" class="required">Subject: </label><input type="text" name="subject" id="subject" /><br />
@@ -79,7 +79,7 @@ Toolserver account as a whole.</p>
 </form>
 
 <p>Note: This email will be sent as a BCC to all approved and active UTRS users. It will
-be sent from the unblock@toolserver.org email address. You must identify yourself in this
+be sent from the utrs-developers@googlegroups.com email address. You must identify yourself in this
 email as the one sending it. You are responsible for the content of this email.</p>
 
 <?php

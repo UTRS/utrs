@@ -67,7 +67,7 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 					"<a href=\"" . getRootURL() . "reply.php?id=" . $id . "&confirmEmail=" . $email . "\">" .
 					"Send a response by clicking here</a>\n<hr />\n";
 			$body .= $_POST['emailText'];
-			$subject = "Response to your unblock appeal";
+			$subject = "Response to unblock appeal #".$appeal->getID();
 				
 			$et = new EmailTemplates($admin, $appeal);
 			$body = $et->apply_to($body);

@@ -149,7 +149,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 								"to review the reply, please click the link below.\n".
 								"<a href=\"" . getRootURL() . "appeal.php?id=" . $appeal->getID() . "\">" .
 								"Review response by clicking here</a>\n<hr />\n";
-						$subject = "Response to unblock appeal";
+						$subject = "Response to unblock appeal #".$appeal->getID();
 							
 						$et = new EmailTemplates($admin, $appeal);
 						$body = $et->apply_to($body);

@@ -98,7 +98,7 @@ try{
                "to review the reply, please click the link below.\n".
                "<a href=\"" . getRootURL() . "appeal.php?id=" . $id . "\">" .
                "Review response by clicking here</a>\n<hr />\n";
-         $subject = "Response to unblock appeal";
+         $subject = "Response to unblock appeal #".$appeal->getID();
 
          $et = new EmailTemplates($admin, $appeal);
          $body = $et->apply_to($body);

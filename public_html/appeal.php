@@ -105,7 +105,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
-					if (isset($_GET['user'])) {
+					$appeal->setHandlingAdmin(null, 1);//Need to temporarily break 
+          if (isset($_GET['user'])) {
   				  $success = $appeal->setHandlingAdmin($_GET['user']);
           } else {
   				  $success = $appeal->setHandlingAdmin($user->getUserId());
@@ -128,18 +129,18 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Appeal is closed and not an admin
 				($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 				)) {
-          //Mark CU as temp handler
-          if (isset($_GET['user'])) {
+          //Mark CU as temp handler 
+          /*if (isset($_GET['user'])) {
   				  $success = $appeal->setHandlingAdmin($_GET['user']);
           } else {
   				  $success = $appeal->setHandlingAdmin($user->getUserId());
           }
           if ($success) {
             $appeal->update();
-          }
-          //End mark
+          }                 */
+          //End mark - Try no return
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
-					$appeal->returnHandlingAdmin();
+					//$appeal->returnHandlingAdmin();
 					$log->addNewItem('Appeal reservation returned to tool users.');
 					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
 					
@@ -246,7 +247,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Only condition to allow an appeal to be sent to awaiting admin for any reason
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
-				$appeal->setHandlingAdmin(null, 1);
+				//$appeal->setHandlingAdmin(null, 1);
 				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_ADMIN status";

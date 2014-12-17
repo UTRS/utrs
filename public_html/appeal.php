@@ -460,8 +460,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		  $disabled = "disabled='disabled'";
       echo "Tango2";
       echo "1:".$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER."!!";
-      echo "2:".!verifyAccess($GLOBALS['CHECKUSER'])."!!";
-      echo "3:".$appeal->getHandlingAdmin() != $user."!!";
+      echo "2:".(!verifyAccess($GLOBALS['CHECKUSER']))."!!";
+      echo "3:".($appeal->getHandlingAdmin() != $user)."!!";
       echo "4:".(!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)."!!"; 
       
 	     }  if (

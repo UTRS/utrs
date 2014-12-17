@@ -105,7 +105,11 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
-					$appeal->setHandlingAdmin(null, 1);
+					if (isset($_GET['user'])) {
+  				  $success = $appeal->setHandlingAdmin($_GET['user']);
+          } else {
+  				  $success = $appeal->setHandlingAdmin($user->getUserId());
+          }
 					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
 			} else {
 				$error = "Cannot set AWAITING_CHECKUSER status";

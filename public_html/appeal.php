@@ -456,7 +456,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
       echo "Tango1";
 	     }  if (
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBAS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ){
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ){
 		  $disabled = "disabled='disabled'";
       echo "Tango2";
 	     }  if (

@@ -459,6 +459,11 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ){
 		  $disabled = "disabled='disabled'";
       echo "Tango2";
+      echo $appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER;
+      echo !verifyAccess($GLOBALS['CHECKUSER']);
+      echo $appeal->getHandlingAdmin() != $user;
+      echo (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user); 
+      
 	     }  if (
 		//Appeal is in admin status and user is not admin
 		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ){

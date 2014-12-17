@@ -451,25 +451,11 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	$disabled = "";
 	if (
 		//Appeal is not in checkuser or admin status
-		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ) {
-		  $disabled = "disabled='disabled'";
-      echo "Tango1";
-	     }  if (
+		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ){
-		  $disabled = "disabled='disabled'";
-      echo "Tango2";
-      echo "1:".($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER)."!!     ";
-      echo "2:".(!verifyAccess($GLOBALS['CHECKUSER']))."!!      ";
-      echo "3:".($appeal->getHandlingAdmin() != $user)."!!      ";
-      echo "4:".(!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)."!!         "; 
-      
-	     }  if (
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
 		//Appeal is in admin status and user is not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ){
-		  $disabled = "disabled='disabled'";
-      echo "Tango3";
-	     }  if (
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 		//If it is in the proxy queue, allow through
 		//!($appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY) ||
 		//There is no old handling admin - Not going to work, i've mod'd the comment to not require the old admin
@@ -478,7 +464,6 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 		) {
 		$disabled = "disabled='disabled'";
-    echo "Tango4";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
 	//Awaiting user button

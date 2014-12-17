@@ -124,6 +124,16 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Appeal is closed and not an admin
 				($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 				)) {
+          //Mark CU as temp handler
+          if (isset($_GET['user'])) {
+  				  $success = $appeal->setHandlingAdmin($_GET['user']);
+          } else {
+  				  $success = $appeal->setHandlingAdmin($user->getUserId());
+          }
+          if ($success) {
+            $appeal->update();
+          }
+          //End mark
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 					$appeal->returnHandlingAdmin();
 					$log->addNewItem('Appeal reservation returned to tool users.');

@@ -105,7 +105,12 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_CHECKUSER);
-					$appeal->setHandlingAdmin(null, 1);
+					$appeal->setHandlingAdmin(null, 1);//Need to temporarily break 
+          if (isset($_GET['user'])) {
+  				  $success = $appeal->setHandlingAdmin($_GET['user']);
+          } else {
+  				  $success = $appeal->setHandlingAdmin($user->getUserId());
+          }
 					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
 			} else {
 				$error = "Cannot set AWAITING_CHECKUSER status";
@@ -116,7 +121,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Appeal is not in checkuser or admin status
 				($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 				//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-				($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
+				($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !verifyAccess($GLOBALS['CHECKUSER']) /*|| $appeal->getHandlingAdmin() != $user)*/) ||
 				//Appeal is in admin status and user is not admin
 				($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 				//There is no old handling admin
@@ -124,8 +129,18 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Appeal is closed and not an admin
 				($appeal->getStatus() == Appeal::$STATUS_CLOSED)
 				)) {
+          //Mark CU as temp handler 
+          /*if (isset($_GET['user'])) {
+  				  $success = $appeal->setHandlingAdmin($_GET['user']);
+          } else {
+  				  $success = $appeal->setHandlingAdmin($user->getUserId());
+          }
+          if ($success) {
+            $appeal->update();
+          }                 */
+          //End mark - Try no return
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
-					$appeal->returnHandlingAdmin();
+					//$appeal->returnHandlingAdmin();
 					$log->addNewItem('Appeal reservation returned to tool users.');
 					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
 					
@@ -149,7 +164,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 								"to review the reply, please click the link below.\n".
 								"<a href=\"" . getRootURL() . "appeal.php?id=" . $appeal->getID() . "\">" .
 								"Review response by clicking here</a>\n<hr />\n";
-						$subject = "Response to unblock appeal";
+						$subject = "Response to unblock appeal #".$appeal->getID();
 							
 						$et = new EmailTemplates($admin, $appeal);
 						$body = $et->apply_to($body);
@@ -232,7 +247,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Only condition to allow an appeal to be sent to awaiting admin for any reason
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
-				$appeal->setHandlingAdmin(null, 1);
+				//$appeal->setHandlingAdmin(null, 1);
 				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
 			} else {
 				$error = "Cannot assign STATUS_AWAITING_ADMIN status";
@@ -453,7 +468,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		//Appeal is not in checkuser or admin status
 		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && (!verifyAccess($GLOBALS['CHECKUSER']) || $appeal->getHandlingAdmin() != $user)) ||
+		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !verifyAccess($GLOBALS['CHECKUSER']) /*|| $appeal->getHandlingAdmin() != $user*/) ||
+    //For above, no one really cares if your the active handling admin for reviewing a CU req...
 		//Appeal is in admin status and user is not admin
 		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
 		//If it is in the proxy queue, allow through

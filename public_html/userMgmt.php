@@ -65,7 +65,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		if($active & !$newActive){
 
 			//Mark user disabled in the database
-			$requestedUser->disable($user, $newComments);
+			$requestedUser->disable($user, $reason);
 
 			//Notify IRC of the change
 			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been disabled by\x032 " . $_SESSION['user']);

@@ -56,12 +56,15 @@ one. UTRS tool developers will be able to see your full email address to ensure 
 properly. <i>(Administrators: Your email address is stored along with your UTRS account to allow tool
 administrators to contact you about your account. This does not get deleted, but is never visible
 to anyone other than UTRS developers looking at the database itself.)</i></li>
-<li>Your IP address will be visible alongside the rest of your appeal to anyone reviewing the 
-block. Again, this is necessary to allow us to look up your block and determine possible outcomes.</li>
-<li>Your useragent will only be visible to UTRS developers and those reviewing the block that have 
+<li>Your useragent and IP address will only be visible to UTRS developers and those reviewing the block that have 
 access to the CheckUser tool on Wikipedia. CheckUsers need to see your useragent to help 
 differentiate you from the person the block is intended for, and UTRS developers need to see this 
 information to ensure the tool is working properly.</li>
+<li>Your useragent and IP address addtionally be visible upon request from an approved member of the Wikimedia Foundation.
+The use of this is rare, logged and monitered. You agree that any data released under this is subject to the Privacy Policy 
+of the Wikimedia Foundation, and this privacy policy is nullified for the released data only.</li>
+<li>The Username (or IP address if you don't have an account), Appeal number, date of appeal, and status of appeal are publically
+visible on the English Wikipedia only if your appeal is active. After that point the information is removed from the English Wikipedia.</li>
 </ul>
 <p>At no point will your data be provided to a third party for any purpose; furthermore, this 
 information will be removed from our system no more than one week after your appeal is closed. This
@@ -79,12 +82,9 @@ development team at <a href="mailto:utrs-developers@googlegroups.com?subject=UTR
 utrs-developers@googlegroups.com</a> to request all information associated with your appeal.</p>
 
 <p>If you do not wish for this information to be collected by UTRS, you may appeal via your talk 
-page on Wikipedia, or by email to <a href="mailto:unblock-en-l@lists.wikimedia.org">
-unblock-en-l@lists.wikimedia.org</a>. Please note that if you appeal on Wikipedia, your IP address 
+page on Wikipedia. Please note that if you appeal on Wikipedia, your IP address 
 and useragent may be examined by any CheckUser, with cause, in accordance with the Wikimedia 
-Foundation Privacy Policy. If you appeal by email, your email address will naturally be visible to all volunteers 
-on the mailing list, and they may require that you provide additional information in order to look
-up your block.</p>
+Foundation Privacy Policy.</p>
 
 <p>If you have already entered an appeal at UTRS and wish for your information to be deleted 
 immediately, please email the development team at 

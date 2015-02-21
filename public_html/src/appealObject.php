@@ -754,8 +754,9 @@ class Appeal extends Model {
 
       $values = $query->fetch(PDO::FETCH_ASSOC);
       $query->closeCursor();
-      throw new UTRSValidationException(var_dump($values));
-      if ($result >= 1) {
+      
+      if ($result) {
+        throw new UTRSValidationException(var_dump($values));
         return True;
       }
       else {

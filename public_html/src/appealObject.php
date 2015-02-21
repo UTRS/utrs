@@ -731,7 +731,7 @@ class Appeal extends Model {
         }
         else { 
           return True; 
-      }
+        }
       }
       else { 
         return True; 

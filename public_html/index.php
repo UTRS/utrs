@@ -82,7 +82,7 @@ if(isset($_POST["submit"])){
       elseif (!$registered && !Appeal::verifyBlock($ip)) {
         throw new UTRSValidationException('Your IP Address is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
       }
-      if ($registered && (!Appeal::verifyNoPublicAppeal($wikiAccount) && $registered)) {
+      if ($registered && !Appeal::verifyNoPublicAppeal($wikiAccount)) {
         throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
       }
       elseif (!$registered && !Appeal::verifyNoPublicAppeal($ip)) {

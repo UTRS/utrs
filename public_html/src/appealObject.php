@@ -756,7 +756,6 @@ class Appeal extends Model {
       $query->closeCursor();
       
       if ($values) {
-        throw new UTRSValidationException(var_dump($values));
         return True;
       }
       else {

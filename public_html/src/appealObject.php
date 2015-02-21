@@ -726,7 +726,7 @@ class Appeal extends Model {
         $review = count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data)));
         $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data)); 
         if ($review<$unblock) {
-          throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
+          //throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
           return False;
         }
         else { 
@@ -734,7 +734,7 @@ class Appeal extends Model {
         }
       }
       else {
-        throw new UTRSValidationException("No unblock data found."); 
+        //throw new UTRSValidationException("No unblock data found."); 
         return True; 
       }
    }
@@ -746,6 +746,7 @@ class Appeal extends Model {
          WHERE (email =\"".$email."\"
           OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
       $result = $query->execute();
+      throw new UTRSValidationException($result);
       if ($result >= 1) {
         return True;
       }

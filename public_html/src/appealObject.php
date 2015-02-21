@@ -726,14 +726,15 @@ class Appeal extends Model {
         $review = count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data)));
         $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data)); 
         if ($review<$unblock) {
-          //throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
+          throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
           return False;
         }
         else { 
           return True; 
         }
       }
-      else { 
+      else {
+        throw new UTRSValidationException("No unblock data found."); 
         return True; 
       }
    }

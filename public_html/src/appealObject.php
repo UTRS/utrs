@@ -701,6 +701,7 @@ class Appeal extends Model {
 
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
+      $query->closeCursor();
    }
    public function verifyBlock($username) {
       $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.$username.'&format=json&usprop=blockinfo'),true);
@@ -746,7 +747,14 @@ class Appeal extends Model {
          WHERE (email =\"".$email."\"
           OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
       $result = $query->execute();
-      throw new UTRSValidationException(var_dump($result));
+      if(!$result){
+         $error = var_export($query->errorInfo(), true);
+         throw new UTRSDatabaseException($error);
+      }
+
+      $values = $query->fetch(PDO::FETCH_ASSOC);
+      $query->closeCursor();
+      throw new UTRSValidationException(var_dump($values));
       if ($result >= 1) {
         return True;
       }

@@ -721,7 +721,7 @@ class Appeal extends Model {
       $checkFound = False;
       $reviewSearch = preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][0]["revisions"][2]));
       echo $reviewSearch;
-      if (isset($reviewSearch)) {
+      if ($reviewSearch !== 0) {
         if (count(preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][0]["revisions"][2]))<count(preg_match("^.*\{\{(U|u)nblock^",$data["query"]["pages"][0]["revisions"][2])))) {
           return False;
         }

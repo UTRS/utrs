@@ -725,7 +725,7 @@ class Appeal extends Model {
       $content = $data["query"];
       $content = $content["pages"];
       $temp = array_values(content)[0];
-      $content = $content[];
+      $content = $content[$temp];
       $content = $content["revisions"];
       $content = $content["\*"];
       $reviewSearch = preg_match($param,$content);

@@ -708,7 +708,7 @@ class Appeal extends Model {
       var_dump($data);
       foreach ($data["query"]["users"] as $i => $value) {
         if ($value == "blockid") {
-          checkFound=True;
+          $checkFound=True;
         }
       }
       if (!checkFound) { 

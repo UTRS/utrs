@@ -723,7 +723,9 @@ class Appeal extends Model {
       $param = "^.*\{\{(U|u)nblock.*reviewed^";
       $reviewSearch = preg_match($param,$data);
       if ($reviewSearch !== 0) {
-        if (count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data))<count(preg_match("^.*\{\{(U|u)nblock^",$data)))) {
+        $review = count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data)))
+        $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data)) 
+        if ($review<$unblock) {
           return False;
         }
       }

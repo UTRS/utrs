@@ -722,10 +722,10 @@ class Appeal extends Model {
       $pageid = $page["query"]["allpages"][0]["pageid"];
       $checkFound = False;
       $param = "^.*\{\{(U|u)nblock.*reviewed^";
-      $content = $data["query"]
-      $content = $content["pages"]
-      $content = $content[strval($pageid)]
-      $content = $content["revisions"]
+      $content = $data["query"];
+      $content = $content["pages"];
+      $content = $content[strval($pageid)];
+      $content = $content["revisions"];
       $content = $content["\*"];
       $reviewSearch = preg_match($param,$content);
       if ($reviewSearch !== 0) {

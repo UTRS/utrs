@@ -721,7 +721,7 @@ class Appeal extends Model {
       $page = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=allpages&apnamespace=3&apfrom='.$username),true);
       $pageid = $page["query"]["allpages"][0]["pageid"];
       $checkFound = False;
-      $reviewSearch = preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"]["{$pageid]}"]["revisions"][2]));
+      $reviewSearch = preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"]["{$pageid}"]["revisions"][2]));
       if ($reviewSearch !== 0) {
         if (count(preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][$pageid]["revisions"][2]))<count(preg_match("^.*\{\{(U|u)nblock^",$data["query"]["pages"][$pageid]["revisions"][2])))) {
           return False;

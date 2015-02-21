@@ -739,7 +739,7 @@ class Appeal extends Model {
          WHERE email =\"".$email."\",
           AND wikiAccountName = \"".$wikiAccount."\";");
       $result = $query->execute();
-      throw new UTRSValidationException($result);
+      throw new UTRSValidationException(print_r($result));
           
       
    }

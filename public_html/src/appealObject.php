@@ -719,7 +719,9 @@ class Appeal extends Model {
    public function verifyNoPublicAppeal($username) {
       $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username),true);
       $checkFound = False;
-      if (isset(preg_match("{{unblock.*reviewed",strtolower($data["query"]["pages"][0][revisions][2])))) {
+      $reviewSearch = preg_match("{{unblock.*reviewed",strtolower($data["query"]["pages"][0][revisions][2])));
+      echo $reviewSearch;
+      if (isset($reviewSearch) {
         if (count(preg_match("{{unblock.*reviewed",strtolower($data["query"]["pages"][0][revisions][2]))<count(preg_match("{{(U|u)nblock ",$data["query"]["pages"][0][revisions][2])))) {
           return False;
         }

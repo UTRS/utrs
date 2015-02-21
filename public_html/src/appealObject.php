@@ -746,7 +746,7 @@ class Appeal extends Model {
          WHERE (email =\"".$email."\"
           OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
       $result = $query->execute();
-      throw new UTRSValidationException($result);
+      throw new UTRSValidationException(var_dump($result));
       if ($result >= 1) {
         return True;
       }

@@ -725,7 +725,7 @@ class Appeal extends Model {
       $content = $data["query"];
       $content = $content["pages"];
       echo array_values(content);
-      $temp = array_values(content)[0];
+      $temp = array_values(content);
       $temp = temp[0];
       $content = $content[$temp];
       $content = $content["revisions"];

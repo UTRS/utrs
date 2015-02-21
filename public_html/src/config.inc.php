@@ -1,6 +1,6 @@
 <?php
 
-$raw = @file_get_contents(dirname(__FILE__) . '/config.js.php';
+$raw = @file_get_contents(dirname(__FILE__) . '/config.js.php');
 $file = str_replace("<?php","",$raw);
 $CONFIG = json_decode($file, true);
 

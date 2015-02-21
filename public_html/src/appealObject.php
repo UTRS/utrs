@@ -702,6 +702,13 @@ class Appeal extends Model {
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
    }
+   public function verifyBlock($username) {
+      $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.$username.'&format=json&usprop=blockinfo'));
+      try{var_dump($data["users"]["blockid"])} catch (Exception $e) {
+        throw new UTRSValidationException('The username you entered is not currently blocked. Please enter a username that is blocked.');
+      }
+      return True;
+   }
 }
 
 ?>

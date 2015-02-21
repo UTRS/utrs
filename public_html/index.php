@@ -76,6 +76,10 @@ if(isset($_POST["submit"])){
          }
          throw new UTRSCredentialsException($message);
       }
+      
+      if (!Appeal::verifyBlock($wikiAccount)) {
+        throw new UTRSValidationException('The username you entered is not currently blocked. Please enter a username that is blocked.');
+      }
 
       $appeal = Appeal::newUntrusted($_POST);
       debug('object created <br/>');

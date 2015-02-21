@@ -718,10 +718,11 @@ class Appeal extends Model {
    }
    public function verifyNoPublicAppeal($username) {
       $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username),true);
+      $pageid = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=allpages&apnamespace=3&apfrom='.$username))["query"]["allpages"][0]["pageid"];
       $checkFound = False;
-      $reviewSearch = preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][0]["revisions"][2]));
+      $reviewSearch = preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][$pageid]["revisions"][2]));
       if ($reviewSearch !== 0) {
-        if (count(preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][0]["revisions"][2]))<count(preg_match("^.*\{\{(U|u)nblock^",$data["query"]["pages"][0]["revisions"][2])))) {
+        if (count(preg_match("^.*\{\{unblock.*reviewed^",strtolower($data["query"]["pages"][$pageid]["revisions"][2]))<count(preg_match("^.*\{\{(U|u)nblock^",$data["query"]["pages"][$pageid]["revisions"][2])))) {
           return False;
         }
       }

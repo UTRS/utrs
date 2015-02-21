@@ -704,11 +704,15 @@ class Appeal extends Model {
    }
    public function verifyBlock($username) {
       $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.$username.'&format=json&usprop=blockinfo'));
+      checkFound=False;
       var_dump($data);
-      try{
-        var_dump($data["users"]["blockid"]);
-      } catch (Exception $e) {
-        throw new UTRSValidationException('The username you entered is not currently blocked. Please enter a username that is blocked.');
+      foreach ($data["query"]["users"] as $i => $value) {
+        if ($value == "blockid") {
+          checkFound=True;
+        }
+      }
+      if (!checkFound) { 
+        throw new UTRSValidationException('The username you entered is not currently blocked. Please enter a username that is blocked.'); 
       }
       return True;
    }

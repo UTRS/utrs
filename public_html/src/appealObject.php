@@ -705,7 +705,7 @@ class Appeal extends Model {
    public function verifyBlock($username) {
       $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.$username.'&format=json&usprop=blockinfo'));
       $checkFound = False;
-      var_dump($data);
+      var_dump($data["query"]["users"]);
       foreach ($data["query"]["users"] as $i => $value) {
         if ($value == "blockid") {
           $checkFound=True;

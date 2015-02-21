@@ -77,10 +77,12 @@ if(isset($_POST["submit"])){
          throw new UTRSCredentialsException($message);
       }
       
-      if (!Appeal::verifyBlock($wikiAccount)) {
-        throw new UTRSValidationException('The username you entered is not currently blocked. Please enter a username that is blocked.');
+      if ($registered && !Appeal::verifyBlock($wikiAccount)) {
+        throw new UTRSValidationException('The username you entered is not currently blocked. Please verify that you are blocked by following the instructions above.');
       }
-
+      elseif (!$registered && !Appeal::verifyBlock($ip)) {
+        throw new UTRSValidationException('Your IP Address is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
+      }
       $appeal = Appeal::newUntrusted($_POST);
       debug('object created <br/>');
 

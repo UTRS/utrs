@@ -731,6 +731,18 @@ class Appeal extends Model {
         return True; 
       }
    }
+   public function activeAppeal($email,$wikiAccount) {
+      $db = ConnectToDB();
+
+      $query = $db->prepare("
+         SELECT * FROM appeal
+         WHERE email =\"".$email."\",
+          AND wikiAccountName = \"".$wikiAccount."\";");
+      $result = $query->execute();
+      throw new UTRSValidationException($result)
+          
+      
+   }
 }
 
 ?>

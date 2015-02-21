@@ -724,6 +724,7 @@ class Appeal extends Model {
       $param = "^.*\{\{(U|u)nblock.*reviewed^";
       $content = $data["query"];
       $content = $content["pages"];
+      echo array_values(content);
       $temp = array_values(content)[0];
       $content = $content[$temp];
       $content = $content["revisions"];

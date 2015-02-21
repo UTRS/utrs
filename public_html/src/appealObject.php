@@ -702,6 +702,19 @@ class Appeal extends Model {
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
    }
+   public function verifyBlock($username) {
+      $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.$username.'&format=json&usprop=blockinfo'),true);
+      $checkFound = False;
+      foreach ($data["query"]["users"] as $i => $value) {
+        if ($value == "blockid") {
+          $checkFound=True;
+        }
+      }
+      if (!$checkFound) { 
+        return False; 
+      }
+      return True;
+   }
 }
 
 ?>

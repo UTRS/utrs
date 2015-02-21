@@ -711,7 +711,6 @@ class Appeal extends Model {
         }
       }
       if (!$checkFound) { 
-        throw new UTRSValidationException('The username you entered is not currently blocked. Please enter a username that is blocked.');
         return False; 
       }
       return True;

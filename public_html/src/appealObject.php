@@ -721,7 +721,7 @@ class Appeal extends Model {
       $data = file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username);
       $checkFound = False;
       $param = "^.*\{\{(U|u)nblock.*reviewed^";
-      $reviewSearch = preg_match($param,$content);
+      $reviewSearch = preg_match($param,$data);
       if ($reviewSearch !== 0) {
         if (count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data))<count(preg_match("^.*\{\{(U|u)nblock^",$data)))) {
           return False;

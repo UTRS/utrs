@@ -722,7 +722,7 @@ class Appeal extends Model {
       $pageid = $page["query"]["allpages"][0]["pageid"];
       $checkFound = False;
       $param = "^.*\{\{(U|u)nblock.*reviewed^";
-      $content = $data["query"]["pages"][$pageid]["revisions"]["\*"];
+      $content = $data["query"]["pages"]["{$pageid}"]["revisions"]["*"];
       $reviewSearch = preg_match($param,$content);
       if ($reviewSearch !== 0) {
         if (count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data["query"]["pages"][$pageid]["revisions"]["*"]))<count(preg_match("^.*\{\{(U|u)nblock^",$data["query"]["pages"][$pageid]["revisions"]["*"])))) {

@@ -717,15 +717,13 @@ class Appeal extends Model {
       return True;
    }
    public function verifyNoPublicAppeal($username) {
-      $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username),true);
-      $page = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&format=json&list=allpages&apnamespace=3&apfrom='.$username),true);
-      $pageid = $page["query"]["allpages"][0]["pageid"];
+      //not sorting the api, seems to catch on pageid
+      $data = file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username);
       $checkFound = False;
       $param = "^.*\{\{(U|u)nblock.*reviewed^";
-      $content = $data["query"]["pages"]["{$pageid}"]["revisions"]["*"];
       $reviewSearch = preg_match($param,$content);
       if ($reviewSearch !== 0) {
-        if (count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data["query"]["pages"][$pageid]["revisions"]["*"]))<count(preg_match("^.*\{\{(U|u)nblock^",$data["query"]["pages"][$pageid]["revisions"]["*"])))) {
+        if (count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data))<count(preg_match("^.*\{\{(U|u)nblock^",$data)))) {
           return False;
         }
       }

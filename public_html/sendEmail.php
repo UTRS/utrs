@@ -27,7 +27,7 @@ if (isset($_GET['id']) && !is_numeric($id)) {
 
 
 if (isset($_GET['tid']) && !is_numeric($_GET['tid'])) {
-	throw new UTRSIllegalModificationException("ID must be numeric.");
+	throw new UTRSIllegalModificationException("TID must be numeric.");
 }
 
 verifyLogin("appeal.php?id=" . $id);
@@ -62,7 +62,9 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 			$body = "This is a reply to your Wikipedia unblock appeal from {{adminname}}, a Wikipedia administrator. " .
-			        "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
+			        "<b>DO NOT reply to this email</b> - it is coming from an unattended email address.";
+      if ($_GET['close'] == 0) {
+      $body .=" If you wish "  .
 					"to send a response, which may be necessary to further your appeal, please click the link below.\n".
 					"<a href=\"" . getRootURL() . "reply.php?id=" . $id . "&confirmEmail=" . $email . "\">" .
 					"Send a response by clicking here</a>\n<hr />\n";
@@ -175,10 +177,15 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 			$email_text = $_POST['emailText'];
 		}
 
-		echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id;
+		
 		if(isset($template)){
 			echo "&tid=" . $template->getId();
+      if ($template->getStatusClose()) {
+        echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=1";
+      }
+      else {echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=0";}
 		}
+    else { echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=0"; }
 		echo "\">\n"; // closes <form>
 		echo "<textarea name=\"emailText\" id=\"emailText\" rows=\"15\" cols=\"60\">";
 		if(isset($email_text)){

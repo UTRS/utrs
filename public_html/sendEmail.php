@@ -79,10 +79,10 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 				
 			if ($_POST['template'] == "") {
 				$log->addNewItem("Sent email to user", 1);
-				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 1);
+				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 by \x032" . $admin->getUsername(), 0);
 			} else {
 				$log->addNewItem("Sent email to user using " . $_POST['template'] . " template", 1);
-				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 1);
+				Log::ircNotification("\x033Email sent to user\x032 " . $appeal->getCommonName() . "\x033 using template \x032" . $_POST['template'] . "\x033 by \x032" . $admin->getUsername(), 0);
 			}
 			
 			//Put the contents of the email into the log
@@ -101,7 +101,7 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 					$log->addNewItem("Closed", 1);
 				}
 				$appeal->update();
-				Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $appeal->getHandlingAdmin()->getUsername() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+				Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $appeal->getHandlingAdmin()->getUsername() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 			}
 			$success = true;
 		}

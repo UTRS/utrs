@@ -275,12 +275,12 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//not admin
 				!verifyAccess($GLOBALS['ADMIN']) ||
 				//When assigned
-				($appeal->getHandlingAdmin())
+				(isset($appeal->getHandlingAdmin()))
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_NEW);
 				$log->addNewItem('Reset appeal to NEW', 1);
 			} else {
-				$error = "Unable to reset the appeal request // ".$appeal->getHandlingAdmin();
+				$error = "Unable to reset the appeal request // ".isset($appeal->getHandlingAdmin());
 			}
 			break;
 	}

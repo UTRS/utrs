@@ -273,7 +273,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
     case "new":
 			if (!(
 				//not admin
-				!verifyAccess($GLOBALS['ADMIN']) ||
+				verifyAccess($GLOBALS['ADMIN']) ||
 				//When assigned
 				($appeal->getHandlingAdmin() != NULL)
 				)) {
@@ -472,10 +472,10 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	if (
 		//Awaiting new
 		$appeal->getStatus() == Appeal::$STATUS_NEW ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
+		//When is assigned
+		($appeal->getHandlingAdmin()) ||
 		//Assigned and not CU or Admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
+		!verifyAccess($GLOBALS['ADMIN']) ||
 		//Awaiting admin and not admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY ||
 		//Appeal is closed and not an admin

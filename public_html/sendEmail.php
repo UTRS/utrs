@@ -68,6 +68,7 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 					"to send a response, which may be necessary to further your appeal, please click the link below.\n".
 					"<a href=\"" . getRootURL() . "reply.php?id=" . $id . "&confirmEmail=" . $email . "\">" .
 					"Send a response by clicking here</a>\n<hr />\n";
+      }
 			$body .= $_POST['emailText'];
 			$subject = "Response to unblock appeal #".$appeal->getID();
 				

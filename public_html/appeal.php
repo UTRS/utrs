@@ -280,7 +280,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->setStatus(Appeal::$STATUS_NEW);
 				$log->addNewItem('Reset appeal to NEW', 1);
 			} else {
-				$error = "Unable to reset the appeal request";
+				$error = "Unable to reset the appeal request - ".verifyAccess($GLOBALS['ADMIN']);
 			}
 			break;
 	}

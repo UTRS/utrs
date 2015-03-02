@@ -275,7 +275,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//admin
 				verifyAccess($GLOBALS['ADMIN']) &&
 				//When assigned
-				($appeal->getHandlingAdmin() != NULL)
+				($appeal->getHandlingAdmin() === NULL)
 				) {
 				$appeal->setStatus(Appeal::$STATUS_NEW);
 				$log->addNewItem('Reset appeal to NEW', 1);

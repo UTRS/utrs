@@ -275,7 +275,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Not handling user and not admin
 				$appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN']) ||
 				//When not assigned
-				!($appeal->getHandlingAdmin()) ||
+				!($appeal->getHandlingAdmin())
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_NEW);
 				$log->addNewItem('Reopened', 1);

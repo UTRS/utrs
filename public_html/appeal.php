@@ -487,6 +487,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Return button
 	$disabled = "";
 	if (
+		//Appeal needs to be reserved to send back to an admin
+		!($appeal->getHandlingAdmin()) ||
 		//Appeal is not in checkuser or admin status
 		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
 		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin

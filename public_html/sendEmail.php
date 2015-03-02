@@ -67,9 +67,9 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
       $body .=" If you wish "  .
 					"to send a response, which may be necessary to further your appeal, please click the link below.\n".
 					"<a href=\"" . getRootURL() . "reply.php?id=" . $id . "&confirmEmail=" . $email . "\">" .
-					"Send a response by clicking here</a>\n<hr />\n";
+					"Send a response by clicking here</a>";
       }
-			$body .= $_POST['emailText'];
+			$body .= "\n<hr />\n".$_POST['emailText'];
 			$subject = "Response to unblock appeal #".$appeal->getID();
 				
 			$et = new EmailTemplates($admin, $appeal);
@@ -180,7 +180,6 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 
 		
 		if(isset($template)){
-			echo "&tid=" . $template->getId();
       if ($template->getStatusClose()) {
         echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=1";
       }

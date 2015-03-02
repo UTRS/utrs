@@ -272,13 +272,13 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			break;
     case "new":
 			if (!(
-				//Not handling user and not admin
-				$appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN']) ||
-				//When not assigned
-				!($appeal->getHandlingAdmin())
+				//not admin
+				!verifyAccess($GLOBALS['ADMIN']) ||
+				//When assigned
+				($appeal->getHandlingAdmin())
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_NEW);
-				$log->addNewItem('Reopened', 1);
+				$log->addNewItem('Reset appeal to NEW', 1);
 			} else {
 				$error = "Unable to close the appeal request";
 			}

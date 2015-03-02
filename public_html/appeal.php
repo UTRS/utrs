@@ -270,6 +270,19 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$error = "Unable to close the appeal request";
 			}
 			break;
+    case "new":
+			if (!(
+				//Not handling user and not admin
+				$appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN']) ||
+				//When not assigned
+				!($appeal->getHandlingAdmin()) ||
+				)) {
+				$appeal->setStatus(Appeal::$STATUS_NEW);
+				$log->addNewItem('Reopened', 1);
+			} else {
+				$error = "Unable to close the appeal request";
+			}
+			break;
 	}
 	if (!$error) {
 		Log::ircNotification("\x033Status changed for\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) to \x032 " . $appeal->getStatus() . " \x033by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
@@ -321,6 +334,15 @@ function doCheckUser() {
 	var response = confirm("Please confirm you want to send this appeal to the checkuser queue:")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser';
+	} else {
+		return false;
+	}
+}
+
+function doNew() {
+	var response = confirm("Please confirm you want to send this appeal to the new queue:")
+	if (response) {
+		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=new';
 	} else {
 		return false;
 	}
@@ -445,23 +467,23 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		}
 		echo "<input type=\"button\" " . $disabled . " value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
 	}
-	//Checkuser button
+  //New button
 	$disabled = "";
 	if (
-		//Awaiting checkuser (if it's already set to CU)
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER ||
+		//Awaiting new
+		$appeal->getStatus() == Appeal::$STATUS_NEW ||
 		//When not assigned
 		!($appeal->getHandlingAdmin()) ||
 		//Assigned and not CU or Admin
 		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
 		//Awaiting admin and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+		$appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY ||
 		//Appeal is closed and not an admin
 		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Reset to new\" onClick=\"doNew()\">&nbsp;";
 	//Return button
 	$disabled = "";
 	if (
@@ -502,6 +524,23 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
 	echo "<hr style='width:475px;'>";
+  //Checkuser button
+	$disabled = "";
+	if (
+		//Awaiting checkuser (if it's already set to CU)
+		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER ||
+		//When not assigned
+		!($appeal->getHandlingAdmin()) ||
+		//Assigned and not CU or Admin
+		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
+		//Awaiting admin and not admin
+		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+		//Appeal is closed and not an admin
+		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
+		) {
+		$disabled = "disabled='disabled'";
+	}
+	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
 	//On Hold button
 	$disabled = "";
 	if (

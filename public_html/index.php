@@ -76,6 +76,21 @@ if(isset($_POST["submit"])){
          }
          throw new UTRSCredentialsException($message);
       }
+      if ($registered && !Appeal::verifyBlock($wikiAccount)) {
+        throw new UTRSValidationException('The username you entered is not currently blocked. Please verify that you are blocked by following the instructions above.');
+      }
+      elseif (!$registered && !Appeal::verifyBlock($ip)) {
+        throw new UTRSValidationException('Your IP Address is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
+      }
+      if ($registered && !Appeal::verifyNoPublicAppeal($wikiAccount)) {
+        throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
+      }
+      elseif (!$registered && !Appeal::verifyNoPublicAppeal($ip)) {
+        throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
+      }
+      if (Appeal::activeAppeal($email, $wikiAccount)) {
+        throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+      }
 
       $appeal = Appeal::newUntrusted($_POST);
       debug('object created <br/>');

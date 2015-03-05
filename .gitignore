@@ -7,9 +7,14 @@
 
 # Config files
 config.js
+config.inc.php
 
 #do not upload beta
 beta/*
+alpha/*
+
+.settings/*
 
 #ignore potential htaccess
 *.htaccess
+*.jsdtscope

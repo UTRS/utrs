@@ -701,6 +701,68 @@ class Appeal extends Model {
 
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
+      $query->closeCursor();
+   }
+   public function verifyBlock($username) {
+      $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.$username.'&format=json&usprop=blockinfo'),true);
+      $checkFound = False;
+      foreach ($data["query"]["users"][0] as $i => $value) {
+        #This method below is crude...but it's better than playing with fatal errors
+        if (strtolower($value) == strtolower($username)) {
+          $checkFound=True;
+        }
+      }
+      if (!$checkFound) { 
+        return False; 
+      }
+      return True;
+   }
+   public function verifyNoPublicAppeal($username) {
+      //not sorting the api, seems to catch on pageid
+      $data = file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username);
+      $checkFound = False;
+      $param = "^.*\{\{(U|u)nblock.*reviewed^";
+      $reviewSearch = preg_match($param,$data);
+      if ($reviewSearch !== 0) {
+        $review = count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data)));
+        $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data)); 
+        if ($review<$unblock) {
+          //throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
+          return False;
+        }
+        else { 
+          return True; 
+        }
+      }
+      else {
+        //throw new UTRSValidationException("No unblock data found."); 
+        return True; 
+      }
+   }
+   public function activeAppeal($email,$wikiAccount) {
+      $db = ConnectToDB();
+
+      $query = $db->prepare("
+         SELECT * FROM appeal
+         WHERE (email =\"".$email."\"
+          OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
+      $result = $query->execute();
+      if(!$result){
+         $error = var_export($query->errorInfo(), true);
+         throw new UTRSDatabaseException($error);
+      }
+
+      $values = $query->fetch(PDO::FETCH_ASSOC);
+      $query->closeCursor();
+      
+      if ($values) {
+        return True;
+      }
+      else {
+        return False;
+      }      
+          
+      
    }
 }
 

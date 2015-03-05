@@ -13,5 +13,8 @@ config.inc.php
 beta/*
 alpha/*
 
+.settings/*
+
 #ignore potential htaccess
 *.htaccess
+*.jsdtscope

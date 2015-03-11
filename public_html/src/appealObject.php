@@ -706,11 +706,8 @@ class Appeal extends Model {
    public function verifyBlock($username) {
       $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.urlencode($username).'&format=json&usprop=blockinfo'),true);
       $checkFound = False;
-      foreach ($data["query"]["users"][0] as $i => $value) {
-        #This method below is crude...but it's better than playing with fatal errors
-        if (strtolower($value) == strtolower($username)) {
-          $checkFound=True;
-        }
+      if (isset($data["query"]["users"][0]["blockid"])) {
+        $checkFound=True;
       }
       if (!$checkFound) { 
         return False; 

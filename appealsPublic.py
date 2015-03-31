@@ -34,8 +34,8 @@ def formatDBoutput(database,tableheader):
 def generateTable(header,alltext):
 	sectionheads="""|-
 	!Appeal Number
-	!Appealant
-	!Appeal Filled
+	!Appellant
+	!Appeal Filed
 	!Status"""
 	endtable="\n|}"
 	table = header+sectionheads+alltext+endtable+"\n"

@@ -628,11 +628,11 @@ ini_set('display_errors',1);
 //			echo "after delete";
 			if($rawdata == null)
 			{
-				if ((time() - $lastToolMsg) > 3600*8) {
+				if ((time() - $lastToolMsg) > 3600*24) {
 					// only send alerts every fifteen minutes so we don't piss people off too much
 					if ((time() - $lastToolMsgAlert) > 60*15) {
 						$lastToolMsgAlert = time();
-						irc('PRIVMSG '.$chan.' :Alert, I haven\'t received any data from the UTRS tool in over six hours, please check that everything is ok and 
+						irc('PRIVMSG '.$chan.' :Alert, I haven\'t received any data from the UTRS tool in over a day, please check that everything is ok and 
 
 nothing is broken.');
 					}

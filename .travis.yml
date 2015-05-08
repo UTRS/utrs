@@ -11,7 +11,7 @@ git:
   submodules: true
 
 script:
-  - phpunit
+  - phpunit --color .
 
 notifications:
   irc:

@@ -11,7 +11,8 @@ git:
   submodules: true
 
 script:
-  - phpunit --color public_html
+  - ls -liah
+  - phpunit --color UTRSBot.php
 
 notifications:
   irc:

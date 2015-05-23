@@ -29,7 +29,7 @@ skinHeader();
 
 if (!is_numeric($_GET['id'])) {
 	$generate = new SystemMessages;
-	throw new UTRSIllegalModificationException($generate::getUserMessage("error", "AppealNotNumeric"));
+	throw new UTRSIllegalModificationException(SystemMessages::$error["AppealNotNumeric"]["en"]);
 }
 
 //construct appeal object

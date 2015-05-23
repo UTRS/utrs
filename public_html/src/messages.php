@@ -17,6 +17,6 @@ class SystemMessages {
 	
 	);
 	public function getUserMessage($type, $name, $lang = "en") {
-		return $this->error[$name][$lang];
+		return $error[$name][$lang];
 	}
 }

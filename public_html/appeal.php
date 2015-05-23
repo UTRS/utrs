@@ -15,6 +15,7 @@ require_once('src/appealObject.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/logObject.php');
+require_once('src/messages.php');
 require_once('src/emailTemplates.class.php');
 require_once('template.php');
 
@@ -27,7 +28,7 @@ $error = null;
 skinHeader();
 
 if (!is_numeric($_GET['id'])) {
-	throw new UTRSIllegalModificationException('Appeal id is not numeric.');
+	throw new UTRSIllegalModificationException(SystemMessages::$error["AppealNotNumeric"]);
 }
 
 //construct appeal object

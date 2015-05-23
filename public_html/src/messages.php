@@ -1,7 +1,7 @@
 <?php
 
 class SystemMessages {
-	static $user = array(
+	public $user = array(
 		"AppealNotNumeric" => array(
 				"en" => "The appeal ID is not numeric",
 				"pt" => ""
@@ -9,14 +9,14 @@ class SystemMessages {
 		
 	);
 
-	static $error = array(
+	public $error = array(
 		"AppealNotNumeric" => array(
 				"en" => "The appeal ID is not numeric",
 				"pt" => ""
 		)
 	
 	);
-	public static function getUserMessage($type, $name, $lang = "en") {
+	public function getUserMessage($type, $name, $lang = "en") {
 		return $this->error[$name][$lang];
 	}
 }

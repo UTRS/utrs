@@ -3,7 +3,7 @@
 class SystemMessages {
 	public static $user = array(
 		"AppealNotNumeric" => array(
-				"en" => "The appeal ID is not numeric",
+				"en" => 'The appeal ID is not numeric',
 				"pt" => ""
 		)
 		
@@ -11,7 +11,7 @@ class SystemMessages {
 
 	public static $error = array(
 		"AppealNotNumeric" => array(
-				"en" => "The appeal ID is not numeric",
+				"en" => 'The appeal ID is not numeric',
 				"pt" => ""
 		)
 	

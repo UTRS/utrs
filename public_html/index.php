@@ -119,7 +119,7 @@ if(isset($_POST["submit"])){
       $log->addNewItem("Appeal Created", 1);
       Log::ircNotification("\x033New appeal has been created for\x032 " . $appeal->getCommonName() . " \x033(\x032 " . $appeal->getID() . " \x033) URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
    }
-   catch (ValidationException $ex){
+   catch (UTRSValidationException $ex){
    	  $errorMessages = $ex->getMessage() . $errorMessages;
    	  $hasAccount = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
    	  $autoBlock = (isset($_POST["appeal_autoblock"]) ? ($_POST["appeal_autoblock"] ? true : false) : false);

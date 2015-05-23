@@ -28,7 +28,7 @@ $error = null;
 skinHeader();
 
 if (!is_numeric($_GET['id'])) {
-	throw new UTRSIllegalModificationException(SystemMessages::$error["AppealNotNumeric"]);
+	throw new UTRSIllegalModificationException(SystemMessages::getUserMessage("error", "AppealNotNumeric"));
 }
 
 //construct appeal object

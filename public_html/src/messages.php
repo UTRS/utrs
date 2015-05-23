@@ -16,4 +16,7 @@ class SystemMessages {
 		)
 	
 	);
+	public static function getUserMessage($type, $name, $lang = "en") {
+		return $error[$name][$lang];
+	}
 }

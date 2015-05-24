@@ -26,10 +26,14 @@ $error = null;
 
 //Template header()
 skinHeader();
-
-if (!is_numeric($_GET['id'])) {
-	$text = SystemMessages::$error["AppealNotNumeric"]["en"];
-	throw new UTRSIllegalModificationException($text);
+try {	
+	if (!is_numeric($_GET['id'])) {
+		$text = SystemMessages::$error["AppealNotNumeric"]["en"];
+		throw new UTRSIllegalModificationException($text);
+	}
+}
+catch (UTRSIllegalModificationException $ex) {
+   	  $errorMessages = $ex->getMessage() . $errorMessages;
 }
 
 //construct appeal object

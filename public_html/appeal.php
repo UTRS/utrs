@@ -36,6 +36,11 @@ try {
 catch (UTRSIllegalModificationException $ex) {
    	  $errorMessages = $ex->getMessage() . $errorMessages;
 }
+if ($errorMessages) {
+	displayError($errorMessages);
+	skinFooter();
+	die();
+}
 
 //construct appeal object
 $appeal = Appeal::getAppealByID($_GET['id']);
@@ -379,8 +384,6 @@ function hideContextWindow() {
 if (isset($_GET['action'])) {
 	if ($error) {
 		displayError($error);
-		skinFooter();
-		die;
 	}
 }
 

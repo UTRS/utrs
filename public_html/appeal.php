@@ -23,6 +23,7 @@ require_once('template.php');
 verifyLogin('appeal.php?id=' . $_GET['id']);
 
 $error = null;
+$errorMessages = '';
 
 //Template header()
 skinHeader();
@@ -378,6 +379,8 @@ function hideContextWindow() {
 if (isset($_GET['action'])) {
 	if ($error) {
 		displayError($error);
+		skinFooter();
+		die;
 	}
 }
 

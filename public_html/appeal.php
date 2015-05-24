@@ -24,12 +24,13 @@ verifyLogin('appeal.php?id=' . $_GET['id']);
 
 $error = null;
 $errorMessages = '';
+$lang = 'en';
 
 //Template header()
 skinHeader();
 try {	
 	if (!is_numeric($_GET['id'])) {
-		$text = SystemMessages::$error["AppealNotNumeric"]["en"];
+		$text = SystemMessages::$error["AppealNotNumeric"][lang];
 		throw new UTRSIllegalModificationException($text);
 	}
 }
@@ -74,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 				Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) reserved by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 			}
 	} else {
-		$error = "This request is already reserved or awaiting a checkuser or tool admin. If the person holding this ticket seems to be unavailable, ask a tool admin to break their reservation.";
+		$error = SystemMessages::$error['AppealReserved'][lang];
 	}
 }
 
@@ -92,11 +93,12 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 				$success = $appeal->setHandlingAdmin(null);
 				if ($success) {
 					$appeal->update();
-					$log->addNewItem('Released appeal', 1);
+					$log->addNewItem(SystemMessages::$log['AppealRelease'][$lang], 1);
+					//TODO: Set IRC Multilingual
 					Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . " \x033) released by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 				}
 	} else {
-		$error = "Cannot release hold on appeal";
+		$error = SystemMessages::$error['ReleaseFailed'][$lang];
 	}
 }
 		
@@ -123,9 +125,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
           } else {
   				  $success = $appeal->setHandlingAdmin($user->getUserId());
           }
-					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
+					$log->addNewItem(SystemMessages::$log['StatusToCU'][$lang], 1);
 			} else {
-				$error = "Cannot set AWAITING_CHECKUSER status";
+				$error = SystemMessages::$log['CannotSetCU'][$lang];
 			}
 			break;
 		case "return":		  
@@ -153,11 +155,11 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
           //End mark - Try no return
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 					//$appeal->returnHandlingAdmin();
-					$log->addNewItem('Appeal reservation returned to tool users.');
-					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
+					$log->addNewItem(SystemMessages::$log['AppealReturnUsers'][$lang]);
+					$log->addNewItem(SystemMessages::$log['StatusAwaitReviewers'][$lang], 1);
 					
 					$admin = $appeal->getHandlingAdmin();
-					
+					//TODO: Set IRC Multilingual
 					Log::ircNotification("\x033" . ($admin ? "Attention\x032 " . $admin->getUsername() . "\x033: " : "") . 
 						"An appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
 						$appeal->getID() . " \x033) has been returned to you and the status has been updated to AWAITING_REVIEWER URL: " .
@@ -167,16 +169,13 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					
 					if ($admin->replyNotify()) {
 						$email = $admin->getEmail();
-						$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-						$headers .= "MIME-Version: 1.0\r\n";
-						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-						$body = "Hello {{adminname}}, \n\n" .
-								"This is a notification that an appeal has been returned to your queue.  ".
-								"<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
-								"to review the reply, please click the link below.\n".
+						$headers = SystemMessages::$system['EmailFrom'][$lang];
+						$headers .= SystemMessages::$system['EmailMIME'][$lang];
+						$headers .= SystemMessages::$system['EmailContentType'][$lang];
+						$body = SystemMessages::$system['AppealReturnEmail'][$lang].
 								"<a href=\"" . getRootURL() . "appeal.php?id=" . $appeal->getID() . "\">" .
-								"Review response by clicking here</a>\n<hr />\n";
-						$subject = "Response to unblock appeal #".$appeal->getID();
+								SystemMessages::$system['ReviewResponse'][$lang]."</a>\n<hr />\n";
+						$subject = SystemMessages::$system['EmailSubject'][$lang].$appeal->getID();
 							
 						$et = new EmailTemplates($admin, $appeal);
 						$body = $et->apply_to($body);
@@ -186,7 +185,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 						mail($email, $subject, $body, $headers);
 					}
 			} else {
-				$error = "Cannot return appeal to old handling tool user";
+				$error = SystemMessages::$error['FailReturnOldUser'][$lang];
 			}
 			break;
 		case "user":
@@ -205,9 +204,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
-				$log->addNewItem('Status change to AWAITING_USER', 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitUser'][$lang], 1);
 			} else {
-				$error = "Cannot assign AWAITING_USER status";
+				$error = SystemMessages::$error['FailAwaitUser'][$lang];
 			}
 			break;
 		case "hold":

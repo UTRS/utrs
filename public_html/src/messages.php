@@ -15,7 +15,7 @@ class SystemMessages {
 					"pt" => "" 
 			),
 			"AppealReturnEmail" => array (
-					"en" => "Hello {{adminname}}, \n\n" . "This is a notification that an appeal has been returned to your queue.  " . "<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish " . "to review the reply, please click the link below.\n",
+					"en" => "Hello {{adminname}}, \n\nThis is a notification that an appeal has been returned to your queue. \n\n<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish\nto review the reply, please click the link below.\n",
 					"pt" => "" 
 			),
 			"ReviewResponse" => array (

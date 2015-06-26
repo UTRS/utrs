@@ -15,6 +15,7 @@ require_once('src/appealObject.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/logObject.php');
+require_once('src/messages.php');
 require_once('src/emailTemplates.class.php');
 require_once('template.php');
 
@@ -22,12 +23,24 @@ require_once('template.php');
 verifyLogin('appeal.php?id=' . $_GET['id']);
 
 $error = null;
+$errorMessages = '';
+$lang = 'en';
 
 //Template header()
 skinHeader();
-
-if (!is_numeric($_GET['id'])) {
-	throw new UTRSIllegalModificationException('Appeal id is not numeric.');
+try {	
+	if (!is_numeric($_GET['id'])) {
+		$text = SystemMessages::$error["AppealNotNumeric"][lang];
+		throw new UTRSIllegalModificationException($text);
+	}
+}
+catch (UTRSIllegalModificationException $ex) {
+   	  $errorMessages = $ex->getMessage() . $errorMessages;
+}
+if ($errorMessages) {
+	displayError($errorMessages);
+	skinFooter();
+	die();
 }
 
 //construct appeal object
@@ -62,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 				Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) reserved by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 			}
 	} else {
-		$error = "This request is already reserved or awaiting a checkuser or tool admin. If the person holding this ticket seems to be unavailable, ask a tool admin to break their reservation.";
+		$error = SystemMessages::$error['AppealReserved'][lang];
 	}
 }
 
@@ -80,11 +93,12 @@ if (isset($_GET['action']) && $_GET['action'] == "release"){
 				$success = $appeal->setHandlingAdmin(null);
 				if ($success) {
 					$appeal->update();
-					$log->addNewItem('Released appeal', 1);
+					$log->addNewItem(SystemMessages::$log['AppealRelease'][$lang], 1);
+					//TODO: Set IRC Multilingual
 					Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . " \x033) released by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 				}
 	} else {
-		$error = "Cannot release hold on appeal";
+		$error = SystemMessages::$error['ReleaseFailed'][$lang];
 	}
 }
 		
@@ -111,9 +125,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
           } else {
   				  $success = $appeal->setHandlingAdmin($user->getUserId());
           }
-					$log->addNewItem('Status change to AWAITING_CHECKUSER', 1);
+					$log->addNewItem(SystemMessages::$log['StatusToCU'][$lang], 1);
 			} else {
-				$error = "Cannot set AWAITING_CHECKUSER status";
+				$error = SystemMessages::$log['CannotSetCU'][$lang];
 			}
 			break;
 		case "return":		  
@@ -141,11 +155,11 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
           //End mark - Try no return
 					$appeal->setStatus(Appeal::$STATUS_AWAITING_REVIEWER);
 					//$appeal->returnHandlingAdmin();
-					$log->addNewItem('Appeal reservation returned to tool users.');
-					$log->addNewItem('Status change to AWAITING_REVIEWER', 1);
+					$log->addNewItem(SystemMessages::$log['AppealReturnUsers'][$lang]);
+					$log->addNewItem(SystemMessages::$log['StatusAwaitReviewers'][$lang], 1);
 					
 					$admin = $appeal->getHandlingAdmin();
-					
+					//TODO: Set IRC Multilingual
 					Log::ircNotification("\x033" . ($admin ? "Attention\x032 " . $admin->getUsername() . "\x033: " : "") . 
 						"An appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . 
 						$appeal->getID() . " \x033) has been returned to you and the status has been updated to AWAITING_REVIEWER URL: " .
@@ -155,16 +169,13 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					
 					if ($admin->replyNotify()) {
 						$email = $admin->getEmail();
-						$headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
-						$headers .= "MIME-Version: 1.0\r\n";
-						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-						$body = "Hello {{adminname}}, \n\n" .
-								"This is a notification that an appeal has been returned to your queue.  ".
-								"<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish "  .
-								"to review the reply, please click the link below.\n".
+						$headers = SystemMessages::$system['EmailFrom'][$lang];
+						$headers .= SystemMessages::$system['EmailMIME'][$lang];
+						$headers .= SystemMessages::$system['EmailContentType'][$lang];
+						$body = SystemMessages::$system['AppealReturnEmail'][$lang].
 								"<a href=\"" . getRootURL() . "appeal.php?id=" . $appeal->getID() . "\">" .
-								"Review response by clicking here</a>\n<hr />\n";
-						$subject = "Response to unblock appeal #".$appeal->getID();
+								SystemMessages::$system['ReviewResponse'][$lang]."</a>\n<hr />\n";
+						$subject = SystemMessages::$system['EmailSubject'][$lang].$appeal->getID();
 							
 						$et = new EmailTemplates($admin, $appeal);
 						$body = $et->apply_to($body);
@@ -174,7 +185,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 						mail($email, $subject, $body, $headers);
 					}
 			} else {
-				$error = "Cannot return appeal to old handling tool user";
+				$error = SystemMessages::$error['FailReturnOldUser'][$lang];
 			}
 			break;
 		case "user":
@@ -193,9 +204,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_USER);
-				$log->addNewItem('Status change to AWAITING_USER', 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitUser'][$lang], 1);
 			} else {
-				$error = "Cannot assign AWAITING_USER status";
+				$error = SystemMessages::$error['FailAwaitUser'][$lang];
 			}
 			break;
 		case "hold":
@@ -214,9 +225,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
-				$log->addNewItem('Status change to ON_HOLD', 1);
+				$log->addNewItem(SystemMessages::$log['StatusOnHold'][$lang], 1);
 			} else {
-				$error = "Cannot assign STATUS_ON_HOLD status";
+				$error = SystemMessages::$error['FailOnHold'][$lang];
 			}
 			break;
 		case "proxy":
@@ -235,9 +246,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
-				$log->addNewItem('Status change to AWAITING_PROXY', 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'], 1);
 			} else {
-				$error = "Cannot assign STATUS_AWAITING_PROXY status";
+				$error = SystemMessages::$error['FailAwaitProxy'][$lang];
 			}
 			break;
 		case "admin":
@@ -248,9 +259,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
 				//$appeal->setHandlingAdmin(null, 1);
-				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitAdmin'][$lang], 1);
 			} else {
-				$error = "Cannot assign STATUS_AWAITING_ADMIN status";
+				$error = SystemMessages::$error['FailAwaitAdmin'][$lang];
 			}
 			break;
 		case "close":
@@ -265,9 +276,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_CLOSED);
-				$log->addNewItem('Closed', 1);
+				$log->addNewItem(SystemMessages::$log['AppealClosed'][$lang], 1);
 			} else {
-				$error = "Unable to close the appeal request";
+				$error = SystemMessages::$error['FailCloseAppeal'][$lang];
 			}
 			break;
     case "new":
@@ -280,7 +291,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->setStatus(Appeal::$STATUS_NEW);
 				$log->addNewItem('Reset appeal to NEW', 1);
 			} else {
-				$error = "Unable to reset the appeal request - ".verifyAccess($GLOBALS['ADMIN']);
+				//TODO: Why is this have a verify access call on the end? what does it print?
+				//TODO: --DQ 27/5/15
+				$error = SystemMessages::$error['FailResetAppeal'][$lang]." - ".verifyAccess($GLOBALS['ADMIN']);
 			}
 			break;
 	}
@@ -297,12 +310,12 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 		$log->addNewItem(sanitizeText($_POST['comment']));
 		Log::ircNotification("\x032" . $_SESSION['user'] . "\x033 has left a new comment on the appeal for\x032 " . $appeal->getCommonName() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 	} else {
-		$error = "You have not entered a comment";
+		$error = SystemMessages::$error['NoCommentProvided'];
 	}
 }
 ?>
 <script type="text/javascript">
-
+//TODO: @Bug 42 - Does this actually show up anywhere on the interface? 
 var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br>" +
 						   "<b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br>" +
 						   "<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br>" +
@@ -311,10 +324,9 @@ var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal 
 						   "<b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br>" +
 						   "<b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br>" +
 						   "<b>Tool Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i><br><br>" +
-						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"
-
+						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"						   
 function doClose() {
-	var response = confirm("Are you sure you want to close this appeal without sending a response?")
+	var response = confirm("<?php echo SystemMessages::$system['ConfirmClose'][$lang]; ?>")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close';
 	}
@@ -614,7 +626,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	<input type="button" value="Username" onClick="window.location='sendEmail.php?tid=7&id=<?php echo $_GET['id']; ?>'">&nbsp;
 	<input type="button" value="Need Info" onClick="window.location='sendEmail.php?tid=9&id=<?php echo $_GET['id']; ?>'">&nbsp;
 	<input type="button" value="School" onClick="window.location='sendEmail.php?tid=21&id=<?php echo $_GET['id']; ?>'">&nbsp;
-	<input type="button" value="Rangeblock" onClick="window.location='sendEmail.php?tid=11&id=<?php echo $_GET['id']; ?>'">&nbsp;-->
+	<input type="button" value="Rangeblock" onClick="window.location='sendEmail.php?tid=11&id=<?php echo $_GET['id']; ?>'">&nbsp; 
+-->
 	<SELECT onChange="if (this.selectedIndex != 0) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>'}">
 		<?php 
 			
@@ -659,5 +672,6 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 }
 else displayError("You may not view appeals that have not been email verified.");
 skinFooter();
+
 
 ?>

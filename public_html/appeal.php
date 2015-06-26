@@ -326,7 +326,7 @@ var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal 
 						   "<b>Tool Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i><br><br>" +
 						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"						   
 function doClose() {
-	var response = confirm(<?php echo SystemMessages::$system['ConfirmClose'][$lang]; ?>)
+	var response = confirm("<?php echo SystemMessages::$system['ConfirmClose'][$lang]; ?>")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close';
 	}

@@ -703,16 +703,29 @@ class Appeal extends Model {
       $this->emailToken = null;
       $query->closeCursor();
    }
-   public function verifyBlock($username) {
-      $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.urlencode($username).'&format=json&usprop=blockinfo'),true);
-      $checkFound = False;
-      if (isset($data["query"]["users"][0]["blockid"])) {
-        $checkFound=True;
+   public function verifyBlock($username, $ipornot) {
+      if ($ipornot) {
+	   	  $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.urlencode($username).'&format=json&usprop=blockinfo'),true);
+	      $checkFound = False;
+	      if (isset($data["query"]["users"][0]["blockid"])) {
+	        $checkFound=True;
+	      }
+	      if (!$checkFound) { 
+	        return False; 
+	      }
+	      return True;
       }
-      if (!$checkFound) { 
-        return False; 
+      else {
+      	$data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=blocks&bkip='.$username.'&format=json'),true);
+      	$checkFound = False;
+      	if (isset($data["query"]["blocks"][0]["id"])) {
+      		$checkFound=True;
+      	}
+      	if (!$checkFound) {
+      		return False;
+      	}
+      	return True;
       }
-      return True;
    }
    public function verifyNoPublicAppeal($username) {
       //not sorting the api, seems to catch on pageid

@@ -225,9 +225,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
-				$log->addNewItem('Status change to ON_HOLD', 1);
+				$log->addNewItem(SystemMessages::$log['StatusOnHold'][$lang], 1);
 			} else {
-				$error = "Cannot assign STATUS_ON_HOLD status";
+				$error = SystemMessages::$error['FailOnHold'][$lang];
 			}
 			break;
 		case "proxy":
@@ -246,9 +246,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
-				$log->addNewItem('Status change to AWAITING_PROXY', 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'], 1);
 			} else {
-				$error = "Cannot assign STATUS_AWAITING_PROXY status";
+				$error = SystemMessages::$error['FailAwaitProxy'][$lang];
 			}
 			break;
 		case "admin":
@@ -259,9 +259,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_ADMIN);
 				//$appeal->setHandlingAdmin(null, 1);
-				$log->addNewItem('Status change to AWAITING_ADMIN', 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitAdmin'][$lang], 1);
 			} else {
-				$error = "Cannot assign STATUS_AWAITING_ADMIN status";
+				$error = SystemMessages::$error['FailAwaitAdmin'][$lang];
 			}
 			break;
 		case "close":
@@ -276,9 +276,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_CLOSED);
-				$log->addNewItem('Closed', 1);
+				$log->addNewItem(SystemMessages::$log['AppealClosed'][$lang], 1);
 			} else {
-				$error = "Unable to close the appeal request";
+				$error = SystemMessages::$error['FailCloseAppeal'][$lang];
 			}
 			break;
     case "new":
@@ -291,7 +291,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->setStatus(Appeal::$STATUS_NEW);
 				$log->addNewItem('Reset appeal to NEW', 1);
 			} else {
-				$error = "Unable to reset the appeal request - ".verifyAccess($GLOBALS['ADMIN']);
+				//TODO: Why is this have a verify access call on the end? what does it print?
+				//TODO: --DQ 27/5/15
+				$error = SystemMessages::$error['FailResetAppeal'][$lang]." - ".verifyAccess($GLOBALS['ADMIN']);
 			}
 			break;
 	}
@@ -308,12 +310,12 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 		$log->addNewItem(sanitizeText($_POST['comment']));
 		Log::ircNotification("\x032" . $_SESSION['user'] . "\x033 has left a new comment on the appeal for\x032 " . $appeal->getCommonName() . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 	} else {
-		$error = "You have not entered a comment";
+		$error = SystemMessages::$error['NoCommentProvided'];
 	}
 }
 ?>
 <script type="text/javascript">
-
+//TODO: @Bug 42 - Does this actually show up anywhere on the interface? 
 var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal under your login.  Reserving allows to access to other buttons as well as the ability to respond to the appeal.</i><br><br>" +
 						   "<b>Release</b> - <i>Release removes your name from the appeal.  It allows other users to reserve the appeal.  Note: You will lose the ability to respond to this appeal.</i><br><br>" +
 						   "<b>Checkuser</b> - <i>Assigns the current status to the checkuser queue.  You will lose your reservation of the appeal.</i><br><br>" +
@@ -322,10 +324,9 @@ var actionsContextWindow = "<b>Reserve</b> - <i>This button reserves the appeal 
 						   "<b>Hold</b> - <i>Assigns the status to hold.  Use this when discussing with a blocking admin or any other reason where the request is still being considered but awaiting another action</i><br><br>" +
 						   "<b>Proxy</b> - <i>Awaiting a response from WP:OPP</i><br><br>" +
 						   "<b>Tool Admin</b> - <i>This button is always available.  It assigns the request to a tool admin.  Use to open closed requests or to get an appeal released if the reserved user has gone AWOL</i><br><br>" +
-						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"
-
+						   "<b>Close</b> - <i>This button closes the appeal.  All buttons will be disabled.</i>"						   
 function doClose() {
-	var response = confirm("Are you sure you want to close this appeal without sending a response?")
+	var response = confirm(<?php echo SystemMessages::$system['ConfirmClose'][$lang]; ?>)
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=close';
 	}
@@ -625,7 +626,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	<input type="button" value="Username" onClick="window.location='sendEmail.php?tid=7&id=<?php echo $_GET['id']; ?>'">&nbsp;
 	<input type="button" value="Need Info" onClick="window.location='sendEmail.php?tid=9&id=<?php echo $_GET['id']; ?>'">&nbsp;
 	<input type="button" value="School" onClick="window.location='sendEmail.php?tid=21&id=<?php echo $_GET['id']; ?>'">&nbsp;
-	<input type="button" value="Rangeblock" onClick="window.location='sendEmail.php?tid=11&id=<?php echo $_GET['id']; ?>'">&nbsp;-->
+	<input type="button" value="Rangeblock" onClick="window.location='sendEmail.php?tid=11&id=<?php echo $_GET['id']; ?>'">&nbsp; 
+-->
 	<SELECT onChange="if (this.selectedIndex != 0) { window.location='sendEmail.php?tid=' + this.value + '&id=<?php echo $_GET['id']; ?>'}">
 		<?php 
 			
@@ -670,5 +672,6 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 }
 else displayError("You may not view appeals that have not been email verified.");
 skinFooter();
+
 
 ?>

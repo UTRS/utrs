@@ -25,7 +25,11 @@ class SystemMessages {
 			"EmailSubject" => array (
 					"en" => "Response to unblock appeal #",
 					"pt" => "" 
-			) 
+			),
+			"ConfirmClose" => array (
+					"en" => "Are you sure you want to close this appeal without sending a response?",
+					"pt" => ""
+			)
 	);
 	public static $log = array (
 			"StatusToCU" => array (
@@ -56,13 +60,24 @@ class SystemMessages {
 					"en" => "Status change to AWAITING_REVIEWER",
 					"pt" => ""
 			),
-			"StatusAwaitReviewers" => array (
-					"en" => "Status change to AWAITING_REVIEWER",
+			"StatusOnHold" => array (
+					"en" => "Status change to ON_HOLD",
 					"pt" => ""
 			),
 			"StatusAwaitReviewers" => array (
 					"en" => "Status change to AWAITING_REVIEWER",
 					"pt" => ""
+			),
+			"StatusAwaitProxy" => array (
+					"en" => "Status change to AWAITING_PROXY",
+					"pt" => ""
+			),
+			"StatusAwaitAdmin" => array(
+					"en" => "Status change to AWAITING_ADMIN",
+					"pt" => ""
+			),
+			"AppealClosed" => array(
+					"en" => "Closed"
 			)
 	);
 	public static $error = array (
@@ -84,6 +99,30 @@ class SystemMessages {
 			), 
 			"FailAwaitUser" => array (
 					"en" => "Cannot return appeal to old handling tool user",
+					"pt" => ""
+			),
+			"FailOnHold" => array (
+					"en" => "Cannot assign STATUS_ON_HOLD status",
+					"pt" => ""
+			),
+			"FailAwaitProxy" => array (
+					"en" => "Cannot assign STATUS_AWAITING_PROXY status",
+					"pt" => ""
+			),
+			"FailAwaitAdmin" => array(
+					"en" => "Cannot assign STATUS_AWAITING_ADMIN status",
+					"pt" => ""
+			),
+			"FailCloseAppeal" => array(
+					"en" => "Unable to close the appeal",
+					"pt" => ""
+			),
+			"FailResetAppeal" => array(
+					"en" => "Unable to reset the appeal request",
+					"pt" => ""
+			),
+			"NoCommentProvided" => array(
+					"en" => "You have not entered a comment",
 					"pt" => ""
 			)
 	);

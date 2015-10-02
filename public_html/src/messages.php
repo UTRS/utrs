@@ -3,7 +3,7 @@ class SystemMessages {
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these.
 			"EmailFrom" => array (
-					"en" => 'From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n',
+					"en" => 'From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n',
 					"pt" => "" 
 			),
 			"EmailMIME" => array (
@@ -28,6 +28,14 @@ class SystemMessages {
 			),
 			"ConfirmClose" => array (
 					"en" => "Are you sure you want to close this appeal without sending a response?",
+					"pt" => ""
+			),
+			"ConfirmAdmin" => array (
+					"en" => "Do you really want to send this appeal to the tool admin queue?  Note: You will not be able to perform any other actions except comment until a tool admin can review it.  Please confirm this is really what you want to do.",
+					"pt" => ""
+			),
+			"ConfirmCU" => array (
+					"en" => "Please confirm you want to send this appeal to the checkuser queue",
 					"pt" => ""
 			)
 	);
@@ -77,7 +85,8 @@ class SystemMessages {
 					"pt" => ""
 			),
 			"AppealClosed" => array(
-					"en" => "Closed"
+					"en" => "Closed",
+					"pt" => ""
 			)
 	);
 	public static $error = array (

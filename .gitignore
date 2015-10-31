@@ -18,3 +18,7 @@ alpha/*
 #ignore potential htaccess
 *.htaccess
 *.jsdtscope
+
+#any config
+
+config*

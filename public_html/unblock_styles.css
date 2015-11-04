@@ -50,7 +50,7 @@ form{
 
 @media all and (min-width:591px){
    #header{
-      background-image: url('http://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Wikimedia_Community_Logo-Toolserver.svg/70px-Wikimedia_Community_Logo-Toolserver.svg.png');
+      background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/b/be/Wikimedia_Community_Logo-Toolserver.svg/70px-Wikimedia_Community_Logo-Toolserver.svg.png');
       background-position: 99% 24px;
       background-repeat: no-repeat;
    }
@@ -236,13 +236,13 @@ table.error td, table.success td{
 table.error{
    background-color:#FFD6D1;
    border: 2px solid red;
-   background-image: url('https://upload.wikimedia.org/wikipedia/en/1/15/Ambox_warning_pn.svg');
+   background-image: url('//upload.wikimedia.org/wikipedia/en/1/15/Ambox_warning_pn.svg');
 }
 
 table.success{
    background-color:#D6FFD1;
    border: 2px solid green;
-   background-image: url('http://upload.wikimedia.org/wikipedia/commons/e/e5/Art%C3%ADculo_bueno.svg');
+   background-image: url('//upload.wikimedia.org/wikipedia/commons/e/e5/Art%C3%ADculo_bueno.svg');
 }
 
 table.appealList{

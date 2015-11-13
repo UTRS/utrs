@@ -57,6 +57,12 @@ if(isset($_POST["submit"])){
       $email = $_POST["appeal_email"];
       $registered = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
       $wikiAccount = (isset($_POST["appeal_wikiAccountName"]) ? $_POST["appeal_wikiAccountName"] : null);
+      if ($_POST["appeal_autoblock"] == 1) {
+        $autoblock = true;      
+      }
+      if ($_POST["appeal_autoblock"] == 0) {
+        $autoblock = false;      
+      }
        
       $ban = Ban::isBanned($ip, $email, $wikiAccount);
       if($ban){
@@ -76,8 +82,11 @@ if(isset($_POST["submit"])){
          }
          throw new UTRSCredentialsException($message);
       }
-      if ($registered && !Appeal::verifyBlock($wikiAccount, TRUE)) {
+      if ($registered && !$autoblock && !Appeal::verifyBlock($wikiAccount, TRUE)) {
         throw new UTRSValidationException('The username you entered ('.$wikiAccount.') is not currently blocked. Please verify that you are blocked by following the instructions above.');
+      }
+      elseif ($registered && $autoblock  && !Appeal::verifyBlock($ip, FALSE)) {
+        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. Is it your account that is blocked?');
       }
       elseif (!$registered && !Appeal::verifyBlock($ip, FALSE)) {
         throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');

@@ -163,7 +163,7 @@ CREATE TABLE `userMgmtLog` (
   KEY `doneBy` (`doneBy`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---HOOK TOOL
+-- HOOK TOOL
 
 CREATE TABLE IF NOT EXISTS `hooks` (
   `user_id` int(11) NOT NULL,
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `config` (
 INSERT INTO `config` (`config`, `data`) VALUES
 ('installed_hooks', 'a:12:{i:0;s:13:"AwaitingProxy";i:1;s:16:"AwaitingReviewer";i:2;s:17:"AwaitingToolAdmin";i:3;s:12:"AwaitingUser";i:4;s:7:"Backlog";i:5;s:15:"CheckUserNeeded";i:6;s:14:"ClosedRequests";i:7;s:7:"MyQueue";i:8;s:11:"NewRequests";i:9;s:6:"OnHold";i:10;s:17:"UnverifiedAppeals";i:11;s:11:"WaitingOnMe";}');
 
---End of hook tool
+-- End of hook tool
 
 
 /*!40101 SET character_set_client = @saved_cs_client */;

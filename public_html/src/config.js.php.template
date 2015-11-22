@@ -1,6 +1,6 @@
 {
     "db": {
-        "dsn":       "mysql:host=;dbname=;"
+        "dsn":       "mysql:host=;dbname=;",
 
         "user":      "",
         "password":  ""

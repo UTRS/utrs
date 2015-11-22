@@ -204,7 +204,7 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 				echo "<label name=\"textLabel\" id=\"textLabel\" for=\"statusClose\"> Uncheck this option to prevent a status change.</label><br>";
 			}
 		}
-		//echo "<input type=\"hidden\" name=\"template\" id=\"template\" value=\"" . $template->getName() . "\">";
+		echo "<input type=\"hidden\" name=\"template\" id=\"template\" value=\"" . "WHAT THE HELL IS THIS"/*$template->getName()*/ . "\">";
 		echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Send Email\" />";
 		echo "<input type=\"submit\" name=\"preview\" id=\"preview\" value=\"Preview\" />";
 		echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" />\n";

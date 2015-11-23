@@ -355,9 +355,6 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="loginLink">
       <a href="<?php echo getRootURL() . 'login.php'; ?>">Admins: Log in to review requests</a>
    </li>
-   <li id="register">
-      <a href="<?php echo getRootURL() . 'register.php'; ?>">Admins: Request an account</a>
-   </li>
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>

@@ -94,17 +94,46 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     $payload = doIdentify();
 
     $is_admin = in_array("sysop", $payload->groups);
+    $is_check = in_array("checkuser", $payload->groups);
     $username = $payload->username;
-    $email = $payload->confirmed_email ? $payload->email : '';
 
-    if ($is_admin === TRUE) {
+    if ($is_admin === TRUE && $payload->confirmed_email === TRUE) {
         session_name('UTRSLogin');
         session_start();
         $_SESSION['user'] = $username;
         $_SESSION['oauth'] = TRUE;
-        # XXX
+
+        $db = connectToDB(true);
+        $query = $db->prepare('
+                SELECT userID FROM user
+                WHERE username = :username');
+
+        $result = $query->execute(array(
+                ':username'	=> $username));
+
+        if($result === false){
+                $error = var_export($query->errorInfo(), true);
+                debug('ERROR: ' . $error . '<br/>');
+                throw new UTRSDatabaseException($error);
+        }
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+        $query->closeCursor();
+        if ($data['userID'] === NULL) {
+            $user = new User(array(
+                'wikiAccount' => $username,
+                'diff' => "",
+                'username' => $username,
+                'email' => $payload->email,
+            ), false, array(
+                'checkuser' => $is_check,
+            ));
+            debug('object created<br/>');
+        }
+
         header("Location: " . "home.php");
         exit;
+    } else if ($is_admin === TRUE) {
+        $errors = 'You need to have a confirmed email address set in MediaWiki to use UTRS.';
     } else {
         $errors = 'Only administrators can review requests on UTRS.';
     }

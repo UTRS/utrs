@@ -28,7 +28,7 @@ class UTRSUser{
 	private $registered;
 	private $closed;
 	
-	public function __construct(array $vars, $fromDB){
+	public function __construct(array $vars, $fromDB, $oauth = NULL){
 		debug('in constructor for user <br/>');
 		if($fromDB){
 			$this->username = $vars['username'];
@@ -68,7 +68,14 @@ class UTRSUser{
 			$this->passwordHash = hash("sha512", $vars['password']);
 			$this->closed = 0;
 			$this->diff = $vars['diff'];
-			
+                        if ($oauth !== NULL) {
+                            $this->approved = 1;
+                            $this->active = 1;
+                            $this->checkuser = $oauth["checkuser"];
+                            $this->acceptToS = 0;
+                            $this->useSecure = 1;
+                            $this->passwordHash = "xxx";
+                        }
 			$this->insert();
 		}
 		debug('leaving user constructor <br/>');
@@ -80,8 +87,8 @@ class UTRSUser{
 		$db = connectToDB();
 
 		$query = $db->prepare('
-			INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff, acceptToS)
-			VALUES (:username, :email, :wikiAccount, :useSecure, :passwordHash, :diff, 1)');
+			INSERT INTO user (username, email, wikiAccount, useSecure, passwordHash, diff, approved, active, checkuser, acceptToS)
+			VALUES (:username, :email, :wikiAccount, :useSecure, :passwordHash, :diff, :approved, :active, :checkuser, :acceptToS)');
 
 		$result = $query->execute(array(
 			':username'	=> $this->username,
@@ -89,6 +96,10 @@ class UTRSUser{
 			':wikiAccount'	=> $this->wikiAccount,
 			':useSecure'	=> $this->useSecure,
 			':passwordHash'	=> $this->passwordHash,
+                        ':approved'     => $this->approved,
+                        ':active'       => $this->active,
+                        ':checkuser'    => $this->checkuser,
+                        ':acceptToS'    => $this->acceptToS,
 			':diff'		=> $this->diff));
 
 		if(!$result){

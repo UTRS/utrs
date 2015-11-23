@@ -123,8 +123,26 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                 'checkuser' => $is_check,
             ));
             debug('object created<br/>');
+        } else {
+            $user = User::getUserById($data['userID']);
+            if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email) {
+                // XXX: Logging?
+                $query = $db->prepare("
+                        UPDATE user
+                        SET checkuser = :checkuser,
+                            email = :email
+                        WHERE userID = :userID");
+                $result = $query->execute(array(
+                        ':checkuser' => (bool)$is_check,
+                        ':email' => $payload->email,
+                        ':userID' => (int)$data['userID']));
+                if(!$result){
+                    $error = var_export($query->errorInfo(), true);
+                    debug('ERROR: ' . $error . '<br/>');
+                    throw new UTRSDatabaseException($error);
+                }
+            }
         }
-
         header("Location: " . "home.php");
         exit;
     } else if ($is_admin === TRUE) {

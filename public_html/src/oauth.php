@@ -1,7 +1,18 @@
 <?php
 
-// ******************** CODE ********************
-
+/**
+ * Based on https://tools.wmflabs.org/oauth-hello-world/. The original source
+ * contained the following notice:
+ *
+ * Written in 2013 by Brad Jorsch
+ *
+ * To the extent possible under law, the author(s) have dedicated all copyright 
+ * and related and neighboring rights to this software to the public domain 
+ * worldwide. This software is distributed without any warranty. 
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/> for a copy of the 
+ * CC0 Public Domain Dedication.
+ */
 
 /**
  * Utility function to sign a request

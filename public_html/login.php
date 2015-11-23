@@ -267,15 +267,13 @@ if($logout){
 }
 ?>
 
-<div id="loginBox">
-<p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
-
 <?php 
 if($errors){
 	displayError($errors);
 }
 ?>
 
+<!-- keeping just in case
 <form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden"><table>
       <tr>
          <td><label for="username" id="usernameLabel">Username: </label></td>
@@ -302,6 +300,7 @@ if($errors){
 
 <p><a href="passReset.php">Forgot your password?</a></p>
 </div>
+-->
 </center>
 <?php 
 skinFooter();

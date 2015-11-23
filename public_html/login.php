@@ -261,34 +261,12 @@ if($logout){
 }
 ?>
 
-<div id="loginBox">
-<p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
-
 <?php 
 if($errors){
 	displayError($errors);
 }
 ?>
 
-<form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden"><table>
-      <tr>
-         <td><label for="username" id="usernameLabel">Username: </label></td>
-         <td><input id="username" name="username" type="text" id="username" value="<?php echo $user; ?>"></td>
-      </tr>
-      <tr>
-         <td colspan="2">&nbsp;</td>
-      </tr>
-      <tr>
-         <td><label for="password" id="passwordLabel">Password: </label></td>
-         <td><input id="password" name="password" type="password" id="password"></td>
-      </tr>
-   </table>
-   <input id="login" name="login" value="Login" type="submit">
-</form>
-<p>You must have cookies enabled in order to log in.</p>
-
-<p><a href="passReset.php">Forgot your password?</a></p>
-</div>
 </center>
 <?php 
 skinFooter();

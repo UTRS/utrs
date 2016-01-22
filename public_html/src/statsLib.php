@@ -335,9 +335,9 @@ function getPermsDB() {
    global $wikiPerms;
    $users = "";
    
-   $result = queryUsers(array("approved" => 1));
+   $result = queryUsers(array("active" => 1));
    while (($data = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
-      $users .= $data['wikiAccount'] . "|";
+      $users .= urlencode($data['wikiAccount']) . "|";
    }
    $perms_array = explode("|", $users);
    for ($i = 0; $i < count($perms_array); $i = $i + 5) {

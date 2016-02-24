@@ -129,7 +129,7 @@ class Notice{
 		// if we get down here with no exceptions, it's good to go.
 	}
 	
-	private function checkForExistingToken($syntaxCodes, $match){
+	private static function checkForExistingToken($syntaxCodes, $match){
 		$syntaxError = "Your message contains overlapping formatting which will not display properly. Special" .
 			" formats within special format must end before the preceding format ends." .
 			" For example, '<tt>this /string *is* formatted/ correctly</tt>', however " .

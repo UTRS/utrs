@@ -416,7 +416,7 @@ function printUnapprovedAccounts(){
 }
 
 function printInactiveAccounts(){
-   return printUserList(array("approved" => "1", " AND active" => "0"), "", "username ASC"); 
+   return printUserList(array("approved" => "1", " AND active" => "0", " AND oversight" => "0"), "", "username ASC"); 
 }
 
 function printActiveAccounts(){

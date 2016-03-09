@@ -21,7 +21,7 @@ try{
                 " AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
 
 	// grab appeals and IPs
-	$query = "SELECT appealID, ip FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
+	$query = "SELECT appealID, ip, email FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
 			        " OR appealID = ANY (" . $unverifiedAppealsSubquery . "))" .	
                                 " AND email IS NOT NULL" .
 				" AND ip LIKE '%.%.%.%'";

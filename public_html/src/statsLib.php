@@ -412,7 +412,7 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 }
 
 function printUnapprovedAccounts(){
-   return printUserList(array("approved" => "0"), "", "registered ASC");   
+   return printUserList(array("approved" => "0", " AND oversight" => "0"), "", "registered ASC");   
 }
 
 function printInactiveAccounts(){

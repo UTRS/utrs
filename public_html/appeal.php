@@ -387,7 +387,7 @@ if (isset($_GET['action'])) {
 	}
 }
 
-if ($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED || verifyAccess($GLOBALS['DEVELOPER'])) {
+if ($appeal->getStatus() != Appeal::$STATUS_INVALID||$appeal->getStatus() != Appeal::$STATUS_UNVERIFIED || verifyAccess($GLOBALS['DEVELOPER'])) {
 ?>
 <h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
 <table class="appeal">
@@ -670,7 +670,12 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 
 <?php 
 }
-else displayError("You may not view appeals that have not been email verified.");
+elseif ($appeal->getStatus() == Appeal::$STATUS_INVALID) {
+	displayError("You may not view appeals that have been marked invalid by a developer.");
+}
+else {
+	displayError("You may not view appeals that have not been email verified.");
+}
 skinFooter();
 
 

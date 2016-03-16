@@ -703,7 +703,7 @@ class Appeal extends Model {
       $this->emailToken = null;
       $query->closeCursor();
    }
-   public function verifyBlock($username, $ipornot) {
+   public static function verifyBlock($username, $ipornot) {
       if ($ipornot) {
 	   	  $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.urlencode($username).'&format=json&usprop=blockinfo'),true);
 	      $checkFound = False;
@@ -727,7 +727,7 @@ class Appeal extends Model {
       	return True;
       }
    }
-   public function verifyNoPublicAppeal($username) {
+   public static function verifyNoPublicAppeal($username) {
       //not sorting the api, seems to catch on pageid
       $data = file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username);
       $checkFound = False;
@@ -749,7 +749,7 @@ class Appeal extends Model {
         return True; 
       }
    }
-   public function activeAppeal($email,$wikiAccount) {
+   public static function activeAppeal($email,$wikiAccount) {
       $db = ConnectToDB();
 
       $query = $db->prepare("

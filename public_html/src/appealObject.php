@@ -22,6 +22,10 @@ class Appeal extends Model {
     */
    public static $STATUS_UNVERIFIED = 'UNVERIFIED';
    /**
+    * The appeal has been marked invalid by a developer
+    */
+   public static $STATUS_INVALID = 'INVALID';
+   /**
     * The appeal is new and has not yet been addressed
     */
    public static $STATUS_NEW = 'NEW';
@@ -755,7 +759,7 @@ class Appeal extends Model {
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE (email =\"".$email."\"
-          OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
+          OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" OR status !=\"invalid\");");
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);

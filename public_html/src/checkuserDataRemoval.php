@@ -16,13 +16,17 @@ try{
 	$closedAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
 		"comment = 'Closed' AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
 
-        // appeals that are unverified for more than 6 days
-        $unverifiedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE status = 'Unverified' " .
+    // appeals that are unverified for more than 6 days
+    $unverifiedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE status = 'Unverified' " .
                 " AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
+    // appeals that have been marked invalid by a developer
+    $invalidAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
+        		"comment = 'Invalid'";
 
 	// grab appeals and IPs
 	$query = "SELECT appealID, ip, email FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
-			        " OR appealID = ANY (" . $unverifiedAppealsSubquery . "))" .	
+			        " OR appealID = ANY (" . $unverifiedAppealsSubquery . ")" .
+			        "OR appealID = ANY (" . $invalidAppealsSubquery . "))" .	
                                 " AND email IS NOT NULL" .
 				" AND ip LIKE '%.%.%.%'";
 		

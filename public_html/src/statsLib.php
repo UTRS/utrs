@@ -222,6 +222,7 @@ function printBacklog() {
         AND c.comment != 'Closed'
                   AND a.status != 'UNVERIFIED'
                   AND a.status != 'CLOSED'
+   		          AND a.status != 'INVALID'
         AND DateDiff(Now(), c.timestamp) > 7
       ORDER BY c.timestamp ASC");
    

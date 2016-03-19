@@ -281,6 +281,22 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$error = SystemMessages::$error['FailCloseAppeal'][$lang];
 			}
 			break;
+	case "invalid":
+			if (
+				//admin
+				verifyAccess($GLOBALS['DEVELOPER']) &&
+				//When assigned
+				($appeal->getHandlingAdmin() === NULL)
+				)
+			 {
+					$appeal->setStatus(Appeal::$STATUS_INVALID);
+					$log->addNewItem('Appeal has been scrapped.', 1);
+			} else {
+					//TODO: Why is this have a verify access call on the end? what does it print?
+					//TODO: --DQ 27/5/15
+					$error = SystemMessages::$error['FailInvalid'][$lang];
+				}
+				break;
     case "new":
 			if (
 				//admin
@@ -346,6 +362,14 @@ function doCheckUser() {
 	var response = confirm("Please confirm you want to send this appeal to the checkuser queue:")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser';
+	} else {
+		return false;
+	}
+}
+function doInvalid() {
+	var response = confirm("Please confirm you want revoke this appeal:")
+	if (response) {
+		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=invalid';
 	} else {
 		return false;
 	}
@@ -454,6 +478,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	// Reserve and release buttons
 	if ($appeal->getHandlingAdmin()) {
 		if (
+				//When it is already in INVALID status
+				$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 			//Not handling user and not admin
 			$appeal->getHandlingAdmin()->getUserId() != $user->getUserId() && !verifyAccess($GLOBALS['ADMIN']) ||
 			//In AWAITING_ADMIN status and not admin
@@ -468,6 +494,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		echo "<input type=\"button\" " . $disabled . " value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
 	} else {
 		if (
+				//When it is already in INVALID status
+				$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 			//Awaiting admin and not admin
 			$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 			//Appeal awaiting CU and not CU or Admin
@@ -482,6 +510,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
   //New button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status and not a dev
+			($appeal->getStatus() == Appeal::$STATUS_INVALID && !verifyAccess($GLOBALS['DEVELOPER'])) ||
 		//Awaiting new
 		$appeal->getStatus() == Appeal::$STATUS_NEW ||
 		//When is assigned
@@ -499,6 +529,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Return button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Appeal needs to be reserved to send back to an admin
 		!($appeal->getHandlingAdmin()) ||
 		//Appeal is not in checkuser or admin status
@@ -521,6 +553,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Awaiting user button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//When it is already in STATUS_AWAITING_USER status
 	    $appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
 	    //When not assigned
@@ -537,10 +571,23 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	    $disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	//Invalid button
+	$disabled = "";
+	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
+			//When not dev
+			verifyAccess($GLOBALS['DEVELOPER'])
+	) {
+		$disabled = "disabled='disabled'";
+	}
+	echo "<input type=\"button\" " . $disabled . " value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
 	echo "<hr style='width:475px;'>";
   //Checkuser button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Awaiting checkuser (if it's already set to CU)
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER ||
 		//When not assigned
@@ -558,6 +605,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//On Hold button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Already on hold
 		$appeal->getStatus() == Appeal::$STATUS_ON_HOLD ||
 		//When not assigned
@@ -577,6 +626,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Awaiting Proxy
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Already on proxy
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY ||
 		//When not assigned
@@ -596,6 +647,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Awaiting admin
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Already on awaiting admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN
 		//Only condition to allow an appeal to be sent to awaiting admin for any reason
@@ -606,6 +659,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Close button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//When set to AWAITING_ADMIN and not admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 		//Not handling user and not admin

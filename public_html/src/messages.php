@@ -124,6 +124,10 @@ class SystemMessages {
 			"NoCommentProvided" => array(
 					"en" => "You have not entered a comment",
 					"pt" => ""
+			),
+			"FailInvalid" => array(
+					"en" => "Unable to mark appeal invalid",
+					"pt" => ""
 			)
 	);
 }

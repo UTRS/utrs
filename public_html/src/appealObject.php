@@ -759,7 +759,7 @@ class Appeal extends Model {
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE (email =\"".$email."\"
-          OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" OR status !=\"invalid\");");
+          OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" AND status !=\"invalid\");");
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);

@@ -142,7 +142,7 @@ class Log {
 		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
 	}
 
-	public function getSmallHTML() {
+	public function getSmallHTML($higherPerms) {
 
 		$HTMLOutput = "";
 
@@ -171,10 +171,6 @@ class Log {
 			} else {
 				$dots = "";
 			}
-			if (verifyAccess($GLOBALS['checkuser'])||verifyAccess($GLOBALS['oversight'])||verifyAccess($GLOBALS['developer'])||verifyAccess($GLOBALS['wmf'])) {
-				$higherPerms = TRUE;
-			}
-			else {$higherPerms = FALSE;}
 			if ($data['protected'] && !$higherPerms){
 				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the relevant permissions to view this comment.")),0,150)."</font>";
 			}
@@ -190,7 +186,7 @@ class Log {
 		return $HTMLOutput;
 	}
 
-	public function getLargeHTML() {
+	public function getLargeHTML($higherPerms) {
 
 		$HTMLOutput = "";
 
@@ -222,10 +218,6 @@ class Log {
 
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			if (verifyAccess($GLOBALS['checkuser'])||verifyAccess($GLOBALS['oversight'])||verifyAccess($GLOBALS['developer'])||verifyAccess($GLOBALS['wmf'])) {
-				$higherPerms = TRUE;
-			}
-			else {$higherPerms = FALSE;}
 			if ($data['protected'] && !$higherPerms){
 				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
 			}

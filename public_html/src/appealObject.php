@@ -303,13 +303,6 @@ class Appeal extends Model {
    		throw new UTRSDatabaseException($error);
    	}
    
-   	$values = $query->fetch(PDO::FETCH_ASSOC);
-   	$query->closeCursor();
-   
-   	if ($values === false) {
-   		throw new UTRSValidationException("Could not insert item into reveal log.");
-   	}
-   
    	return;
    }
    public static function getCheckUserData($appealID) {

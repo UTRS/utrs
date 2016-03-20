@@ -441,8 +441,8 @@ class User{
 		$adminFlag = (bool)$adminFlag;
 		$devFlag = (bool)$devFlag;
 		$cuFlag = (bool)$cuFlag;
-		$wmfFlag = (bool)$cuFlag;
-		$oversightFlag = (bool)$cuFlag;
+		$wmfFlag = (bool)$wmfFlag;
+		$oversightFlag = (bool)$oversightFlag;
 		
 		$db = connectToDB();
 		

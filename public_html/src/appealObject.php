@@ -296,7 +296,7 @@ class Appeal extends Model {
          INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
    
    	$result = $query->execute(array(
-   			':appealID' => $appealID,':item' => $item, ':touser' => $userID));
+   			':appealID' => $appealID,':item' => $item, ':toUser' => $userID));
    
    	if(!$result){
    		$error = var_export($query->errorInfo(), true);

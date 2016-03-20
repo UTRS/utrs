@@ -757,9 +757,13 @@ else {
 		?>
 	</SELECT>
 </div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML())) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<?php if (verifyAccess($GLOBALS['checkuser'])||verifyAccess($GLOBALS['oversight'])||verifyAccess($GLOBALS['developer'])||verifyAccess($GLOBALS['wmf'])) {
+	$higherPerms = TRUE;
+}
+else {$higherPerms = FALSE;}?>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML($higherPerms))) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
-<?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
+<?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 

@@ -192,7 +192,9 @@ else{
 		$active = $requestedUser->isActive();
 		$admin = $requestedUser->isAdmin();
 		$checkuser = $requestedUser->isCheckuser();
+		$oversight = $requestedUser->isOversighter();
 		$developer = $requestedUser->isDeveloper();
+		$wmf = $requestedUser->isWMF();
 		$comments = $requestedUser->getComments();
 		$registered = $requestedUser->getRegistered();
 		$numClosed = $requestedUser->getClosed();

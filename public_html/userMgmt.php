@@ -25,6 +25,8 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 	$admin = $requestedUser->isAdmin();
 	$checkuser = $requestedUser->isCheckuser();
 	$developer = $requestedUser->isDeveloper();
+	$wmf = $requestedUser->isWMF();
+	$oversight = $requestedUser->isOversighter();
 
 	try{
 		$newApproved = isset($_POST['approved']);
@@ -33,13 +35,15 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		$newAdmin = isset($_POST['admin']);
 		$newDeveloper = isset($_POST['developer']);
 		$newCheckuser = isset($_POST['checkuser']);
+		$newWMF = isset($_POST['wmf']);
+		$newOversight = isset($_POST['oversight']);
 
 		// check required fields
 		if(!$approved & !$newApproved){
 			throw new UTRSIllegalModificationException("You must approve this account in order to " .
 				            "make any other access changes.");
 		}
-		if(!$newActive & !$reason){
+		if(!$newApproved & !$reason){
 			throw new UTRSIllegalModificationException("You must provide a reason for the user rights " .
 					        "change.");
 		}
@@ -47,6 +51,14 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() && !$user->isDeveloper())){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
 					        "changes. The checkuser flag may only be changed by developers or checkusers. ");
+		}
+		if(($newOversight != $oversight) && (!$user->isOversighter() && !$user->isDeveloper())){
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
+					"changes. The oversight flag may only be changed by developers or oversighters. ");
+		}
+		if(($newWMF != $wmf) && (!$user->isWMF() && !$user->isDeveloper())){
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
+					"changes. The WMF Staff flag may only be changed by developers or WMF Staff. ");
 		}
 		if(($newDeveloper != $developer) & !$user->isDeveloper()){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
@@ -58,29 +70,18 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			//Approve user in database
 			$requestedUser->approve($user);
 
-			//Notify IRC of approval
-			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been approved by\x032 " . $_SESSION['user']);
-
 		}
 		if($active & !$newActive){
 
 			//Mark user disabled in the database
 			$requestedUser->disable($user, $reason);
 
-			//Notify IRC of the change
-			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been disabled by\x032 " . $_SESSION['user']);
-
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);
-			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been enabled by\x032 " . $_SESSION['user']);
 		}
-		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
-			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user, $reason);
-			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissions have been changed by\x032 " . $_SESSION['user'] . " to the following flags: ". 
-			($newAdmin == TRUE)? "Administrator":"". ($newCheckuser == TRUE || $newDeveloper == TRUE)? ",":"".
-			($newCheckuser == TRUE)? "Checkuser":"". ($newDeveloper == TRUE)? ",":"".
-			($newDeveloper == TRUE)? "Developer":"");
+		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser) | ($newOversight != $oversight) | ($newWMF != $wmf)){
+			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user, $newWMF, $newOversight, $reason);
 			//Tool Admin: " . ($newAdmin ? 'true' : 'false') . " Tool Developer: " . ($newDeveloper ? 'true' : 'false') . " Checkuser: " . ($newCheckuser ? 'true' : 'false'));
 		}
 		// reset current user
@@ -142,11 +143,8 @@ verifyLogin('userMgmt.php');
 
 skinHeader("function toggleRequired() {
 	var label = document.getElementById('commentsLabel');
-	if(label.className == 'required'){
+	if(label.className != 'required'){
 		label.className = '';
-	}
-	else{
-		label.className='required';
 	}
 }
 
@@ -163,10 +161,10 @@ function setRequired(required) {
 
 echo "<h2>User management</h2>";
 
-if(!verifyAccess($GLOBALS['ADMIN'])){
+if(!verifyAccess($GLOBALS['ADMIN']) && !verifyAccess($GLOBALS['WMF'])){
 
 	if (!isset($_GET['userId'])) {
-		displayError("<b>Access denied:</a> User management is only available to tool administrators. "
+		displayError("<b>Access denied:</a> User management is only available to tool administrators or WMF Staff. "
 		    . "Please click on one of the links above to return to another page.");
 	} else {
 		$user = User::getUserById($_GET['userId']);
@@ -255,6 +253,12 @@ echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"develop
 echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($checkuser ? "checked=\"checked\" " : " " ) . 
      ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+echo "<tr><td><label name=\"oversightLabel\" id=\"oversightLabel\" for=\"oversight\">Oversight:</label> </td><td>&#09;&#09; " .
+		"<input name=\"oversight\" id=\"oversight\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($oversighter ? "checked=\"checked\" " : " " ) .
+		($user->isDeveloper() | $user->isOversighter() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+echo "<tr><td><label name=\"wmfLabel\" id=\"wmfLabel\" for=\"wmf\">Oversight:</label> </td><td>&#09;&#09; " .
+		"<input name=\"wmf\" id=\"wmf\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($wmf ? "checked=\"checked\" " : " " ) .
+		($user->isDeveloper() | $user->isWMF() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
 echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for changes to this account:</label>\n";
 echo "<textarea name=\"reason\" id=\"reason\" rows=\"1\" cols=\"50\" />" . "</textarea>\n</td></tr></table>";
@@ -334,9 +338,25 @@ if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
 
 <?php echo printCheckusers(); ?>
 
+<h3>WMF Staff</h3>
+
+<?php echo printWMFAccounts(); ?>
+
+<h3>Oversighters</h3>
+
+<?php echo printOversighterAccounts(); ?>
+
 <h3>Inactive accounts</h3>
 
 <?php echo printInactiveAccounts(); ?>
+
+<h3>Oversighted accounts</h3>
+
+<?php 
+if(verifyAccess($GLOBALS['OVERSIGHT'])) {
+	echo printOversightedAccounts();
+}
+ ?>
 
 </td>
 </tr>

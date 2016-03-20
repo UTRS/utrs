@@ -7,6 +7,8 @@ require_once('exceptions.php');
 require_once('userObject.php');
 require_once(dirname(__FILE__) . '/config.inc.php');
 
+$GLOBALS['WMF'] = -3;
+$GLOBALS['OVERSIGHT'] = -2;
 $GLOBALS['CHECKUSER'] = -1;
 $GLOBALS['APPROVED'] = 0;
 $GLOBALS['ACTIVE'] = 1;
@@ -143,6 +145,8 @@ function verifyLogin($destination = 'home.php'){
  * Confirm user is logged in AND has the necessary access level to proceed
  * @param $level int - the access level required:
  * VALID ARGUMENTS:
+ * -3 - Only WMF Staff may view this
+ * -2 - Only oversight may view this
  * -1 - Only checkusers may view this
  *  0 - Any approved user, including inactive ones, can view (or above)
  *  1 - Only active users may view this 
@@ -154,8 +158,8 @@ function verifyLogin($destination = 'home.php'){
 function verifyAccess($level){
 	// validate
 	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] & 
-			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER']){
-		throw new UTRSIllegalArgumentException($level, '-1, 0, 1, 2, or 3', 'verifyAccess()');
+			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER'] & $level !== $GLOBALS['WMF'] & $level !== $GLOBALS['OVERSIGHT']){
+		throw new UTRSIllegalArgumentException($level, '-3, -2, -1, 0, 1, 2, or 3', 'verifyAccess()');
 	}
 	
 	$user = getCurrentUser();
@@ -164,12 +168,16 @@ function verifyAccess($level){
 	}
 	
 	switch($level){
-		case $GLOBALS['CHECKUSER']: return $user->isCheckuser(); // doesn't cascase up like others
+		case $GLOBALS['WMF']: return $user->isWMF(); 
+		case $GLOBALS['OVERSIGHT']: return ($user->isOversight() | $user->isWMF()); 
+		case $GLOBALS['CHECKUSER']: return ($user->isCheckuser() | $user->isWMF()); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
 		case $GLOBALS['ACTIVE']: return ($user->isActive()); // on second thought, it should be possible to disable admins and devs too
 		case $GLOBALS['ADMIN']: return ($user->isAdmin() | $user->isDeveloper());
 		case $GLOBALS['DEVELOPER']: return $user->isDeveloper();
 	}
+	//Add protection incase things fail
+	return false;
 }
 
 /**

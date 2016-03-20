@@ -577,7 +577,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 			//When it is already in INVALID status
 			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 			//When not dev
-			verifyAccess($GLOBALS['DEVELOPER'])
+			!verifyAccess($GLOBALS['DEVELOPER'])
 	) {
 		$disabled = "disabled='disabled'";
 	}

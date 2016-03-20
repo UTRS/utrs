@@ -169,7 +169,13 @@ class Log {
 			} else {
 				$dots = "";
 			}
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150) . $italicsEnd . $dots . "</td>";
+			if ($data['protected']){
+				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
+			}
+			else {
+				$safeCmt = $data['comment'];
+			}
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $safeCmt)),0,150) . $italicsEnd . $dots . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 
@@ -210,7 +216,13 @@ class Log {
 
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $comment)) . $italicsEnd . "</td>";
+			if ($data['protected']){
+				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
+			}
+			else {
+				$safeCmt = $data['comment'];
+			}
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $safeCmt)) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

@@ -61,19 +61,19 @@ if (verifyAccess($GLOBALS['CHECKUSER'])
 			if ($_POST['revealitem'] == "cudata") {
 				if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['WMF'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem("Revealed this appeals CU data", 1, TRUE);
+					$log->addNewItem("Revealed this appeals CU data: ".$_POST['revealcomment']), 1, TRUE);
 				}
 			}
 			if ($_POST['revealitem'] == "email") {
 				if (verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem("Revealed this appeals email", 1, TRUE);
+					$log->addNewItem("Revealed this appeals email: ".$_POST['revealcomment']), 1, TRUE);
 				}
 			}
 			if ($_POST['revealitem'] == "oversightinfo") {
 				if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem("Revealed this appeals CU data", 1, TRUE);
+					$log->addNewItem("Revealed this appeals oversighted information: ".$_POST['revealcomment']), 1, TRUE);
 				}
 			}
 		}

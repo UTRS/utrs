@@ -172,12 +172,12 @@ class Log {
 				$dots = "";
 			}
 			if ($data['protected']){
-				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.</font>";
+				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the relevant permissions to view this comment.")),0,150)."</font>";
 			}
 			else {
-				$safeCmt = $data['comment'];
+				$safeCmt = substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150);
 			}
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $safeCmt)),0,150) . $italicsEnd . $dots . "</td>";
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . $safeCmt . $italicsEnd . $dots . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 

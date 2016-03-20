@@ -172,7 +172,7 @@ class Log {
 				$dots = "";
 			}
 			if ($data['protected']){
-				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
+				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.</font>";
 			}
 			else {
 				$safeCmt = $data['comment'];

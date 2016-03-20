@@ -70,9 +70,9 @@ class Log {
 		return new Log(array('dataset' => $query, 'appealID' => $id));
 	}
 
-	public function addNewItem($comment, $action = null) {
+	public function addNewItem($comment, $action = null, $protected = FALSE) {
 		$db = connectToDB();
-
+		$protected=(bool)$protected;
 		if (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0) {
 			$user = User::getUserByUsername($_SESSION['user']);
 			$userid = $user->getUserId();
@@ -89,14 +89,16 @@ class Log {
 		$timestamp = time();
 
 		$query = $db->prepare("
-			INSERT INTO comment (appealID, timestamp, comment, commentUser, action)
-			VALUES (:appealID, NOW(), :comment, :commentUser, :action)");
+			INSERT INTO comment (appealID, timestamp, comment, commentUser, action, protected)
+			VALUES (:appealID, NOW(), :comment, :commentUser, :action, :protected)");
 
 		$result = $query->execute(array(
 			':appealID'	=> $this->appealID,
 			':comment'	=> $comment,
 			':commentUser'	=> $userid,
-			':action'	=> $action));
+			':action'	=> $action,
+			':protected'	=> $protected
+		));
 
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

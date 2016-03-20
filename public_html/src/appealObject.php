@@ -293,7 +293,7 @@ class Appeal extends Model {
    	$db = connectToDB();
    
    	$query = $db->prepare("
-         INSERT INTO revealFlags (`appealID`, `item`, `toUser`,`timestamp`) VALUES (:appealID, :item, :toUser, NOW())");
+         INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
    
    	$result = $query->execute(array(
    			':appealID' => $appealID,':item' => $item, ':touser' => $userID));

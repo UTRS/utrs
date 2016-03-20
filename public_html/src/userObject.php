@@ -17,6 +17,8 @@ class User{
 	private $active;
 	private $toolAdmin;
 	private $checkuser;
+	private $wmf;
+	private $oversight;
 	private $developer;
 	private $useSecure;
 	private $acceptToS;
@@ -38,8 +40,10 @@ class User{
 			$this->toolAdmin = ($vars['toolAdmin'] == 1 || $vars['toolAdmin'] == '1' ? true : false);
 			$this->checkuser = ($vars['checkuser'] == 1 || $vars['checkuser'] == '1' ? true : false);
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
+			$this->oversight = ($vars['oversight'] == 1 || $vars['oversight'] == '1' ? true : false);
+			$this->wmf = ($vars['wmf'] == 1 || $vars['wmf'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
-			$this->useSecure = ($vars['useSecure'] == 1 || $vars['useSecure'] == '1' ? true : false);
+			$this->useSecure = True;
 			$this->acceptToS = ($vars['acceptToS'] == 1 || $vars['acceptToS'] == '1' ? true : false);
 			$this->replyNotify = $vars['replyNotify'];
 			$this->comments = $vars['comments'];
@@ -56,7 +60,9 @@ class User{
 			$this->toolAdmin = 0;
 			$this->checkuser = 0;
 			$this->developer = 0;
-			$this->useSecure = isset($vars['useSecure']);
+			$this->oversight = 0;
+			$this->wmf = 0;
+			$this->useSecure = True;
 			$this->acceptToS = 1;
 			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
@@ -210,6 +216,14 @@ class User{
 	
 	public function isCheckuser(){
 		return $this->checkuser;
+	}
+	
+	public function isCheckuser(){
+		return $this->oversight;
+	}
+	
+	public function isCheckuser(){
+		return $this->wmf;
 	}
 	
 	public function isDeveloper(){

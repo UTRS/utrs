@@ -448,7 +448,7 @@ else {
 	if ($appeal->checkRevealLog($user->getUserId(), "email")) {
 		echo $appeal->getEmail();
 	}
-}?>
+}}?>
 </h1>
 <table class="appeal">
 <tr>
@@ -498,7 +498,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo $appeal->getIP() . " " . $appeal->getUserAgent();
 }
 else {
-	echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>"
+	echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
 }?></div>
 <?php }?>
 

@@ -494,10 +494,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
 </ul>
 </div>
-<?php } ?>
-
-
-<?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {?>
+<?php } 
+if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {?>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {

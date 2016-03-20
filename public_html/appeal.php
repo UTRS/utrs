@@ -757,7 +757,7 @@ else {
 		?>
 	</SELECT>
 </div>
-<?php if (verifyAccess($GLOBALS['checkuser'])||verifyAccess($GLOBALS['oversight'])||verifyAccess($GLOBALS['developer'])||verifyAccess($GLOBALS['wmf'])) {
+<?php if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['WMF'])) {
 	$higherPerms = TRUE;
 }
 else {$higherPerms = FALSE;}?>

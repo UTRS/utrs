@@ -239,7 +239,7 @@ class Appeal extends Model {
       return $ip;
    }
    
-   public function getAppealByID($id){
+   public static function getAppealByID($id){
       $db = connectToDB();
       
       $query = $db->prepare("

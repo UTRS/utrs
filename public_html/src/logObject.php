@@ -18,6 +18,7 @@ class LogItem {
 	private $comment;
 	private $commentUser;
 	private $action;
+	private $protected;
 
 	public function __construct($vars) {
 		$this->commentID = $vars['commentID'];
@@ -26,10 +27,11 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
+		$this->protected = $vars['protected'];
 	}
 
 	function getLogArray() {
-		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action);
+		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action,'protected' => $this->protected);
 	}
 }
 class Log {

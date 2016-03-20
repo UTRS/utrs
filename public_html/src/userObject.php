@@ -40,7 +40,7 @@ class User{
 			$this->toolAdmin = ($vars['toolAdmin'] == 1 || $vars['toolAdmin'] == '1' ? true : false);
 			$this->checkuser = ($vars['checkuser'] == 1 || $vars['checkuser'] == '1' ? true : false);
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
-			$this->oversight = ($vars['oversight'] == 1 || $vars['oversight'] == '1' ? true : false);
+			$this->oversight = ($vars['oversighter'] == 1 || $vars['oversighter'] == '1' ? true : false);
 			$this->wmf = ($vars['wmf'] == 1 || $vars['wmf'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
 			$this->useSecure = True;
@@ -218,11 +218,11 @@ class User{
 		return $this->checkuser;
 	}
 	
-	public function isCheckuser(){
+	public function isOversighter(){
 		return $this->oversight;
 	}
 	
-	public function isCheckuser(){
+	public function isWMF(){
 		return $this->wmf;
 	}
 	

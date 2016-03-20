@@ -334,9 +334,25 @@ if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
 
 <?php echo printCheckusers(); ?>
 
+<h3>WMF Staff</h3>
+
+<?php echo printWMFAccounts(); ?>
+
+<h3>Oversighters</h3>
+
+<?php echo printOversighterAccounts(); ?>
+
 <h3>Inactive accounts</h3>
 
 <?php echo printInactiveAccounts(); ?>
+
+<h3>Oversighted accounts</h3>
+
+<?php 
+if(verifyAccess($GLOBALS['OVERSIGHT'])) {
+	echo printOversightedAccounts();
+}
+ ?>
 
 </td>
 </tr>

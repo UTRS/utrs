@@ -420,6 +420,18 @@ function printInactiveAccounts(){
    return printUserList(array("approved" => "1", " AND active" => "0", " AND oversight" => "0"), "", "username ASC"); 
 }
 
+function printWMFAccounts(){
+	return printUserList(array("wmf" => "1", " AND active" => "1"), "", "username ASC");
+}
+
+function printOversighterAccounts(){
+	return printUserList(array("oversighter" => "0", " AND active" => "1"), "", "username ASC");
+}
+
+function printOversightedAccounts(){
+	return printUserList(array("approved" => "0", " AND active" => "0", " AND oversight" => "1"), "", "username ASC");
+}
+
 function printActiveAccounts(){
    return printUserList(array("approved" => "1", " AND active" => "1", " AND toolAdmin" =>  "0"), "", "username ASC");  
 }

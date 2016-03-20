@@ -145,6 +145,8 @@ function verifyLogin($destination = 'home.php'){
  * Confirm user is logged in AND has the necessary access level to proceed
  * @param $level int - the access level required:
  * VALID ARGUMENTS:
+ * -3 - Only WMF Staff may view this
+ * -2 - Only oversight may view this
  * -1 - Only checkusers may view this
  *  0 - Any approved user, including inactive ones, can view (or above)
  *  1 - Only active users may view this 
@@ -167,13 +169,15 @@ function verifyAccess($level){
 	
 	switch($level){
 		case $GLOBALS['WMF']: return $user->isWMF(); 
-		case $GLOBALS['OVERSIGHT']: return $user->isOversight(); 
-		case $GLOBALS['CHECKUSER']: return $user->isCheckuser(); // doesn't cascase up like others
+		case $GLOBALS['OVERSIGHT']: return ($user->isOversight() | $user->isWMF()); 
+		case $GLOBALS['CHECKUSER']: return ($user->isCheckuser() | $user->isWMF()); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
 		case $GLOBALS['ACTIVE']: return ($user->isActive()); // on second thought, it should be possible to disable admins and devs too
 		case $GLOBALS['ADMIN']: return ($user->isAdmin() | $user->isDeveloper());
 		case $GLOBALS['DEVELOPER']: return $user->isDeveloper();
 	}
+	//Add protection incase things fail
+	return false;
 }
 
 /**

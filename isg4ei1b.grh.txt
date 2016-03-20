@@ -1,0 +1,30 @@
+﻿pick 3d2481e force static functions
+pick 8b07b6d set unverified appeals to only be viewed by devs
+pick 7eead58 add invalid status
+pick 230f7b6 Update unverified appeals hook to match access level required
+pick 23a5be9 fix bugs surrounding invalid status
+pick 204603e add invalid button
+pick 89f45a8 logic bug preventing appeals
+pick 19d4155 More logic flaws + extra notice to send msg
+pick c118974 add oversight and WMF usergroups
+pick 236408d add URL encode #58
+
+# Rebase e7c0dd9..236408d onto e7c0dd9 (10 command(s))
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+

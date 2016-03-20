@@ -448,6 +448,10 @@ else {
 	if ($appeal->checkRevealLog($user->getUserId(), "email")) {
 		echo $appeal->getEmail();
 	}
+	else {
+		echo "******";
+		echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@"));
+	}
 }}?>
 </h1>
 <table class="appeal">

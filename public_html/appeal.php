@@ -454,7 +454,7 @@ else {
 		echo "******";
 		echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@"));
 	}
-}}?>
+}?>
 </h1>
 <table class="appeal">
 <tr>
@@ -783,7 +783,7 @@ else {
 </div>
 
 <?php 
-}
+}}
 elseif ($appeal->getStatus() == Appeal::$STATUS_INVALID) {
 	displayError("You may not view appeals that have been marked invalid by a developer.");
 }

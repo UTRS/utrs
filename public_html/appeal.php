@@ -52,13 +52,17 @@ $user = User::getUserByUsername($_SESSION['user']);
 //construct log object
 $log = Log::getCommentsByAppealId($_GET['id']);
 
-if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {
+if (verifyAccess($GLOBALS['CHECKUSER'])
+		||verifyAccess($GLOBALS['OVERSIGHT'])
+		||verifyAccess($GLOBALS['WMF'])
+		||verifyAccess($GLOBALS['DEVELOPER'])) {
 	if (isset($_POST['revealitem'])) {
 		if (isset($_POST['revealcomment'])) {
 			if ($_POST['revealitem'] == "cudata") {
 				if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['WMF'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
 					$log->addNewItem("Revealed this appeals CU data", 1, TRUE);
+				}
 			}
 			if ($_POST['revealitem'] == "email") {
 				if (verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {
@@ -783,7 +787,7 @@ else {
 </div>
 
 <?php 
-}}
+}
 elseif ($appeal->getStatus() == Appeal::$STATUS_INVALID) {
 	displayError("You may not view appeals that have been marked invalid by a developer.");
 }

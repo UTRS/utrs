@@ -119,6 +119,10 @@ if(isset($_POST["submit"])){
          "you entered with your appeal is valid. To do this, simply click the link below.  If you " .
          "did not file an appeal then simply do nothing, and the appeal will be deleted.<br /><br />" .
          "<a href=\"" . htmlspecialchars($confirmURL) . "\">" . htmlspecialchars($confirmURL) . "</a>";
+      $body .=" If you wish "  .
+      		"to add additional information to your appeal, please click the link below.\n".
+      		"<a href=\"" . getRootURL() . "reply.php?id=" . $appeal->getID() . "&confirmEmail=" . $email . "\">" .
+      		"Send information by clicking here</a>";
 
       mail($appeal->getEmail(), "Unblock appeal email address confirmation", $body, $headers);
 

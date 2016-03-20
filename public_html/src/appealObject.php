@@ -288,7 +288,7 @@ class Appeal extends Model {
    	
    	return True;
    }
-   public static function insertRevealLog($userID,$item) {
+   public function insertRevealLog($userID,$item) {
    	$appealID = $this->appealID;
    	$db = connectToDB();
    

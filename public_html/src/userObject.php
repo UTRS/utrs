@@ -436,11 +436,13 @@ class User{
 		UserMgmtLog::insert("enabled account", "Account Enabled" , $comments, $this->userId, $admin->userId);
 	}
 	
-	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $reason){
+	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){
 		// safety checks
 		$adminFlag = (bool)$adminFlag;
 		$devFlag = (bool)$devFlag;
 		$cuFlag = (bool)$cuFlag;
+		$wmfFlag = (bool)$cuFlag;
+		$oversightFlag = (bool)$cuFlag;
 		
 		$db = connectToDB();
 		
@@ -448,13 +450,17 @@ class User{
 			UPDATE user
 			SET toolAdmin = :toolAdmin,
 			    developer = :developer,
-			    checkuser = :checkuser
+			    checkuser = :checkuser,
+				oversighter = :oversighter,
+				wmf = :wmf
 			WHERE userID = :userID");
 
 		$result = $query->execute(array(
 			':toolAdmin'	=> $adminFlag,
 			':developer'	=> $devFlag,
 			':checkuser'	=> $cuFlag,
+			':oversighter'	=> $oversightFlag,
+			':wmf'	=> $wmfFlag,
 			':userID'	=> $this->userId));
 
 		if(!$result){
@@ -466,15 +472,15 @@ class User{
 		$this->toolAdmin = $adminFlag;
 		$this->checkuser = $cuFlag;
 		$this->developer = $devFlag;
+		$this->wmf = $wmfFlag;
+		$this->oversight = $oversightFlag;
 		
 		UserMgmtLog::insert("changed permissions for", 
-					(($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
-					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
+					"to" . (($adminFlag == TRUE)? "Administrator":"". 
+							($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
+					($cuFlag == TRUE)? "Checkuser":"". 
+							($devFlag == TRUE)? ",":"".
 					($devFlag == TRUE)? "Developer":""), $reason, $this->userId, $admin->userId);
-		echo "changed permissions for\"". 
-					($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
-					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
-					($devFlag == TRUE)? "Developer":"". $reason. $this->userId. $admin->userId;
 	}
 	
 	

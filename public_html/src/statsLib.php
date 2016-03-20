@@ -505,11 +505,12 @@ function printUserLogs($userId){
       $timestamp = $data['timestamp'];
       $action = $data['action'];
       $reason = $data['reason'];
+      $changes = $data['change'];
       $hideTarget = $data['hideTarget'];
                
       $list .= "\t<tr>\n";
       $list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
-      $list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
+      $list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . " to " . $changes." ". ($hideTarget ? "" : " " . $target->getUsername()) . 
                ($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
       $list .= "\t</tr>\n";
    }

@@ -27,7 +27,7 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
-		$this->protected = $vars['protected'];
+		$this->protected = false;
 	}
 
 	function getLogArray() {
@@ -171,7 +171,11 @@ class Log {
 			} else {
 				$dots = "";
 			}
-			if ($data['protected']){
+			if (verifyAccess($GLOBALS['checkuser'])||verifyAccess($GLOBALS['oversight'])||verifyAccess($GLOBALS['developer'])||verifyAccess($GLOBALS['wmf'])) {
+				$higherPerms = TRUE;
+			}
+			else {$higherPerms = FALSE;}
+			if ($data['protected'] && !$higherPerms){
 				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the relevant permissions to view this comment.")),0,150)."</font>";
 			}
 			else {
@@ -218,7 +222,11 @@ class Log {
 
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			if ($data['protected']){
+			if (verifyAccess($GLOBALS['checkuser'])||verifyAccess($GLOBALS['oversight'])||verifyAccess($GLOBALS['developer'])||verifyAccess($GLOBALS['wmf'])) {
+				$higherPerms = TRUE;
+			}
+			else {$higherPerms = FALSE;}
+			if ($data['protected'] && !$higherPerms){
 				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
 			}
 			else {

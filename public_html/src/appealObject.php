@@ -239,7 +239,7 @@ class Appeal extends Model {
       return $ip;
    }
    
-   public static function getAppealByID($id){
+   public function getAppealByID($id){
       $db = connectToDB();
       
       $query = $db->prepare("
@@ -263,7 +263,7 @@ class Appeal extends Model {
       
       return self::newTrusted($values);
    }
-   public static function checkRevealLog($userID,$item) {
+   public function checkRevealLog($userID,$item) {
    	$appealID = $this->appealID;
    	$db = connectToDB();
    	

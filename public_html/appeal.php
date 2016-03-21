@@ -52,6 +52,36 @@ $user = User::getUserByUsername($_SESSION['user']);
 //construct log object
 $log = Log::getCommentsByAppealId($_GET['id']);
 
+if (verifyAccess($GLOBALS['CHECKUSER'])
+		||verifyAccess($GLOBALS['OVERSIGHT'])
+		||verifyAccess($GLOBALS['WMF'])
+		||verifyAccess($GLOBALS['DEVELOPER'])) {
+	if (isset($_POST['revealitem'])) {
+		if (isset($_POST['revealcomment'])) {
+			if ($_POST['revealitem'] == "cudata") {
+				if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['WMF'])) {
+					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
+					$log->addNewItem("Revealed this appeals CU data: ".$_POST['revealcomment'], 1, TRUE);
+				}
+			}
+			if ($_POST['revealitem'] == "email") {
+				if (verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {
+					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
+					$log->addNewItem("Revealed this appeals email: ".$_POST['revealcomment'], 1, TRUE);
+				}
+			}
+			if ($_POST['revealitem'] == "oversightinfo") {
+				if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])) {
+					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
+					$log->addNewItem("Revealed this appeals oversighted information: ".$_POST['revealcomment'], 1, TRUE);
+				}
+			}
+		}
+		else {
+			$error = "No reveal reason was submitted. Please provide a reason.";
+		}
+	}
+}
 //Set the handling admin
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if (!(
@@ -411,9 +441,25 @@ if (isset($_GET['action'])) {
 	}
 }
 
-if (($appeal->getStatus() != Appeal::$STATUS_INVALID && $appeal->getStatus() != Appeal::$STATUS_UNVERIFIED) || verifyAccess($GLOBALS['DEVELOPER'])) {
+if (
+		($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED) 
+		|| verifyAccess($GLOBALS['DEVELOPER'])) {
 ?>
-<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
+<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> - <?php
+if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])){
+	echo "******";
+	echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); 
+}
+else {
+	if ($appeal->checkRevealLog($user->getUserId(), "email")) {
+		echo $appeal->getEmail();
+	}
+	else {
+		echo "******";
+		echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@"));
+	}
+}?>
+</h1>
 <table class="appeal">
 <tr>
 <td valign=top class="left">
@@ -452,11 +498,19 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
 </ul>
 </div>
-<?php } ?>
-<?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
+<?php } 
+if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {?>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
-<div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
+<div class="info" style="height:60px !important;"><?php 
+if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
+	echo $appeal->getIP() . " " . $appeal->getUserAgent();
+}
+else {
+	echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+}?></div>
 <?php }?>
+
+
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getAppeal()))); ?>)">Why do you believe you should be unblocked?</a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">If you are unblocked, what articles do you intend to edit?</a></h3>
@@ -703,9 +757,13 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		?>
 	</SELECT>
 </div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML())) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<?php if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['WMF'])) {
+	$higherPerms = TRUE;
+}
+else {$higherPerms = FALSE;}?>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML($higherPerms))) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
-<?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
+<?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 
@@ -715,6 +773,15 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <input type="button" value="Ban Email" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=0'">&nbsp;
 <input type="button" value="Ban IP" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=1'">&nbsp;
 <input type="button" value="Ban Username" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=2'">&nbsp;
+</div>
+<?php }?>
+<?php if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {?>
+<h3>Reveal Management</h3>
+<div style="text-align:center;"><form action="?id=<?php echo $_GET['id']; ?>&action=reveal" method="post">
+<input type="radio" name="revealitem" value="email" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email">Email Address</label>
+<input type="radio" name="revealitem" value="cudata" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="cudata">CU data</label>
+<input type="radio" name="revealitem" value="oversightinfo" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email">Oversighted Appeal Information</label>
+<input type="text" name="revealcomment" style="width:75%;"><input type="submit" style="width:20%" value="Reveal"></form>
 </div>
 <?php }?>
 </td>

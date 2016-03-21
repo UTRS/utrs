@@ -263,8 +263,50 @@ class Appeal extends Model {
       
       return self::newTrusted($values);
    }
+   public function checkRevealLog($userID,$item) {
+   	$appealID = $this->appealID;
+   	$db = connectToDB();
+   	
+   	$query = $db->prepare("
+         SELECT revealID FROM revealFlags
+         WHERE appealID = :appealID AND item = :item AND toUser = :touser");
+   	
+   	$result = $query->execute(array(
+   			':appealID' => $appealID,':item' => $item, ':touser' => $userID));
+   	
+   	if(!$result){
+   		$error = var_export($query->errorInfo(), true);
+   		throw new UTRSDatabaseException($error);
+   	}
+   	
+   	$values = $query->fetch(PDO::FETCH_ASSOC);
+   	$query->closeCursor();
+   	
+   	if ($values === false) {
+   		return False;
+   	}
+   	
+   	return True;
+   }
+   public function insertRevealLog($userID,$item) {
+   	$appealID = $this->appealID;
+   	$db = connectToDB();
    
+   	$query = $db->prepare("
+         INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
+   
+   	$result = $query->execute(array(
+   			':appealID' => $appealID,':item' => $item, ':toUser' => $userID));
+   
+   	if(!$result){
+   		$error = var_export($query->errorInfo(), true);
+   		throw new UTRSDatabaseException($error);
+   	}
+   
+   	return;
+   }
    public static function getCheckUserData($appealID) {
+   	  //Check reveal
       if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {
          $db = connectToDB();
          

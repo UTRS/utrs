@@ -469,23 +469,15 @@ class User{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		/*$this->toolAdmin = $adminFlag;
+		$this->toolAdmin = $adminFlag;
 		$this->checkuser = $cuFlag;
 		$this->developer = $devFlag;
 		$this->wmf = $wmfFlag;
-		$this->oversight = $oversightFlag;*/
+		$this->oversight = $oversightFlag;
 		
 		UserMgmtLog::insert("changed permissions for", 
 					"to" . 
-							($adminFlag == TRUE)? "Administrator":"". 
-								($cuFlag == TRUE || $devFlag == TRUE || $wmfFlag == TRUE || $oversightFlag == TRUE)? ",":"".
-							($cuFlag == TRUE)? "Checkuser":"". 
-								($devFlag == TRUE || $wmfFlag == TRUE || $oversightFlag == TRUE)? ",":"".
-							($devFlag == TRUE)? "Developer":"".
-								($wmfFlag == TRUE || $oversightFlag == TRUE)? ",":"".
-							($wmfFlag == TRUE)? "WMF Staff":"".
-								($oversightFlag == TRUE)? ",":"".
-							($oversightFlag == TRUE)? "Oversight":"",
+							($adminFlag == TRUE)? "Administrator ":"". ($cuFlag == TRUE)? "Checkuser ":"". ($devFlag == TRUE)? "Developer ":"". ($wmfFlag == TRUE)? "WMF Staff ":"". ($oversightFlag == TRUE)? "Oversight ":"",
 					$reason, $this->userId, $admin->userId);
 	}
 	

@@ -474,20 +474,20 @@ class User{
 		$this->developer = $devFlag;
 		$this->wmf = $wmfFlag;
 		$this->oversight = $oversightFlag;
-		$full = "";
+		$full = " to ";
 		if ($adminFlag) {
 			$full .= "Administrator ";
 		}
-		if ($adminFlag) {
+		if ($cuFlag) {
 			$full .= "CheckUser ";
 		}
-		if ($adminFlag) {
+		if ($devFlag) {
 			$full .= "Developer ";
 		}
-		if ($adminFlag) {
+		if ($wmfFlag) {
 			$full .= "WMF Staff ";
 		}
-		if ($adminFlag) {
+		if ($oversightFlag) {
 			$full .= "Oversight ";
 		}
 		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId);

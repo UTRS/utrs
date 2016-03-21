@@ -475,10 +475,8 @@ class User{
 		$this->wmf = $wmfFlag;
 		$this->oversight = $oversightFlag;
 		
-		UserMgmtLog::insert("changed permissions for", 
-					"to" . 
-							($adminFlag == TRUE)? "Administrator ":"". ($cuFlag == TRUE)? "Checkuser ":"". ($devFlag == TRUE)? "Developer ":"". ($wmfFlag == TRUE)? "WMF Staff ":"". ($oversightFlag == TRUE)? "Oversight ":"",
-					$reason, $this->userId, $admin->userId);
+		echo "to" . ($adminFlag == TRUE)? "Administrator ":"". ($cuFlag == TRUE)? "Checkuser ":"". ($devFlag == TRUE)? "Developer ":"". ($wmfFlag == TRUE)? "WMF Staff ":"". ($oversightFlag == TRUE)? "Oversight ":"";
+		UserMgmtLog::insert("changed permissions for", "to" . ($adminFlag == TRUE)? "Administrator ":"". ($cuFlag == TRUE)? "Checkuser ":"". ($devFlag == TRUE)? "Developer ":"". ($wmfFlag == TRUE)? "WMF Staff ":"". ($oversightFlag == TRUE)? "Oversight ":"", $reason, $this->userId, $admin->userId);
 	}
 	
 	

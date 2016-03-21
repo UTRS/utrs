@@ -425,7 +425,7 @@ function printWMFAccounts(){
 }
 
 function printOversighterAccounts(){
-	return printUserList(array("oversighter" => "0", " AND active" => "1"), "", "username ASC");
+	return printUserList(array("oversighter" => "1", " AND active" => "1"), "", "username ASC");
 }
 
 function printOversightedAccounts(){

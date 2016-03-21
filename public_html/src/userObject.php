@@ -476,11 +476,18 @@ class User{
 		$this->oversight = $oversightFlag;
 		
 		UserMgmtLog::insert("changed permissions for", 
-					"to" . (($adminFlag == TRUE)? "Administrator":"". 
-							($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
-					($cuFlag == TRUE)? "Checkuser":"". 
-							($devFlag == TRUE)? ",":"".
-					($devFlag == TRUE)? "Developer":""), $reason, $this->userId, $admin->userId);
+					"to" . (
+							($adminFlag == TRUE)? "Administrator":"". 
+								($cuFlag == TRUE || $devFlag == TRUE || $wmfFlag == TRUE || $oversightFlag == TRUE))? ",":"".
+							($cuFlag == TRUE)? "Checkuser":"". 
+								($devFlag == TRUE || $wmfFlag == TRUE || $oversightFlag == TRUE)? ",":"".
+							($devFlag == TRUE)? "Developer":"".
+								($wmfFlag == TRUE || $oversightFlag == TRUE)? ",":"".
+							($wmfFlag == TRUE)? "WMF Staff":"".
+								($oversightFlag == TRUE)? ",":"".
+							($oversightFlag == TRUE)? "Oversight":""
+				,
+					$reason, $this->userId, $admin->userId);
 	}
 	
 	

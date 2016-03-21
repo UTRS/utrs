@@ -441,8 +441,8 @@ class User{
 		$adminFlag = (bool)$adminFlag;
 		$devFlag = (bool)$devFlag;
 		$cuFlag = (bool)$cuFlag;
-		$wmfFlag = (bool)$cuFlag;
-		$oversightFlag = (bool)$cuFlag;
+		$wmfFlag = (bool)$wmfFlag;
+		$oversightFlag = (bool)$oversightFlag;
 		
 		$db = connectToDB();
 		
@@ -474,13 +474,23 @@ class User{
 		$this->developer = $devFlag;
 		$this->wmf = $wmfFlag;
 		$this->oversight = $oversightFlag;
-		
-		UserMgmtLog::insert("changed permissions for", 
-					"to" . (($adminFlag == TRUE)? "Administrator":"". 
-							($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
-					($cuFlag == TRUE)? "Checkuser":"". 
-							($devFlag == TRUE)? ",":"".
-					($devFlag == TRUE)? "Developer":""), $reason, $this->userId, $admin->userId);
+		$full = " to ";
+		if ($adminFlag) {
+			$full .= "Administrator ";
+		}
+		if ($cuFlag) {
+			$full .= "CheckUser ";
+		}
+		if ($devFlag) {
+			$full .= "Developer ";
+		}
+		if ($wmfFlag) {
+			$full .= "WMF Staff ";
+		}
+		if ($oversightFlag) {
+			$full .= "Oversight ";
+		}
+		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId);
 	}
 	
 	

@@ -192,7 +192,9 @@ else{
 		$active = $requestedUser->isActive();
 		$admin = $requestedUser->isAdmin();
 		$checkuser = $requestedUser->isCheckuser();
+		$oversighter = $requestedUser->isOversighter();
 		$developer = $requestedUser->isDeveloper();
+		$wmf = $requestedUser->isWMF();
 		$comments = $requestedUser->getComments();
 		$registered = $requestedUser->getRegistered();
 		$numClosed = $requestedUser->getClosed();
@@ -252,13 +254,13 @@ echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"develop
      ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr>";
 echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+     ($user->isDeveloper() || $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
 echo "<tr><td><label name=\"oversightLabel\" id=\"oversightLabel\" for=\"oversight\">Oversight:</label> </td><td>&#09;&#09; " .
 		"<input name=\"oversight\" id=\"oversight\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($oversighter ? "checked=\"checked\" " : " " ) .
-		($user->isDeveloper() | $user->isOversighter() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
-echo "<tr><td><label name=\"wmfLabel\" id=\"wmfLabel\" for=\"wmf\">Oversight:</label> </td><td>&#09;&#09; " .
+		($user->isDeveloper() || $user->isOversighter() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+echo "<tr><td><label name=\"wmfLabel\" id=\"wmfLabel\" for=\"wmf\">WMF Staff:</label> </td><td>&#09;&#09; " .
 		"<input name=\"wmf\" id=\"wmf\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($wmf ? "checked=\"checked\" " : " " ) .
-		($user->isDeveloper() | $user->isWMF() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+		($user->isDeveloper() || $user->isWMF() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
 echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for changes to this account:</label>\n";
 echo "<textarea name=\"reason\" id=\"reason\" rows=\"1\" cols=\"50\" />" . "</textarea>\n</td></tr></table>";

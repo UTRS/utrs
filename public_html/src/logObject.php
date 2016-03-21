@@ -18,6 +18,7 @@ class LogItem {
 	private $comment;
 	private $commentUser;
 	private $action;
+	private $protected;
 
 	public function __construct($vars) {
 		$this->commentID = $vars['commentID'];
@@ -26,10 +27,11 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
+		$this->protected = false;
 	}
 
 	function getLogArray() {
-		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action);
+		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action,'protected' => $this->protected);
 	}
 }
 class Log {
@@ -140,7 +142,7 @@ class Log {
 		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
 	}
 
-	public function getSmallHTML() {
+	public function getSmallHTML($higherPerms) {
 
 		$HTMLOutput = "";
 
@@ -169,7 +171,13 @@ class Log {
 			} else {
 				$dots = "";
 			}
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150) . $italicsEnd . $dots . "</td>";
+			if ($data['protected'] && !$higherPerms){
+				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the relevant permissions to view this comment.")),0,150)."</font>";
+			}
+			else {
+				$safeCmt = substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150);
+			}
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . $safeCmt . $italicsEnd . $dots . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 
@@ -178,7 +186,7 @@ class Log {
 		return $HTMLOutput;
 	}
 
-	public function getLargeHTML() {
+	public function getLargeHTML($higherPerms) {
 
 		$HTMLOutput = "";
 
@@ -210,7 +218,13 @@ class Log {
 
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $comment)) . $italicsEnd . "</td>";
+			if ($data['protected'] && !$higherPerms){
+				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
+			}
+			else {
+				$safeCmt = $data['comment'];
+			}
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $safeCmt)) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

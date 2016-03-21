@@ -263,7 +263,7 @@ class Appeal extends Model {
       
       return self::newTrusted($values);
    }
-   public static function checkRevealLog($userID,$item) {
+   public function checkRevealLog($userID,$item) {
    	$appealID = $this->appealID;
    	$db = connectToDB();
    	
@@ -288,26 +288,19 @@ class Appeal extends Model {
    	
    	return True;
    }
-   public static function insertRevealLog($userID,$item) {
+   public function insertRevealLog($userID,$item) {
    	$appealID = $this->appealID;
    	$db = connectToDB();
    
    	$query = $db->prepare("
-         INSERT INTO revealFlags (`appealID`, `item`, `toUser`,`timestamp`) VALUES (:appealID, :item, :toUser, NOW())");
+         INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
    
    	$result = $query->execute(array(
-   			':appealID' => $appealID,':item' => $item, ':touser' => $userID));
+   			':appealID' => $appealID,':item' => $item, ':toUser' => $userID));
    
    	if(!$result){
    		$error = var_export($query->errorInfo(), true);
    		throw new UTRSDatabaseException($error);
-   	}
-   
-   	$values = $query->fetch(PDO::FETCH_ASSOC);
-   	$query->closeCursor();
-   
-   	if ($values === false) {
-   		throw new UTRSValidationException("Could not insert item into reveal log.");
    	}
    
    	return;

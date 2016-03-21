@@ -169,7 +169,7 @@ function verifyAccess($level){
 	
 	switch($level){
 		case $GLOBALS['WMF']: return $user->isWMF(); 
-		case $GLOBALS['OVERSIGHT']: return ($user->isOversight() | $user->isWMF()); 
+		case $GLOBALS['OVERSIGHT']: return ($user->isOversighter() | $user->isWMF()); 
 		case $GLOBALS['CHECKUSER']: return ($user->isCheckuser() | $user->isWMF()); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
 		case $GLOBALS['ACTIVE']: return ($user->isActive()); // on second thought, it should be possible to disable admins and devs too

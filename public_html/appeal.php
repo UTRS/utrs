@@ -499,15 +499,15 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 </ul>
 </div>
 <?php } 
-if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {?>
+if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
+	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {?>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
-if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo $appeal->getIP() . " " . $appeal->getUserAgent();
-}
-else {
+	}
+	else {
 	echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
-}?></div>
+	}?></div>
 <?php }?>
 
 
@@ -775,7 +775,7 @@ else {$higherPerms = FALSE;}?>
 <input type="button" value="Ban Username" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=2'">&nbsp;
 </div>
 <?php }?>
-<?php if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {?>
+<?php if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['CHECKUSER'])) {?>
 <h3>Reveal Management</h3>
 <div style="text-align:center;"><form action="?id=<?php echo $_GET['id']; ?>&action=reveal" method="post">
 <input type="radio" name="revealitem" value="email" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email">Email Address</label>

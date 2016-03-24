@@ -359,6 +359,14 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 		$error = SystemMessages::$error['NoCommentProvided'];
 	}
 }
+function cuwindow() {
+	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
+		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
+	}
+	else {
+		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+	}
+}
 ?>
 <script type="text/javascript">
 //TODO: @Bug 42 - Does this actually show up anywhere on the interface? 
@@ -411,14 +419,6 @@ function doNew() {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=new';
 	} else {
 		return false;
-	}
-}
-function CUwindow() {
-	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
-		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
-	}
-	else {
-			echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
 	}
 }
 
@@ -509,7 +509,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <?php } 
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php CUwindow() ?>)">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php  ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();

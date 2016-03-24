@@ -499,7 +499,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 </ul>
 </div>
 <?php }
-function cuwindow() {
+function cuwindow($appeal,$user) {
 	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
 	}
@@ -509,7 +509,7 @@ function cuwindow() {
 }
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php cuwindow() ?>)">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php cuwindow($appeal,$user) ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();

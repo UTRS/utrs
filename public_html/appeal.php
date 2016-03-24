@@ -503,17 +503,17 @@ if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
-	echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
+	echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3><?php
 	}
 	else {
-	echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
-	}
+		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+	}?>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
-	echo $appeal->getIP() . " " . $appeal->getUserAgent();
+		echo $appeal->getIP() . " " . $appeal->getUserAgent();
 	}
 	else {
-	echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
 	}?></div>
 <?php }?>
 

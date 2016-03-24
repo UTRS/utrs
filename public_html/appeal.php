@@ -509,7 +509,7 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <?php } 
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php  ?>)">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php cuwindow() ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();

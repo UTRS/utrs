@@ -503,7 +503,7 @@ function cuwindow($appeal,$user) {
 		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
 	}
 	else {
-		echo "<b><font color=\\\"red\\\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+		echo "<b><font color='red'>Access denied. You need to submit a reveal request in the bottom right.</font></b>";
 	}
 }
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {

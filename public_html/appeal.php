@@ -413,7 +413,6 @@ function doNew() {
 		return false;
 	}
 }
-
 function showContextWindow(innerContent) {
 	myWindow = document.getElementById('contextWindow');
 	myContent = document.getElementById('contextContent');
@@ -509,7 +508,7 @@ function cuwindow($appeal,$user) {
 }
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php cuwindow($appeal,$user) ?>)">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php htmlspecialchars(json_encode(cuwindow($appeal,$user))) ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();

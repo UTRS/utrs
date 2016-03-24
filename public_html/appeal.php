@@ -500,10 +500,10 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <?php }
 function cuwindow($appeal,$user) {
 	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
-		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
+		return htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
 	}
 	else {
-		echo "Access denied. You need to submit a reveal request in the bottom right.";
+		return "<b><font color='red'>Access denied. You need to submit a reveal request in the bottom right.</font></b>";
 	}
 }
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {

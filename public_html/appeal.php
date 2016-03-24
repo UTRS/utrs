@@ -503,12 +503,12 @@ function cuwindow($appeal,$user) {
 		return htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
 	}
 	else {
-		return "<b><font color='red'>Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+		return htmlspecialchars(json_encode(nl2br("<b><font color='red'>Access denied. You need to submit a reveal request in the bottom right.</font></b>")));
 	}
 }
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php htmlspecialchars(json_encode(cuwindow($appeal,$user))) ?>)">User Agent</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php cuwindow($appeal,$user) ?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();

@@ -507,8 +507,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	}
 	else {
 		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
-	}?>
-	)">User Agent</a></h3>
+	}?>)">User Agent</a></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();

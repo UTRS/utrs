@@ -359,14 +359,6 @@ if (isset($_GET['action']) && $_GET['action'] == "comment") {
 		$error = SystemMessages::$error['NoCommentProvided'];
 	}
 }
-function cuwindow() {
-	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
-		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
-	}
-	else {
-		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
-	}
-}
 ?>
 <script type="text/javascript">
 //TODO: @Bug 42 - Does this actually show up anywhere on the interface? 
@@ -506,7 +498,15 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
 </ul>
 </div>
-<?php } 
+<?php }
+function cuwindow() {
+	if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
+		echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent())));
+	}
+	else {
+		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+	}
+}
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php cuwindow() ?>)">User Agent</a></h3>

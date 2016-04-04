@@ -32,8 +32,7 @@ information that will allow us to distinguish you from others editing from the s
 data will remain confidential.
 It is important to note that this information is provided by your internet browser to any website 
 you visit; it is not possible to confirm any specific person's identity with this information. We only
-use this to confirm that multiple accounts or IP addresses were used by the same person, whoever that
-person may be.</p>
+use this to prevent abuse of Wikipedia and UTRS.</p>
 
 <p>We also require your email address so that we can respond to you with questions and the result of 
 your appeal.</p>
@@ -52,15 +51,14 @@ will be sent through the system, so there is no need for volunteers to view your
 full. As a result, only the domain of your address will be visible to most volunteers (for example, 
 wikiuser@gmail.com will display only as *****@gmail.com). The domain remains visible to assist volunteers 
 in determining if you are a legitimate user of a school or business network, if you are editing from 
-one. UTRS tool developers will be able to see your full email address to ensure the tool is working 
-properly. <i>(Administrators: Your email address is stored along with your UTRS account to allow tool
-administrators to contact you about your account. This does not get deleted, but is never visible
-to anyone other than UTRS developers looking at the database itself.)</i></li>
+one. UTRS tool developers and WMF Staff will be able to see your full email address to ensure the tool is working 
+properly or in emergency situations consistent with the Wikimedia Foundation Privacy Policy.</li>
 <li>Your useragent and IP address will only be visible to UTRS developers and those reviewing the block that have 
 access to the CheckUser tool on Wikipedia. CheckUsers need to see your useragent to help 
 differentiate you from the person the block is intended for, and UTRS developers need to see this 
 information to ensure the tool is working properly.</li>
-<li>Your useragent and IP address addtionally be visible upon request from an approved member of the Wikimedia Foundation.
+<li>In very limited cases your IP address and useragent may be stored to prevent additional abuse of the tool or Wikipedia.</li>
+<li>Your useragent and IP address additonally be visible upon request from an approved member of the Wikimedia Foundation.
 The use of this is rare, logged and monitered. You agree that any data released under this is subject to the Privacy Policy 
 of the Wikimedia Foundation, and this privacy policy is nullified for the released data only.</li>
 <li>The Username (or IP address if you don't have an account), Appeal number, date of appeal, and status of appeal are publically

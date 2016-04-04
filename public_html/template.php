@@ -311,10 +311,22 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="register">
       <a href="<?php echo getRootURL() . 'register.php'; ?>">Admins: Request an account</a>
    </li>
+   <?php
+   if(!$loggedIn){
+   ?>
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>
-<?php } ?>
+   <?php 
+   }
+   if($loggedIn){
+   ?>
+   <li id="privacyPolicy">
+      <a href="<?php echo getRootURL() . 'admin_privacy.php'; ?>">Privacy Policy</a>
+   </li>
+   <?php 
+   }
+ } ?>
 </ul>
 <div style="clear: both"></div>
 </div>

@@ -33,12 +33,12 @@ if (isset($_POST['acceptToS'])) {
 	
 } else {
 ?>
-With the migration to the Wikimedia Labs, this project falls under a new term of service than when you initially registered.  To continue to participate in this
+With the development of UTRS, this project occasionally requires a modified terms of service than when you initially registered.  To continue to participate in this
 system, for which your time is greatly appreciated, we require you to first accept these new terms.<br />
 <br />
 Please review the following policies and click "I accept" below to continue:
 <ul>
-<li><a href="privacy.php" target="_new">UTRS Privacy Policy</a>
+<li><a href="admin_privacy.php" target="_new">UTRS Member Privacy Policy and Duties</a>
 <li><a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new">Wikimedia Labs terms of service</a>
 </ul>
 

@@ -8,6 +8,7 @@ require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/logObject.php');
 require_once('src/appealObject.php');
+require_once('src/banObject.php');
 require_once('template.php');
 
 $publickey = @$CONFIG['recaptcha']['publickey'];

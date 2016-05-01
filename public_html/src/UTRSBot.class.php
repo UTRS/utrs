@@ -54,7 +54,7 @@ class UTRSBot {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content .= "{{subst:" . $this->adminTemplate;
+         $content = "{{subst:" . $this->adminTemplate;
          
          foreach ($templateVars as $var) {
             
@@ -62,7 +62,7 @@ class UTRSBot {
             
          }
          
-         $content = "}}";
+         $content .= "}}";
          
          $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
          

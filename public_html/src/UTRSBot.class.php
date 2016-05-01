@@ -1,6 +1,6 @@
 <?php
 
-require_once("../includes/Peachy/init.php");
+require_once("/includes/Peachy/init.php");
 
 class UTRSBot {
 	

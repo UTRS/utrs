@@ -112,7 +112,7 @@ function getLoggedInUsers(){
 	$users = array();
 	
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-		$user = WikiUser::getUserById($data['userID']);
+		$user = UTRSUser::getUserById($data['userID']);
 		$users[] = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
 	}
 	
@@ -129,7 +129,7 @@ function verifyLogin($destination = 'home.php'){
 		exit;
 	}
 	// if user has somehow lost access, kick them out
-	$user = WikiUser::getUserByUsername($_SESSION['user']);
+	$user = UTRSUser::getUserByUsername($_SESSION['user']);
 	if(!$user->isApproved() | !$user->isActive()){
 			header("Location: " . getRootURL() . 'logout.php');
 			exit;
@@ -261,7 +261,7 @@ function getWikiLink($basepage, $useSecure = false, array $queryOptions = array(
 
 function getCurrentUser(){
 	if(loggedIn()){
-		return WikiUser::getUserByUsername($_SESSION['user']);
+		return UTRSUser::getUserByUsername($_SESSION['user']);
 	}
 	return null;
 }

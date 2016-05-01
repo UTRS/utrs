@@ -47,7 +47,7 @@ if ($errorMessages) {
 $appeal = Appeal::getAppealByID($_GET['id']);
 
 //construct user object
-$user = WikiUser::getUserByUsername($_SESSION['user']);
+$user = UTRSUser::getUserByUsername($_SESSION['user']);
 
 //construct log object
 $log = Log::getCommentsByAppealId($_GET['id']);

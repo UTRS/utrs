@@ -7,7 +7,7 @@ require_once('unblocklib.php');
 require_once('userMgmtLogObject.php');
 
 
-class WikiUser{
+class UTRSUser{
 	
 	private $username;
 	private $userId;
@@ -144,7 +144,7 @@ class WikiUser{
 			throw new UTRSDatabaseException('No results were returned for user ID ' . $id);
 		}
 		
-		return new WikiUser($values, true);
+		return new UTRSUser($values, true);
 	}
 	
 	public static function getUserByUsername($username){
@@ -167,7 +167,7 @@ class WikiUser{
 			throw new UTRSDatabaseException('No results were returned for username ' . $username);
 		}
 		
-		return new WikiUser($values, true);
+		return new UTRSUser($values, true);
 	}
 	
 	public function getUserId() {

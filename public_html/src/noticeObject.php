@@ -18,7 +18,7 @@ class Notice{
 		if($fromDB){
 			$this->messageId = $vars['messageID'];
 			$this->message = $vars['message'];
-			$this->author = WikiUser::getUserById($vars['author']);
+			$this->author = UTRSUser::getUserById($vars['author']);
 			$this->lastEditTime = $vars['time'];
 		}
 		else{

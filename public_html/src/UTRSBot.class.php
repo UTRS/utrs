@@ -29,7 +29,7 @@ class UTRSBot {
       
       if ($user->exists()) {
          
-         $page = new Page( $this->objPeachy,"User_talk:" . $username );
+         $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
          $content = "{{subst:" . $this->userTemplate;
          

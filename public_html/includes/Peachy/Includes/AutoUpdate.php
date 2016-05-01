@@ -113,31 +113,33 @@ Class AutoUpdate {
 	 */
 	public function updatePeachy() {
 		global $pgIP, $pgExperimentalupdates;
-		$gitZip = $pgIP . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'gitUpdate.zip';
-		if( file_exists( $gitZip ) ) {
-			unlink( $gitZip );
-		}
-		file_put_contents( $gitZip, file_get_contents( 'http://github.com/MW-Peachy/Peachy/archive/' . $this->repository . '.zip' ) );
-		$zip = new ZipArchive();
-		$res = $zip->open( $gitZip );
-		if( $res === true ) {
-			$gitFolder = $pgIP . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'gitUpdate';
-			if( file_exists( $gitFolder ) ) {
-				$this->rrmdir( $gitFolder );
+		if ($pgExperimentalupdates) {
+			$gitZip = $pgIP . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'gitUpdate.zip';
+			if( file_exists( $gitZip ) ) {
+				unlink( $gitZip );
 			}
-			mkdir( $gitFolder, 02775 );
-			$zip->extractTo( $gitFolder );
-			$zip->close();
+			file_put_contents( $gitZip, file_get_contents( 'http://github.com/MW-Peachy/Peachy/archive/' . $this->repository . '.zip' ) );
+			$zip = new ZipArchive();
+			$res = $zip->open( $gitZip );
+			if( $res === true ) {
+				$gitFolder = $pgIP . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'gitUpdate';
+				if( file_exists( $gitFolder ) ) {
+					$this->rrmdir( $gitFolder );
+				}
+				mkdir( $gitFolder, 02775 );
+				$zip->extractTo( $gitFolder );
+				$zip->close();
 
-			$this->copyOverGitFiles( $gitFolder . DIRECTORY_SEPARATOR . 'Peachy-' . $this->repository );
+				$this->copyOverGitFiles( $gitFolder . DIRECTORY_SEPARATOR . 'Peachy-' . $this->repository );
 
-			file_put_contents( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . 'updateversion', serialize( ( $pgExperimentalupdates ? 'master' : 'stable' ) ) );
+				file_put_contents( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . 'updateversion', serialize( ( $pgExperimentalupdates ? 'master' : 'stable' ) ) );
 
-			pecho( "Peachy Updated!  Changes will go into effect on the next run.\n\n", PECHO_NOTICE );
+				pecho( "Peachy Updated!  Changes will go into effect on the next run.\n\n", PECHO_NOTICE );
 
-			file_put_contents( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . $this->logfile, serialize( $this->commits ) );
-		} else {
-			pecho( "Update failed!  Peachy could not retrieve all contents from GitHub.\n\n", PECHO_WARN );
+				file_put_contents( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . $this->logfile, serialize( $this->commits ) );
+			} else {
+				pecho( "Update failed!  Peachy could not retrieve all contents from GitHub.\n\n", PECHO_WARN );
+			}
 		}
 	}
 

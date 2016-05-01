@@ -25,7 +25,7 @@ class Template{
          $this->name = $vars['name'];
          $this->text = $vars['text'];
          $this->lastEditTime = $vars['lastEditTime'];
-         $this->lastEditUser = User::getUserById($vars['lastEditUser']);
+         $this->lastEditUser = WikiUser::getUserById($vars['lastEditUser']);
          if (isset($vars['statusUser']) && $vars['statusUser'] == 1) {
             $this->statusUser = $vars['statusUser'];
          } else {

@@ -77,7 +77,7 @@ class Ban{
 			$this->timestamp = $values['timestamp'];
 			$this->expiry = $values['expiry'];
 			$this->reason = $values['reason'];
-			$this->admin = User::getUserById($values['admin']);
+			$this->admin = WikiUser::getUserById($values['admin']);
 			$this->isIP = ($values['isIP'] == 1 ? true : false);
 		}
 		debug('Exiting constuctor <br/>');

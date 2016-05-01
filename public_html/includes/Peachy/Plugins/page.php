@@ -1548,11 +1548,10 @@ class Page {
 		
 		foreach( $pageInfoRes['query']['pages'] as $key => $info ) {
 			$this->pageid = $key;
-			print_r($info);
 			if( $this->pageid > 0 ) {
 				$this->exists = true;
 				$this->lastedit = $info['touched'];
-				$this->hits = $info['counter'];
+				//$this->hits = $info['counter'];
 				$this->length = $info['length'];
 				$this->starttimestamp = ( isset($info['starttimestamp']) ) ? $info['starttimestamp'] : '' ;
 			}

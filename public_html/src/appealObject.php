@@ -741,7 +741,7 @@ class Appeal extends Model {
              emailToken = NULL
          WHERE appealID = :appealID");
 
-      /*$result = $query->execute(array(
+      $result = $query->execute(array(
          ':status'   => self::$STATUS_NEW,
          ':appealID' => $this->appealID));
 

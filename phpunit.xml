@@ -1,6 +1,6 @@
 <phpunit bootstrap="tests/autoLoader.php">
     <testsuites>
-        <testsuite name="articlerequest">
+        <testsuite name="utrs">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

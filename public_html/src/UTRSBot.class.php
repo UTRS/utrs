@@ -24,9 +24,9 @@ class UTRSBot {
    
    public function notifyUser($username, $templateVars) {
       
-      $myuser = new User( $this->objPeachy, $username );
+      $user = $this->objPeachy->initUser( $username );
       
-      if ($myuser->exists()) {
+      if ($user->exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
@@ -48,9 +48,9 @@ class UTRSBot {
    
    public function notifyAdmin($username, $templateVars) {
       
-      $myuser = new User( $this->objPeachy, $username );
+      $user = $this->objPeachy->initUser( $username );
       
-      if ($myuser->exists()) {
+      if ($user->exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          

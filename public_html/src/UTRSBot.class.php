@@ -5,10 +5,10 @@ require_once("includes/Peachy/Init.php");
 class UTRSBot {
    
    private $username;
-   
    private $password;
-   
    private $objPeachy;
+   private $userTemplate = "Unblock-utrs";
+   private $adminTemplate = "Unblock-UTRS-AdminNotify";
       
    public function __construct() {
       
@@ -21,7 +21,7 @@ class UTRSBot {
       
    }
    
-   public function notifyUser($username, $template, $templateVars) {
+   public function notifyUser($username, $templateVars) {
       
       $user = $this->objPeachy->initUser( $username );
       
@@ -29,7 +29,7 @@ class UTRSBot {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content = "{{subst:" . $template;
+         $content = "{{subst:" . $this->userTemplate;
          
          foreach ($templateVars as $var) {
             
@@ -39,7 +39,31 @@ class UTRSBot {
          
          $content = "}}";
          
-         $page->append( $content );
+         $page->append( $content, "User has submitted an unblock appeal on UTRS", false, true );
+         
+      }
+      
+   }
+   
+   public function notifyAdmin($username, $templateVars) {
+      
+      $user = $this->objPeachy->initUser( $username );
+      
+      if ($user->exists()) {
+         
+         $page = $this->objPeachy->initPage( "User_talk:" . $username );
+         
+         $content = "{{subst:" . $this->adminTemplate;
+         
+         foreach ($templateVars as $var) {
+            
+            $content = "|" . $var;
+            
+         }
+         
+         $content = "}}";
+         
+         $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
          
       }
       

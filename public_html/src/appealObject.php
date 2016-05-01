@@ -746,10 +746,13 @@ class Appeal extends Model {
          ':status'   => self::$STATUS_NEW,
          ':appealID' => $this->appealID));
 
+	  /* On Wiki Notifications */
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
-	  $bot->notifyUser("UTRSBot", "Unblock-utrs", array($this->appealID, $time));
-	  $bot->notifyUser($this->blockingAdmin, "Unblock-utrs-AdminNotify", array($this->appealID, $time));
+	  $bot->notifyUser("UTRSBot", array($this->appealID, $time));
+	  $bot->notifyAdmin($this->blockingAdmin, array($this->appealID, $time));
+	  
+	  /* Change object and clean up */
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
       $query->closeCursor();

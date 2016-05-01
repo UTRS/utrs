@@ -10,6 +10,7 @@ session_name('UTRSLogin');
 session_start();
 $_SESSION['user'] = null;
 $_SESSION['passwordHash'] = null;
+$_SESSION['language'] = null;
 
 // destroy the cookie
 $params = session_get_cookie_params();

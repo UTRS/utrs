@@ -7,6 +7,7 @@
 
 # Config files
 config.js
+config.inc.php
 
 #do not upload beta
 beta/*
@@ -20,3 +21,4 @@ alpha/*
 
 #any config
 
+config*

@@ -19,7 +19,6 @@ env:
 before_script:
 
 script:
-    - composer install
     - bash travis.sh
     - phpunit
 

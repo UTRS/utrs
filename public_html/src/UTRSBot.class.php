@@ -1,7 +1,6 @@
 <?php
 
 require_once("includes/Peachy/Init.php");
-require_once("includes/Peachy/Plugins/user.php");
 require_once("includes/Peachy/Plugins/page.php");
 
 class UTRSBot {
@@ -25,9 +24,9 @@ class UTRSBot {
    
    public function notifyUser($username, $templateVars) {
       
-      $user = new User( $this->objPeachy, $username );
+      $myuser = new User( $this->objPeachy, $username );
       
-      if ($user->exists()) {
+      if ($myuser->exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
@@ -49,9 +48,9 @@ class UTRSBot {
    
    public function notifyAdmin($username, $templateVars) {
       
-      $user = $this->objPeachy->initUser( $username );
+      $myuser = new User( $this->objPeachy, $username );
       
-      if ($user->exists()) {
+      if ($myuser->exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          

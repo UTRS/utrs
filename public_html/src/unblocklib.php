@@ -435,8 +435,8 @@ function censorEmail($email){
 	return $email;
 }
 
-function getHeadCommit() {
-	return @trim(@`git rev-parse HEAD`);
+function getVersion() {
+	return exec("git describe --tags --dirty=-dev --abbrev=0");
 }
 
 ?>

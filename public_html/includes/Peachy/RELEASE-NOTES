@@ -1,0 +1,37 @@
+= Peachy release notes =
+
+Security reminder: MediaWiki does not like PHP's "safe mode".
+If you have it on, turn it *off* if you can.
+
+== Peachy 1.1 ==
+
+=== Breaking changes in 1.1 ===
+*
+
+=== New features in 1.1 ===
+* (bug 64) Hooks added to HTTP class
+* 'colorized' option added to Diff function
+* Wiki::get_configuration has a $conf_name option now
+* Wiki::get_conf aliases to get_configuration
+
+=== Bug fixes in 1.1 ===
+* (bug 63) Check if it is a read only wiki before running wikiChecks
+
+== Compatibility ==
+
+MediaWiki 1.1 requires PHP 5.2.1. PHP 5.0.0 is no longer
+supported.
+
+=== Online documentation ===
+
+  http://compwhizii.net/peachy/wiki/Manual
+
+
+=== Mailing list ===
+
+A mailing list has been set up at:
+
+  http://groups.google.com/group/mw-peachy/subscribe
+
+It's highly recommended that you sign up for this list, so you can be notified of security fixes.
+

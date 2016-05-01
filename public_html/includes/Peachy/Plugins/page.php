@@ -1548,6 +1548,7 @@ class Page {
 		
 		foreach( $pageInfoRes['query']['pages'] as $key => $info ) {
 			$this->pageid = $key;
+			print_r($info);
 			if( $this->pageid > 0 ) {
 				$this->exists = true;
 				$this->lastedit = $info['touched'];

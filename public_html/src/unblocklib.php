@@ -436,7 +436,7 @@ function censorEmail($email){
 }
 
 function getVersion() {
-	return @trim(@`git describe --tags --dirty=-dev --abbrev=0`);
+	return exec("git describe --tags --dirty=-dev --abbrev=0");
 }
 
 ?>

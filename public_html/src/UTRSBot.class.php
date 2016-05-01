@@ -16,7 +16,7 @@ class UTRSBot {
       global $CONFIG;
       
       $this->username = $CONFIG["bot"]["username"];
-      $this->username = $CONFIG["bot"]["password"];
+      $this->password = $CONFIG["bot"]["password"];
       
       $this->objPeachy = Peachy::newWiki( null, $this->username, $this->password );
       
@@ -34,11 +34,11 @@ class UTRSBot {
          
          foreach ($templateVars as $var) {
             
-            $content = "|" . $var;
+            $content .= "|" . $var;
             
          }
          
-         $content = "}}";
+         $content .= "}}";
          
          $page->append( $content, "User has submitted an unblock appeal on UTRS", false, true );
          
@@ -54,11 +54,11 @@ class UTRSBot {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content = "{{subst:" . $this->adminTemplate;
+         $content .= "{{subst:" . $this->adminTemplate;
          
          foreach ($templateVars as $var) {
             
-            $content = "|" . $var;
+            $content .= "|" . $var;
             
          }
          

@@ -10,7 +10,6 @@ class UTRSBot {
       
    public function __construct() {
       
-      
       $this->objPeachy = Peachy::newWiki( "UTRSBot" );
       
    }

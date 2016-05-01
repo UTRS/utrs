@@ -65,6 +65,7 @@ if(isset($_POST['login'])){
 			session_start();
 			$_SESSION['user'] = $user;
 			$_SESSION['passwordHash'] = $password;
+			$_SESSION['language'] = $_POST['language'];
 			
 			// now that the session has been started, we can check access...
 			if(!verifyAccess($GLOBALS['APPROVED'])){
@@ -151,6 +152,13 @@ if($errors){
       <tr>
          <td><label for="password" id="passwordLabel">Password: </label></td>
          <td><input id="password" name="password" type="password" id="password"></td>
+      </tr>
+      <tr>
+         <td colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+         <td><label for="lang" id="languageLabel">Language: </label></td>
+         <td><select name="lang"><option value="en" selected><option value="pt"></td>
       </tr>
    </table>
    <input id="login" name="login" value="Login" type="submit">

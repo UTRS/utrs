@@ -379,7 +379,7 @@ function doClose() {
 }
 
 function doAdmin() {
-	var response = confirm("Do you really want to send this appeal to the tool admin queue?  Note: You will not be able to perform any other actions except comment until a tool admin can review it.  Please confirm this is really what you want to do.")
+	var response = confirm("<?php echo SystemMessages::$system['ConfirmAdmin'][$lang]; ?>")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=admin';
 	} else {
@@ -389,7 +389,7 @@ function doAdmin() {
 
 
 function doCheckUser() {
-	var response = confirm("Please confirm you want to send this appeal to the checkuser queue:")
+	var response = confirm("<?php echo SystemMessages::$system['ConfirmCU'][$lang]; ?>")
 	if (response) {
 		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=checkuser';
 	} else {

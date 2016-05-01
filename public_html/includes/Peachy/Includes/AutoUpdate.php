@@ -47,34 +47,36 @@ Class AutoUpdate {
 	public function Checkforupdate() {
 		global $pgIP, $pgExperimentalupdates;
 		pecho( "Checking for updates...\n\n", PECHO_NORMAL );
-		if( $pgExperimentalupdates ) pecho( "Warning: You have experimental updates switched on.\nExperimental updates are not fully tested and can cause problems,\nsuch as, bot misbehaviors up to complete crashes.\nUse at your own risk.\nPeachy will not revert back to a stable release until switched off.\n\n", PECHO_NOTICE );
-		$data = json_decode( $this->http->get( 'https://api.github.com/repos/MW-Peachy/Peachy/branches/' . $this->repository, null, array(), false ), true );
-		$this->commits = $data;
-		/*if( strstr( $this->http->getLastHeader(), 'Status: 304 Not Modified') ) {
-			pecho( "Peachy is up to date.\n\n", PECHO_NORMAL );
-			return true;
-		}*/
-		if( is_array( $data ) && array_key_exists( 'message', $data ) && strpos( $data['message'], 'API rate limit exceeded' ) === 0 ) {
-			pecho( "Cant check for updates right now, next window in " . $this->getTimeToNextLimitWindow() . "\n\n", PECHO_NOTICE );
-			return true;
-		}
-		$this->cacheLastGithubETag();
-		if( $this->lastused !== $this->repository ) {
-			pecho( "Changing Peachy version to run using " . ( $pgExperimentalupdates ? "experimental" : "stable" ) . " updates.\n\n", PECHO_NOTICE );
-			return false;
-		}
-		if( file_exists( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . $this->logfile ) ) {
-			$log = unserialize( file_get_contents( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . $this->logfile ) );
-			if( isset( $data['commit']['sha'] ) && $log['commit']['sha'] != $data['commit']['sha'] ) {
-				pecho( "Update available!\n\n", PECHO_NOTICE );
-				return false;
-			} else {
+		if( $pgExperimentalupdates ) {
+			pecho( "Warning: You have experimental updates switched on.\nExperimental updates are not fully tested and can cause problems,\nsuch as, bot misbehaviors up to complete crashes.\nUse at your own risk.\nPeachy will not revert back to a stable release until switched off.\n\n", PECHO_NOTICE );
+			$data = json_decode( $this->http->get( 'https://api.github.com/repos/MW-Peachy/Peachy/branches/' . $this->repository, null, array(), false ), true );
+			$this->commits = $data;
+			/*if( strstr( $this->http->getLastHeader(), 'Status: 304 Not Modified') ) {
 				pecho( "Peachy is up to date.\n\n", PECHO_NORMAL );
 				return true;
+			}*/
+			if( is_array( $data ) && array_key_exists( 'message', $data ) && strpos( $data['message'], 'API rate limit exceeded' ) === 0 ) {
+				pecho( "Cant check for updates right now, next window in " . $this->getTimeToNextLimitWindow() . "\n\n", PECHO_NOTICE );
+				return true;
 			}
-		} else {
-			pecho( "No update log found.\n\n", PECHO_WARN );
-			return false;
+			$this->cacheLastGithubETag();
+			if( $this->lastused !== $this->repository ) {
+				pecho( "Changing Peachy version to run using " . ( $pgExperimentalupdates ? "experimental" : "stable" ) . " updates.\n\n", PECHO_NOTICE );
+				return false;
+			}
+			if( file_exists( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . $this->logfile ) ) {
+				$log = unserialize( file_get_contents( $pgIP . 'Includes' . DIRECTORY_SEPARATOR . $this->logfile ) );
+				if( isset( $data['commit']['sha'] ) && $log['commit']['sha'] != $data['commit']['sha'] ) {
+					pecho( "Update available!\n\n", PECHO_NOTICE );
+					return false;
+				} else {
+					pecho( "Peachy is up to date.\n\n", PECHO_NORMAL );
+					return true;
+				}
+			} else {
+				pecho( "No update log found.\n\n", PECHO_WARN );
+				return false;
+			}
 		}
 	}
 

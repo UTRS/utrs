@@ -21,7 +21,7 @@ class UTRSBot {
 		
 	}
 	
-	public function notifyUser(string $username = "UTRSBot", string $template, array $templateVars) {
+	public function notifyUser(string $username, string $template, array $templateVars) {
 		
 		$user = $this->objPeachy->initUser( $username );
 		

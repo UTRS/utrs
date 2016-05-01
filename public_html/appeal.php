@@ -52,6 +52,36 @@ $user = User::getUserByUsername($_SESSION['user']);
 //construct log object
 $log = Log::getCommentsByAppealId($_GET['id']);
 
+if (verifyAccess($GLOBALS['CHECKUSER'])
+		||verifyAccess($GLOBALS['OVERSIGHT'])
+		||verifyAccess($GLOBALS['WMF'])
+		||verifyAccess($GLOBALS['DEVELOPER'])) {
+	if (isset($_POST['revealitem'])) {
+		if (isset($_POST['revealcomment'])) {
+			if ($_POST['revealitem'] == "cudata") {
+				if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['WMF'])) {
+					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
+					$log->addNewItem("Revealed this appeals CU data: ".$_POST['revealcomment'], 1, TRUE);
+				}
+			}
+			if ($_POST['revealitem'] == "email") {
+				if (verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {
+					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
+					$log->addNewItem("Revealed this appeals email: ".$_POST['revealcomment'], 1, TRUE);
+				}
+			}
+			if ($_POST['revealitem'] == "oversightinfo") {
+				if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])) {
+					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
+					$log->addNewItem("Revealed this appeals oversighted information: ".$_POST['revealcomment'], 1, TRUE);
+				}
+			}
+		}
+		else {
+			$error = "No reveal reason was submitted. Please provide a reason.";
+		}
+	}
+}
 //Set the handling admin
 if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 	if (!(
@@ -281,6 +311,22 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$error = SystemMessages::$error['FailCloseAppeal'][$lang];
 			}
 			break;
+	case "invalid":
+			if (
+				//admin
+				verifyAccess($GLOBALS['DEVELOPER']) &&
+				//When assigned
+				($appeal->getHandlingAdmin() === NULL)
+				)
+			 {
+					$appeal->setStatus(Appeal::$STATUS_INVALID);
+					$log->addNewItem('Appeal has been scrapped.', 1);
+			} else {
+					//TODO: Why is this have a verify access call on the end? what does it print?
+					//TODO: --DQ 27/5/15
+					$error = SystemMessages::$error['FailInvalid'][$lang];
+				}
+				break;
     case "new":
 			if (
 				//admin
@@ -350,6 +396,14 @@ function doCheckUser() {
 		return false;
 	}
 }
+function doInvalid() {
+	var response = confirm("Please confirm you want revoke this appeal:")
+	if (response) {
+		window.location='?id=<?php echo $_GET['id']; ?>&action=status&value=invalid';
+	} else {
+		return false;
+	}
+}
 
 function doNew() {
 	var response = confirm("Please confirm you want to send this appeal to the new queue:")
@@ -359,7 +413,6 @@ function doNew() {
 		return false;
 	}
 }
-
 function showContextWindow(innerContent) {
 	myWindow = document.getElementById('contextWindow');
 	myContent = document.getElementById('contextContent');
@@ -387,9 +440,25 @@ if (isset($_GET['action'])) {
 	}
 }
 
-if ($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED || verifyAccess($GLOBALS['ADMIN'])) {
+if (
+		($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED) 
+		|| verifyAccess($GLOBALS['DEVELOPER'])) {
 ?>
-<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> :: ******<?php echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); ?></h1>
+<h1>Details for Request #<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> - <?php
+if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])){
+	echo "******";
+	echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); 
+}
+else {
+	if ($appeal->checkRevealLog($user->getUserId(), "email")) {
+		echo $appeal->getEmail();
+	}
+	else {
+		echo "******";
+		echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@"));
+	}
+}?>
+</h1>
 <table class="appeal">
 <tr>
 <td valign=top class="left">
@@ -428,11 +497,20 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <li><a href="<?php echo getWikiLink("Special:EmailUser/" . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> Email User</a></li>
 </ul>
 </div>
-<?php } ?>
-<?php if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIP() . " " . $appeal->getUserAgent()))); ?>)">User Agent</a></h3>
-<div class="info" style="height:60px !important;"><?php echo $appeal->getIP() . " " . $appeal->getUserAgent(); ?></div>
+<?php }
+if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
+	?>
+<h3>User Agent</h3>
+<div class="info" style="height:60px !important;"><?php 
+if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
+		echo $appeal->getIP() . " " . $appeal->getUserAgent();
+	}
+	else {
+		echo "<b><font color=\"red\">Access denied. You need to submit a reveal request in the bottom right.</font></b>";
+	}?></div>
 <?php }?>
+
+
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getAppeal()))); ?>)">Why do you believe you should be unblocked?</a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
 <h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">If you are unblocked, what articles do you intend to edit?</a></h3>
@@ -454,6 +532,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	// Reserve and release buttons
 	if ($appeal->getHandlingAdmin()) {
 		if (
+				//When it is already in INVALID status
+				$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 			//Not handling user and not admin
 			$appeal->getHandlingAdmin()->getUserId() != $user->getUserId() && !verifyAccess($GLOBALS['ADMIN']) ||
 			//In AWAITING_ADMIN status and not admin
@@ -468,6 +548,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		echo "<input type=\"button\" " . $disabled . " value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
 	} else {
 		if (
+				//When it is already in INVALID status
+				$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 			//Awaiting admin and not admin
 			$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 			//Appeal awaiting CU and not CU or Admin
@@ -482,6 +564,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
   //New button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status and not a dev
+			($appeal->getStatus() == Appeal::$STATUS_INVALID && !verifyAccess($GLOBALS['DEVELOPER'])) ||
 		//Awaiting new
 		$appeal->getStatus() == Appeal::$STATUS_NEW ||
 		//When is assigned
@@ -499,6 +583,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Return button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Appeal needs to be reserved to send back to an admin
 		!($appeal->getHandlingAdmin()) ||
 		//Appeal is not in checkuser or admin status
@@ -521,6 +607,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Awaiting user button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//When it is already in STATUS_AWAITING_USER status
 	    $appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
 	    //When not assigned
@@ -537,10 +625,23 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	    $disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	//Invalid button
+	$disabled = "";
+	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
+			//When not dev
+			!verifyAccess($GLOBALS['DEVELOPER'])
+	) {
+		$disabled = "disabled='disabled'";
+	}
+	echo "<input type=\"button\" " . $disabled . " value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
 	echo "<hr style='width:475px;'>";
   //Checkuser button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Awaiting checkuser (if it's already set to CU)
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER ||
 		//When not assigned
@@ -558,6 +659,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//On Hold button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Already on hold
 		$appeal->getStatus() == Appeal::$STATUS_ON_HOLD ||
 		//When not assigned
@@ -577,6 +680,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Awaiting Proxy
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Already on proxy
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY ||
 		//When not assigned
@@ -596,6 +701,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Awaiting admin
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//Already on awaiting admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN
 		//Only condition to allow an appeal to be sent to awaiting admin for any reason
@@ -606,6 +713,8 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 	//Close button
 	$disabled = "";
 	if (
+			//When it is already in INVALID status
+			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
 		//When set to AWAITING_ADMIN and not admin
 		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
 		//Not handling user and not admin
@@ -648,9 +757,13 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 		?>
 	</SELECT>
 </div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML())) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
+<?php if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['WMF'])) {
+	$higherPerms = TRUE;
+}
+else {$higherPerms = FALSE;}?>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML($higherPerms))) ?>)">Logs for this request</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">new comment</a>)</h3>
 <div class="comments">
-<?php echo str_replace("\r\n", " ", $log->getSmallHTML()); ?>
+<?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment"></form>
 
@@ -662,6 +775,15 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 <input type="button" value="Ban Username" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=2'">&nbsp;
 </div>
 <?php }?>
+<?php if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['CHECKUSER'])) {?>
+<h3>Reveal Management</h3>
+<div style="text-align:center;"><form action="?id=<?php echo $_GET['id']; ?>&action=reveal" method="post">
+<input type="radio" name="revealitem" value="email" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email">Email Address</label>
+<input type="radio" name="revealitem" value="cudata" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['CHECKUSER'])) {echo "disabled='disabled'";} ?>><label for="cudata">CU data</label>
+<input type="radio" name="revealitem" value="oversightinfo" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['OVERSIGHT'])) {echo "disabled='disabled'";} ?>><label for="email">Oversighted Appeal Information - No current affect</label>
+<input type="text" name="revealcomment" style="width:75%;"><input type="submit" style="width:20%" value="Reveal"></form>
+</div>
+<?php }?>
 </td>
 </tr>
 </table>
@@ -670,7 +792,12 @@ Status: <b><?php echo $appeal->getStatus(); ?></b><br>
 
 <?php 
 }
-else displayError("You may not view appeals that have not been email verified.");
+elseif ($appeal->getStatus() == Appeal::$STATUS_INVALID) {
+	displayError("You may not view appeals that have been marked invalid by a developer.");
+}
+else {
+	displayError("You may not view appeals that have not been email verified.");
+}
 skinFooter();
 
 

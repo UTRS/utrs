@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('src/unblocklib.php');
 

@@ -222,6 +222,7 @@ function printBacklog() {
         AND c.comment != 'Closed'
                   AND a.status != 'UNVERIFIED'
                   AND a.status != 'CLOSED'
+   		          AND a.status != 'INVALID'
         AND DateDiff(Now(), c.timestamp) > 7
       ORDER BY c.timestamp ASC");
    
@@ -335,15 +336,15 @@ function getPermsDB() {
    global $wikiPerms;
    $users = "";
    
-   $result = queryUsers(array("approved" => 1));
+   $result = queryUsers(array("active" => 1));
    while (($data = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
-      $users .= $data['wikiAccount'] . "|";
+      $users .= urlencode($data['wikiAccount']) . "|";
    }
    $perms_array = explode("|", $users);
    for ($i = 0; $i < count($perms_array); $i = $i + 5) {
       $users = implode("|", array_slice($perms_array, $i, 5));
-      $users = str_replace(" ", "_", $users);
-      $handle = fopen("https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . $users . "&usprop=groups", "r");
+      //$users = str_replace(" ", "_", $users);
+      $handle = fopen("https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . urlencode($users) . "&usprop=groups", "r");
       $read = fread($handle, "4096");
       $Perms = unserialize($read);
       if (is_array($wikiPerms)) {
@@ -412,11 +413,23 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
 }
 
 function printUnapprovedAccounts(){
-   return printUserList(array("approved" => "0"), "", "registered ASC");   
+   return printUserList(array("approved" => "0", " AND oversight" => "0"), "", "registered ASC");   
 }
 
 function printInactiveAccounts(){
-   return printUserList(array("approved" => "1", " AND active" => "0"), "", "username ASC"); 
+   return printUserList(array("approved" => "1", " AND active" => "0", " AND oversight" => "0"), "", "username ASC"); 
+}
+
+function printWMFAccounts(){
+	return printUserList(array("wmf" => "1", " AND active" => "1"), "", "username ASC");
+}
+
+function printOversighterAccounts(){
+	return printUserList(array("oversighter" => "1", " AND active" => "1"), "", "username ASC");
+}
+
+function printOversightedAccounts(){
+	return printUserList(array("approved" => "0", " AND active" => "0", " AND oversight" => "1"), "", "username ASC");
 }
 
 function printActiveAccounts(){
@@ -492,12 +505,13 @@ function printUserLogs($userId){
       $timestamp = $data['timestamp'];
       $action = $data['action'];
       $reason = $data['reason'];
+      $changes = $data['change'];
       $hideTarget = $data['hideTarget'];
                
       $list .= "\t<tr>\n";
       $list .= "\t\t<td>" . $timestamp . " UTC</td>\n";
-      $list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action . ($hideTarget ? "" : " " . $target->getUsername()) . 
-               ($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
+      $list .= "\t\t<td>" . $doneBy->getUsername() . " " . $action. " ". ($hideTarget ? "" : " " . $target->getUsername()) . 
+               " ".$changes." ".($reason ? " (<i>" . $reason . "</i>)" : "") . "</td>\n";
       $list .= "\t</tr>\n";
    }
 

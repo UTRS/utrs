@@ -4,6 +4,7 @@ ini_set('display_errors', 'On');
 require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
+require_once('UTRSBot.class.php');
 
 
 /**
@@ -21,6 +22,10 @@ class Appeal extends Model {
     * The appeal has not yet passed email verification
     */
    public static $STATUS_UNVERIFIED = 'UNVERIFIED';
+   /**
+    * The appeal has been marked invalid by a developer
+    */
+   public static $STATUS_INVALID = 'INVALID';
    /**
     * The appeal is new and has not yet been addressed
     */
@@ -259,8 +264,50 @@ class Appeal extends Model {
       
       return self::newTrusted($values);
    }
+   public function checkRevealLog($userID,$item) {
+   	$appealID = $this->appealID;
+   	$db = connectToDB();
+   	
+   	$query = $db->prepare("
+         SELECT revealID FROM revealFlags
+         WHERE appealID = :appealID AND item = :item AND toUser = :touser");
+   	
+   	$result = $query->execute(array(
+   			':appealID' => $appealID,':item' => $item, ':touser' => $userID));
+   	
+   	if(!$result){
+   		$error = var_export($query->errorInfo(), true);
+   		throw new UTRSDatabaseException($error);
+   	}
+   	
+   	$values = $query->fetch(PDO::FETCH_ASSOC);
+   	$query->closeCursor();
+   	
+   	if ($values === false) {
+   		return False;
+   	}
+   	
+   	return True;
+   }
+   public function insertRevealLog($userID,$item) {
+   	$appealID = $this->appealID;
+   	$db = connectToDB();
    
+   	$query = $db->prepare("
+         INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
+   
+   	$result = $query->execute(array(
+   			':appealID' => $appealID,':item' => $item, ':toUser' => $userID));
+   
+   	if(!$result){
+   		$error = var_export($query->errorInfo(), true);
+   		throw new UTRSDatabaseException($error);
+   	}
+   
+   	return;
+   }
    public static function getCheckUserData($appealID) {
+   	  //Check reveal
       if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {
          $db = connectToDB();
          
@@ -699,11 +746,15 @@ class Appeal extends Model {
          ':status'   => self::$STATUS_NEW,
          ':appealID' => $this->appealID));
 
+	  $bot = new UTRSBot();
+	  $time = date('M d, Y H:i:s', time());
+	  $bot->notifyUser("UTRSBot", "Unblock-utrs", array($this->appealID, $time));
+	  $bot->notifyUser("UTRSBot", "Unblock-utrs-AdminNotify", array($this->appealID, $time));
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
       $query->closeCursor();
    }
-   public function verifyBlock($username, $ipornot) {
+   public static function verifyBlock($username, $ipornot) {
       if ($ipornot) {
 	   	  $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.urlencode($username).'&format=json&usprop=blockinfo'),true);
 	      $checkFound = False;
@@ -727,7 +778,7 @@ class Appeal extends Model {
       	return True;
       }
    }
-   public function verifyNoPublicAppeal($username) {
+   public static function verifyNoPublicAppeal($username) {
       //not sorting the api, seems to catch on pageid
       $data = file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username);
       $checkFound = False;
@@ -749,13 +800,13 @@ class Appeal extends Model {
         return True; 
       }
    }
-   public function activeAppeal($email,$wikiAccount) {
+   public static function activeAppeal($email,$wikiAccount) {
       $db = ConnectToDB();
 
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE (email =\"".$email."\"
-          OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
+          OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" AND status !=\"invalid\");");
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);

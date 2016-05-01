@@ -181,11 +181,11 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 		
 		if(isset($template)){
       if ($template->getStatusClose()) {
-        echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=1";
+        echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=1&tid=".$template->getId();
       }
-      else {echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=0";}
+      else {echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=0&tid=".$template->getId();}
 		}
-    else { echo "<form name=\"emailForm\" id=\"emailForm=\" method=\"POST\" action=\"sendEmail.php?id=" . $id . "&close=0"; }
+    else { throw new UTRSIllegalModificationException("The template ID number is not set."); }
 		echo "\">\n"; // closes <form>
 		echo "<textarea name=\"emailText\" id=\"emailText\" rows=\"15\" cols=\"60\">";
 		if(isset($email_text)){

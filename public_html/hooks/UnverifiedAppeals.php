@@ -8,9 +8,11 @@ class UnverifiedAppeals
    }
 
    public function getOutput() {
-
+   	if(verifyAccess($GLOBALS['DEVELOPER'])){
       echo "<h2>Awaiting email verification</h2>";
       echo printUnverified();
+   	}
+      
 
 
    }

@@ -52,6 +52,10 @@ class SystemMessages {
 					"en" => "Released Appeal",
 					"pt" => "" 
 			),
+			"AppealReserve" => array (
+					"en" => "Reserved appeal",
+					"pt" => ""
+			),
 			"AppealReturnUsers" => array (
 					"en" => "Appeal reservation returned to tool users.",
 					"pt" => "" 
@@ -87,7 +91,21 @@ class SystemMessages {
 			"AppealClosed" => array(
 					"en" => "Closed",
 					"pt" => ""
+			),
+			"RevealCUData" => array(
+					"en" => "Revealed this appeals CU data: ",
+					"pt" => ""
 			)
+			,
+			"RevealEmail" => array(
+					"en" => "Revealed this appeals email: ",
+					"pt" => ""
+			),
+			"RevealOS" => array(
+					"en" => "Revealed this appeals oversighted information: ",
+					"pt" => ""
+			)
+			
 	);
 	public static $error = array (
 			"AppealNotNumeric" => array (
@@ -140,6 +158,10 @@ class SystemMessages {
 			),
 			"FailInvalid" => array(
 					"en" => "Unable to mark appeal invalid",
+					"pt" => ""
+			),
+			"NoRevealReason" => array(
+					"en" => "No reveal reason was submitted. Please provide a reason.",
 					"pt" => ""
 			)
 	);

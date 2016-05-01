@@ -61,24 +61,24 @@ if (verifyAccess($GLOBALS['CHECKUSER'])
 			if ($_POST['revealitem'] == "cudata") {
 				if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['WMF'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem("Revealed this appeals CU data: ".$_POST['revealcomment'], 1, TRUE);
+					$log->addNewItem(SystemMessages::$log['RevealCUData'][$lang].$_POST['revealcomment'], 1, TRUE);
 				}
 			}
 			if ($_POST['revealitem'] == "email") {
 				if (verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem("Revealed this appeals email: ".$_POST['revealcomment'], 1, TRUE);
+					$log->addNewItem(SystemMessages::$log['RevealEmail'][$lang].$_POST['revealcomment'], 1, TRUE);
 				}
 			}
 			if ($_POST['revealitem'] == "oversightinfo") {
 				if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem("Revealed this appeals oversighted information: ".$_POST['revealcomment'], 1, TRUE);
+					$log->addNewItem(SystemMessages::$log['RevealOS'][$lang].$_POST['revealcomment'], 1, TRUE);
 				}
 			}
 		}
 		else {
-			$error = "No reveal reason was submitted. Please provide a reason.";
+			$error = SystemMessages::$error['NoRevealReason'][$lang];
 		}
 	}
 }
@@ -101,7 +101,7 @@ if (isset($_GET['action']) && $_GET['action'] == "reserve"){
 			}
 			if ($success) {
 				$appeal->update();
-				$log->addNewItem('Reserved appeal', 1);
+				$log->addNewItem(SystemMessages::$log['AppealReserved'][$lang], 1);
 				Log::ircNotification("\x033Appeal\x032 " . $appeal->getCommonName() . "\x033 (\x032 " . $appeal->getID() . "\x033 ) reserved by \x032" . $_SESSION['user'] . "\x033 URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 0);
 			}
 	} else {

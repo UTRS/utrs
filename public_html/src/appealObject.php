@@ -749,7 +749,7 @@ class Appeal extends Model {
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
 	  $bot->notifyUser("UTRSBot", "Unblock-utrs", array($this->appealID, $time));
-	  $bot->notifyUser("UTRSBot", "Unblock-utrs-AdminNotify", array($this->appealID, $time));
+	  $bot->notifyUser($this->blockingAdmin, "Unblock-utrs-AdminNotify", array($this->appealID, $time));
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
       $query->closeCursor();

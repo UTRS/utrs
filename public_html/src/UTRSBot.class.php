@@ -17,7 +17,7 @@ class UTRSBot {
       $this->username = $CONFIG["bot"]["username"];
       $this->username = $CONFIG["bot"]["password"];
       
-      $objPeachy = Peachy::newWiki( null, $this->username, $this->password, null );
+      $objPeachy = Peachy::newWiki( null, $this->username, $this->password );
       
    }
    

@@ -124,7 +124,7 @@ class SystemMessages {
 			),
 			"FailCloseAppeal" => array(
 					"en" => "Unable to close the appeal",
-					"pt" => 
+					"pt" => ""
 			),
 			"TooladminsOnlyBan" => array(
 					"en" => "Ban management is limited to tool administrators.",

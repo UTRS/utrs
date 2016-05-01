@@ -4,20 +4,14 @@ require_once("includes/Peachy/Init.php");
 
 class UTRSBot {
    
-   private $username;
-   private $password;
    private $objPeachy;
    private $userTemplate = "Unblock-utrs";
    private $adminTemplate = "Unblock-UTRS-AdminNotify";
       
    public function __construct() {
       
-      global $CONFIG;
       
-      $this->username = $CONFIG["bot"]["username"];
-      $this->password = $CONFIG["bot"]["password"];
-      
-      $this->objPeachy = Peachy::newWiki( null, $this->username, $this->password );
+      $this->objPeachy = Peachy::newWiki( "UTRSBot" );
       
    }
    

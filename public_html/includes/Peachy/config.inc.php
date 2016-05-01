@@ -24,7 +24,7 @@ $pgDisplayPechoNotice = true;
 $pgDisplayPechoWarn = true;
 $pgDisplayPechoError = true;
 $pgDisplayPechoFatal = true;
-$pgWebOutput = false; //Switch to true if you are using a webserver to output your data instead of commandline.
+$pgWebOutput = true; //Switch to true if you are using a webserver to output your data instead of commandline.
 
 //This controls bot checks, before doing an action. This change will affect every bot using it. Enabling it drops the edit rate.
 $pgDisablechecks = false;
@@ -33,7 +33,7 @@ $pgDisablechecks = false;
 $pgVerifyssl = true;
 
 //Disable automatic updates. You will need to download updates manually then, until it is re-enabled again.
-$pgDisableUpdates = false;
+$pgDisableUpdates = true;
 $pgExperimentalupdates = false;
 
 //If your bots run on the Wikimedia Foundation Labs, this will allow Peachy to accomodate some it's features to work with the labs environment.

@@ -22,3 +22,5 @@ alpha/*
 #any config
 
 config*
+
+.idea/

@@ -21,7 +21,7 @@ $displayTarget = null;
 
 try{
 	if(!verifyAccess($GLOBALS['ADMIN'])){
-		throw new UTRSCredentialsException(SystemMessages::$error['TooladminsOnlyBan'][$lang]);
+		throw new UTRSCredentialsException("Ban management is limited to tool administrators.");
 	}
 
 	// set target if link followed from appeals page

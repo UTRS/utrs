@@ -91,7 +91,6 @@ class UTRSBot {
          $content .= "}}";
          
          $page->append( $content, "Proxy check requested for UTRS", false, true );
-         echo "After edit";
       }
    }
 }

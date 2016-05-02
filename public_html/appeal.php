@@ -280,10 +280,12 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'][$lang], 1);
 				
 			    /* On Wiki Notifications */
-				if (!$appeal->hasAccount()) {
+				if (!$appeal->getAccountName() && !$appeal->hasAccount()) {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
 					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
+				} elseif ($appeal->getAccountName() && !$appeal->hasAccount()) {
+					echo "<script type=\"text/javascript\"> alert(\"" . SystemMessages::$error['DivertToACC'][$lang] . "\"); </script>";
 				} else {
 					echo "<script type=\"text/javascript\"> alert(\"" . SystemMessages::$error['CannotPostOPP'][$lang] . "\"); </script>";
 				}

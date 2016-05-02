@@ -145,6 +145,10 @@ class SystemMessages {
 			"CannotPostOPP" => array(
 					"en" => "Unable to post Proxy check request automatically, you'll need to post it manually.",
 					"pt" => ""
+			),
+			"DivertToACC" => array(
+					"en" => "This appeal needs to be deferred to ACC instead of being posted to WP:OPP.",
+					"pt" => ""
 			)
 	);
 }

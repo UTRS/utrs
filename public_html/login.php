@@ -158,7 +158,7 @@ if($errors){
       </tr>
       <tr>
          <td><label for="lang" id="languageLabel">Language: </label></td>
-         <td><select name="lang"><option value="en" selected><option value="pt"></td>
+         <td><select class="selectpicker" name="lang"><option value="en" selected><img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png">en</option><option value="pt"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/320px-Flag_of_Portugal.svg.png">pt</option></select></td>
       </tr>
    </table>
    <input id="login" name="login" value="Login" type="submit">

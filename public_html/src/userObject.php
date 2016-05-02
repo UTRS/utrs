@@ -362,7 +362,7 @@ class UTRSUser{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", "Autorized", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -431,7 +431,7 @@ class UTRSUser{
 		}
 		
 		$this->active = true;
-		$this->comments = null;
+		$this->comments = "Enabled";
 		
 		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId);
 	}

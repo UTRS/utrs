@@ -49,7 +49,6 @@ class Log {
 			
 			while (($data = $query->fetch(PDO::FETCH_BOTH)) !== false) {
 				//Creates a new log item with the data
-				print_r($data);
 				$this->log[] = new LogItem($data);
 			}
 

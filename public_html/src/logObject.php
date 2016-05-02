@@ -27,7 +27,7 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
-		$this->protected = false;
+		$this->protected = $vars['protected'];
 	}
 
 	function getLogArray() {
@@ -46,7 +46,7 @@ class Log {
 			$this->log = array();
 
 			$query = $vars['dataset'];
-
+			
 			while (($data = $query->fetch(PDO::FETCH_BOTH)) !== false) {
 				//Creates a new log item with the data
 				$this->log[] = new LogItem($data);

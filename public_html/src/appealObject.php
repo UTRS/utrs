@@ -4,6 +4,7 @@ ini_set('display_errors', 'On');
 require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
+require_once('UTRSBot.class.php');
 
 
 /**
@@ -745,6 +746,10 @@ class Appeal extends Model {
          ':status'   => self::$STATUS_NEW,
          ':appealID' => $this->appealID));
 
+	  $bot = new UTRSBot();
+	  $time = date('M d, Y H:i:s', time());
+	  $bot->notifyUser("UTRSBot", "Unblock-utrs", array($this->appealID, $time));
+	  $bot->notifyUser("UTRSBot", "Unblock-utrs-AdminNotify", array($this->appealID, $time));
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
       $query->closeCursor();

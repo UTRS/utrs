@@ -9,11 +9,11 @@ $pgNotag = false;
 $pgTag = " ([[en:WP:PEACHY|Peachy " . PEACHYVERSION . "]])";
 
 //For debugging purposes. This generates enourmous amounts of data. Switch off if your space is limited.
-$pgLogGetCommunicationData = true;
-$pgLogPostCommunicationData = true;
-$pgLogCommunicationData = true;
-$pgLogSuccessfulCommunicationData = true;
-$pgLogFailedCommunicationData = true;
+$pgLogGetCommunicationData = false;
+$pgLogPostCommunicationData = false;
+$pgLogCommunicationData = false;
+$pgLogSuccessfulCommunicationData = false;
+$pgLogFailedCommunicationData = false;
 
 //Bot output
 $pgDisplayPostOutData = true;

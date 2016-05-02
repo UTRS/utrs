@@ -27,7 +27,7 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
-		$this->protected = false;
+		$this->protected = $vars['protected'];
 	}
 
 	function getLogArray() {
@@ -46,7 +46,7 @@ class Log {
 			$this->log = array();
 
 			$query = $vars['dataset'];
-
+			
 			while (($data = $query->fetch(PDO::FETCH_BOTH)) !== false) {
 				//Creates a new log item with the data
 				$this->log[] = new LogItem($data);
@@ -114,7 +114,7 @@ class Log {
 			Appeal::getAppealById($this->appealID)->updateLastLogId($id);
 		}
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action, 'protected' => $protected));
 	}
 
 	function addAppellantReply($reply){
@@ -139,7 +139,7 @@ class Log {
 
 		$id = $db->lastInsertId();
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null, 'protected' => null));
 	}
 
 	public function getSmallHTML($higherPerms) {

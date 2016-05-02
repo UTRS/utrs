@@ -640,3 +640,6 @@ text-align: left;
 #trashbin {
 	height: 30px;
 }
+
+select#lang option[value="en"]   { background-image:url(https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png);   }
+select#lang option[value="pt"] { background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/320px-Flag_of_Portugal.svg.png); }

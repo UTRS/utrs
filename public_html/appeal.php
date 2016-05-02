@@ -284,6 +284,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
 					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
+				} else {
+					echo "<script type=\"text/javascript\"> alert(\"" . SystemMessages::$error['CannotPostOPP'][$lang] . "\"); </script>";
 				}
 			} else {
 				$error = SystemMessages::$error['FailAwaitProxy'][$lang];

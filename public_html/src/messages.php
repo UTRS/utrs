@@ -141,6 +141,10 @@ class SystemMessages {
 			"FailInvalid" => array(
 					"en" => "Unable to mark appeal invalid",
 					"pt" => ""
+			),
+			"CannotPostOPP" => array(
+					"en" => "Unable to post Proxy check request automatically, you'll need to post it manually.",
+					"pt" => ""
 			)
 	);
 }

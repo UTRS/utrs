@@ -355,7 +355,7 @@ This project is licensed under the
 <a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later</a>.<br />
 For questions or assistance with the Unblock Ticket Request System, please email our administration team at
 <a href="mailto:utrs-admins@googlegroups.com">utrs-admins&#64;googlegroups.com</a>.<br />
-Version <?php echo getHeadCommit() ?>.</p>
+Version <?php echo getVersion() ?>.</p>
 </div>
 </body>
 </html>

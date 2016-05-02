@@ -7,7 +7,7 @@ require_once('unblocklib.php');
 require_once('userMgmtLogObject.php');
 
 
-class User{
+class UTRSUser{
 	
 	private $username;
 	private $userId;
@@ -144,7 +144,7 @@ class User{
 			throw new UTRSDatabaseException('No results were returned for user ID ' . $id);
 		}
 		
-		return new User($values, true);
+		return new UTRSUser($values, true);
 	}
 	
 	public static function getUserByUsername($username){
@@ -167,7 +167,7 @@ class User{
 			throw new UTRSDatabaseException('No results were returned for username ' . $username);
 		}
 		
-		return new User($values, true);
+		return new UTRSUser($values, true);
 	}
 	
 	public function getUserId() {
@@ -362,7 +362,7 @@ class User{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", "Autorized", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -431,9 +431,9 @@ class User{
 		}
 		
 		$this->active = true;
-		$this->comments = null;
+		$this->comments = "Enabled";
 		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){

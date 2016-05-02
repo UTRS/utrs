@@ -49,7 +49,7 @@ with reviewing your block, this information is provided to UTRS volunteers as fo
 <li>Your email address will be obscured for most people reviewing your block. All emails we send you 
 will be sent through the system, so there is no need for volunteers to view your email address in 
 full. As a result, only the domain of your address will be visible to most volunteers (for example, 
-wikiuser@gmail.com will display only as *****@gmail.com). The domain remains visible to assist volunteers 
+UTRSUser@gmail.com will display only as *****@gmail.com). The domain remains visible to assist volunteers 
 in determining if you are a legitimate user of a school or business network, if you are editing from 
 one. UTRS tool developers and WMF Staff will be able to see your full email address to ensure the tool is working 
 properly or in emergency situations consistent with the Wikimedia Foundation Privacy Policy.</li>

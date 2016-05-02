@@ -436,7 +436,7 @@ function censorEmail($email){
 }
 
 function getVersion() {
-	return exec("git describe --tags --abbrev=0")."-".exec("git branch |grep \"*\"|tail -c +3")."@<a href='https://github.com/UTRS/utrs/commit/".exec("git rev-parse HEAD |head -c 7")."'>".exec("git rev-parse HEAD |head -c 7")."</a>";
+	return exec("git describe --tags --abbrev=0")." ".exec("git branch |grep \"*\"|tail -c +3")."@<a href='https://github.com/UTRS/utrs/commit/".exec("git rev-parse HEAD |head -c 7")."'>".exec("git rev-parse HEAD |head -c 7")."</a>";
 }
 
 ?>

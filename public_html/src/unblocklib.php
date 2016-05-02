@@ -112,7 +112,7 @@ function getLoggedInUsers(){
 	$users = array();
 	
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-		$user = User::getUserById($data['userID']);
+		$user = UTRSUser::getUserById($data['userID']);
 		$users[] = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
 	}
 	
@@ -129,7 +129,7 @@ function verifyLogin($destination = 'home.php'){
 		exit;
 	}
 	// if user has somehow lost access, kick them out
-	$user = User::getUserByUsername($_SESSION['user']);
+	$user = UTRSUser::getUserByUsername($_SESSION['user']);
 	if(!$user->isApproved() | !$user->isActive()){
 			header("Location: " . getRootURL() . 'logout.php');
 			exit;
@@ -261,7 +261,7 @@ function getWikiLink($basepage, $useSecure = false, array $queryOptions = array(
 
 function getCurrentUser(){
 	if(loggedIn()){
-		return User::getUserByUsername($_SESSION['user']);
+		return UTRSUser::getUserByUsername($_SESSION['user']);
 	}
 	return null;
 }
@@ -436,7 +436,7 @@ function censorEmail($email){
 }
 
 function getVersion() {
-	return @trim(@`git describe --tags --dirty=-dev --abbrev=0`);
+	return exec("git describe --tags --abbrev=0")." ".exec("git branch |grep \"*\"|tail -c +3")."@<a href='https://github.com/UTRS/utrs/commit/".exec("git rev-parse HEAD |head -c 7")."'>".exec("git rev-parse HEAD |head -c 7")."</a>";
 }
 
 ?>

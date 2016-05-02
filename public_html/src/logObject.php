@@ -27,7 +27,7 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
-		$this->protected = false;
+		$this->protected = $vars['protected'];
 	}
 
 	function getLogArray() {
@@ -46,7 +46,7 @@ class Log {
 			$this->log = array();
 
 			$query = $vars['dataset'];
-
+			
 			while (($data = $query->fetch(PDO::FETCH_BOTH)) !== false) {
 				//Creates a new log item with the data
 				$this->log[] = new LogItem($data);
@@ -76,7 +76,7 @@ class Log {
 		$db = connectToDB();
 		$protected=(bool)$protected;
 		if (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0) {
-			$user = User::getUserByUsername($_SESSION['user']);
+			$user = UTRSUser::getUserByUsername($_SESSION['user']);
 			$userid = $user->getUserId();
 		} else {
 			$userid = null;
@@ -114,7 +114,7 @@ class Log {
 			Appeal::getAppealById($this->appealID)->updateLastLogId($id);
 		}
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action, 'protected' => $protected));
 	}
 
 	function addAppellantReply($reply){
@@ -139,7 +139,7 @@ class Log {
 
 		$id = $db->lastInsertId();
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null, 'protected' => null));
 	}
 
 	public function getSmallHTML($higherPerms) {
@@ -158,7 +158,7 @@ class Log {
 			$data = $this->log[$i]->getLogArray();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
-			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
+			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . UTRSUser::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			// if posted by appellant
 			if(!$data['commentUser']){
 				$styleUser = "highlight";
@@ -203,7 +203,7 @@ class Log {
 			$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
-			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
+			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . UTRSUser::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
 			// if posted by appellant

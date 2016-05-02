@@ -587,7 +587,7 @@ class Appeal extends Model {
       }
 
       if (!is_null($this->handlingAdmin)) {
-         $this->handlingAdminObject = User::getUserById($this->handlingAdmin);
+         $this->handlingAdminObject = UTRSUser::getUserById($this->handlingAdmin);
          return $this->handlingAdminObject;
       }
 
@@ -662,8 +662,7 @@ class Appeal extends Model {
         || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0){
          // TODO: query to modify the row
          $this->status = $newStatus;
-         if ($this->status == self::$STATUS_CLOSED) {
-            User::getUserByUsername($_SESSION['user'])->incrementClose();
+         if ($this->status == self::$STATUS_CLOSED) { UTRSUser::getUserByUsername($_SESSION['user'])->incrementClose();
          }
       }
       else{
@@ -746,10 +745,13 @@ class Appeal extends Model {
          ':status'   => self::$STATUS_NEW,
          ':appealID' => $this->appealID));
 
+	  /* On Wiki Notifications */
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
-	  $bot->notifyUser("UTRSBot", "Unblock-utrs", array($this->appealID, $time));
-	  $bot->notifyUser("UTRSBot", "Unblock-utrs-AdminNotify", array($this->appealID, $time));
+	  $bot->notifyUser($this->getCommonName(), array($this->appealID, $time));
+	  $bot->notifyAdmin($this->blockingAdmin, array($this->appealID, $time));
+	  
+	  /* Change object and clean up */
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
       $query->closeCursor();

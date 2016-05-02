@@ -57,10 +57,10 @@ if(isset($_POST["submit"])){
       $email = $_POST["appeal_email"];
       $registered = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
       $wikiAccount = (isset($_POST["appeal_wikiAccountName"]) ? $_POST["appeal_wikiAccountName"] : null);
-      if ($_POST["appeal_autoblock"] == 1) {
+      if (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 1) {
         $autoblock = true;      
       }
-      if ($_POST["appeal_autoblock"] == 0) {
+      if (!isset($_POST["appeal_autoblock"]) || (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 0)) {
         $autoblock = false;      
       }
        

@@ -76,8 +76,8 @@ class UTRSBot {
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
       
+		  echo "Must be the template";
       if ($template->exists()) {
-		  echo "Must be the runpage";
          
          $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
          

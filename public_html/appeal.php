@@ -276,7 +276,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
-				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'], 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'][$lang], 1);
 			} else {
 				$error = SystemMessages::$error['FailAwaitProxy'][$lang];
 			}

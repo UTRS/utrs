@@ -433,7 +433,7 @@ class UTRSUser{
 		$this->active = true;
 		$this->comments = null;
 		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){

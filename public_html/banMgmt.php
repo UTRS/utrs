@@ -10,6 +10,7 @@ require_once('src/statsLib.php');
 require_once('src/banObject.php');
 require_once('src/appealObject.php');
 require_once('src/logObject.php');
+require_once('src/messages.php');
 require_once('template.php');
 
 verifyLogin('banMgmt.php');

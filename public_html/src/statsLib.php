@@ -268,26 +268,26 @@ function printOnHold() {
 }
 
 function printMyQueue() {
-   $user = User::getUserByUsername($_SESSION['user']);
+   $user = UTRSUser::getUserByUsername($_SESSION['user']);
    $criteria = array('handlingAdmin' => $user->getUserId(), ' AND status !' => Appeal::$STATUS_CLOSED);
    return printAppealList($criteria, "", "", 1);
 }
 
 function printAssigned($userId) {
-   $user = User::getUserById($userId);
+   $user = UTRSUser::getUserById($userId);
    $criteria = array('handlingAdmin' => $user->getUserId(), ' AND status !' => Appeal::$STATUS_CLOSED);
    return printAppealList($criteria, "", "", 1);
 }
 
 function printClosed($userId) {
-   $user = User::getUserById($userId);
+   $user = UTRSUser::getUserById($userId);
    $criteria = array('handlingAdmin' => $user->getUserId(), ' AND status ' => Appeal::$STATUS_CLOSED);
    return printAppealList($criteria, "", "", 1);
 }
 
 
 function printMyReview() {
-   $user = User::getUserByUsername($_SESSION['user']);
+   $user = UTRSUser::getUserByUsername($_SESSION['user']);
    $criteria = array('handlingAdmin' => $user->getUserId(), ' AND status' => Appeal::$STATUS_AWAITING_REVIEWER);
    return printAppealList($criteria, "", "", 1);
 }
@@ -355,10 +355,10 @@ function getPermsDB() {
    }
 }
 
-function checkWikiPerms($wikiUserName, $wikiPermission) {
+function checkWikiPerms($UTRSUserName, $wikiPermission) {
    global $wikiPerms;
    foreach ($wikiPerms["query"]["users"] as $user) {
-      if ($user['name'] == ucfirst($wikiUserName)) {
+      if ($user['name'] == ucfirst($UTRSUserName)) {
          if (in_array($wikiPermission, $user['groups'])) {
             return true;
          } else {
@@ -491,7 +491,7 @@ function printUserLogs($userId){
       throw new UTRSDatabaseException($error);
    }
    
-   $target = User::getUserById($userId);
+   $target = UTRSUser::getUserById($userId);
 
    $list = "<table class=\"appealList\">";
    $foundone = false;
@@ -501,7 +501,7 @@ function printUserLogs($userId){
       $foundone = true;
 
       $doneById = $data['doneBy'];
-      $doneBy = User::getUserById($doneById);
+      $doneBy = UTRSUser::getUserById($doneById);
       $timestamp = $data['timestamp'];
       $action = $data['action'];
       $reason = $data['reason'];
@@ -599,7 +599,7 @@ function printLastThirtyActions() {
 
       $timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
       if ($data['commentUser']) {
-         $user = User::getUserById($data['commentUser']);
+         $user = UTRSUser::getUserById($data['commentUser']);
          $username = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
       } else {
          $username = Appeal::getAppealByID($data['appealID'])->getCommonName();

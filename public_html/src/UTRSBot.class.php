@@ -4,44 +4,93 @@ require_once("includes/Peachy/Init.php");
 
 class UTRSBot {
    
-   private $username;
-   
-   private $password;
-   
    private $objPeachy;
+   private $userTemplate = "Unblock-utrs";
+   private $adminTemplate = "Unblock-UTRS-AdminNotify";
+   private $oppTemplate = "UTRS-OPP";
       
    public function __construct() {
       
-      global $CONFIG;
-      
-      $this->username = $CONFIG["bot"]["username"];
-      $this->username = $CONFIG["bot"]["password"];
-      
-      $objPeachy = Peachy::newWiki( null, $this->username, $this->password );
+      $this->objPeachy = Peachy::newWiki( "UTRSBot" );
       
    }
    
-   public function notifyUser(string $username, string $template, array $templateVars) {
+   public function notifyUser($username, $templateVars) {
       
       $user = $this->objPeachy->initUser( $username );
+	  
+	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
+	  
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyUser");
       
-      if ($user->exists()) {
+      if ($user->exists() && $template->get_exists()) {
          
-         $page = $objPeachy->initPage( "User_talk:" . $username );
+         $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content = "{{subst:" . $template;
+         $content = "\n{{subst:" . $this->userTemplate;
          
          foreach ($templateVars as $var) {
             
-            $content = "|" . $var;
+            $content .= "|" . $var;
             
          }
          
-         $content = "}}";
+         $content .= "}}";
          
-         $page->append( $content );
+         $page->append( $content, "User has submitted an unblock appeal on UTRS", false, true );
          
       }
       
+   }
+   
+   public function notifyAdmin($username, $templateVars) {
+      
+      $user = $this->objPeachy->initUser( $username );
+      
+	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
+	  
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
+      
+      if ($user->exists() && $template->get_exists()) {
+         
+         $page = $this->objPeachy->initPage( "User_talk:" . $username );
+         
+         $content = "\n{{subst:" . $this->adminTemplate;
+         
+         foreach ($templateVars as $var) {
+            
+            $content .= "|" . $var;
+            
+         }
+         
+         $content .= "}}";
+         
+         $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
+         
+      }
+   }
+   
+   public function notifyOPP($ip, $templateVars) {
+      
+	  $template = $this->objPeachy->initPage( "Template:" . $this->oppTemplate );
+	  
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
+      
+      if ($template->get_exists()) {
+		  
+         $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
+         
+         $content = "\n{{subst:" . $this->oppTemplate;
+         
+         foreach ($templateVars as $var) {
+            
+            $content .= "|" . $var;
+            
+         }
+         
+         $content .= "}}";
+         
+         $page->append( $content, "Proxy check requested for UTRS", false, true );
+      }
    }
 }

@@ -19,7 +19,7 @@ $errors = '';
 if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADMIN'])){
 	$user = getCurrentUser();
 	$userId = $_GET['userId'];
-	$requestedUser = WikiUser::getUserById($userId);
+	$requestedUser = UTRSUser::getUserById($userId);
 	$approved = $requestedUser->isApproved();
 	$active = $requestedUser->isActive();
 	$admin = $requestedUser->isAdmin();
@@ -94,7 +94,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS['ADMIN'])){
 	$user = getCurrentUser();
 	$userId = $_GET['userId'];
-	$requestedUser = WikiUser::getUserById($userId);
+	$requestedUser = UTRSUser::getUserById($userId);
 	$newName = trim($_POST['newName']);
 
 	try{
@@ -115,7 +115,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		   	 	'may not contain the characters # / | [ ] { } < > @ % : $');
 		}
 		try{
-			$existingUser = WikiUser::getUserByUsername($newName);
+			$existingUser = UTRSUser::getUserByUsername($newName);
 			// if no exception, then there's a problem
 			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName .
 				"\". Please enter another username.");
@@ -167,12 +167,12 @@ if(!verifyAccess($GLOBALS['ADMIN']) && !verifyAccess($GLOBALS['WMF'])){
 		displayError("<b>Access denied:</a> User management is only available to tool administrators or WMF Staff. "
 		    . "Please click on one of the links above to return to another page.");
 	} else {
-		$user = WikiUser::getUserById($_GET['userId']);
+		$user = UTRSUser::getUserById($_GET['userId']);
 
 		?>
-		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), WikiUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
-<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), WikiUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), WikiUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
+		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
+<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
 		<?php
 		echo "<h2>Assigned Appeals</h2>";
 		echo printAssigned($user->getUserId());
@@ -187,7 +187,7 @@ else{
 		$user = getCurrentUser();
 		$secure = $user->getUseSecure();
 		$userId = $_GET['userId'];
-		$requestedUser = WikiUser::getUserById($userId);
+		$requestedUser = UTRSUser::getUserById($userId);
 		$approved = $requestedUser->isApproved();
 		$active = $requestedUser->isActive();
 		$admin = $requestedUser->isAdmin();

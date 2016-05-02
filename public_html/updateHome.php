@@ -5,7 +5,7 @@ require_once("src/userObject.php");
 
 verifyLogin('home.php');
 
-$user_id = WikiUser::getUserByUsername($_SESSION['user'])->getUserId();
+$user_id = UTRSUser::getUserByUsername($_SESSION['user'])->getUserId();
 
 $data = unserialize($_POST['data']);
 

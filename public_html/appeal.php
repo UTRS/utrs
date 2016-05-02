@@ -277,10 +277,10 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
-				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'], 1);
+				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'][$lang], 1);
 				
 			    /* On Wiki Notifications */
-				if ($this->getAccountName()  && $this->hasAccount()) {
+				if ($appeal->getAccountName() && $appeal->hasAccount()) {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
 					$bot->notifyOPP($this->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));

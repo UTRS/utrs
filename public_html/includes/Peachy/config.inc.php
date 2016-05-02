@@ -19,11 +19,11 @@ $pgLogFailedCommunicationData = true;
 $pgDisplayPostOutData = true;
 $pgDisplayGetOutData = true;
 $pgDisplayPechoVerbose = false; //Major security risk if set to true. Switch to true at your own risk.
-$pgDisplayPechoNormal = true;
-$pgDisplayPechoNotice = true;
-$pgDisplayPechoWarn = true;
-$pgDisplayPechoError = true;
-$pgDisplayPechoFatal = true;
+$pgDisplayPechoNormal = false;
+$pgDisplayPechoNotice = false;
+$pgDisplayPechoWarn = false;
+$pgDisplayPechoError = false;
+$pgDisplayPechoFatal = false;
 $pgWebOutput = true; //Switch to true if you are using a webserver to output your data instead of commandline.
 
 //This controls bot checks, before doing an action. This change will affect every bot using it. Enabling it drops the edit rate.

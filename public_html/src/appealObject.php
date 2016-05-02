@@ -748,7 +748,7 @@ class Appeal extends Model {
 	  /* On Wiki Notifications */
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
-	  $bot->notifyUser("UTRSBot", array($this->appealID, $time));
+	  $bot->notifyUser($this->getCommonName(), array($this->appealID, $time));
 	  $bot->notifyAdmin($this->blockingAdmin, array($this->appealID, $time));
 	  
 	  /* Change object and clean up */

@@ -18,6 +18,7 @@ require_once('src/logObject.php');
 require_once('src/messages.php');
 require_once('src/emailTemplates.class.php');
 require_once('template.php');
+require_once('src/UTRSBot.class.php');
 
 // make sure user is logged in, if not, kick them out
 verifyLogin('appeal.php?id=' . $_GET['id']);
@@ -277,6 +278,13 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_AWAITING_PROXY);
 				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'], 1);
+				
+			    /* On Wiki Notifications */
+				if ($this->getAccountName()  && $this->hasAccount()) {
+					$bot = new UTRSBot();
+					$time = date('M d, Y H:i:s', time());
+					$bot->notifyOPP($this->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
+				}
 			} else {
 				$error = SystemMessages::$error['FailAwaitProxy'][$lang];
 			}

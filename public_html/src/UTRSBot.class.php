@@ -19,7 +19,7 @@ class UTRSBot {
       
       $user = $this->objPeachy->initUser( $username );
 	  
-	  $template = $this->objPeachy->initPage( $this->userTemplate );
+	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyUser");
       
@@ -47,7 +47,7 @@ class UTRSBot {
       
       $user = $this->objPeachy->initUser( $username );
       
-	  $template = $this->objPeachy->initPage( $this->userTemplate );
+	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
       
@@ -72,11 +72,10 @@ class UTRSBot {
    
    public function notifyOPP($ip, $templateVars) {
       
-	  $template = $this->objPeachy->initPage( $this->oppTemplate );
+	  $template = $this->objPeachy->initPage( "Template:" . $this->oppTemplate );
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
       
-		  echo "Must be the template";
       if ($template->exists()) {
          
          $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );

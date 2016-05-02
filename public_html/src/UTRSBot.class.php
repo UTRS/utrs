@@ -77,7 +77,7 @@ class UTRSBot {
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
       
       if ($template->exists()) {
-         echo "Now it's the runpage";
+		  
          $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
          
          $content = "\n{{subst:" . $this->oppTemplate;
@@ -90,8 +90,8 @@ class UTRSBot {
          
          $content .= "}}";
          
-         $page->append( $content, "Proxy check requested for UTRS", false, true );
-         
+         $result = $page->append( $content, "Proxy check requested for UTRS", false, true );
+         echo $result;
       }
    }
 }

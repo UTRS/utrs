@@ -23,7 +23,7 @@ class UTRSBot {
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyUser");
       
-      if ($user->exists() && $template->exists()) {
+      if ($user->exists() && $template->get_exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
@@ -51,7 +51,7 @@ class UTRSBot {
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
       
-      if ($user->exists() && $template->exists()) {
+      if ($user->exists() && $template->get_exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
@@ -76,7 +76,7 @@ class UTRSBot {
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
       
-      if ($template->exists()) {
+      if ($template->get_exists()) {
 		  
          $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
          

@@ -139,9 +139,15 @@ if($logout){
 if($errors){
 	displayError($errors);
 }
+if (!isset($_GET['lang'])){$lang = $_GET['lang'];} else{$lang = "en";}
 ?>
 
-<form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden"><table>
+<form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden">
+	<ul class="dropdown-menu">
+      <li <?php if ($_GET['lang']="en") {echo 'class="active"';}?>><a href="login.html?lang=en"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> en.wikipedia</a></li>
+      <li <?php if ($_GET['lang']="pt") {echo 'class="active"';}?>><a href="login.html?lang=pt"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/320px-Flag_of_Portugal.svg.png"> pt.wikipedia</a></li>
+    </ul>
+	<table>
       <tr>
          <td><label for="username" id="usernameLabel">Username: </label></td>
          <td><input id="username" name="username" type="text" id="username" value="<?php echo $user; ?>"></td>
@@ -156,11 +162,9 @@ if($errors){
       <tr>
          <td colspan="2">&nbsp;</td>
       </tr>
-      <tr>
-         <td><label for="lang" id="languageLabel">Language: </label></td>
-         <td><select id="lang" class="selectpicker" name="lang"><option value="en" selected>en</option><option value="pt">pt</option></select></td>
-      </tr>
    </table>
+   <?php //This is set to hidden as it will be the actual form selection that we are going to grab from the url ?>
+   <input id="lang" name="lang" value="<?php if(isset($lang)){echo $lang;} else{	echo "en"; } ?>" type="hidden">
    <input id="login" name="login" value="Login" type="submit">
 </form>
 <p>You must have cookies enabled in order to log in.</p>

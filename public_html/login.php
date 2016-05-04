@@ -14,6 +14,7 @@ $user = '';
 $destination = '';
 $errors = '';
 $logout = '';
+$lang = 'en';//default setting
 if(isset($_GET['logout'])){
 	$logout = true;
 }
@@ -139,7 +140,11 @@ if($logout){
 if($errors){
 	displayError($errors);
 }
-if (!isset($_GET['lang'])){$lang = $_GET['lang'];} else{$lang = "en";}
+if (!isset($_GET['lang'])) {
+	$lang = $_GET['lang'];
+} else{
+	$lang = "en";
+}
 ?>
 
 <form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden">

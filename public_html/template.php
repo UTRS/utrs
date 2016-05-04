@@ -33,21 +33,20 @@ if($loggedIn){
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
 <link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
 <title>Unblock Ticket Request System - Register an Account</title>
 <?php if($script){
    echo "<script type=\"text/javascript\">" . $script . "</script>";
 }
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
 <style>
    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
    #sortable li span { position: absolute; margin-left: -1.3em; }
-   </style>
-   <script>
+</style>
+<script>
    function serialize (mixed_value) {
        // http://kevin.vanzonneveld.net
        // +   original by: Arpad Ray (mailto:arpad@php.net)
@@ -357,6 +356,10 @@ For questions or assistance with the Unblock Ticket Request System, please email
 <a href="mailto:utrs-admins@googlegroups.com">utrs-admins&#64;googlegroups.com</a>.<br />
 Version <?php echo getVersion() ?>.</p>
 </div>
+<!-- ACC Claims that putting these at the bottom decreases load time. Plus do we need both jquerys? Plus are they not out of date? --DQ -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
 <?php

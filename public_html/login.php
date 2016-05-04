@@ -148,7 +148,7 @@ if (isset($_GET['lang'])) {
 ?>
 
 <form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden">
-  <div class="dropdown theme-dropdown clearfix"><a id="dropdownMenu1" href="#" class="sr-only dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>	
+  <button type="button" class="btn btn-default dropdown-toggle span12" data-toggle="dropdown"><?php echo $lang;?>&nbsp;<span class="caret"></span></button>	
 	<ul class="dropdown-menu">
       <li <?php if ($_GET['lang']="en") {echo 'class="active"';}?>><a href="login.html?lang=en"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> en.wikipedia</a></li>
       <li <?php if ($_GET['lang']="pt") {echo 'class="active"';}?>><a href="login.html?lang=pt"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> pt.wikipedia</a></li>

@@ -140,7 +140,7 @@ if($logout){
 if($errors){
 	displayError($errors);
 }
-if (!isset($_GET['lang'])) {
+if (isset($_GET['lang'])) {
 	$lang = $_GET['lang'];
 } else{
 	$lang = "en";

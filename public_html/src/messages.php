@@ -87,6 +87,10 @@ class SystemMessages {
 			"AppealClosed" => array(
 					"en" => "Closed",
 					"pt" => ""
+			),
+			"NotifiedAdmin" => array(
+					"en" =>	"Notified Admin",
+					"pt" => ""
 			)
 	);
 	public static $error = array (

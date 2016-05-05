@@ -258,13 +258,13 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
 				$log->addNewItem(SystemMessages::$log['StatusOnHold'][$lang], 1);
-				$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);
 				
 				//Notify the blocking admin, if asked for
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-				    $bot->notifyAdmin($appeal->getBlockingAdmin(), array($appeal->getID(), $time));				
+				    $bot->notifyAdmin($appeal->getBlockingAdmin(), array($appeal->getID(), $time));	
+					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
 				}
 			} else {
 				$error = SystemMessages::$error['FailOnHold'][$lang];

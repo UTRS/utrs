@@ -148,12 +148,13 @@ if (isset($_GET['lang'])) {
 ?>
 
 <form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden">
-  <button type="button" class="btn btn-default dropdown-toggle span12" data-toggle="dropdown"><?php echo $lang;?>&nbsp;<span class="caret"></span></button>	
-	<ul class="dropdown-menu">
-      <li <?php if ($_GET['lang']="en") {echo 'class="active"';}?>><a href="login.html?lang=en"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> en.wikipedia</a></li>
-      <li <?php if ($_GET['lang']="pt") {echo 'class="active"';}?>><a href="login.html?lang=pt"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> pt.wikipedia</a></li>
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Language: <?php echo $lang;?><span class="caret"></span></button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <li><a href="login.html?lang=en"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> en.wikipedia</a></li>
+      <li><a href="login.html?lang=pt"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> pt.wikipedia</a></li>
     </ul>
-  </div>
+    </div>
 	<table>
       <tr>
          <td><label for="username" id="usernameLabel">Username: </label></td>

@@ -256,7 +256,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				//Appeal is closed and not an admin
 				$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
 				)) {
-				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
+				$notify_admin = ($_GET['value'] == "adminhold") ? " - Notified Admin" : "";
+				$appeal->setStatus(Appeal::$STATUS_ON_HOLD . $notify_admin);
 				$log->addNewItem(SystemMessages::$log['StatusOnHold'][$lang], 1);
 				
 				//Notify the blocking admin, if asked for

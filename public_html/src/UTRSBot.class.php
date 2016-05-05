@@ -40,7 +40,7 @@ class UTRSBot {
             
          }
          
-         $content .= "}}";
+         $content .= "}}--~~~~";
          
          $page->append( $content, "User has submitted an unblock appeal on UTRS", false, true );
          
@@ -68,7 +68,7 @@ class UTRSBot {
             
          }
          
-         $content .= "}}";
+         $content .= "}}--~~~~";
          
          $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
          

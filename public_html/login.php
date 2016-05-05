@@ -146,16 +146,18 @@ if (isset($_GET['lang'])) {
 	$lang = "en";
 }
 ?>
-
 <form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden">
+<table>
+      <tr>
 <div class="dropdown">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Language: <?php echo $lang;?><span class="caret"></span></button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
       <li><a href="login.php?lang=en"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> en.wikipedia</a></li>
       <li><a href="login.php?lang=pt"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> pt.wikipedia</a></li>
     </ul>
-    </div>
-	<table>
+    </div></tr><tr>
+         <td colspan="2">&nbsp;</td>
+      </tr>
       <tr>
          <td><label for="username" id="usernameLabel">Username: </label></td>
          <td><input id="username" name="username" type="text" id="username" value="<?php echo $user; ?>"></td>

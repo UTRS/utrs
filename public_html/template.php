@@ -34,7 +34,8 @@ if($loggedIn){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <link href="css/bootstrap.min.css" rel="stylesheet">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
 <title>Unblock Ticket Request System - Register an Account</title>
 <?php if($script){
@@ -356,9 +357,6 @@ For questions or assistance with the Unblock Ticket Request System, please email
 <a href="mailto:utrs-admins@googlegroups.com">utrs-admins&#64;googlegroups.com</a>.<br />
 Version <?php echo getVersion() ?>.</p>
 </div>
-<!-- ACC Claims that putting these at the bottom decreases load time. Plus do we need both jquerys? Plus are they not out of date? --DQ -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
-<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
 <?php

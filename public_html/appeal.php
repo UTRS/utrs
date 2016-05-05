@@ -263,7 +263,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-				    $bot->notifyAdmin($this->blockingAdmin, array($this->appealID, $time));				
+				    $bot->notifyAdmin($appeal->blockingAdmin, array($appeal->appealID, $time));				
 				}
 			} else {
 				$error = SystemMessages::$error['FailOnHold'][$lang];

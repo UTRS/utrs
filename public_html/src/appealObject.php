@@ -749,7 +749,6 @@ class Appeal extends Model {
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
 	  $bot->notifyUser($this->getCommonName(), array($this->appealID, $time));
-	  $bot->notifyAdmin($this->blockingAdmin, array($this->appealID, $time));
 	  
 	  /* Change object and clean up */
       $this->status = self::$STATUS_NEW;

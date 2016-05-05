@@ -5,13 +5,18 @@ require_once("includes/Peachy/Init.php");
 class UTRSBot {
    
    private $objPeachy;
-   private $userTemplate = "Unblock-utrs";
-   private $adminTemplate = "Unblock-UTRS-AdminNotify";
-   private $oppTemplate = "UTRS-OPP";
+   private $taskname			= "UTRS";
+   private $config				= "UTRSBot";
+   private $userTemplate		= "Unblock-utrs";
+   private $adminTemplate		= "Unblock-UTRS-AdminNotify";
+   private $oppTemplate			= "UTRS-OPP";
+   private $oppPage				= "User:UTRSBot/OPP/Requests";
       
    public function __construct() {
       
-      $this->objPeachy = Peachy::newWiki( "UTRSBot" );
+      $this->objPeachy = Peachy::newWiki( $this->config );
+	  
+	  $this->objPeachy->set_taskname( $this->taskname );
       
    }
    
@@ -78,7 +83,7 @@ class UTRSBot {
       
       if ($template->get_exists()) {
 		  
-         $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
+         $page = $this->objPeachy->initPage( $this->oppPage );
          
          $content = "\n{{subst:" . $this->oppTemplate;
          

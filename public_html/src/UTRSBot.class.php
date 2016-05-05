@@ -54,7 +54,7 @@ class UTRSBot {
       
 	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
-	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin2");
       
       if ($user->exists() && $template->get_exists()) {
          

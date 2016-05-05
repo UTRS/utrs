@@ -175,7 +175,7 @@ if (isset($_GET['lang'])) {
    </table>
    <?php //This is set to hidden as it will be the actual form selection that we are going to grab from the url ?>
    <input id="lang" name="lang" value="<?php if(isset($lang)){echo $lang;} else{	echo "en"; } ?>" type="hidden">
-   <input id="login" name="login" value="Login" type="submit">
+   <input clss="label label-primary" id="login" name="login" value="Login" type="submit">
 </form>
 <p>You must have cookies enabled in order to log in.</p>
 

@@ -640,3 +640,7 @@ text-align: left;
 #trashbin {
 	height: 30px;
 }
+/* Login Screen */
+.dropdown-menu {
+	left:28%;
+}

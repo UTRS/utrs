@@ -659,7 +659,8 @@ class Appeal extends Model {
       if(strcmp($newStatus, self::$STATUS_NEW) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_USER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_CHECKUSER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, self::$STATUS_CLOSED) == 0
-        || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0){
+        || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0
+		|| strcmp($newStatus, self::$STATUS_ON_HOLD . " - Notified Admin") == 0) {
          // TODO: query to modify the row
          $this->status = $newStatus;
          if ($this->status == self::$STATUS_CLOSED) { UTRSUser::getUserByUsername($_SESSION['user'])->incrementClose();
@@ -749,7 +750,6 @@ class Appeal extends Model {
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
 	  $bot->notifyUser($this->getCommonName(), array($this->appealID, $time));
-	  $bot->notifyAdmin($this->blockingAdmin, array($this->appealID, $time));
 	  
 	  /* Change object and clean up */
       $this->status = self::$STATUS_NEW;
@@ -826,6 +826,32 @@ class Appeal extends Model {
       }      
           
       
+   }
+   
+   public function sendWMF() {
+	   
+		//TO Address
+		$email		= "ca@wikimedia.org";
+		
+		//Headeers and FROm address
+		$headers	= "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n";
+		$headers	.= "MIME-Version: 1.0\r\n";
+		$headers	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
+		//BODY
+		$body		= "This is an email from the Unblock Ticket Request System.  Please do not reply to this email, replies will go to an unmonitored email box." .
+						"<br><br>" . 
+						"Assistance is requested from a Wikimedia Foundation staff member on " .
+						"<a href=\"https://utrs.wmflabs.org/appeal.php?id=" . $this->getID() . ">UTRS Ticket #" . $this->getID() . "</a>." .
+						"<br><br>" .
+						"This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.";
+						
+		//SUBJECT
+		$subject = "WMF Assistance requested on unblock appeal #" . $appeal->getID();
+		
+		//MAIL
+		mail($email, $subject, $body, $headers);
+	   
    }
 }
 

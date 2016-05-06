@@ -32,7 +32,7 @@ class UTRSBot {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content = "\n{{subst:" . $this->userTemplate;
+         $content = "\n{{" . $this->userTemplate;
          
          foreach ($templateVars as $var) {
             
@@ -60,7 +60,7 @@ class UTRSBot {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content = "\n{{subst:" . $this->adminTemplate;
+         $content = "\n{{" . $this->adminTemplate;
          
          foreach ($templateVars as $var) {
             
@@ -85,7 +85,7 @@ class UTRSBot {
 		  
          $page = $this->objPeachy->initPage( $this->oppPage );
          
-         $content = "\n{{subst:" . $this->oppTemplate;
+         $content = "\n{{" . $this->oppTemplate;
          
          foreach ($templateVars as $var) {
             

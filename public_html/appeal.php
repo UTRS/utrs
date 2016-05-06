@@ -242,6 +242,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			break;
 		case "hold":
 		case "adminhold":
+		case "wmfhold":
 			if (!(
 				//Already on hold
 				$appeal->getStatus() == Appeal::$STATUS_ON_HOLD ||
@@ -265,6 +266,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					$time = date('M d, Y H:i:s', time());
 				    $bot->notifyAdmin($appeal->getBlockingAdmin(), array($appeal->getID(), $time));	
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
+				} elseif ($_GET['value'] == "adminhold") {
+					$appeal->sendWMF();
+					$log->addNewItem(SystemMessages::$log['NotifiedWMF'][$lang], 1);
 				}
 			} else {
 				$error = SystemMessages::$error['FailOnHold'][$lang];
@@ -699,6 +703,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=adminhold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (

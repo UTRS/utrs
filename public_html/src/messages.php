@@ -91,6 +91,10 @@ class SystemMessages {
 			"NotifiedAdmin" => array(
 					"en" =>	"Notified Admin",
 					"pt" => ""
+			),
+			"NotifiedWMF" => array(
+					"en" =>	"Emailed Wikimedia Foundation staff at ca@wikimedia.org",
+					"pt" => ""
 			)
 	);
 	public static $error = array (

@@ -827,6 +827,32 @@ class Appeal extends Model {
           
       
    }
+   
+   public function sendWMF() {
+	   
+		//TO Address
+		$email		= "ca@wikimedia.org";
+		
+		//Headeers and FROm address
+		$headers	= "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n";
+		$headers	.= "MIME-Version: 1.0\r\n";
+		$headers	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
+		//BODY
+		$body		= "This is an email from the Unblock Ticket Request System.  Please do not reply to this email, replies will go to an unmonitored email box." .
+						"<br><br>" . 
+						"Assistance is requested from a Wikimedia Foundation staff member on " .
+						"<a href=\"https://utrs.wmflabs.org/appeal.php?id=" . $this->getID() . ">UTRS Ticket #" . $this->getID() . "</a>." .
+						"<br><br>" .
+						"This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.";
+						
+		//SUBJECT
+		$subject = "WMF Assistance requested on unblock appeal #" . $appeal->getID();
+		
+		//MAIL
+		mail($email, $subject, $body, $headers);
+	   
+   }
 }
 
 ?>

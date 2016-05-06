@@ -104,8 +104,14 @@ class SystemMessages {
 			"RevealOS" => array(
 					"en" => "Revealed this appeals oversighted information: ",
 					"pt" => ""
-			)
-			
+			),
+			"NotifiedAdmin" => array(
+					"en" =>	"Notified Admin",
+					"pt" => ""
+			),
+			"NotifiedWMF" => array(
+					"en" =>	"Emailed Wikimedia Foundation staff at ca@wikimedia.org",
+			)			
 	);
 	public static $error = array (
 			"AppealNotNumeric" => array (

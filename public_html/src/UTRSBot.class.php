@@ -5,13 +5,18 @@ require_once("includes/Peachy/Init.php");
 class UTRSBot {
    
    private $objPeachy;
-   private $userTemplate = "Unblock-utrs";
-   private $adminTemplate = "Unblock-UTRS-AdminNotify";
-   private $oppTemplate = "UTRS-OPP";
+   private $taskname			= "UTRS";
+   private $config				= "UTRSBot";
+   private $userTemplate		= "Unblock-utrs";
+   private $adminTemplate		= "Unblock-UTRS-AdminNotify";
+   private $oppTemplate			= "UTRS-OPP";
+   private $oppPage				= "User:UTRSBot/OPP/Requests";
       
    public function __construct() {
       
-      $this->objPeachy = Peachy::newWiki( "UTRSBot" );
+      $this->objPeachy = Peachy::newWiki( $this->config );
+	  
+	  $this->objPeachy->set_taskname( $this->taskname );
       
    }
    
@@ -21,7 +26,7 @@ class UTRSBot {
 	  
 	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
-	  $this->objPeachy->set_runpage("User:UTRSBot/notifyUser");
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyUser2");
       
       if ($user->exists() && $template->get_exists()) {
          
@@ -35,7 +40,7 @@ class UTRSBot {
             
          }
          
-         $content .= "}}";
+         $content .= "}}--~~~~";
          
          $page->append( $content, "User has submitted an unblock appeal on UTRS", false, true );
          
@@ -49,7 +54,7 @@ class UTRSBot {
       
 	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
-	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin2");
       
       if ($user->exists() && $template->get_exists()) {
          
@@ -63,7 +68,7 @@ class UTRSBot {
             
          }
          
-         $content .= "}}";
+         $content .= "}}--~~~~";
          
          $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
          
@@ -74,11 +79,11 @@ class UTRSBot {
       
 	  $template = $this->objPeachy->initPage( "Template:" . $this->oppTemplate );
 	  
-	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
+	  $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP2");
       
       if ($template->get_exists()) {
 		  
-         $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
+         $page = $this->objPeachy->initPage( $this->oppPage );
          
          $content = "\n{{subst:" . $this->oppTemplate;
          

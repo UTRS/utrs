@@ -45,13 +45,13 @@ if ($errorMessages) {
 }
 
 //construct appeal object
-$appeal = Appeal::getAppealByID($_GET['id']);
+$appeal	= Appeal::getAppealByID($_GET['id']);
 
 //construct user object
-$user = UTRSUser::getUserByUsername($_SESSION['user']);
+$user	= UTRSUser::getUserByUsername($_SESSION['user']);
 
 //construct log object
-$log = Log::getCommentsByAppealId($_GET['id']);
+$log	= Log::getCommentsByAppealId($_GET['id']);
 
 if (verifyAccess($GLOBALS['CHECKUSER'])
 		||verifyAccess($GLOBALS['OVERSIGHT'])
@@ -241,6 +241,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			}
 			break;
 		case "hold":
+		case "adminhold":
+		case "wmfhold":
 			if (!(
 				//Already on hold
 				$appeal->getStatus() == Appeal::$STATUS_ON_HOLD ||
@@ -257,6 +259,17 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
 				$log->addNewItem(SystemMessages::$log['StatusOnHold'][$lang], 1);
+				
+				//Notify the blocking admin, if asked for
+				if ($_GET['value'] == "adminhold") {
+					$bot = new UTRSBot();
+					$time = date('M d, Y H:i:s', time());
+				    $bot->notifyAdmin($appeal->getBlockingAdmin(), array($appeal->getID(), $time));	
+					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
+				} elseif ($_GET['value'] == "adminhold") {
+					$appeal->sendWMF();
+					$log->addNewItem(SystemMessages::$log['NotifiedWMF'][$lang], 1);
+				}
 			} else {
 				$error = SystemMessages::$error['FailOnHold'][$lang];
 			}
@@ -649,7 +662,6 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
-	echo "<hr style='width:475px;'>";
   //Checkuser button
 	$disabled = "";
 	if (
@@ -669,6 +681,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	echo "<hr style='width:475px;'>";
 	//On Hold button
 	$disabled = "";
 	if (
@@ -690,6 +703,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=adminhold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (

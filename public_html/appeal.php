@@ -661,7 +661,6 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
-	echo "<hr style='width:475px;'>";
   //Checkuser button
 	$disabled = "";
 	if (
@@ -681,6 +680,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	echo "<hr style='width:475px;'>";
 	//On Hold button
 	$disabled = "";
 	if (

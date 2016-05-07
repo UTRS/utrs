@@ -264,7 +264,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $time));	
+				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time));	
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
 				} elseif ($_GET['value'] == "adminhold") {
 					$appeal->sendWMF();

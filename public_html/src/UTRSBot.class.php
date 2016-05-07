@@ -7,8 +7,8 @@ class UTRSBot {
    private $objPeachy;
    private $taskname			= "UTRS";
    private $config				= "UTRSBot";
-   private $userTemplate		= "Unblock-utrs";
-   private $adminTemplate		= "Unblock-UTRS-AdminNotify";
+   private $userTemplate		= "UTRS-unblock-user";
+   private $adminTemplate		= "UTRS-unblock-admin";
    private $oppTemplate			= "UTRS-OPP";
    private $oppPage				= "Wikipedia:WikiProject_on_open_proxies/Requests";
       

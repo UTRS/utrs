@@ -54,7 +54,6 @@ class UTRSBot {
 	  
 	  //Get Blocking Admin from API
 	  $blockinfo = $user->get_blockinfo();
-	  print_r($blockinfo);
       $admin	= $this->objPeachy->initUser( $blockinfo['by'] );
 	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
@@ -74,7 +73,7 @@ class UTRSBot {
          
          $content .= "}}--~~~~";
          
-         $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
+         $page->append( $content, "Notifing blocking admin for [[User:" . $username . "|" . $username . "]]'s UTRS Appeal #" . $templateVars[0], false, true );
          
       }
    }

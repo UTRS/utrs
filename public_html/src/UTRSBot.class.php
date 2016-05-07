@@ -10,7 +10,7 @@ class UTRSBot {
    private $userTemplate		= "Unblock-utrs";
    private $adminTemplate		= "Unblock-UTRS-AdminNotify";
    private $oppTemplate			= "UTRS-OPP";
-   private $oppPage				= "User:UTRSBot/OPP/Requests";
+   private $oppPage				= "Wikipedia:WikiProject_on_open_proxies/Requests";
       
    public function __construct() {
       

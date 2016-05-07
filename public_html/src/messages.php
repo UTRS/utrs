@@ -3,15 +3,15 @@ class SystemMessages {
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these.
 			"EmailFrom" => array (
-					"en" => 'From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n',
+					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					"pt" => "" 
 			),
 			"EmailMIME" => array (
-					"en" => 'MIME-Version: 1.0\r\n',
+					"en" => "MIME-Version: 1.0\r\n",
 					"pt" => "" 
 			),
 			"EmailContentType" => array (
-					"en" => 'Content-Type: text/html; charset=ISO-8859-1\r\n',
+					"en" => "Content-Type: text/html; charset=ISO-8859-1\r\n",
 					"pt" => "" 
 			),
 			"AppealReturnEmail" => array (

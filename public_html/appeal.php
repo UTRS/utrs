@@ -264,9 +264,9 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-				    $bot->notifyAdmin($appeal->getBlockingAdmin(), array($appeal->getID(), $time));	
+				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time));	
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
-				} elseif ($_GET['value'] == "adminhold") {
+				} elseif ($_GET['value'] == "wmfhold") {
 					$appeal->sendWMF();
 					$log->addNewItem(SystemMessages::$log['NotifiedWMF'][$lang], 1);
 				}
@@ -293,10 +293,10 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'][$lang], 1);
 				
 			    /* On Wiki Notifications */
-				if (!$appeal->getAccountName() && !$appeal->hasAccount()) {
+				if (!$appeal->getAccountName() && !$appeal->hasAccount() && strlen($appeal->getIP()) < 32) {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
+					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getCommonName(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
 				} elseif ($appeal->getAccountName() && !$appeal->hasAccount()) {
 					echo "<script type=\"text/javascript\"> alert(\"" . SystemMessages::$error['DivertToACC'][$lang] . "\"); </script>";
 				} else {

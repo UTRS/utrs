@@ -62,7 +62,7 @@ class UTRSBot {
       
       if ($admin->exists() && $template->get_exists()) {
          
-         $page = $this->objPeachy->initPage( "User_talk:" . $username );
+         $page = $this->objPeachy->initPage( "User_talk:" . $blockinfo['by'] );
          
          $content = "\n{{" . $this->adminTemplate;
          

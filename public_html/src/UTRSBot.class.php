@@ -50,13 +50,17 @@ class UTRSBot {
    
    public function notifyAdmin($username, $templateVars) {
       
-      $user = $this->objPeachy->initUser( $username );
-      
+	  $user		= $this->objPeachy->initUser( $username );
+	  
+	  //Get Blocking Admin from API
+	  $blockinfo = $user->get_blockinfo();
+	  print_r($blockinfo);
+      $admin	= $this->objPeachy->initUser( $blockinfo['by'] );
 	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
       
-      if ($user->exists() && $template->get_exists()) {
+      if ($admin->exists() && $template->get_exists()) {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          

@@ -5,6 +5,7 @@ require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('UTRSBot.class.php');
+require_once("includes/Peachy/Init.php");
 
 
 /**
@@ -162,6 +163,10 @@ class Appeal extends Model {
       'emailToken'      => 'emailToken');
 
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
+     
+   private $config = "UTRSBot";
+   
+   private $objPeachy;
 
    public static function getColumnMap() {
       return self::$columnMap;
@@ -193,12 +198,19 @@ class Appeal extends Model {
    }
 
    public static function newUntrusted($values) {
+	   
+      $this->objPeachy = Peachy::newWiki( $this->config );
+	  
       $appeal = new Appeal($values);
 
       $appeal->ipAddress = self::getIPFromServer();
       $appeal->status = self::$STATUS_UNVERIFIED;
       $appeal->handlingAdmin = null;
       $appeal->handlingAdminObject = null;
+	  
+	  //Get blocking admin from API
+	  $blockinfo = $this->objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
+	  $appeal->blockingAdmin = $blockinfo['by'];
 
       // False means "uncached", getUserAgent() will fetch it when
       // called, if the user has permission.

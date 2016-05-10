@@ -165,8 +165,6 @@ class Appeal extends Model {
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
      
    private $config = "UTRSBot";
-   
-   private $objPeachy;
 
    public static function getColumnMap() {
       return self::$columnMap;
@@ -199,7 +197,7 @@ class Appeal extends Model {
 
    public static function newUntrusted($values) {
 	   
-      $this->objPeachy = Peachy::newWiki( $this->config );
+      $objPeachy = Peachy::newWiki( $this->config );
 	  
       $appeal = new Appeal($values);
 
@@ -209,7 +207,7 @@ class Appeal extends Model {
       $appeal->handlingAdminObject = null;
 	  
 	  //Get blocking admin from API
-	  $blockinfo = $this->objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
+	  $blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
 	  $appeal->blockingAdmin = $blockinfo['by'];
 
       // False means "uncached", getUserAgent() will fetch it when
@@ -671,7 +669,8 @@ class Appeal extends Model {
       if(strcmp($newStatus, self::$STATUS_NEW) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_USER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_CHECKUSER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, self::$STATUS_CLOSED) == 0
-        || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0) {
+        || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0
+      	|| strcmp($newStatus, self::$STATUS_INVALID) == 0) {
          // TODO: query to modify the row
          $this->status = $newStatus;
          if ($this->status == self::$STATUS_CLOSED) { UTRSUser::getUserByUsername($_SESSION['user'])->incrementClose();

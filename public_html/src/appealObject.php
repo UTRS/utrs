@@ -165,8 +165,6 @@ class Appeal extends Model {
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
      
    private $config = "UTRSBot";
-   
-   private $objPeachy;
 
    public static function getColumnMap() {
       return self::$columnMap;
@@ -199,7 +197,7 @@ class Appeal extends Model {
 
    public static function newUntrusted($values) {
 	   
-      $this->objPeachy = Peachy::newWiki( $this->config );
+      $objPeachy = Peachy::newWiki( $this->config );
 	  
       $appeal = new Appeal($values);
 
@@ -209,7 +207,7 @@ class Appeal extends Model {
       $appeal->handlingAdminObject = null;
 	  
 	  //Get blocking admin from API
-	  $blockinfo = $this->objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
+	  $blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
 	  $appeal->blockingAdmin = $blockinfo['by'];
 
       // False means "uncached", getUserAgent() will fetch it when

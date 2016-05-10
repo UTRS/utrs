@@ -197,7 +197,7 @@ class Appeal extends Model {
 
    public static function newUntrusted($values) {
 	   
-      $objPeachy = Peachy::newWiki( $this->config );
+      $objPeachy = Peachy::newWiki( self::$config );
 	  
       $appeal = new Appeal($values);
 

@@ -164,7 +164,7 @@ class Appeal extends Model {
 
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
      
-   private $config = "UTRSBot";
+   private static $config = "UTRSBot";
 
    public static function getColumnMap() {
       return self::$columnMap;

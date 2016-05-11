@@ -213,7 +213,7 @@ class Appeal extends Model {
 	  	$blockinfo = $objPeachy->initUser( $appeal->getIP() )->get_blockinfo();
       }
       else {
-      	$blockinfo = $objPeachy->initUser( $appeal->accountName() )->get_blockinfo();
+      	$blockinfo = $objPeachy->initUser( $appeal->getAccountName() )->get_blockinfo();
       }
 	  $appeal->blockingAdmin = $blockinfo['by'];
 	  

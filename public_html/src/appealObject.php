@@ -209,7 +209,7 @@ class Appeal extends Model {
 	  //Get blocking admin from API
 	  // WARNING: These need to be the raw values to get the appropriate block information from
 	  // the API. DO NOT CHANGE.
-      if (isAutoBlock()) {
+      if (self::isAutoBlock()) {
 	  	$blockinfo = $objPeachy->initUser( $appeal->getIP() )->get_blockinfo();
       }
       else {

@@ -126,7 +126,7 @@ class User {
 		$this->wiki = & $wikiClass;
 
 		pecho( "Getting user information for $pgUsername...\n\n", PECHO_NORMAL );
-		if( long2ip( ip2long( $this->username ) ) == $this->username ) {
+		if(is_numeric(ip2long( $pgUsername))) {
 			$uiRes = $this->wiki->apiQuery(
 				array(
 					'action'  => 'query',
@@ -158,7 +158,7 @@ class User {
 
 		$this->username = $uiRes['query']['users'][0]['name'];
 
-		if( long2ip( ip2long( $this->username ) ) == $this->username ) {
+		if(is_numeric(ip2long( $pgUsername))) {
 			$this->exists = false;
 			$this->ip = true;
 

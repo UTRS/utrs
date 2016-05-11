@@ -133,7 +133,6 @@ class User {
 					'list'    => 'users|blocks',
 					'ususers' => $pgUsername,
 					'bkip' => $pgUsername,
-					'lelimit' => 1,
 					'usprop'  => 'editcount|groups|blockinfo|emailable|registration'
 				)
 			);
@@ -145,7 +144,6 @@ class User {
 							'list'    => 'users|blocks',
 							'ususers' => $pgUsername,
 							'bkusers' => $pgUsername,
-							'lelimit' => 1,
 							'usprop'  => 'editcount|groups|blockinfo|emailable|registration'
 					)
 			);

@@ -207,8 +207,16 @@ class Appeal extends Model {
       $appeal->handlingAdminObject = null;
 	  
 	  //Get blocking admin from API
-	  $blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
+	  // WARNING: These need to be the raw values to get the appropriate block information from
+	  // the API. DO NOT CHANGE.
+      if ($isAutoBlock) {
+	  	$blockinfo = $objPeachy->initUser( $appeal->getIP() )->get_blockinfo();
+      }
+      else {
+      	$blockinfo = $objPeachy->initUser( $appeal->accountName() )->get_blockinfo();
+      }
 	  $appeal->blockingAdmin = $blockinfo['by'];
+	  
 
       // False means "uncached", getUserAgent() will fetch it when
       // called, if the user has permission.

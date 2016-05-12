@@ -31,7 +31,7 @@ $lang = 'en';
 skinHeader();
 try {	
 	if (!is_numeric($_GET['id'])) {
-		$text = SystemMessages::$error["AppealNotNumeric"][lang];
+		$text = SystemMessages::$error["AppealNotNumeric"][$lang];
 		throw new UTRSIllegalModificationException($text);
 	}
 }
@@ -45,13 +45,13 @@ if ($errorMessages) {
 }
 
 //construct appeal object
-$appeal = Appeal::getAppealByID($_GET['id']);
+$appeal	= Appeal::getAppealByID($_GET['id']);
 
 //construct user object
-$user = UTRSUser::getUserByUsername($_SESSION['user']);
+$user	= UTRSUser::getUserByUsername($_SESSION['user']);
 
 //construct log object
-$log = Log::getCommentsByAppealId($_GET['id']);
+$log	= Log::getCommentsByAppealId($_GET['id']);
 
 if (verifyAccess($GLOBALS['CHECKUSER'])
 		||verifyAccess($GLOBALS['OVERSIGHT'])
@@ -241,6 +241,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 			}
 			break;
 		case "hold":
+		case "adminhold":
+		case "wmfhold":
 			if (!(
 				//Already on hold
 				$appeal->getStatus() == Appeal::$STATUS_ON_HOLD ||
@@ -257,6 +259,17 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				)) {
 				$appeal->setStatus(Appeal::$STATUS_ON_HOLD);
 				$log->addNewItem(SystemMessages::$log['StatusOnHold'][$lang], 1);
+				
+				//Notify the blocking admin, if asked for
+				if ($_GET['value'] == "adminhold") {
+					$bot = new UTRSBot();
+					$time = date('M d, Y H:i:s', time());
+				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time));	
+					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
+				} elseif ($_GET['value'] == "wmfhold") {
+					$appeal->sendWMF();
+					$log->addNewItem(SystemMessages::$log['NotifiedWMF'][$lang], 1);
+				}
 			} else {
 				$error = SystemMessages::$error['FailOnHold'][$lang];
 			}
@@ -280,10 +293,10 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'][$lang], 1);
 				
 			    /* On Wiki Notifications */
-				if (!$appeal->getAccountName() && !$appeal->hasAccount()) {
+				if (!$appeal->getAccountName() && !$appeal->hasAccount() && strlen($appeal->getIP()) < 32) {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
+					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getCommonName(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
 				} elseif ($appeal->getAccountName() && !$appeal->hasAccount()) {
 					echo "<script type=\"text/javascript\"> alert(\"" . SystemMessages::$error['DivertToACC'][$lang] . "\"); </script>";
 				} else {
@@ -493,6 +506,7 @@ Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccoun
 Appeals by this IP: <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
 <?php }?>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
+Requesting unblock for: <b><?php if ($appeal->isAutoblock() && $appeal->hasAccount()) {echo "IP Address/Autoblock underneath an account";} elseif ($appeal->hasAccount()) {echo "Account";} elseif (!$appeal->hasAccount()) {echo "IP Address";} else {throw new UTRSValidationException("No Appeal type specified");}?></b>
 <div class="linklist">Blocking Admin:
 <ul>
   <li><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
@@ -648,7 +662,6 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . " value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
-	echo "<hr style='width:475px;'>";
   //Checkuser button
 	$disabled = "";
 	if (
@@ -668,6 +681,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	echo "<hr style='width:475px;'>";
 	//On Hold button
 	$disabled = "";
 	if (
@@ -689,6 +703,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=adminhold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (

@@ -97,8 +97,15 @@ if(isset($_POST["submit"])){
       elseif (!$registered && !Appeal::verifyNoPublicAppeal($ip)) {
         throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
       }
-      if (Appeal::activeAppeal($email, $wikiAccount)) {
-        throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+      if ($registered) {
+	      if (Appeal::activeAppeal($email, $wikiAccount)) {
+	        throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+	      }
+      }
+	  else {
+		  if (Appeal::activeAppeal($email, NULL)) {
+		  	throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+		  }
       }
 
       $appeal = Appeal::newUntrusted($_POST);
@@ -211,7 +218,7 @@ echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="P
 echo '<label id="emailLabel" for="accountName" class="required">What is your email address? <b>If you do not supply a deliverable email address, we will be unable to reply to your appeal and therefore it will not be considered.</b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
 echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
-echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, which administrator placed this block?</label>  <input id="blockingAdmin" type="text" name="appeal_blockingAdmin" value="' . posted('appeal_blockingAdmin') . '"/><br /><br />';
+echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
 echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';

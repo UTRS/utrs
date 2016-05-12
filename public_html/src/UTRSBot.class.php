@@ -5,13 +5,18 @@ require_once("includes/Peachy/Init.php");
 class UTRSBot {
    
    private $objPeachy;
-   private $userTemplate = "Unblock-utrs";
-   private $adminTemplate = "Unblock-UTRS-AdminNotify";
-   private $oppTemplate = "UTRS-OPP";
+   private $taskname			= "UTRS";
+   private $config				= "UTRSBot";
+   private $userTemplate		= "UTRS-unblock-user";
+   private $adminTemplate		= "UTRS-unblock-admin";
+   private $oppTemplate			= "UTRS-OPP";
+   private $oppPage				= "Wikipedia:WikiProject_on_open_proxies/Requests";
       
    public function __construct() {
       
-      $this->objPeachy = Peachy::newWiki( "UTRSBot" );
+      $this->objPeachy = Peachy::newWiki( $this->config );
+	  
+	  $this->objPeachy->set_taskname( $this->taskname );
       
    }
    
@@ -27,7 +32,7 @@ class UTRSBot {
          
          $page = $this->objPeachy->initPage( "User_talk:" . $username );
          
-         $content = "\n{{subst:" . $this->userTemplate;
+         $content = "\n{{" . $this->userTemplate;
          
          foreach ($templateVars as $var) {
             
@@ -35,7 +40,7 @@ class UTRSBot {
             
          }
          
-         $content .= "}}";
+         $content .= "}}--~~~~";
          
          $page->append( $content, "User has submitted an unblock appeal on UTRS", false, true );
          
@@ -45,17 +50,20 @@ class UTRSBot {
    
    public function notifyAdmin($username, $templateVars) {
       
-      $user = $this->objPeachy->initUser( $username );
-      
-	  $template = $this->objPeachy->initPage( "Template:" . $this->userTemplate );
+	  $user			= $this->objPeachy->initUser( $username );
+	  
+	  //Get Blocking Admin from API
+	  $blockinfo	= $user->get_blockinfo();
+      $admin		= $this->objPeachy->initUser( $blockinfo['by'] );
+	  $template 	= $this->objPeachy->initPage( "Template:" . $this->adminTemplate );
 	  
 	  $this->objPeachy->set_runpage("User:UTRSBot/notifyAdmin");
       
-      if ($user->exists() && $template->get_exists()) {
+      if ($admin->exists() && $template->get_exists()) {
          
-         $page = $this->objPeachy->initPage( "User_talk:" . $username );
+         $page 		= $this->objPeachy->initPage( "User_talk:" . $blockinfo['by'] );
          
-         $content = "\n{{subst:" . $this->adminTemplate;
+         $content 	= "\n{{" . $this->adminTemplate;
          
          foreach ($templateVars as $var) {
             
@@ -63,9 +71,9 @@ class UTRSBot {
             
          }
          
-         $content .= "}}";
+         $content .= "}}--~~~~";
          
-         $page->append( $content, "Notifing blocking admin for UTRS Appeal", false, true );
+         $page->append( $content, "Notifing blocking admin for [[User:" . $username . "|" . $username . "]]'s UTRS Appeal #" . $templateVars[0], false, true );
          
       }
    }
@@ -78,9 +86,9 @@ class UTRSBot {
       
       if ($template->get_exists()) {
 		  
-         $page = $this->objPeachy->initPage( "User:UTRSBot/OPP/Requests" );
+         $page = $this->objPeachy->initPage( $this->oppPage );
          
-         $content = "\n{{subst:" . $this->oppTemplate;
+         $content = "\n{{" . $this->oppTemplate;
          
          foreach ($templateVars as $var) {
             

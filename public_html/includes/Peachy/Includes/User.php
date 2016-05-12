@@ -156,8 +156,6 @@ class User {
 			$this->exists = true;
 		}
 
-		$this->username = $uiRes['query']['users'][0]['name'];
-
 		if(is_numeric(ip2long( $pgUsername))) {
 			$this->exists = false;
 			$this->ip = true;

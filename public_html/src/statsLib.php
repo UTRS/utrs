@@ -572,7 +572,7 @@ function printTemplateList(){
 function printLastThirtyActions() {
    $db = connectToDB();
    
-   $query = $db->query("SELECT * FROM comment WHERE action = 1 ORDER BY timestamp DESC LIMIT 0,30;");
+   $query = $db->query("SELECT * FROM comment WHERE action = 1 AND protected = 0 ORDER BY timestamp DESC LIMIT 0,30;");
    
    if($query === false){
       $error = var_export($db->errorInfo(), true);

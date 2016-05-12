@@ -31,7 +31,7 @@ $lang = 'en';
 skinHeader();
 try {	
 	if (!is_numeric($_GET['id'])) {
-		$text = SystemMessages::$error["AppealNotNumeric"][lang];
+		$text = SystemMessages::$error["AppealNotNumeric"][$lang];
 		throw new UTRSIllegalModificationException($text);
 	}
 }

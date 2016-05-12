@@ -213,7 +213,7 @@ class Appeal extends Model {
 	  	$blockinfo = $objPeachy->initUser( $appeal->getIP() )->get_blockinfo();
       }
       else {
-      	$blockinfo = $objPeachy->initUser( $appeal->getAccountName() )->get_blockinfo();
+      	$blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
       }
 	  $appeal->blockingAdmin = $blockinfo['by'];
 	  
@@ -822,11 +822,17 @@ class Appeal extends Model {
    }
    public static function activeAppeal($email,$wikiAccount) {
       $db = ConnectToDB();
-
+	if (isset($wikiAccount)) {
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE (email =\"".$email."\"
           OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" AND status !=\"invalid\");");
+	}
+	else {
+		$query = $db->prepare("
+         SELECT * FROM appeal
+         WHERE email =\"".$email."\" AND (status !=\"closed\" AND status !=\"invalid\");");
+		}
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);

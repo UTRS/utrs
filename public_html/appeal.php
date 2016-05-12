@@ -506,6 +506,7 @@ Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccoun
 Appeals by this IP: <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
 <?php }?>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
+Requesting unblock for: <b><?php if ($appeal->isAutoblock() && $appeal->hasAccount()) {echo "IP Address/Autoblock underneath an account";} elseif ($appeal->hasAccount()) {echo "Account";} elseif (!$appeal->hasAccount()) {echo "IP Address";} else {throw new UTRSValidationException("No Appeal type specified");}?></b>
 <div class="linklist">Blocking Admin:
 <ul>
   <li><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>

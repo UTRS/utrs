@@ -34,8 +34,8 @@ skinHeader("
 	$(document).ready(function() {
 		if ($(\"#adminhold\")) {
 			$(\"#adminhold\").click(function() {
-				varReason = input(\"Please write a short message to be posted on-wiki for the blocking admin:\")
-				window.location = '?id=" . $_GET['id'] . "&action=status&value=adminhold&reason=' + varReason;
+				varMessage = input(\"Please write a short message to be posted on-wiki for the blocking admin:\")
+				window.location = '?id=" . $_GET['id'] . "&action=status&value=adminhold&adminmessage=' + varMessage;
 			})
 		}
 	});
@@ -277,8 +277,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-					$reason = (isset($_GET['reason'])) ? sanitizetext($_GET['reason']) : 'None specified';
-				        $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin(), $reason));	
+				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin(), $adminmessage));	
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
 				} elseif ($_GET['value'] == "wmfhold") {
 					$appeal->sendWMF();

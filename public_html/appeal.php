@@ -32,7 +32,7 @@ skinHeader("
 	$(document).ready(function() {
 		if ($(\"#adminhold\")) {
 			$(\"#adminhold\").click(function() {
-				varMessage = input(\"Please write a short message to be posted on-wiki for the blocking admin:\")
+				varMessage = prompt(\"Please write a short message to be posted on-wiki for the blocking admin:\")
 				window.location = '?id=" . $_GET['id'] . "&action=status&value=adminhold&adminmessage=' + varMessage;
 			})
 		}

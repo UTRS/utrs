@@ -293,7 +293,11 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
       <a href="<?php echo getRootURL() . 'prefs.php'; ?>">Preferences</a>
    </li>
    <li id="privacyPolicy">
-      <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
+      <a href="<?php echo getRootURL() . 'admin_privacy.php'; ?>">Privacy Policy</a>
+   </li>
+   <?php #This is static for a reason, please leave it as so. ?>
+   <li id="jobs">
+      <a href="https://utrs.wmflabs.org/team.php">Positions & Developers</a>
    </li>
    <li id="logout">
       <a href="<?php echo getRootURL() . 'logout.php'; ?>">Logout</a>
@@ -311,21 +315,14 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="register">
       <a href="<?php echo getRootURL() . 'register.php'; ?>">Admins: Request an account</a>
    </li>
-   <?php
-   if(!$loggedIn){
-   ?>
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>
-   <?php 
-   }
-   if($loggedIn){
-   ?>
-   <li id="privacyPolicy">
-      <a href="<?php echo getRootURL() . 'admin_privacy.php'; ?>">Privacy Policy</a>
+   <?php #This is static for a reason, please leave it as so. ?>
+   <li id="jobs">
+      <a href="https://utrs.wmflabs.org/team.php">Positions & Developers</a>
    </li>
-   <?php 
-   }
+   <?php
  } ?>
 </ul>
 <div style="clear: both"></div>

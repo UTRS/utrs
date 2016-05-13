@@ -295,6 +295,10 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>
+   <?php #This is static for a reason, please leave it as so. ?>
+   <li id="jobs">
+      <a href="https://utrs.wmflabs.org/team.php">Positions & Developers</a>
+   </li>
    <li id="logout">
       <a href="<?php echo getRootURL() . 'logout.php'; ?>">Logout</a>
    </li>

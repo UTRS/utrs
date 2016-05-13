@@ -63,7 +63,7 @@ class UTRSBot {
          
          $page 		= $this->objPeachy->initPage( "User_talk:" . $blockinfo['by'] );
          
-         $content 	= "\n=={{utrs|" . $templateVars[0] . "==\n{{" . $this->adminTemplate;
+         $content 	= "\n=={{utrs|" . $templateVars[0] . "}}==\n{{" . $this->adminTemplate;
          
          foreach ($templateVars as $var) {
             

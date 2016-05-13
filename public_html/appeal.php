@@ -28,7 +28,16 @@ $errorMessages = '';
 $lang = 'en';
 
 //Template header()
-skinHeader();
+skinHeader("	
+	$(document).ready(function() {
+		if ($(\"#adminhold\")) {
+			$(\"#adminhold\").click(function() {
+				varMessage = prompt(\"Please write a short message to be posted on-wiki for the blocking admin:\")
+				window.location = '?id=" . $_GET['id'] . "&action=status&value=adminhold&adminmessage=' + varMessage;
+			})
+		}
+	});
+	");
 try {	
 	if (!is_numeric($_GET['id'])) {
 		$text = SystemMessages::$error["AppealNotNumeric"][$lang];
@@ -264,7 +273,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time));	
+					$adminmessage = (isset($_GET['adminmessage'])) ? sanitizeText($_GET['adminmessage']) : 'None specified';
+				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));	
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
 				} elseif ($_GET['value'] == "wmfhold") {
 					$appeal->sendWMF();
@@ -703,7 +713,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
-	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=adminhold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
 	echo "<input type=\"button\" " . $disabled . "  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";

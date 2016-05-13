@@ -28,9 +28,7 @@ $errorMessages = '';
 $lang = 'en';
 
 //Template header()
-skinHeader("
-	<script type=\"javascript\">
-	
+skinHeader("	
 	$(document).ready(function() {
 		if ($(\"#adminhold\")) {
 			$(\"#adminhold\").click(function() {
@@ -39,8 +37,6 @@ skinHeader("
 			})
 		}
 	});
-	
-	</script>
 	");
 try {	
 	if (!is_numeric($_GET['id'])) {

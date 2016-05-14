@@ -146,9 +146,13 @@ class UTRSBot {
 			   
 			   $query = $db->prepare("SELECT status FROM appeal WHERE appealID = :appealid;");
 			   
-			   $query->execute(array(":appealid" => $id));
+			   $query->execute(array(
+			   				":appealid" => $id
+			   ));
 			   
 			   $row = $query->fetch();
+			   
+			   echo $row;
 			   
 			   echo "Appeal status: " . $row["status"] . "\n";
 	

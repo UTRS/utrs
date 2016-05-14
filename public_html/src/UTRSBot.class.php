@@ -158,7 +158,7 @@ class UTRSBot {
 			   
 			   echo "Appeal status: " . $row["status"] . "\n";
 	
-			   if ($row["status"] == "CLOSED") {
+			   if ($row["status"] == "CLOSED" || $row === FALSE) {
 				   
 				   echo "Appeal is closed" . "\n";
 				   

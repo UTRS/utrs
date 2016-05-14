@@ -105,9 +105,9 @@ class UTRSBot {
    public function closeUserTemplate() {
 	   
 	   $result = $this->objPeachy->apiQuery(array(
-	   		"format"	=> "json",
+	   		"action"	=> "query",
 			"list"		=> "categorymembers",
-			"cmtitle"	=> "Category%3ARequests_for_unblock_on_UTRS"
+			"cmtitle"	=> "Category:Requests for unblock on UTRS"
 			)
 	   );
 	   

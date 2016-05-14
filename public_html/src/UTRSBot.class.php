@@ -147,6 +147,8 @@ class UTRSBot {
 			   $query->execute(array(":appealid" => $id));
 			   
 			   $row = $query->fetch(PDO::FETCH_ASSOC);
+			   
+			   print_r($row);
 	
 			   if ($row["status"] == "CLOSED") {
 				   

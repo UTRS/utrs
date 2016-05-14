@@ -101,4 +101,16 @@ class UTRSBot {
          $page->append( $content, "Proxy check requested for UTRS", false, true );
       }
    }
+   
+   public function closeUserTemplate() {
+	   
+	   $result = $this->objPeachy->apiQuery(array(
+	   		"format"	=> "json",
+			"list"		=> "categorymembers",
+			"cmtitle"	=> "Category%3ARequests_for_unblock_on_UTRS"
+			)
+	   );
+	   
+	   print_r($result);
+   }
 }

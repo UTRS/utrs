@@ -114,9 +114,9 @@ class UTRSBot {
 	   );
 	   
 	   //Filter out other nonsense
-	   $results = $results["query"]["categorymembers"];
+	   $result = $result["query"]["categorymembers"];
 	   
-	   foreach ($results as $userPage) {
+	   foreach ($result as $userPage) {
 		   
 		   //Get vars $page, $user
 		   $page = $this->objPeachy->initPage( $userPage["title"] );

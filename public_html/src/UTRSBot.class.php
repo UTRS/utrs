@@ -164,10 +164,10 @@ class UTRSBot {
 				   echo $text;
 				   //$page->edit($text);\
 				 
-				   echo "Page saved" . "\n";
+				   echo "Page saved" . "\n\n";
 				 
 			   } else {
-				   echo "Appeal is still open, moving on..." . "\n";
+				   echo "Appeal is still open, moving on..." . "\n\n";
 			   }
 		   }
 	   }

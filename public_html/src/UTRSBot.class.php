@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . "/../includes/Peachy/Init.php");
 require_once(__DIR__ . "/../src/unblocklib.php");
+require_once(dirname(__FILE__) . '/config.inc.php');
 
 class UTRSBot {
    
@@ -137,7 +138,9 @@ class UTRSBot {
 			   echo "Open UTRS Unblock template found" . "\n";
 			   
 			   //Find out if ticket is still open
-			   $db = connectToDB();
+			   global $config;
+			   $db = new PDO("mysql:host=localhost;dbname=utrs;", $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			   //$db = connectToDB();
 			   
 			   //SQL injection protection
 			   $id = is_numeric($matches[1]) ? $matches[1] : 0;
@@ -150,7 +153,7 @@ class UTRSBot {
 			   				":appealid" => $id
 			   ));
 			   
-			   $row = $query->fetch();
+			   $row = $query->fetch(PDO::FETCH_ASSOC);
 			   print_r($db->errorInfo());
 			   
 			   echo "Appeal status: " . $row["status"] . "\n";

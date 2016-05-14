@@ -142,13 +142,15 @@ class UTRSBot {
 			   //SQL injection protection
 			   $id = is_numeric($matches[1]) ? $matches[1] : 0;
 			   
+			   echo "Appeal ID: " . $id . "\n";
+			   
 			   $query = $db->prepare("SELECT status FROM appeal WHERE appealID = :appealid;");
 			   
 			   $query->execute(array(":appealid" => $id));
 			   
 			   $row = $query->fetch();
 			   
-			   echo "Appeal status: " . $row["status"];
+			   echo "Appeal status: " . $row["status"] . "\n";
 	
 			   if ($row["status"] == "CLOSED") {
 				   

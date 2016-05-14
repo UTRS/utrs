@@ -12,7 +12,7 @@ class UTRSBot {
    private $adminTemplate		= "UTRS-unblock-admin";
    private $oppTemplate			= "UTRS-OPP";
    private $oppPage				= "Wikipedia:WikiProject_on_open_proxies/Requests";
-   private $userTempPtrn		= "/\{\{UTRS-unblock-user\|(\d{0,5})?\|([a-zA-Z]{1,4} [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})?\}\}/g";
+   private $userTempPtrn		= "/\{\{UTRS-unblock-user\|(\d{0,5})?\|([a-zA-Z]{1,4} [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})?\}\}";
       
    public function __construct() {
       
@@ -120,7 +120,7 @@ class UTRSBot {
 		   
 		   //Get vars $page, $user
 		   $page = $this->objPeachy->initPage( $userPage["title"] );
-		   $user = split(":", $userPage["title"]);
+		   $user = explode(":", $userPage["title"]);
 		   $user = $user[1];
 		   
 		   echo "Reviewing " . $user;

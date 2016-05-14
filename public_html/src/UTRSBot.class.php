@@ -123,7 +123,7 @@ class UTRSBot {
 		   $user = explode(":", $userPage["title"]);
 		   $user = $user[1];
 		   
-		   echo "Reviewing " . $user;
+		   echo "Reviewing " . $user . "\n";
 		   
 		   //Get Page text
 		   $text = $page->get_text();
@@ -132,9 +132,9 @@ class UTRSBot {
 		   $matches = array();
 		   $found = preg_match($this->userTempPtrn, $text, $matches);
 		   
-		   if ($found === true) {
+		   if ($found === 1) {
 			   
-			   echo "Open UTRS Unblock template found";
+			   echo "Open UTRS Unblock template found" . "\n";
 			   
 			   //Find out if ticket is still open
 			   $db = connectToDB();
@@ -150,7 +150,7 @@ class UTRSBot {
 	
 			   if ($row["status"] == "CLOSED") {
 				   
-				   echo "Appeal is closed";
+				   echo "Appeal is closed" . "\n";
 				   
 				   //Create new template
 				   $new_template = "{{UTRS-unblock-user|" . $matches[1] . "|" . $matches[2] . "|closed}}";
@@ -162,10 +162,10 @@ class UTRSBot {
 				   echo $text;
 				   //$page->edit($text);\
 				 
-				   echo "Page saved";
+				   echo "Page saved" . "\n";
 				 
 			   } else {
-				   echo "Appeal is still open, moving on...";
+				   echo "Appeal is still open, moving on..." . "\n";
 			   }
 		   }
 	   }

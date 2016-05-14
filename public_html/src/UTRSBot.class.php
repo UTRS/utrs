@@ -152,7 +152,7 @@ class UTRSBot {
 			   
 			   $row = $query->fetch();
 			   
-			   echo (isset($row)) ? 'Working' : 'Not';
+			   echo gettype($row);
 			   
 			   echo "Appeal status: " . $row["status"] . "\n";
 	

@@ -1,6 +1,6 @@
 <?php
 
-require_once("includes/Peachy/Init.php");
+require_once(__DIR__ . "../includes/Peachy/Init.php");
 
 class UTRSBot {
    

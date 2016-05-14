@@ -151,8 +151,7 @@ class UTRSBot {
 			   ));
 			   
 			   $row = $query->fetch();
-			   
-			   echo gettype($row);
+			   print_r($db->errorInfo());
 			   
 			   echo "Appeal status: " . $row["status"] . "\n";
 	

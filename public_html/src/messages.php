@@ -1,17 +1,20 @@
 <?php
 class SystemMessages {
 	public static $system = array (
-			// Email syntax is very specific, be careful with editing these.
+			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
-					"en" => 'From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n',
-					"pt" => "De:Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n" 
+					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
+					//Unblock Review Team can be translated here. Could we do that?
+					"pt" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n" 
 			),
 			"EmailMIME" => array (
-					"en" => 'MIME-Version: 1.0\r\n',
-					"pt" => "Versão-MIME:1.0\r\n" 
+					//No translation should be need
+					"en" => "MIME-Version: 1.0\r\n",
+					"pt" => "MIME-Version: 1.0\r\n" 
 			),
 			"EmailContentType" => array (
-					"en" => 'Content-Type: text/html; charset=ISO-8859-1\r\n',
+					//No translation should be need
+					"en" => "Content-Type: text/html; charset=ISO-8859-1\r\n",
 					"pt" => "Content-Type: text/html; charset=ISO-8859-1\r\n" 
 			),
 			"AppealReturnEmail" => array (

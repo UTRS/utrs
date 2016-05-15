@@ -5,6 +5,7 @@ require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('UTRSBot.class.php');
+require_once("includes/Peachy/Init.php");
 
 
 /**
@@ -162,6 +163,8 @@ class Appeal extends Model {
       'emailToken'      => 'emailToken');
 
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
+     
+   private static $config = "UTRSBot";
 
    public static function getColumnMap() {
       return self::$columnMap;
@@ -193,12 +196,27 @@ class Appeal extends Model {
    }
 
    public static function newUntrusted($values) {
+	   
+      $objPeachy = Peachy::newWiki( self::$config );
+	  
       $appeal = new Appeal($values);
 
       $appeal->ipAddress = self::getIPFromServer();
       $appeal->status = self::$STATUS_UNVERIFIED;
       $appeal->handlingAdmin = null;
       $appeal->handlingAdminObject = null;
+	  
+	  //Get blocking admin from API
+	  // WARNING: These need to be the raw values to get the appropriate block information from
+	  // the API. DO NOT CHANGE.
+      if ($appeal->isAutoBlock()) {
+	  	$blockinfo = $objPeachy->initUser( $appeal->getIP() )->get_blockinfo();
+      }
+      else {
+      	$blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
+      }
+	  $appeal->blockingAdmin = $blockinfo['by'];
+	  
 
       // False means "uncached", getUserAgent() will fetch it when
       // called, if the user has permission.
@@ -660,7 +678,7 @@ class Appeal extends Model {
         || strcmp($newStatus, self::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_CHECKUSER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, self::$STATUS_CLOSED) == 0
         || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0
-		|| strcmp($newStatus, self::$STATUS_ON_HOLD . " - Notified Admin") == 0) {
+      	|| strcmp($newStatus, self::$STATUS_INVALID) == 0) {
          // TODO: query to modify the row
          $this->status = $newStatus;
          if ($this->status == self::$STATUS_CLOSED) { UTRSUser::getUserByUsername($_SESSION['user'])->incrementClose();
@@ -804,11 +822,17 @@ class Appeal extends Model {
    }
    public static function activeAppeal($email,$wikiAccount) {
       $db = ConnectToDB();
-
+	if (isset($wikiAccount)) {
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE (email =\"".$email."\"
           OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" AND status !=\"invalid\");");
+	}
+	else {
+		$query = $db->prepare("
+         SELECT * FROM appeal
+         WHERE email =\"".$email."\" AND (status !=\"closed\" AND status !=\"invalid\");");
+		}
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);

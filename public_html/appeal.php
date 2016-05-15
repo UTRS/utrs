@@ -28,10 +28,19 @@ $errorMessages = '';
 $lang = 'en';
 
 //Template header()
-skinHeader();
+skinHeader("	
+	$(document).ready(function() {
+		if ($(\"#adminhold\")) {
+			$(\"#adminhold\").click(function() {
+				varMessage = prompt(\"Please write a short message to be posted on-wiki for the blocking admin:\")
+				window.location = '?id=" . $_GET['id'] . "&action=status&value=adminhold&adminmessage=' + varMessage;
+			})
+		}
+	});
+	");
 try {	
 	if (!is_numeric($_GET['id'])) {
-		$text = SystemMessages::$error["AppealNotNumeric"][lang];
+		$text = SystemMessages::$error["AppealNotNumeric"][$lang];
 		throw new UTRSIllegalModificationException($text);
 	}
 }
@@ -264,9 +273,10 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				if ($_GET['value'] == "adminhold") {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-				    $bot->notifyAdmin($appeal->getBlockingAdmin(), array($appeal->getID(), $time));	
+					$adminmessage = (isset($_GET['adminmessage'])) ? sanitizeText($_GET['adminmessage']) : 'None specified';
+				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));	
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
-				} elseif ($_GET['value'] == "adminhold") {
+				} elseif ($_GET['value'] == "wmfhold") {
 					$appeal->sendWMF();
 					$log->addNewItem(SystemMessages::$log['NotifiedWMF'][$lang], 1);
 				}
@@ -293,10 +303,10 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				$log->addNewItem(SystemMessages::$log['StatusAwaitProxy'][$lang], 1);
 				
 			    /* On Wiki Notifications */
-				if (!$appeal->getAccountName() && !$appeal->hasAccount()) {
+				if (!$appeal->getAccountName() && !$appeal->hasAccount() && strlen($appeal->getIP()) < 32) {
 					$bot = new UTRSBot();
 					$time = date('M d, Y H:i:s', time());
-					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getIP(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
+					$bot->notifyOPP($appeal->getCommonName(), array($appeal->getCommonName(), "User has requested an unblock at {{utrs|" . $appeal->getID() . "}} and is in need of a proxy check."));
 				} elseif ($appeal->getAccountName() && !$appeal->hasAccount()) {
 					echo "<script type=\"text/javascript\"> alert(\"" . SystemMessages::$error['DivertToACC'][$lang] . "\"); </script>";
 				} else {
@@ -507,6 +517,7 @@ Requested Username: <a href="<?php echo getWikiLink("User:" . $appeal->getAccoun
 Appeals by this IP: <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
 <?php }?>
 Status: <b><?php echo $appeal->getStatus(); ?></b><br>
+Requesting unblock for: <b><?php if ($appeal->isAutoblock() && $appeal->hasAccount()) {echo "IP Address/Autoblock underneath an account";} elseif ($appeal->hasAccount()) {echo "Account";} elseif (!$appeal->hasAccount()) {echo "IP Address";} else {throw new UTRSValidationException("No Appeal type specified");}?></b>
 <div class="linklist">Blocking Admin:
 <ul>
   <li><a href="<?php echo getWikiLink("User:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
@@ -703,7 +714,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
-	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=adminhold'\">&nbsp;";
+	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
 	echo "<input type=\"button\" " . $disabled . "  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";

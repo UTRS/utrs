@@ -2,7 +2,6 @@
 
 require_once(__DIR__ . "/../includes/Peachy/Init.php");
 require_once(__DIR__ . "/../src/unblocklib.php");
-require_once(dirname(__FILE__) . '/config.inc.php');
 
 class UTRSBot {
    
@@ -107,6 +106,8 @@ class UTRSBot {
    
    public function closeUserTemplate() {
 	   
+		require_once(dirname(__FILE__) . '../../src/config.inc.php');
+	   
 	   $result = $this->objPeachy->apiQuery(array(
 	   		"action"	=> "query",
 			"list"		=> "categorymembers",
@@ -139,7 +140,7 @@ class UTRSBot {
 			   
 			   //Find out if ticket is still open
 			   global $config;
-			   $db = new PDO("mysql:host=localhost;dbname=utrs;", $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			   $db = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 			   //$db = connectToDB();
 			   
 			   //SQL injection protection

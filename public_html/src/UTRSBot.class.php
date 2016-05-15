@@ -140,7 +140,13 @@ class UTRSBot {
 			   $db = connectToDB();
 			   
 			   //SQL injection protection
-			   $id = is_numeric($matches[1]) ? $matches[1] : 0;
+			   if (is_numeric($matches[1])) {
+				   $id = $matches[1];
+			   } else {
+				   //Leave loop, template appears to be bad
+				   $this->botError("Appeal number invalid for " . $user);
+				   break;
+			   }
 			   
 			   echo "Appeal ID: " . $id . "\n";
 			   
@@ -155,7 +161,7 @@ class UTRSBot {
 			   
 			   echo "Appeal status: " . $row["status"] . "\n";
 	
-			   if ($row["status"] == "CLOSED" || $row === FALSE) {
+			   if ($row["status"] == "CLOSED") {
 				   
 				   echo "Appeal is closed" . "\n";
 				   
@@ -172,10 +178,27 @@ class UTRSBot {
 				 
 				   echo "Page saved" . "\n\n";
 				 
+			   } elseif ($row === FALSE) {
+				   $this->botError("Appeal number not found for " . $id);
 			   } else {
 				   echo "Appeal is still open, moving on..." . "\n\n";
 			   }
 		   }
 	   }
+   }
+   
+   private function botError($error) {
+		echo "ERROR - Exception thrown!\n";
+		echo $error . "\n";
+		echo "Script incomplete.\n";
+		
+		$body = "O Great Creators,\n\n";
+		$body .= "The on-wiki UTRSBot has encountered an error. The error message received was:\n";
+		$body .= $error . "\n";
+		$body .= "Please check the database to resolve this issue and ensure that private data is removed on schedule.\n\n";
+		$body .= "Thanks,\nUTRS";
+		$subject = "URGENT: Private data removal failed";
+		
+		mail('utrs-developers@googlegroups.com', $subject, $body);
    }
 }

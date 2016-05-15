@@ -168,8 +168,7 @@ class UTRSBot {
 				   $text = str_replace($matches[0], $new_template, $text);
 				   
 				   //Edit Page
-				   echo $text . "\n";
-				   //$page->edit($text);\
+				   $page->edit($text);
 				 
 				   echo "Page saved" . "\n\n";
 				 

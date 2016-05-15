@@ -105,9 +105,7 @@ class UTRSBot {
    }
    
    public function closeUserTemplate() {
-	   
-		require_once(dirname(__FILE__) . '../../src/config.inc.php');
-	   
+	   	   
 	   $result = $this->objPeachy->apiQuery(array(
 	   		"action"	=> "query",
 			"list"		=> "categorymembers",
@@ -139,9 +137,7 @@ class UTRSBot {
 			   echo "Open UTRS Unblock template found" . "\n";
 			   
 			   //Find out if ticket is still open
-			   global $config;
-			   $db = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-			   //$db = connectToDB();
+			   $db = connectToDB();
 			   
 			   //SQL injection protection
 			   $id = is_numeric($matches[1]) ? $matches[1] : 0;

@@ -197,7 +197,7 @@ class UTRSBot {
 		$body .= $error . "\n";
 		$body .= "Please check the database to resolve this issue and ensure that private data is removed on schedule.\n\n";
 		$body .= "Thanks,\nUTRS";
-		$subject = "URGENT: Private data removal failed";
+		$subject = "URGENT: UTRSBot failure";
 		
 		mail('utrs-developers@googlegroups.com', $subject, $body);
    }

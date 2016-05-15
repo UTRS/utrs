@@ -161,8 +161,8 @@ class UTRSBot {
 				   
 				   //Create new template 
 				   $new_template = "{{UTRS-unblock-user|" . $matches[1] . "|" . $matches[2] . "|closed}}";
-				   echo "Old template: " . $matches[0];
-				   echo "New template: " . $new_template;
+				   echo "Old template: " . $matches[0] . "\n";
+				   echo "New template: " . $new_template . "\n";
 				   
 				   //Replace template
 				   str_replace($matches[0], $new_template, $text);

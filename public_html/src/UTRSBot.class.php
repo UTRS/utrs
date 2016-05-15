@@ -165,10 +165,10 @@ class UTRSBot {
 				   echo "New template: " . $new_template . "\n";
 				   
 				   //Replace template
-				   str_replace($matches[0], $new_template, $text);
+				   $text = str_replace($matches[0], $new_template, $text);
 				   
 				   //Edit Page
-				   //echo $text . "\n";
+				   echo $text . "\n";
 				   //$page->edit($text);\
 				 
 				   echo "Page saved" . "\n\n";

@@ -23,7 +23,7 @@ class SystemMessages {
 			),
 			"ReviewResponse" => array (
 					"en" => "Review response by clicking here",
-					"pt" => "Revisar resposta  clicando aqui" 
+					"pt" => "Revisar resposta clicando aqui" 
 			),
 			"EmailSubject" => array (
 					"en" => "Response to unblock appeal #",
@@ -114,6 +114,7 @@ class SystemMessages {
 			),
 			"NotifiedWMF" => array(
 					"en" =>	"Emailed Wikimedia Foundation staff at ca@wikimedia.org",
+					"pt" => ""
 			)			
 	);
 	public static $error = array (

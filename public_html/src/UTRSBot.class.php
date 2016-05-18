@@ -105,6 +105,8 @@ class UTRSBot {
    }
    
    public function closeUserTemplate() {
+	   
+	   $this->objPeachy->set_runpage("User:UTRSBot/closeAppeals");
 	   	   
 	   $result = $this->objPeachy->apiQuery(array(
 	   		"action"	=> "query",
@@ -174,7 +176,7 @@ class UTRSBot {
 				   $text = str_replace($matches[0], $new_template, $text);
 				   
 				   //Edit Page
-				   $page->edit($text);
+				   $page->edit($text, "This appeal is now closed", false, true);
 				 
 				   echo "Page saved" . "\n\n";
 				 

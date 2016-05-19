@@ -5,6 +5,7 @@
 
 require_once('unblocklib.php');
 require_once('exceptions.php');
+require_once('appealObject.php');
 
 echo "Starting to clear out private data from closed appeals.\n";
 

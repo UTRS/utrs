@@ -871,7 +871,7 @@ class Appeal extends Model {
 						"This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.";
 						
 		//SUBJECT
-		$subject = "WMF Assistance requested on unblock appeal #" . $appeal->getID();
+		$subject = "WMF Assistance requested on unblock appeal #" . $this->getID();
 		
 		//MAIL
 		mail($email, $subject, $body, $headers);

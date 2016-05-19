@@ -69,6 +69,12 @@ try{
 		echo "Starting to remove private data...\n";
 
 		foreach ($results as $appeal) {
+			if ($appeal['status'] == Appeal::$STATUS_INVALID) {
+				$invalid = TRUE;
+			}
+			else {
+				$invalid = FALSE;
+			}
 			echo "Processing appeal #" . $appeal['appealID'] . "\n";
 
 			echo "\tObscuring IP address and blanking email address...\n";
@@ -90,7 +96,7 @@ try{
 				$error = var_export($delete_cudata_stmt->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
-
+			if (!$invalid) {
                         echo "\tClosing appeal...\n";
                         $close = $close_unverify_stmt->execute(array(
                                 ':appealID'     => $appeal['appealID']));
@@ -99,6 +105,7 @@ try{
                                 $error = var_export($close_unverify_stmt->errorInfo(), true);
                                 throw new UTRSDatabaseException($error);
                         }
+			}
 
 			echo "Appeal #" . $appeal['appealID'] . " complete.\n";
 		}

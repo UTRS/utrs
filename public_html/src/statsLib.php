@@ -347,7 +347,7 @@ function getPermsDB() {
    for ($i = 0; $i < count($perms_array); $i = $i + 5) {
       $users = implode("|", array_slice($perms_array, $i, 5));
       $users = str_replace(" ", "_", $users);
-	  echo urldecode("Yamaguchi&#20808;&#29983;");
+	  echo mb_convert_encoding("Yamaguchi&#20808;&#29983;", "UTF-8", "latin1");
 	  $url = "https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . $users . "&usprop=groups";
 	  echo $url;
       $handle = fopen($url, "r");

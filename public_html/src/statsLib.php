@@ -363,7 +363,7 @@ function getPermsDB() {
 function checkWikiPerms($UTRSUserName, $wikiPermission) {
    global $wikiPerms;
    
-   $username = htmlspecialchars_decode("Yamaguchi&#20808;&#29983;");
+   $username = html_entity_decode("Yamaguchi&#20808;&#29983;");
    echo $username . "|" . urlencode($username);
    foreach ($wikiPerms["query"]["users"] as $user) {
       if ($user['name'] == ucfirst($UTRSUserName)) {

@@ -162,6 +162,20 @@ var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" cl
 var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
+function sizeAudit(item,max) {
+		var size = document.getElementById(item).textContent.length;
+		if(size<max){
+			document.getElementById(item).style.border = \"thin solid #FF0000\";
+			document.getElementById(\"size\"+item).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";
+			document.getElementById(\"size\"+item).style.color = \"#FF0000\";
+		}
+		else {
+			document.getElementById(item).style.border = \"none none #FF0000\";
+			document.getElementById(\"size\"+item).innerHTML = \"\";
+			document.getElementById(\"size\"+item).style.color = \"#FFFFFF\";
+		}
+}
+
 function hasAccount(){
    var span = document.getElementById(\"variableQuestionSection\");
    span.innerHTML = accountNameInput + \"\\n\" + autoBlockInput;
@@ -220,13 +234,17 @@ echo '<label id="registeredLabel" for="registered" class="required">Do you have 
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
-echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
+echo '<textarea id="appeal" onkeyup="sizeAudit(\'appeal\',4096)" onpaste="sizeAudit(\'appeal\',4096)" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
+echo '<p id="sizeAppeal" />';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
-echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
+echo '<textarea id="edits" onkeyup="sizeAudit(\'edits\',1024)" onpaste="sizeAudit(\'edits\',1024)" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
+echo '<p id="sizeEdits" />';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
-echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
+echo '<textarea id="block" onkeyup="sizeAudit(\'block\',1024)" onpaste="sizeAudit(\'block\',1024)" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
+echo '<p id="sizeBlock" />';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
-echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<textarea id="otherInfo" onkeyup="sizeAudit(\'appeal\',2048)" onpaste="sizeAudit(\'other\',2048)" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<p id="sizeOther" />';
 
 if (isset($privatekey)) {
    echo '<span class="overridePre">';

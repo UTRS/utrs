@@ -24,7 +24,7 @@ try{
                 " AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
     // appeals that have been marked invalid by a developer
     $invalidAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE " .
-        		"comment = 'Invalid'";
+        		"status = 'Invalid'";
 
 	// grab appeals and IPs
 	$query = "SELECT appealID, ip, email, status FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .

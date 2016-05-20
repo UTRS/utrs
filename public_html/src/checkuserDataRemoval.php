@@ -5,8 +5,9 @@
 
 require_once('unblocklib.php');
 require_once('exceptions.php');
-require_once(__DIR__ . "/../includes/Peachy/Init.php");
-require_once(__DIR__ . "/../src/appealObject.php");
+chdir('../');
+require_once(getcwd() . "/includes/Peachy/Init.php");
+require_once(getcwd() . "/src/appealObject.php");
 
 echo "Starting to clear out private data from closed appeals.\n";
 
@@ -22,11 +23,11 @@ try{
     $unverifiedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE status = 'Unverified' " .
                 " AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
     // appeals that have been marked invalid by a developer
-    $invalidAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
+    $invalidAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE " .
         		"comment = 'Invalid'";
 
 	// grab appeals and IPs
-	$query = "SELECT appealID, ip, email FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
+	$query = "SELECT appealID, ip, email, status FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
 			        " OR appealID = ANY (" . $unverifiedAppealsSubquery . ")" .
 			        "OR appealID = ANY (" . $invalidAppealsSubquery . "))" .	
                                 " AND email IS NOT NULL" .

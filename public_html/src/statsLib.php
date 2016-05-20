@@ -348,6 +348,7 @@ function getPermsDB() {
       $users = implode("|", array_slice($perms_array, $i, 5));
       $users = urldecode(str_replace(" ", "_", $users));
 	  $url = "https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . $users . "&usprop=groups";
+	  echo $url;
       $handle = fopen($url, "r");
       $read = fread($handle, "4096");
       $Perms = unserialize($read);
@@ -361,7 +362,7 @@ function getPermsDB() {
 
 function checkWikiPerms($UTRSUserName, $wikiPermission) {
    global $wikiPerms;
-   
+   print_r($wikiPerms);
    foreach ($wikiPerms["query"]["users"] as $user) {
       if ($user['name'] == ucfirst($UTRSUserName)) {
          if (isset($user['groups']) && is_array($user['groups']) && in_array($wikiPermission, $user['groups'])) {

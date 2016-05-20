@@ -337,14 +337,19 @@ function getPermsDB() {
    $users = "";
    
    $result = queryUsers(array("active" => 1));
+   
    while (($data = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
       $users .= urlencode($data['wikiAccount']) . "|";
    }
+   
    $perms_array = explode("|", $users);
+   
    for ($i = 0; $i < count($perms_array); $i = $i + 5) {
       $users = implode("|", array_slice($perms_array, $i, 5));
-      //$users = str_replace(" ", "_", $users);
-      $handle = fopen("https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . urlencode($users) . "&usprop=groups", "r");
+      $users = str_replace(" ", "_", $users);
+	  $url = "https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . $users . "&usprop=groups";
+	  echo $url;
+      $handle = fopen($url, "r");
       $read = fread($handle, "4096");
       $Perms = unserialize($read);
       if (is_array($wikiPerms)) {

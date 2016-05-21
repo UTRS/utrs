@@ -450,10 +450,7 @@ function convHTML2UTF16($text) {
 			echo $matches[0][$i][0];
 			$text = str_replace($matches[0][$i][0], json_decode("\u" . dechex($matches[1][$i][0])), $text);
 		}
-		
-		$test = \u123;
-		
-		
+				
 		return $text;		
 }
 

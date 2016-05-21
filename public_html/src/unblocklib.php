@@ -450,6 +450,7 @@ function convHTML2UTF16($text) {
 			$text = str_replace($matches[0][$i][0], "\u" . dechex($matches[1][$i][0]), $text);
 		}
 		
+		return $text;		
 }
 
 

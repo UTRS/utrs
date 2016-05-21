@@ -162,25 +162,6 @@ var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" cl
 var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
-function sizeAudit(item,max) {
-		var name=\"\";
-		if (item==\"appeal\") {name=\"sizeAppeal\";}
-		if (item==\"edits\") {name=\"sizeEdits\";}
-		if (item==\"block\") {name=\"sizeBlock\";}
-		if (item==\"other\") {name=\"sizeOther\";}
-		var size = document.getElementById(item).value.length;
-		if(size>max){
-			document.getElementById(item).style.border = \"thin solid #FF0000\";
-			document.getElementById(name).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";
-			document.getElementById(name).style.color = \"#FF0000\";
-		}
-		else {
-			document.getElementById(item).style.border = \"none none #FF0000\";
-			document.getElementById(name).innerHTML = \"\";
-			document.getElementById(name).style.color = \"#FFFFFF\";
-		}
-}
-
 function hasAccount(){
    var span = document.getElementById(\"variableQuestionSection\");
    span.innerHTML = accountNameInput + \"\\n\" + autoBlockInput;
@@ -287,6 +268,26 @@ echo '</form>';
 
 <p>Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace "your reason here" with your appeal.</p>
 </div></center>
+<script type="text/javascript">
+function sizeAudit(item,max) {
+	var name=\"\";
+	if (item==\"appeal\") {name=\"sizeAppeal\";}
+	if (item==\"edits\") {name=\"sizeEdits\";}
+	if (item==\"block\") {name=\"sizeBlock\";}
+	if (item==\"other\") {name=\"sizeOther\";}
+	var size = document.getElementById(item).value.length;
+	if(size>max){
+		document.getElementById(item).style.border = \"thin solid #FF0000\";
+		document.getElementById(name).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";
+		document.getElementById(name).style.color = \"#FF0000\";
+	}
+	else {
+		document.getElementById(item).style.border = \"none none #FF0000\";
+		document.getElementById(name).innerHTML = \"\";
+		document.getElementById(name).style.color = \"#FFFFFF\";
+	}
+}
+</script>
 <?php 
 
 skinFooter();

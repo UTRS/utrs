@@ -439,4 +439,18 @@ function getVersion() {
 	return exec("git describe --tags --abbrev=0")." ".exec("git branch |grep \"*\"|tail -c +3")."@<a href='https://github.com/UTRS/utrs/commit/".exec("git rev-parse HEAD |head -c 7")."'>".exec("git rev-parse HEAD |head -c 7")."</a>";
 }
 
+function convHTML2UTF16($text) {
+
+		$pattern = "/\&\#([0-9]{0,5})\;/";
+		//Get specific template
+		$matches = array();
+		$found = preg_match($pattern, $text, $matches);
+		
+		foreach ($matches as $character) {
+			print_r($character);
+		}
+		
+}
+
+
 ?>

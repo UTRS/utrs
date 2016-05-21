@@ -21,12 +21,20 @@ echo "<h2>Tool Users</h2>";
 <tr>
 <td style="width:50%" valign="top">
 <?php
+
 $access=FALSE; 
-if(verifyAccess($GLOBALS['ADMIN'])||verifyAccess($GLOBALS['DEVELOPER'])) {
-$access=TRUE;?>
+
+if (verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['DEVELOPER'])) {
+	$access=TRUE;
+?>
+
 <h3>Unapproved accounts</h3>
 
-<?php echo printUnapprovedAccounts($access); } ?>
+<?php echo printUnapprovedAccounts($access);
+
+}
+
+?>
 
 <h3>Active accounts</h3>
 
@@ -59,7 +67,8 @@ $access=TRUE;?>
 <?php echo printInactiveAccounts($access); ?>
 
 <?php 
-if(verifyAccess($GLOBALS['OVERSIGHT'])) {?>
+if(verifyAccess($GLOBALS['OVERSIGHT'])) {
+?>
 <h3>Oversighted accounts</h3>
 
 <?php 

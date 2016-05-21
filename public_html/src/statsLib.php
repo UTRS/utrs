@@ -339,7 +339,7 @@ function getPermsDB() {
    $result = queryUsers(array("active" => 1));
    
    while (($data = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
-      $users .= convHTML2UTF16($data['wikiAccount']) . "|";
+      $users .= convHTML2UTF16(urldecode($data['wikiAccount'])) . "|";
    }
    
    $perms_array = explode("|", $users);

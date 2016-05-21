@@ -168,7 +168,7 @@ function sizeAudit(item,max) {
 		if (item=\"edits\") {name=\"sizeEdits\";}
 		if (item=\"block\") {name=\"sizeBlock\";}
 		if (item=\"other\") {name=\"sizeOther\";}
-		var size = document.getElementById(item).textContent.length;
+		var size = document.getElementById(item).value.length;
 		if(size<max){
 			document.getElementById(item).style.border = \"thin solid #FF0000\";
 			document.getElementById(name).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";

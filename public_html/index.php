@@ -278,13 +278,15 @@ function sizeAudit(item,max) {
 	var size = document.getElementById(item).value.length;
 	if(size>max){
 		document.getElementById(item).style.border = "thin solid #FF0000";
-		document.getElementById(name).innerHTML = "You have inputed too much content into the text box. Please reduce to "+max+" charecters.";
+		document.getElementById(name).innerHTML = "You have inputed too much content into the above text box. Please reduce to "+max+" charecters.";
 		document.getElementById(name).style.color = "#FF0000";
+		document.getElementById(name).style.background = "#FFFFFF";
 	}
 	else {
 		document.getElementById(item).style.border = "none none #FF0000";
 		document.getElementById(name).innerHTML = "";
 		document.getElementById(name).style.color = "#FFFFFF";
+		document.getElementById(name).style.background = "none";
 	}
 }
 </script>

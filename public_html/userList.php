@@ -11,6 +11,8 @@ require_once('template.php');
 
 $errors = '';
 
+skinHeader();
+
 echo "<h2>Tool Users</h2>";
 
 ?>

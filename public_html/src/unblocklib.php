@@ -448,7 +448,7 @@ function convHTML2UTF16($text) {
 		
 		for ($i = 0; $i < count($matches[0]); $i++) {
 			echo $matches[0][$i][0];
-			$text = str_replace($matches[0][$i][0], mb_convert_encoding($matches[0][$i][0], "UTF-8", "HTML-ENTITIES"), $text);
+			$text = str_replace($matches[0][$i][0], utf8_encode($matches[0][$i][0]), $text);
 		}
 		
 		return $text;		

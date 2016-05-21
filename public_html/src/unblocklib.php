@@ -446,7 +446,9 @@ function convHTML2UTF16($text) {
 		$matches = array();
 		$found = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 		
-		print_r($matches);
+		for ($i = 0; $i < count($matches[0]); $i++) {
+			$text = str_replace($matches[0][$i][0], "\u" . dechex($matches[1][$i][0]), $text);
+		}
 		
 }
 

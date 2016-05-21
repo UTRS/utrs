@@ -163,16 +163,21 @@ var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountNa
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function sizeAudit(item,max) {
+		var name=\"\";
+		if (item=\"appeal\") {name=\"sizeAppeal\";}
+		if (item=\"edits\") {name=\"sizeEdits\";}
+		if (item=\"block\") {name=\"sizeBlock\";}
+		if (item=\"other\") {name=\"sizeOther\";}
 		var size = document.getElementById(item).textContent.length;
 		if(size<max){
 			document.getElementById(item).style.border = \"thin solid #FF0000\";
-			document.getElementById(\"size\"+item).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";
-			document.getElementById(\"size\"+item).style.color = \"#FF0000\";
+			document.getElementById(name).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";
+			document.getElementById(name).style.color = \"#FF0000\";
 		}
 		else {
 			document.getElementById(item).style.border = \"none none #FF0000\";
-			document.getElementById(\"size\"+item).innerHTML = \"\";
-			document.getElementById(\"size\"+item).style.color = \"#FFFFFF\";
+			document.getElementById(name).innerHTML = \"\";
+			document.getElementById(name).style.color = \"#FFFFFF\";
 		}
 }
 

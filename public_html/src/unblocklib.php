@@ -444,7 +444,7 @@ function convHTML2UTF16($text) {
 		$pattern = "/\&\#([0-9]{0,5})\;/";
 		//Get specific template
 		$matches = array();
-		$found = preg_match($pattern, $text, $matches);
+		$found = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 		
 		print_r($matches);
 		

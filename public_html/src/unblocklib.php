@@ -446,9 +446,7 @@ function convHTML2UTF16($text) {
 		$matches = array();
 		$found = preg_match($pattern, $text, $matches);
 		
-		foreach ($matches as $character) {
-			print_r($character);
-		}
+		print_r($matches);
 		
 }
 

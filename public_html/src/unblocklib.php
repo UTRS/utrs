@@ -448,8 +448,11 @@ function convHTML2UTF16($text) {
 		
 		for ($i = 0; $i < count($matches[0]); $i++) {
 			echo $matches[0][$i][0];
-			$text = str_replace($matches[0][$i][0], utf8_encode($matches[0][$i][0]), $text);
+			$text = str_replace($matches[0][$i][0], json_decode("\u" . dechex($matches[1][$i][0])), $text);
 		}
+		
+		$test = \u123;
+		
 		
 		return $text;		
 }

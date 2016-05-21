@@ -63,7 +63,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 function printAppealList(array $criteria = array(), $limit = "", $orderby = "", $timestamp = 0) {
    
    $currentUser = getCurrentUser();
-   $secure = $currentUser->getUseSecure();
+   $secure = TRUE; //Setting up for eventual full migration to https 
    
    // get rows from DB. Throws UTRSDatabaseException
    $query = queryAppeals($criteria, $limit, $orderby, $timestamp);

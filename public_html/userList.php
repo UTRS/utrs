@@ -22,7 +22,7 @@ echo "<h2>Tool Users</h2>";
 <td style="width:50%" valign="top">
 <?php
 $access=FALSE; 
-if(verifyAccess($GLOBALS['ADMIN'])) {
+if(verifyAccess($GLOBALS['ADMIN'])||verifyAccess($GLOBALS['DEVELOPER'])) {
 $access=TRUE;?>
 <h3>Unapproved accounts</h3>
 

@@ -270,21 +270,21 @@ echo '</form>';
 </div></center>
 <script type="text/javascript">
 function sizeAudit(item,max) {
-	var name=\"\";
-	if (item==\"appeal\") {name=\"sizeAppeal\";}
-	if (item==\"edits\") {name=\"sizeEdits\";}
-	if (item==\"block\") {name=\"sizeBlock\";}
-	if (item==\"other\") {name=\"sizeOther\";}
+	var name="";
+	if (item=="appeal") {name="sizeAppeal";}
+	if (item=="edits") {name="sizeEdits";}
+	if (item=="block") {name="sizeBlock";}
+	if (item=="other") {name="sizeOther";}
 	var size = document.getElementById(item).value.length;
 	if(size>max){
-		document.getElementById(item).style.border = \"thin solid #FF0000\";
-		document.getElementById(name).innerHTML = \"You have inputed too much content into the text box. Please reduce to \"+max+\" charecters.\";
-		document.getElementById(name).style.color = \"#FF0000\";
+		document.getElementById(item).style.border = "thin solid #FF0000";
+		document.getElementById(name).innerHTML = "You have inputed too much content into the text box. Please reduce to "+max+" charecters.";
+		document.getElementById(name).style.color = "#FF0000";
 	}
 	else {
-		document.getElementById(item).style.border = \"none none #FF0000\";
-		document.getElementById(name).innerHTML = \"\";
-		document.getElementById(name).style.color = \"#FFFFFF\";
+		document.getElementById(item).style.border = "none none #FF0000";
+		document.getElementById(name).innerHTML = "";
+		document.getElementById(name).style.color = "#FFFFFF";
 	}
 }
 </script>

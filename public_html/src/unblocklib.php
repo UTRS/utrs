@@ -446,8 +446,8 @@ function convHTML2UTF16($text) {
 		$matches = array();
 		$found = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 		
+		//Don't even fucking asks how or why this works or how the fuck I came up with it.  Just leave it be.
 		for ($i = 0; $i < count($matches[0]); $i++) {
-			echo $matches[0][$i][0];
 			$text = str_replace($matches[0][$i][0], utf8_encode(json_decode("\"\u" . dechex($matches[1][$i][0]) . "\"")), $text);
 		}
 				

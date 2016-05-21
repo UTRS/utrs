@@ -229,7 +229,7 @@ echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you th
 echo '<textarea id="block" onblur="sizeAudit(\'block\',1024)" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
 echo '<p id="sizeBlock"></p>';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
-echo '<textarea id="otherInfo" onblur="sizeAudit(\'other\',2048)" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<textarea id="other" onblur="sizeAudit(\'other\',2048)" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
 echo '<p id="sizeOther"></p>';
 
 if (isset($privatekey)) {

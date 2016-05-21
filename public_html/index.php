@@ -164,10 +164,10 @@ var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function sizeAudit(item,max) {
 		var name=\"\";
-		if (item=\"appeal\") {name=\"sizeAppeal\";}
-		if (item=\"edits\") {name=\"sizeEdits\";}
-		if (item=\"block\") {name=\"sizeBlock\";}
-		if (item=\"other\") {name=\"sizeOther\";}
+		if (item==\"appeal\") {name=\"sizeAppeal\";}
+		if (item==\"edits\") {name=\"sizeEdits\";}
+		if (item==\"block\") {name=\"sizeBlock\";}
+		if (item==\"other\") {name=\"sizeOther\";}
 		var size = document.getElementById(item).value.length;
 		if(size<max){
 			document.getElementById(item).style.border = \"thin solid #FF0000\";

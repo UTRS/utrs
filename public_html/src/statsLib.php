@@ -337,14 +337,18 @@ function getPermsDB() {
    $users = "";
    
    $result = queryUsers(array("active" => 1));
+   
    while (($data = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
-      $users .= urlencode($data['wikiAccount']) . "|";
+      $users .= mb_convert_encoding(convHTML2UTF16($data['wikiAccount']), "latin1") . "|";
    }
+   
    $perms_array = explode("|", $users);
+   
    for ($i = 0; $i < count($perms_array); $i = $i + 5) {
       $users = implode("|", array_slice($perms_array, $i, 5));
-      //$users = str_replace(" ", "_", $users);
-      $handle = fopen("https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . urlencode($users) . "&usprop=groups", "r");
+      $users = str_replace(" ", "_", $users);
+	  $url = "https://en.wikipedia.org/w/api.php?action=query&format=php&list=users&ususers=" . $users . "&usprop=groups";
+      $handle = fopen($url, "r");
       $read = fread($handle, "4096");
       $Perms = unserialize($read);
       if (is_array($wikiPerms)) {
@@ -358,8 +362,8 @@ function getPermsDB() {
 function checkWikiPerms($UTRSUserName, $wikiPermission) {
    global $wikiPerms;
    foreach ($wikiPerms["query"]["users"] as $user) {
-      if ($user['name'] == ucfirst($UTRSUserName)) {
-         if (in_array($wikiPermission, $user['groups'])) {
+      if ($user['name'] == ucfirst(mb_convert_encoding(convHTML2UTF16($UTRSUserName), "latin1"))) {
+         if (isset($user['groups']) && is_array($user['groups']) && in_array($wikiPermission, $user['groups'])) {
             return true;
          } else {
             return false;

@@ -373,7 +373,7 @@ function checkWikiPerms($UTRSUserName, $wikiPermission) {
    }
 }
 
-function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
+function printUserList(array $criteria = array(), $limit = "", $orderBy = "", $access = FALSE){
    $currentUser = getCurrentUser();
    $secure = TRUE;
    
@@ -392,7 +392,9 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
                
       $list .= "\t<tr>\n";
       $list .= "\t\t<td>" . $userId . ".</td>\n";
+      if ($access) {
       $list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
+      }
       $list .= "\t\t<td>" . $username . "</td>\n";
       $list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("User:" . $wikiAccount, $secure) . "' target='_NEW'>" . $wikiAccount . "</a></td>\n";
       if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
@@ -416,40 +418,40 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
    return $list . "</table>";
 }
 
-function printUnapprovedAccounts(){
-   return printUserList(array("approved" => "0", " AND oversight" => "0"), "", "registered ASC");   
+function printUnapprovedAccounts($access){
+   return printUserList(array("approved" => "0", " AND oversight" => "0"), "", "registered ASC", $access);   
 }
 
-function printInactiveAccounts(){
-   return printUserList(array("approved" => "1", " AND active" => "0", " AND oversight" => "0"), "", "username ASC"); 
+function printInactiveAccounts($access){
+   return printUserList(array("approved" => "1", " AND active" => "0", " AND oversight" => "0"), "", "username ASC", $access); 
 }
 
-function printWMFAccounts(){
-	return printUserList(array("wmf" => "1", " AND active" => "1"), "", "username ASC");
+function printWMFAccounts($access){
+	return printUserList(array("wmf" => "1", " AND active" => "1"), "", "username ASC", $access);
 }
 
-function printOversighterAccounts(){
-	return printUserList(array("oversighter" => "1", " AND active" => "1"), "", "username ASC");
+function printOversighterAccounts($access){
+	return printUserList(array("oversighter" => "1", " AND active" => "1"), "", "username ASC", $access);
 }
 
-function printOversightedAccounts(){
-	return printUserList(array("approved" => "0", " AND active" => "0", " AND oversight" => "1"), "", "username ASC");
+function printOversightedAccounts($access){
+	return printUserList(array("approved" => "0", " AND active" => "0", " AND oversight" => "1"), "", "username ASC", $access);
 }
 
-function printActiveAccounts(){
-   return printUserList(array("approved" => "1", " AND active" => "1", " AND toolAdmin" =>  "0"), "", "username ASC");  
+function printActiveAccounts($access){
+   return printUserList(array("approved" => "1", " AND active" => "1", " AND toolAdmin" =>  "0"), "", "username ASC", $access);  
 }
 
-function printAdmins(){
-   return printUserList(array("toolAdmin" => "1", " AND active" => "1"), "", "username ASC");   
+function printAdmins($access){
+   return printUserList(array("toolAdmin" => "1", " AND active" => "1"), "", "username ASC", $access);   
 }
 
-function printCheckusers(){
-   return printUserList(array("checkuser" => "1", " AND active" => "1"), "", "username ASC");      
+function printCheckusers($access){
+   return printUserList(array("checkuser" => "1", " AND active" => "1"), "", "username ASC", $access);      
 }
 
-function printDevelopers(){
-   return printUserList(array("developer" => "1"), "", "username ASC");    
+function printDevelopers($access){
+   return printUserList(array("developer" => "1"), "", "username ASC", $access);    
 }
 
 function getNumberAppealsClosedByUser($userId){

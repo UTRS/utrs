@@ -143,7 +143,7 @@ function printRecentClosed() {
    $db = connectToDB();
    
    $currentUser = getCurrentUser();
-   $secure = $currentUser->getUseSecure();
+   $secure = TRUE;
    
    /*
    $query = "SELECT a.appealID, a.wikiAccountName, a.ip, l.timestamp";
@@ -194,7 +194,7 @@ function printBacklog() {
    $db = connectToDB();
    
    $currentUser = getCurrentUser();
-   $secure = $currentUser->getUseSecure();
+   $secure = TRUE;
    
    /*
    $query = "SELECT DISTINCT a.appealID, a.wikiAccountName, a.ip, DateDiff(Now(), cc.last_action) as since_last_action";
@@ -375,7 +375,7 @@ function checkWikiPerms($UTRSUserName, $wikiPermission) {
 
 function printUserList(array $criteria = array(), $limit = "", $orderBy = ""){
    $currentUser = getCurrentUser();
-   $secure = $currentUser->getUseSecure();
+   $secure = TRUE;
    
    $result = queryUsers($criteria, $limit, $orderBy);
    

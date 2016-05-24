@@ -271,10 +271,17 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				
 				//Notify the blocking admin, if asked for
 				if ($_GET['value'] == "adminhold") {
+					//Set up UTRSBot
 					$bot = new UTRSBot();
+					//Get current timestamp
 					$time = date('M d, Y H:i:s', time());
+					//Grab & sanitize admin message
 					$adminmessage = (isset($_GET['adminmessage'])) ? sanitizeText($_GET['adminmessage']) : 'None specified';
+					//Log admin message
+					$log->addNewItem($adminmessage);
+					//Post admin message on wiki
 				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));	
+					//Log that the admin was notified on-wiki
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
 				} elseif ($_GET['value'] == "wmfhold") {
 					$appeal->sendWMF();
@@ -365,6 +372,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				break;
     case "new":
 			if (
+				//already here, don't do it again @TParis *caugh*
+				$appeal->getStatus() != Appeal::$STATUS_NEW &&
 				//admin
 				verifyAccess($GLOBALS['ADMIN']) &&
 				//When assigned

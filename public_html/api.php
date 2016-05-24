@@ -40,7 +40,7 @@ if (!isset($params['action'])){
 class Api{
 	static function displayHelp(){
 		//TODO: write this out.
-		echo("You have tried to call the UTRS api with bad parameters");
+		echo SystemMessages::$error['BadParamAPI'][$lang];
 	}
 
 	static function writeError($text) {
@@ -51,7 +51,7 @@ class Api{
 		if (!$user || !pass){
 			self::displayHelp();
 		} else {
-			throw new UTRSException("API login not yet implemented. The api is only available for logged in users for now");
+			throw new UTRSException(SystemMessages::$error['NoAPILogin'][$lang]);
 		}
 	}
 	

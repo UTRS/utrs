@@ -181,7 +181,16 @@ class SystemMessages {
             "DivertToACC" => array(
                     "en" => "This appeal needs to be deferred to ACC instead of being posted to WP:OPP.",
                     "pt" => ""
+            ),
+            "NoAPILogin" => array(
+                    "en" => "API login not yet implemented. The api is only available for logged in users for now.",
+                    "pt" => ""
+            ),
+            "BadParamAPI" => array(
+                    "en" => "You have tried to call the UTRS api with bad parameters",
+                    "pt" => ""
             )
+			
 	);
 	public static $tos = array (
 			"Welcome" => array (

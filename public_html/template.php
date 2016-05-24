@@ -286,6 +286,9 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
       <a href="<?php echo getRootURL() . 'userMgmt.php'; ?>">Tool Administration</a>
    </li>
    <?php } ?>
+   <li id="listUser">
+      <a href="<?php echo getRootURL() . 'userList.php'; ?>">Userlist</a>
+   </li>
    <li id="search">
       <a href="<?php echo getRootURL() . 'search.php'; ?>">Search</a>
    </li>
@@ -297,7 +300,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    </li>
    <?php #This is static for a reason, please leave it as so. ?>
    <li id="jobs">
-      <a href="https://utrs.wmflabs.org/team.php">Positions & Developers</a>
+      <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
    </li>
    <li id="logout">
       <a href="<?php echo getRootURL() . 'logout.php'; ?>">Logout</a>
@@ -318,9 +321,12 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>
+   <li id="listUser">
+      <a href="<?php echo getRootURL() . 'userList.php'; ?>">UTRS Userlist</a>
+   </li>
    <?php #This is static for a reason, please leave it as so. ?>
    <li id="jobs">
-      <a href="https://utrs.wmflabs.org/team.php">Positions & Developers</a>
+      <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
    </li>
    <?php
  } ?>

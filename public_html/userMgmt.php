@@ -320,43 +320,43 @@ if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
 <td style="width:50%" valign="top">
 <h3>Unapproved accounts</h3>
 
-<?php echo printUnapprovedAccounts(); ?>
+<?php echo printUnapprovedAccounts(TRUE); ?>
 
 <h3>Active accounts</h3>
 
-<?php echo printActiveAccounts(); ?>
+<?php echo printActiveAccounts(TRUE); ?>
 
 <h3>Developers</h3>
 
-<?php echo printDevelopers(); ?>
+<?php echo printDevelopers(TRUE); ?>
 
 </td>
 <td style="width:50%" valign="top">
 <h3>Tool administrators</h3>
 
-<?php echo printAdmins(); ?>
+<?php echo printAdmins(TRUE); ?>
 
 <h3>Checkusers</h3>
 
-<?php echo printCheckusers(); ?>
+<?php echo printCheckusers(TRUE); ?>
 
 <h3>WMF Staff</h3>
 
-<?php echo printWMFAccounts(); ?>
+<?php echo printWMFAccounts(TRUE); ?>
 
 <h3>Oversighters</h3>
 
-<?php echo printOversighterAccounts(); ?>
+<?php echo printOversighterAccounts(TRUE); ?>
 
 <h3>Inactive accounts</h3>
 
-<?php echo printInactiveAccounts(); ?>
+<?php echo printInactiveAccounts(TRUE); ?>
 
 <h3>Oversighted accounts</h3>
 
 <?php 
 if(verifyAccess($GLOBALS['OVERSIGHT'])) {
-	echo printOversightedAccounts();
+	echo printOversightedAccounts(TRUE);
 }
  ?>
 

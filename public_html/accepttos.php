@@ -38,16 +38,18 @@ echo SystemMessages::$tos['NewTerms'][$lang]."<br /><br />";
 echo SystemMessages::$tos['ReviewToAccept'][$lang];
 ?>
 <ul>
-<li><a href="admin_privacy.php" target="_new"><?php echo SystemMessages::$tos['UTRSuserprivpol'][$lang]?></a>
-<li><a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new"><?php echo SystemMessages::$tos['WMFLabsToS'][$lang]?></a>
+<li><a href="admin_privacy.php" target="_new"><?php echo SystemMessages::$tos['UTRSuserprivpol'][$lang];?></a>
+<li><a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new"><?php echo SystemMessages::$tos['WMFLabsToS'][$lang];?></a>
 </ul>
 
-<p><b><?php echo SystemMessages::$tos['LabsGeneralWarn'][$lang]?></b>
-<?php echo SystemMessages::$tos['LabsDisclaimer'][$lang]?>
+<p><b><?php echo SystemMessages::$tos['LabsGeneralWarn'][$lang];?></b>
+<?php echo SystemMessages::$tos['LabsDisclaimer'][$lang];?>
 
-<?php echo SystemMessages::$tos['ToSAgree'][$lang]?>
+<?php if($lang != "en") {echo SystemMessages::$tos['Clarity'][$lang];}?>
+
+<?php echo SystemMessages::$tos['ToSAgree'][$lang];?>
 <form action="accepttos.php" method="post">
-<input type="checkbox" name="acceptToS" /><?php echo SystemMessages::$tos['IAccept'][$lang]?>
+<input type="checkbox" name="acceptToS" /><?php echo SystemMessages::$tos['IAccept'][$lang];?>
 <input type="submit" value="Submit" />
 </form>
 

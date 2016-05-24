@@ -14,7 +14,7 @@ skinHeader();
 <p><?php echo SystemMessages::$privpol_admin['StepsForPrivacyAdmin'][$lang];?></p>
 
 <h4><?php echo SystemMessages::$privpol_admin['WikimediaLabsDisclaimerTitle'][$lang];?></h4>
-<?php echo SystemMessages::$privpol_admin['WikimediaLabsDisclaimerTitle'][$lang];?>
+<?php echo SystemMessages::$privpol_admin['WikimediaLabsDisclaimer'][$lang];?>
 
 
 <h4><?php echo SystemMessages::$privpol_admin['WhatCollectTitle'][$lang];?></h4>

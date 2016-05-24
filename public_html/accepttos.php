@@ -10,8 +10,9 @@ require_once('src/appealObject.php');
 require_once('src/statsLib.php');
 require_once('src/hooks.php');
 require_once('template.php');
+require_once('src/messages.php');
 
-
+$lang = "en"; //for now
 // make sure user is logged in, if not, kick them out
 verifyLogin('home.php');
 
@@ -23,34 +24,30 @@ $errorMessages = '';
 skinHeader();
 
 //Welcome message
-echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
+echo '<p>'.SystemMessages::$tos['Welcome'][$lang].', ' . $_SESSION['user'] . '.</p>';
 
 if (isset($_POST['acceptToS'])) {
 	
 	getCurrentUser()->setAcceptToS();
 	
-	echo "Thank you, your account has been updated.  Click <a href=\"home.php\">here</a> to go to the homepage.";
+	echo SystemMessages::$tos['TOSAccept'][$lang];
 	
 } else {
+
+echo SystemMessages::$tos['NewTerms'][$lang]."<br /><br />";
+echo SystemMessages::$tos['ReviewToAccept'][$lang];
 ?>
-With the development of UTRS, this project occasionally requires a modified terms of service than when you initially registered.  To continue to participate in this
-system, for which your time is greatly appreciated, we require you to first accept these new terms.<br />
-<br />
-Please review the following policies and click "I accept" below to continue:
 <ul>
-<li><a href="admin_privacy.php" target="_new">UTRS Member Privacy Policy and Duties</a>
-<li><a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new">Wikimedia Labs terms of service</a>
+<li><a href="admin_privacy.php" target="_new"><?php echo SystemMessages::$tos['UTRSuserprivpol'][$lang]?></a>
+<li><a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new"><?php echo SystemMessages::$tos['WMFLabsToS'][$lang]?></a>
 </ul>
 
-<p><b>Warning: Do not use the Labs Project (this site) if you do not agree to the following: information shared with the Labs Project, including usernames and passwords, will be made available to volunteer administrators and may not be treated confidentially.</b>
-<p>Volunteers may have full access to the systems hosting the projects, allowing them access to any data or other information you submit.
-<p>As a result, use of your real Wikimedia credentials is highly discouraged in wmflabs.org projects. You should use a different password for your account than you would on projects like Wikipedia, Commons, etc.
-<p>By creating an account in this project and/or using other Wikimedia Labs Services, you agree that the volunteer administrators of this project will have access to any data you submit.
-<p>Since access to this information by volunteers is fundamental to the operation of Labs, these terms regarding use of your data expressly override the Wikimedia Foundation's Privacy Policy as it relates to the use and access of your personal information.
+<p><b><?php echo SystemMessages::$tos['LabsGeneralWarn'][$lang]?></b>
+<?php echo SystemMessages::$tos['LabsDisclaimer'][$lang]?>
 
-If you agree check here and click submit:
+<?php echo SystemMessages::$tos['ToSAgree'][$lang]?>
 <form action="accepttos.php" method="post">
-<input type="checkbox" name="acceptToS" />I Accept
+<input type="checkbox" name="acceptToS" /><?php echo SystemMessages::$tos['IAccept'][$lang]?>
 <input type="submit" value="Submit" />
 </form>
 

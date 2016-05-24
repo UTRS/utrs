@@ -57,3 +57,4 @@ EXTENDED CLASSES:
 	- Contains database object
 	- Contains log object
 	- Contains template object
+	- Contains lang object

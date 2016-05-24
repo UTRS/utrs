@@ -1,3 +1,8 @@
+CODEBASES:
+	- Bootstrap
+	- PeachyWiki
+	- oAuth
+
 APPEALS:
 	- Use Peachy to grab block message & date from Wikipedia API
 	- Unblock directly from the UTRS interface
@@ -47,7 +52,7 @@ LOGS:
 	- Template logs
 	- CU/OS logs
 	
-EXTENDED CLASSES
+EXTENDED CLASSES:
 	- UTRS class extends into User & Appeal classes
 	- Contains database object
 	- Contains log object

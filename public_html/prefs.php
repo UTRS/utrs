@@ -9,6 +9,7 @@ require_once('src/exceptions.php');
 require_once('src/appealObject.php');
 require_once('src/statsLib.php');
 require_once('template.php');
+require_once('src/messages.php');
 
 // make sure user is logged in, if not, kick them out
 verifyLogin('prefs.php');

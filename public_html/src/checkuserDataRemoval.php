@@ -8,6 +8,7 @@ require_once('exceptions.php');
 chdir('../');
 require_once(getcwd() . "/includes/Peachy/Init.php");
 require_once(getcwd() . "/src/appealObject.php");
+require_once(getcwd() . "/src/messages.php");
 
 echo "Starting to clear out private data from closed appeals.\n";
 

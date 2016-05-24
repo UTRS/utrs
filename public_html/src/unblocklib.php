@@ -6,6 +6,7 @@ ini_set('session.use_cookies', '1');
 require_once('exceptions.php');
 require_once('userObject.php');
 require_once(dirname(__FILE__) . '/config.inc.php');
+require_once('messages.php');
 
 $GLOBALS['WMF'] = -3;
 $GLOBALS['OVERSIGHT'] = -2;

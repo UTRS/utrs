@@ -2,6 +2,7 @@
 
 require_once("src/unblocklib.php");
 require_once("src/userObject.php");
+require_once('src/messages.php');
 
 verifyLogin('home.php');
 

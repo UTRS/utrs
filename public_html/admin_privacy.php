@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 ini_set('session.use_cookies', '1');
 
+require_once('src/messages.php');
 require_once('template.php');
 
 //Template header()

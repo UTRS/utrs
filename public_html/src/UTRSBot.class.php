@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . "/../includes/Peachy/Init.php");
 require_once(__DIR__ . "/../src/unblocklib.php");
+require_once(__DIR__ . "/../src/messages.php");
 
 class UTRSBot
 {

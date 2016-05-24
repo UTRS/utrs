@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 require_once('exceptions.php');
 require_once('unblocklib.php');
+require_once('messages.php');
 
 class Ban{
 	

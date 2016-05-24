@@ -6,6 +6,7 @@ require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('UTRSBot.class.php');
 require_once("includes/Peachy/Init.php");
+require_once('messages.php');
 
 
 /**

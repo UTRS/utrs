@@ -7,6 +7,7 @@ ini_set('display_errors', 'On');
 require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('userObject.php');
+require_once('messages.php');
 
 class Template{
    private $templateID;

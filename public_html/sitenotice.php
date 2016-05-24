@@ -11,6 +11,7 @@ require_once('src/noticeObject.php');
 require_once('src/statsLib.php');
 require_once('src/logObject.php');
 require_once('template.php');
+require_once('src/messages.php');
 
 verifyLogin('tempMgmt.php');
 

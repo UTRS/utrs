@@ -5,6 +5,7 @@ ini_set('display_errors', 'On');
 ini_set('session.use_cookies', '1');
 
 require_once('template.php');
+require_once('src/messages.php');
 
 //Template header()
 skinHeader();

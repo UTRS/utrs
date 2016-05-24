@@ -9,6 +9,7 @@ require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/appealObject.php');
 require_once('template.php');
+require_once('src/messages.php');
 
 if(loggedIn()){
 	// wrong page, for logged out peeps only

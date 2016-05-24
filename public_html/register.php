@@ -10,6 +10,7 @@ require_once('src/logObject.php');
 require_once('src/appealObject.php');
 require_once('src/banObject.php');
 require_once('template.php');
+require_once('src/messages.php');
 
 $publickey = @$CONFIG['recaptcha']['publickey'];
 $privatekey = @$CONFIG['recaptcha']['privatekey'];

@@ -1,6 +1,7 @@
 <?php
 require_once('src/exceptions.php');
 require_once('src/unblocklib.php');
+require_once('src/messages.php');
 
 $params = array_merge($_GET, $_POST);
 $method = count($_GET) == 0 ? 'Post' : 'Get';

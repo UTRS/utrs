@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 require_once('exceptions.php');
 require_once('unblocklib.php');
+require_once('messages.php');
 
 // TODO: Add static methods to get objects from database by ID and status
 // Can't overload the constructor, so the existing one may need to be modified

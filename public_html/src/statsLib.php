@@ -6,6 +6,7 @@ require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('appealObject.php');
 require_once('userObject.php');
+require_once('messages.php');
 
 /**
  * Get an array containing database rows representing the desired appeals.

@@ -10,6 +10,7 @@ require_once('src/appealObject.php');
 require_once('src/logObject.php');
 require_once('src/emailTemplates.class.php');
 require_once('template.php');
+require_once('src/messages.php');
 
 $errors = '';
 

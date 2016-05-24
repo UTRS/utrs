@@ -23,14 +23,14 @@ if(!isset($_GET['id'])){
    header("Location: " . getRootURL() . "index.php");
 }
 try{
-	if (!is_numeric($GET['id'])){
+	if (is_numeric($GET['id'])) {
    $id = $_GET['id'];
    $appeal = Appeal::getAppealByID($id);
 	}
 	else {
 		throw new UTRSIllegalModificationException("The appeal ID provided is invalid. This incident has been logged.");
 	}
-	if (Appeal::getStatus() == Appeal::$STATUS_NEW) {
+	if ($appeal->getStatus() == Appeal::$STATUS_NEW) {
 		throw new UTRSIllegalModificationException("Your appeal has not yet been claimed by an administrator. If you filed an". 
 				"appeal before May 24th, the text providing you with this link was sent in error.");
 	}

@@ -23,7 +23,7 @@ if(!isset($_GET['id'])){
    header("Location: " . getRootURL() . "index.php");
 }
 try{
-	if (is_numeric($GET['id'])) {
+	if (is_numeric($_GET['id'])) {
    $id = $_GET['id'];
    $appeal = Appeal::getAppealByID($id);
 	}

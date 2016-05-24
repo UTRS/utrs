@@ -28,7 +28,11 @@ try{
    $appeal = Appeal::getAppealByID($id);
 	}
 	else {
-		throw new UTRSIllegalModificationException("The appeal ID provided is invalid. For security reasons, your request has been terminated.");
+		throw new UTRSIllegalModificationException("The appeal ID provided is invalid. This incident has been logged.");
+	}
+	if (Appeal::getStatus() == Appeal::$STATUS_NEW) {
+		throw new UTRSIllegalModificationException("Your appeal has not yet been claimed by an administrator. If you filed an". 
+				"appeal before May 24th, the text providing you with this link was sent in error.");
 	}
    if(!isset($_GET['confirmEmail']) || strcmp($_GET['confirmEmail'], $appeal->getEmail()) !== 0){
       throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .

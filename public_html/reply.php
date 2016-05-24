@@ -23,9 +23,13 @@ if(!isset($_GET['id'])){
    header("Location: " . getRootURL() . "index.php");
 }
 try{
+	if (!is_numeric($GET['id'])){
    $id = $_GET['id'];
    $appeal = Appeal::getAppealByID($id);
-
+	}
+	else {
+		throw new UTRSIllegalModificationException("The appeal ID provided is invalid. For security reasons, your request has been terminated.");
+	}
    if(!isset($_GET['confirmEmail']) || strcmp($_GET['confirmEmail'], $appeal->getEmail()) !== 0){
       throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .
          "This security step assures us that we are still talking to the same person. Thank you.");

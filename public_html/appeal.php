@@ -371,6 +371,8 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 				break;
     case "new":
 			if (
+				//already here, don't do it again @TParis *caugh*
+				$appeal->getStatus() == Appeal::$STATUS_NEW &&
 				//admin
 				verifyAccess($GLOBALS['ADMIN']) &&
 				//When assigned

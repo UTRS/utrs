@@ -5,9 +5,8 @@
 
 require_once('unblocklib.php');
 require_once('exceptions.php');
-chdir('../');
-require_once(getcwd() . "/includes/Peachy/Init.php");
-require_once(getcwd() . "/src/appealObject.php");
+require_once(__DIR__ . "/../includes/Peachy/Init.php");
+require_once(__DIR__ . "/../src/appealObject.php");
 
 echo "Starting to clear out private data from closed appeals.\n";
 

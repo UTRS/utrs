@@ -19,7 +19,7 @@ class SystemMessages {
 			),
 			"AppealReturnEmail" => array (
 					"en" => "Hello {{adminname}}, \n\nThis is a notification that an appeal has been returned to your queue. \n\n<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish\nto review the reply, please click the link below.\n",
-					"pt" => "Olá {{adminname}}, \n\nEstá sendo notificado devido a uma solicitação ter retornado a sua queue. \n\n<b>NÃO responda esse e-mail</b> - Ele é proveniente de um endereço de e-mail automático. Ele é proveniente de um endereço de e-mail automático. Se você deseja  avaliar a resposta, por favor clique no link abaixo.\n" 
+					"pt" => "Olá {{adminname}}, \n\nEstá sendo notificado devido a uma solicitação ter retornado à sua fila. \n\n<b>NÃO responda a esse e-mail</b> - ele é proveniente de um endereço de e-mail automático. Se você deseja\n avaliar a resposta, por favor clique no link abaixo.\n" 
 			),
 			"ReviewResponse" => array (
 					"en" => "Review response by clicking here",
@@ -35,11 +35,11 @@ class SystemMessages {
 			),
 			"ConfirmAdmin" => array (
 					"en" => "Do you really want to send this appeal to the tool admin queue?  Note: You will not be able to perform any other actions except comment until a tool admin can review it.  Please confirm this is really what you want to do.",
-					"pt" => "Você realmente quer enviar este pedido para um administrador do sistema? Nota: Você não será capaz de executar qualquer outra ação, exceto comentários até um administrador do sistema revisa-lo. Por favor, confirme se deseja mesmo realizar essa ação."
+					"pt" => "Você realmente quer enviar este pedido para a fila administrativa da ferramenta? Nota: Você não será capaz de executar qualquer outra ação, exceto comentar até um administrador do sistema revisá-lo. Por favor, confirme se deseja mesmo realizar essa ação."
 			),
 			"ConfirmCU" => array (
 					"en" => "Please confirm you want to send this appeal to the checkuser queue",
-					"pt" => "Por favor confirme que deseja enviar essa solicitação para a checkuser queue"
+					"pt" => "Por favor confirme que deseja enviar essa solicitação para a lista dos checkusers"
 			)
 	);
 	public static $log = array (
@@ -61,7 +61,7 @@ class SystemMessages {
 			),
 			"AppealReturnUsers" => array (
 					"en" => "Appeal reservation returned to tool users.",
-					"pt" => "A reserva de pedidos retornou para as ferramentas de usuário" 
+					"pt" => "A reserva de pedidos retornou para os usuários da ferramenta" 
 			),
 			"StatusAwaitReviewers" => array (
 					"en" => "Status change to AWAITING_REVIEWER",
@@ -110,11 +110,11 @@ class SystemMessages {
 			),
 			"NotifiedAdmin" => array(
 					"en" =>	"Notified Admin",
-					"pt" => "Notificar Adm"
+					"pt" => "Administrador notificado"
 			),
 			"NotifiedWMF" => array(
 					"en" =>	"Emailed Wikimedia Foundation staff at ca@wikimedia.org",
-					"pt" => ""
+					"pt" => "Enviado email para funcionários da Wikimedia Foundation pelo ca@wikimedia.org"
 			)			
 	);
 	public static $error = array (
@@ -132,23 +132,23 @@ class SystemMessages {
 			),
 			"FailReturnOldUser" => array (
 					"en" => "Cannot return appeal to old handling tool user",
-					"pt" => "Não foi possível retornar o pedido ao usuário anterior" 
+					"pt" => "Não foi possível retornar o pedido ao seu gestor anterior" 
 			), 
 			"FailAwaitUser" => array (
 					"en" => "Cannot return appeal to old handling tool user",
-					"pt" => "Não foi possível retornar o pedido ao usuário anterior"
+					"pt" => "Não foi possível retornar o pedido ao seu gestor anterior"
 			),
 			"FailOnHold" => array (
 					"en" => "Cannot assign STATUS_ON_HOLD status",
-					"pt" => "Não foi possível manter o estado STATUS_ON_HOLD"
+					"pt" => "Não foi possível mudar o estado para STATUS_ON_HOLD"
 			),
 			"FailAwaitProxy" => array (
 					"en" => "Cannot assign STATUS_AWAITING_PROXY status",
-					"pt" => "Não foi possível manter o estado STATUS_AWAITING_PROXY"
+					"pt" => "Não foi possível mudar o estado para STATUS_AWAITING_PROXY"
 			),
 			"FailAwaitAdmin" => array(
 					"en" => "Cannot assign STATUS_AWAITING_ADMIN status",
-					"pt" => "Não foi possível manter o estado STATUS_AWAITING_ADMIN"
+					"pt" => "Não foi possível mudar o estado para STATUS_AWAITING_ADMIN"
 			),
 			"FailCloseAppeal" => array(
 					"en" => "Unable to close the appeal",
@@ -160,23 +160,23 @@ class SystemMessages {
 			),
 			"FailResetAppeal" => array(
 					"en" => "Unable to reset the appeal request",
-					"pt" => " "
+					"pt" => "Não foi possível reiniciar o pedido"
 			),
 			"NoCommentProvided" => array(
 					"en" => "You have not entered a comment",
-					"pt" => ""
+					"pt" => "Você não escreveu um comentário"
 			),
 			"FailInvalid" => array(
 					"en" => "Unable to mark appeal invalid",
-					"pt" => ""
+					"pt" => "Não foi possível marcar pedido como inválido"
 			),
 			"NoRevealReason" => array(
 					"en" => "No reveal reason was submitted. Please provide a reason.",
-					"pt" => ""
+					"pt" => "Nenhuma razão de revelação foi dada. Por favor, forneça uma razão."
 			),
             "CannotPostOPP" => array(
                     "en" => "Unable to post Proxy check request automatically, you'll need to post it manually.",
-                    "pt" => ""
+                    "pt" => "Não foi possível solicitar verificação de proxy automaticamente; você precisará solicitá-la manualmente"
             ),
             "DivertToACC" => array(
                     "en" => "This appeal needs to be deferred to ACC instead of being posted to WP:OPP.",

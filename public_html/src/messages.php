@@ -5,7 +5,7 @@ class SystemMessages {
 			"EmailFrom" => array (
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					//Unblock Review Team can be translated here. Could we do that?
-					"pt" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n" 
+					"pt" => "De: Equipe revisão de desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
 			),
 			"EmailMIME" => array (
 					//No translation should be need
@@ -184,43 +184,44 @@ class SystemMessages {
             ),
             "NoAPILogin" => array(
                     "en" => "API login not yet implemented. The api is only available for logged in users for now.",
-                    "pt" => ""
+                    "pt" => "Login via API ainda não implementado. O PIA apenas está disponível para usuários registrados por enquanto."
             ),
             "BadParamAPI" => array(
                     "en" => "You have tried to call the UTRS api with bad parameters",
-                    "pt" => ""
+                    "pt" => "Você tentou acionar o API da UTRS com parâmetros incorretos"
             )
 			
 	);
 	public static $tos = array (
 			"Welcome" => array (
 					"en" => "Welcome",
-					"pt" => ""
+					"pt" => "Bem-vindo"
 			),
 			"TOSAccept" => array (
 					"en" => "Thank you, your account has been updated.  Click <a href=\"home.php\">here</a> to go to the homepage.",
-					"pt" => ""
+					"pt" => "Obrigado. Sua conta foi atualizada. Clique <a href=\"home.php\">aqui</a> para ir à página inicial."
 			),
 			"NewTerms" => array (
 					"en" => "With the development of UTRS, this project occasionally requires a modified terms of service than when you initially registered.  To continue to participate in this".
 							"system, for which your time is greatly appreciated, we require you to first accept these new terms.",
-					"pt" => ""
+					"pt" => "Com o desenvolvimento do UTRS, este projeto ocasionalmente requer um termo de serviço diferente daquele de quando você se registrou. Para continuar a participar desse".
+					                "sistema, pelo qual seu tempo é bastante apreciado, nós solicitamos que aceite antes esses novos termos."
 			),
 			"ReviewToAccept" => array (
 					"en" => "Please review the following policies and click \"I accept\" below to continue:",
-					"pt" => ""
+					"pt" => "Por favor, revise as regras seguintes e clique em \"Eu aceito\" abaixo para continuar:"
 			),
 			"UTRSuserprivpol" => array (
 					"en" => "UTRS Member Privacy Policy and Duties",
-					"pt" => ""
+					"pt" => "Política de Privacidade e Obrigações dos Membros do UTRS"
 			),
 			"WMFLabsToS" => array (
 					"en" => "Wikimedia Labs terms of service",
-					"pt" => ""
+					"pt" => "Termos de serviço do Wikimedia Labs"
 			),
 			"LabsGeneralWarn" => array (
 					"en" => "Warning: Do not use the Labs Project (this site) if you do not agree to the following: information shared with the Labs Project, including usernames and passwords, will be made available to volunteer administrators and may not be treated confidentially.",
-					"pt" => ""
+					"pt" => "Aviso: Não use o Projeto Labs (este site) se não concorda com o seguinte: informação compartilhada com o Projeto Labs, incluindo nomes de usuários e senhas, serão disponibilizadas para administradores voluntários e podem não ser tratadas com confidencialidade."
 			),
 			"LabsDisclaimer" => array(
 					"en" => "<p>Volunteers may have full access to the systems hosting the projects, allowing them access to any data or other information you submit.".

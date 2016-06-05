@@ -141,14 +141,39 @@ else if($errors){
 if(!$submitted || $errors ){
 ?>
 <form name="sendReply" id="sendReply" method="POST" action="reply.php?id=<?php echo $_GET['id'];?>&confirmEmail=<?php echo $_GET['confirmEmail'];?>">
-<textarea rows="15" cols="60" name="reply" id="reply"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
+<textarea rows="15" cols="60" name="reply" id="reply" onblur="sizeAudit('reply',2048)"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
 <input name="submit" id="submit" type="submit" value="Send Reply" />
 </form>
 <?php 
 } // closes if(!isset($_POST['submit']) | $errors )
 
 } // closes else from if(!$accessGranted)
-
+?>
+<script type="text/javascript">
+function sizeAudit(item,max) {
+	var name="";
+	if (item=="appeal") {name="sizeAppeal";}
+	if (item=="edits") {name="sizeEdits";}
+	if (item=="block") {name="sizeBlock";}
+	if (item=="other") {name="sizeOther";}
+	var size = document.getElementById(item).value.length;
+	if(size>max){
+		document.getElementById(item).style.border = "thin solid #FF0000";
+		document.getElementById(name).innerHTML = "You have inputed too much content into the above text box. Please reduce to "+max+" charecters.";
+		document.getElementById(name).style.color = "#FF0000";
+		document.getElementById(name).style.background = "#FFFFFF";
+		document.getElementById("submit").disabled = true;
+	}
+	else {
+		document.getElementById(item).style.border = "none none #FF0000";
+		document.getElementById(name).innerHTML = "";
+		document.getElementById(name).style.color = "#FFFFFF";
+		document.getElementById(name).style.background = "none";
+		document.getElementById("submit").disabled = true;
+	}
+}
+</script>
+<?php
 skinFooter();
 
 ?>

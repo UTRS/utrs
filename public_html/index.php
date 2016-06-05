@@ -260,7 +260,7 @@ Since access to this information is fundamental to the operation of Wikimedia La
 By clicking "Submit Appeal", you agree to these terms and the terms of the <a href="privacy.php">Privacy Policy</a> and the <a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new">Wikimedia Labs Terms of Use</a>.</p></small>
 <?php
 
-echo '<input type="submit" name="submit" value="Submit Appeal"/>';
+echo '<input type="submit" name="submit" id="submit" value="Submit Appeal"/>';
 echo '</form>';
 
 } /* !$success */
@@ -281,12 +281,14 @@ function sizeAudit(item,max) {
 		document.getElementById(name).innerHTML = "You have inputed too much content into the above text box. Please reduce to "+max+" charecters.";
 		document.getElementById(name).style.color = "#FF0000";
 		document.getElementById(name).style.background = "#FFFFFF";
+		document.getElementById("submit").disabled = true;
 	}
 	else {
 		document.getElementById(item).style.border = "none none #FF0000";
 		document.getElementById(name).innerHTML = "";
 		document.getElementById(name).style.color = "#FFFFFF";
 		document.getElementById(name).style.background = "none";
+		document.getElementById("submit").disabled = true;
 	}
 }
 </script>

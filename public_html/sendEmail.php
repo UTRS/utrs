@@ -187,7 +187,7 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 		}
     else { throw new UTRSIllegalModificationException("The template ID number is not set."); }
 		echo "\">\n"; // closes <form>
-		echo "<textarea name=\"emailText\" id=\"emailText\" rows=\"15\" cols=\"60\">";
+		echo "<textarea name=\"emailText\" id=\"emailText\" rows=\"15\" cols=\"60\" onblur=\"sizeAudit(\'emailText\',10000)\">";
 		if(isset($email_text)){
 			echo htmlspecialchars($email_text);
 		}
@@ -219,7 +219,29 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
 		echo "<a href=\"appeal.php?id=" . $appeal->getID() . "\">Back to appeal</a>";
 	}
 }
-
+?>
+<script type="text/javascript">
+function sizeAudit(item,max) {
+	var name="";
+	if (item=="emailText") {name="emailText";}
+	var size = document.getElementById(item).value.length;
+	if(size>max){
+		document.getElementById(item).style.border = "thin solid #FF0000";
+		document.getElementById(name).innerHTML = "You have inputed too much content into the above text box. Please reduce to "+max+" charecters.";
+		document.getElementById(name).style.color = "#FF0000";
+		document.getElementById(name).style.background = "#FFFFFF";
+		document.getElementById("submit").disabled = true;
+	}
+	else {
+		document.getElementById(item).style.border = "none none #FF0000";
+		document.getElementById(name).innerHTML = "";
+		document.getElementById(name).style.color = "#FFFFFF";
+		document.getElementById(name).style.background = "none";
+		document.getElementById("submit").disabled = true;
+	}
+}
+</script>
+<?php
 skinFooter();
 
 ?>

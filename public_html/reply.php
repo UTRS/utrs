@@ -141,6 +141,7 @@ else if($errors){
 if(!$submitted || $errors ){
 ?>
 <form name="sendReply" id="sendReply" method="POST" action="reply.php?id=<?php echo $_GET['id'];?>&confirmEmail=<?php echo $_GET['confirmEmail'];?>">
+<?php // Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k. ?>
 <textarea rows="15" cols="60" name="reply" id="reply" onblur="sizeAudit('reply',2048)"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
 <input name="submit" id="submit" type="submit" value="Send Reply" />
 </form>
@@ -152,10 +153,7 @@ if(!$submitted || $errors ){
 <script type="text/javascript">
 function sizeAudit(item,max) {
 	var name="";
-	if (item=="appeal") {name="sizeAppeal";}
-	if (item=="edits") {name="sizeEdits";}
-	if (item=="block") {name="sizeBlock";}
-	if (item=="other") {name="sizeOther";}
+	if (item=="reply") {name="reply";}
 	var size = document.getElementById(item).value.length;
 	if(size>max){
 		document.getElementById(item).style.border = "thin solid #FF0000";

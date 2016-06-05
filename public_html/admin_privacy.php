@@ -11,25 +11,24 @@ require_once('template.php');
 skinHeader();
 
 ?>
-<center><b><?php echo SystemMessages::$privpol_admin['UTRSPrivPol'][$lang];?></b></center>
-<p><?php echo SystemMessages::$privpol_admin['StepsForPrivacyAdmin'][$lang];?></p>
+<center><b><?php echo SystemMessages::$privpol_all['UTRSPrivPol'][$lang];?></b></center>
+<p><?php echo SystemMessages::$privpol_admin['StepsForPrivacy'][$lang];?></p>
 
-<h4><?php echo SystemMessages::$privpol_admin['WikimediaLabsDisclaimerTitle'][$lang];?></h4>
-<?php echo SystemMessages::$privpol_admin['WikimediaLabsDisclaimer'][$lang];?>
+<h4><?php echo SystemMessages::$privpol_all['WikimediaLabsDisclaimerTitle'][$lang];?></h4>
+<?php echo SystemMessages::$privpol_all['WikimediaLabsDisclaimer'][$lang];?>
 
 
-<h4><?php echo SystemMessages::$privpol_admin['WhatCollectTitle'][$lang];?></h4>
+<h4><?php echo SystemMessages::$privpol_all['WhatCollectTitle'][$lang];?></h4>
 <?php echo SystemMessages::$privpol_admin['WhatCollect'][$lang];?>
 
 
-<h4><?php echo SystemMessages::$privpol_admin['DataStoreTitle'][$lang];?></h4>
-
+<h4><?php echo SystemMessages::$privpol_all['DataStoreTitle'][$lang];?></h4>
 <?php echo SystemMessages::$privpol_admin['DataStore'][$lang];?>
 
-<h4><?php echo SystemMessages::$privpol_admin['UserRightsTitle'][$lang];?></h4>
+<h4><?php echo SystemMessages::$privpol_all['UserRightsTitle'][$lang];?></h4>
 <?php echo SystemMessages::$privpol_admin['UserRights'][$lang];?>
 
-<h4><?php echo SystemMessages::$privpol_admin['ResponsibilityTitle'][$lang];?></h4>
+<h4><?php echo SystemMessages::$privpol_all['ResponsibilityTitle'][$lang];?></h4>
 <?php echo SystemMessages::$privpol_admin['Responsibility'][$lang];?>
 
 

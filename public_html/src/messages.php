@@ -5,7 +5,7 @@ class SystemMessages {
 			"EmailFrom" => array (
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					//Unblock Review Team can be translated here. Could we do that?
-					"pt" => "De: Equipe revisão de desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
+					"pt" => "De: Equipe de revisão de desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
 			),
 			"EmailMIME" => array (
 					//No translation should be need
@@ -97,16 +97,16 @@ class SystemMessages {
 			),
 			"RevealCUData" => array(
 					"en" => "Revealed this appeals CU data: ",
-					"pt" => "Mostrar esse pedido nos dados de CU"
+					"pt" => "Revelada a informação de checkuser destes pedidos"
 			)
 			,
 			"RevealEmail" => array(
 					"en" => "Revealed this appeals email: ",
-					"pt" => "Mostrar essa solicitação de e-mail"
+					"pt" => "Revelado p email destes pedidos"
 			),
 			"RevealOS" => array(
 					"en" => "Revealed this appeals oversighted information: ",
-					"pt" => "Mostrar  informações suprimidas desse pedido"
+					"pt" => "Revelada a informação de supressão destes pedidos"
 			),
 			"NotifiedAdmin" => array(
 					"en" =>	"Notified Admin",
@@ -228,27 +228,30 @@ class SystemMessages {
 							"<p>As a result, use of your real Wikimedia credentials is highly discouraged in wmflabs.org projects. You should use a different password for your account than you would on projects like Wikipedia, Commons, etc.".
 							"<p>By creating an account in this project and/or using other Wikimedia Labs Services, you agree that the volunteer administrators of this project will have access to any data you submit.".
 							"<p>Since access to this information by volunteers is fundamental to the operation of Labs, these terms regarding use of your data expressly override the Wikimedia Foundation's Privacy Policy as it relates to the use and access of your personal information.",
-					"pt" => ""
+					"pt" => "<p>Voluntários podem ter acesso total ao sistema que controla os projetos, permitindo a eles acesso a qualquer dado ou outra informação que você fornecer.".
+							"<p>Como resultado, o uso de suas reais credenciais da Wikimedia é altamente desencorajado nos projetos do wmflabs.org. Você deve usar uma senha diferente da senha que usa em projetos como Wikipédia, Commons, etc.".
+							"<p>Ao criar uma conta neste projeto e/ou usar outros serviços do Wikimedia Labs, você concorda que os administradores voluntários deste projeto tenham acesso a qualquer dado que fornecer.".
+							"<p>Já que o acesso a essa informação por voluntários é fundamental para a operação do Labs, estes termos de uso de seus dados se sobrepõem expressamente à Política de Privacidade da Wikimedia Foundation, já que se relaciona ao uso e acesso à sua informação pessoal."
 			),
 			"ToSAgree" => array(
 					"en" => "If you agree check here and click submit:",
-					"pt" => ""
+					"pt" => "Se concorda, marque aqui e clique em "submeter":"
 			),
 			"IAccept" => array(
 					"en" => "I accept",
-					"pt" => ""
+					"pt" => "Eu aceito"
 			),
 			"Clarity" => array(
 					//EN version will never actually be shown
 					"en" => "For clarity, if there are differences between the English version and the {Your language} version, the English version will be used.",
-					"pt" => ""
+					"pt" => "Para mais clareza, se houver diferenças entre a versão em inglês e a versão em português, a versão em inglês será usada."
 			)
 	);
 	public static $privpol_all = array (
 			"Clarity" => array(
 					//EN version will never actually be shown
 					"en" => "For clarity, if there are differences between the English version and the {Your language} version, the English version will be used.",
-					"pt" => ""
+					"pt" => "Para mais clareza, se houver diferenças entre a versão em inglês e a versão em português, a versão em inglês será usada."
 			),
 			"UTRSPrivPol" => array (
 					"en" => "Unblock Ticket Request System Privacy Policy",

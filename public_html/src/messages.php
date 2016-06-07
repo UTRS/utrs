@@ -5,7 +5,7 @@ class SystemMessages {
 			"EmailFrom" => array (
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					//Unblock Review Team can be translated here. Could we do that?
-					"pt" => "De: Equipe de revisão de desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
+					"pt" => "De: Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
 			),
 			"EmailMIME" => array (
 					//No translation should be need
@@ -102,7 +102,7 @@ class SystemMessages {
 			,
 			"RevealEmail" => array(
 					"en" => "Revealed this appeals email: ",
-					"pt" => "Revelado p email destes pedidos"
+					"pt" => "Revelado o email destes pedidos"
 			),
 			"RevealOS" => array(
 					"en" => "Revealed this appeals oversighted information: ",
@@ -180,7 +180,7 @@ class SystemMessages {
             ),
             "DivertToACC" => array(
                     "en" => "This appeal needs to be deferred to ACC instead of being posted to WP:OPP.",
-                    "pt" => ""
+                    "pt" => "Este pedido precisa ser enviado ao ACC em vez de ser postado em WP:OPP"
             ),
             "NoAPILogin" => array(
                     "en" => "API login not yet implemented. The api is only available for logged in users for now.",
@@ -255,27 +255,27 @@ class SystemMessages {
 			),
 			"UTRSPrivPol" => array (
 					"en" => "Unblock Ticket Request System Privacy Policy",
-					"pt" => ""
+					"pt" => "Política de Privacidade do Unblock Ticket Request System"
 			),
 			"WikimediaLabsDisclaimerTitle" => array (
 					"en" => "Wikimedia Labs Disclaimer",
-					"pt" => ""
+					"pt" => "Aviso Legal do Wikimedia Labs"
 			),
 			"WhatCollectTitle" => array (
 					"en" => "What data do we collect, and why?",
-					"pt" => ""
+					"pt" => "Qual dado coletamos e por que?"
 			),
 			"DataStoreTitle" => array (
 					"en" => "How is this data stored, and who can see it?",
-					"pt" => ""
+					"pt" => "Como este dado é armazenado e quem pode vê-lo?"
 			),
 			"UserRightsTitle" => array(
 					"en" => "What are your rights with regard to this information?",
-					"pt" => ""
+					"pt" => "Quais são seus direitos com relação a esta informação?"
 			),
 			"ResponsibilityTitle" => array(
 					"en" => "What is your responsibility with the information provided by the interface?",
-					"pt" => ""
+					"pt" => "Qual a sua responsabilidade com a informação fornecida pela interface?"
 			),
 			"WikimediaLabsDisclaimer" => array (
 					"en" => "<p>By using this project, you agree that any private information you give to this project may be made publicly available and not be treated as confidential.".
@@ -283,7 +283,11 @@ class SystemMessages {
 					"<p>By using this project, you agree that the volunteer administrators of this project will have access to any data you submit. This can include your IP address, your username/password combination for accounts created in Labs services, and any other information that you send. The volunteer administrators of this project are bound by the Wikimedia Labs Terms of Use, and are not allowed to share this information or use it in any non-approved way.".
 			
 					"<p>Since access to this information is fundamental to the operation of Wikimedia Labs, these terms regarding use of your data expressly override the Wikimedia Foundation's Privacy Policy as it relates to the use and access of your personal information.",
-					"pt" => ""
+					"pt" => "<p>Ao usar este projeto, você concorda que toda informação privada que fornecer a este projeto pode ser tornada pública e não ser tratada com confidencialidade.".
+			
+					"<p>Ao usar este projeto, você concorda que o administrador voluntário deste projeto tenha a qualquer informação que enviar. Isso inclui o seu endereço de IP, seu nome de usuário/senha que usar em contas do Labs e qualquer outra informação que enviar. Os administradores voluntários deste projeto estão sujeitos aos Termos de Uso do Wikimedia Labs e não têm permissão de compartilhar essas informações ou usá-las de uma forma que não tenha sido aprovada.".
+			
+					"<p>Já que o acesso a essa informação é fundamental para a operação do Wikimedia Labs, estes termos ligados ao uso de seus dados se sobrepõem expressamente à Política de Privacidade da Wikimedia Foundation, já que se relaciona ao uso e acesso aos seus dados pessoais."
 			)
 	);
 	public static $privpol_admin = array (

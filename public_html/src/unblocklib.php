@@ -222,10 +222,10 @@ function connectToDB($suppressOutput = false,$forcedLang="en"){
 
 	try {
 		if ($forcedLang == "en") {
-			$pdo = new PDO($CONFIG['db']['en']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			$pdo = new PDO($CONFIG['db']['dsn']['en'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 		}
 		if ($forcedLang == "pt") {
-			$pdo = new PDO($CONFIG['db']['pt']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			$pdo = new PDO($CONFIG['db']['dsn']['pt'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 		}
 	} catch (PDOException $pdo_ex) {
 		debug($pdo_ex->getMessage());

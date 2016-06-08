@@ -333,6 +333,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="jobs">
       <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
    </li>
+   <li style="float:right;">test</li>
    <?php
  } ?>
 </ul>

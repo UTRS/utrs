@@ -341,7 +341,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    		$lang="English Wikipedia";
    }
    elseif ($_COOKIE['language'] == 'pt') {
-   		$lang="Wikipédia portuguesa";
+   		$lang="WikipÃ©dia portuguesa";
    }
    else {
    		$lang="ERROR!";

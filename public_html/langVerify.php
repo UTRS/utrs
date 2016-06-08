@@ -37,6 +37,7 @@ if(!isset($_COOKIE["language"])) {
 <br><br><br><center>
 <b><?php 
 echo SystemMessages::$system['SelectLang']['en'];
+echo "<br>";
 echo SystemMessages::$system['SelectLang']['pt'];
 ?></b>
 <br><br><br>

@@ -46,7 +46,7 @@ if($loggedIn){
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js" type="text/javascript"></script>
 <script src="js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
-<title>SystemMessages::$log['SiteTitle'][$lang]</title>
+<title><?php echo SystemMessages::$log['SiteTitle'][$lang]?></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
@@ -271,8 +271,7 @@ if($loggedIn){
 </head>
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >
-Unblock Ticket<br />
-Request System
+<?php echo SystemMessages::$system['HeaderSiteTitle'][$lang];?>
 </a></div>
 <?php if($sitenoticeText){?>
 <div id="sitenotice">

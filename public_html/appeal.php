@@ -811,7 +811,8 @@ else {$higherPerms = FALSE;}?>
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post">
-<input type="text" name="comment" id="quickComment" style="width:75%;" onblur="sizeAudit('quickComment',10000)"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
+<input type="text" name="comment" id="quickComment" style="width:75%;" onblur="sizeAudit('quickComment','sizeQuickComment',10000)"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
+<p id="sizeQuickComment"></p>
 </form>
 
 <?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
@@ -848,9 +849,7 @@ else {
 }
 ?>
 <script type="text/javascript">
-function sizeAudit(item,max) {
-	var name="";
-	if (item=="quickComment") {name="quickComment";}
+function sizeAudit(item,name,max) {
 	var size = document.getElementById(item).value.length;
 	if(size>max){
 		document.getElementById(item).style.border = "thin solid #FF0000";
@@ -864,7 +863,7 @@ function sizeAudit(item,max) {
 		document.getElementById(name).innerHTML = "";
 		document.getElementById(name).style.color = "#FFFFFF";
 		document.getElementById(name).style.background = "none";
-		document.getElementById("quickSubmit").disabled = true;
+		document.getElementById("quickSubmit").disabled = false;
 	}
 }
 </script>

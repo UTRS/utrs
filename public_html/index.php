@@ -220,16 +220,16 @@ echo '<label id="registeredLabel" for="registered" class="required">Do you have 
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
-echo '<textarea id="appeal" onblur="sizeAudit(\'appeal\',4096)" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
+echo '<textarea id="appeal" onblur="sizeAudit(\'appeal\',\'sizeAppeal\',4096)" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
 echo '<p id="sizeAppeal"></p>';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
-echo '<textarea id="edits" onblur="sizeAudit(\'edits\',1024)" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
+echo '<textarea id="edits" onblur="sizeAudit(\'edits\',\'sizeEdits\',1024)" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
 echo '<p id="sizeEdits"></p>';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
-echo '<textarea id="block" onblur="sizeAudit(\'block\',1024)" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
+echo '<textarea id="block" onblur="sizeAudit(\'block\',\'sizeBlock\',1024)" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
 echo '<p id="sizeBlock"></p>';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
-echo '<textarea id="other" onblur="sizeAudit(\'other\',2048)" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<textarea id="other" onblur="sizeAudit(\'other\',\'sizeOther\',2048)" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
 echo '<p id="sizeOther"></p>';
 
 if (isset($privatekey)) {
@@ -269,12 +269,7 @@ echo '</form>';
 <p>Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace "your reason here" with your appeal.</p>
 </div></center>
 <script type="text/javascript">
-function sizeAudit(item,max) {
-	var name="";
-	if (item=="appeal") {name="sizeAppeal";}
-	if (item=="edits") {name="sizeEdits";}
-	if (item=="block") {name="sizeBlock";}
-	if (item=="other") {name="sizeOther";}
+function sizeAudit(item,name,max) {
 	var size = document.getElementById(item).value.length;
 	if(size>max){
 		document.getElementById(item).style.border = "thin solid #FF0000";
@@ -288,7 +283,7 @@ function sizeAudit(item,max) {
 		document.getElementById(name).innerHTML = "";
 		document.getElementById(name).style.color = "#FFFFFF";
 		document.getElementById(name).style.background = "none";
-		document.getElementById("submit").disabled = true;
+		document.getElementById("submit").disabled = false;
 	}
 }
 </script>

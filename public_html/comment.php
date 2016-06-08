@@ -35,7 +35,10 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 		<td><?php echo $appeal->getCommonName(); ?></td>
 	</tr>
 	<tr>
-		<td colspan="2" align=left><textarea name="comment" id="comment" rows="15" cols="60" onblur="sizeAudit('emailText',10000)"></textarea></td>
+		<td colspan="2" align=left>
+			<textarea name="comment" id="comment" rows="15" cols="60" onblur="sizeAudit('comment','sizeComment',10000)"></textarea>
+			<p id="sizeComment"></p>
+		</td>
 	</tr>
 	<tr>
 		<td colspan="2" align=left><input type="submit" id="submit" value="Submit comment"></td>
@@ -43,9 +46,7 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 </table>
 </form>
 <script type="text/javascript">
-function sizeAudit(item,max) {
-	var name="";
-	if (item=="comment") {name="comment";}
+function sizeAudit(item,name,max) {
 	var size = document.getElementById(item).value.length;
 	if(size>max){
 		document.getElementById(item).style.border = "thin solid #FF0000";
@@ -59,7 +60,7 @@ function sizeAudit(item,max) {
 		document.getElementById(name).innerHTML = "";
 		document.getElementById(name).style.color = "#FFFFFF";
 		document.getElementById(name).style.background = "none";
-		document.getElementById("submit").disabled = true;
+		document.getElementById("submit").disabled = false;
 	}
 }
 </script>

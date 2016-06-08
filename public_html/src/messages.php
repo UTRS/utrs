@@ -40,6 +40,10 @@ class SystemMessages {
 			"ConfirmCU" => array (
 					"en" => "Please confirm you want to send this appeal to the checkuser queue",
 					"pt" => "Por favor confirme que deseja enviar essa solicitação para a lista dos checkusers"
+			),
+			"SelectLang" => array (
+					"en" => "Please select the wiki and language you are editing on.",
+					"pt" => ""
 			)
 	);
 	public static $log = array (
@@ -189,7 +193,11 @@ class SystemMessages {
             "BadParamAPI" => array(
                     "en" => "You have tried to call the UTRS api with bad parameters",
                     "pt" => "Você tentou acionar o API da UTRS com parâmetros incorretos"
-            )
+            ),
+			"LangError" => array (
+					"en" => "To use UTRS, it is required that you set a language and wiki to use. This is so that your appeal (or list of appeals for administrators) is selected from the right language. You can reset this at any time if you make a mistake. Once an appeal is filed in one language, it is impossible to change the language and wiki of that appeal.",
+					"pt" => ""
+			)
 			
 	);
 	public static $tos = array (

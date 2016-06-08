@@ -79,10 +79,7 @@ if(isset($_POST["submit"])){
             $message .= " ".SystemMessages::$system['DiffUName'][$lang];
          }
          else{
-            $message .= " If you still wish to appeal your block, you may visit us on IRC at " . 
-               "<a href=\"http://webchat.freenode.net/?channels=wikipedia-en-unblock\">#wikipedia-en-unblock</a> " .
-                "(if you haven't already done so) or email the Ban Appeals Subcommittee at " .
-               "<tt>arbcom-appeals-en@lists.wikimedia.org</tt> .";
+            $message .= " ".SystemMessages::$system['StillAppeal'][$lang];
          }
          throw new UTRSCredentialsException($message);
       }

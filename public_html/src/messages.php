@@ -1,11 +1,17 @@
 <?php
 class SystemMessages {
+	public static $information = array (
+			"Blank" => array(
+					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
+					"pt" => "De: Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n"
+			)
+	);
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					//Unblock Review Team can be translated here. Could we do that?
-					"pt" => "De: Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
+					"pt" => "From:Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
 			),
 			"EmailMIME" => array (
 					//No translation should be need
@@ -68,6 +74,14 @@ class SystemMessages {
 			"Reason" => array (
 					"en" => "for the reason",
 					"pt" => "{pt Reason}"
+			),
+			"DiffUName" => array (
+					"en" => "You may be able to resubmit your appeal by selecting a different username.",
+					"pt" => "{pt DiffUName}"
+			),
+			"StillAppeal" => array (
+					"en" => "If you still wish to appeal your block, you may visit us on IRC at <a href=\"http://webchat.freenode.net/?channels=wikipedia-en-unblock\">#wikipedia-en-unblock</a> (if you haven't already done so) or email ArbCom at arbcom-l@lists.wikimedia.org.",
+					"pt" => "{pt StillAppeal}"
 			)
 	);
 	public static $log = array (

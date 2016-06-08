@@ -4,6 +4,38 @@ class SystemMessages {
 			"Blank" => array(
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					"pt" => "De: Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n"
+			),
+			"CreateAccount" => array (
+				"en" => "We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.",	
+				"pt" => "{pt CreateAccount}"
+			),
+			"Welcome" => array (
+				"en" => "Welcome to the Unblock Ticket Request System.",
+				"pt" => "{pt Welcome}"
+			),
+			"AppealSucess" => array (
+				"en" => "Your appeal has been recorded and is pending email address verification.  Please check your email inbox for a message from UTRS.  If you can't find such a message in your inbox, please check your junk mail folder.",
+				"pt" => "{pt AppealSucess}"
+			),
+			"BlockIntro" => array (
+				"en" => "If you are presently blocked from editing on Wikipedia (which you may verify by clicking <a href=\"http://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=edit\">here</a>), you may fill out the form below to have an administrator review your block. Please complete all fields labelled in <span class=\"required\">red text</span>, as these are required in order for us to complete a full review of your block.</p>",
+				"pt" => "{pt BlockIntro}"
+			),
+			"PageProtect" => array (
+				"en" => "If you are having trouble editing a particular page or making a particular edit, but are able to edit the page linked in the previous paragraph, you may not be blocked, but instead could be having difficulty with <a href=\"http://en.wikipedia.org/wiki/Wikipedia:Protection policy\">page protection</a> or the <a href=\"http://en.wikipedia.org/wiki/Wikipedia:Edit filter\">edit filter</a>. For more information, and instructions on how to receive assistance, please see those links.",
+				"pt" => "{pt PageProtect}"
+			),
+			"AgreePrivPol_appeal" => array (
+				"en" => "By submitting this unblock request, you are consenting to allow us to collect information about your computer and that you agree with our <a href=\"privacy.php\">Privacy Policy</a>.  This information will in most cases allow us to distinguish you from any vandals editing from the same location. We do not store this information any longer than necessary, and do not share it with any third party. For more information, please see our <a href=\"privacy.php\">Privacy Policy.</a>",
+				"pt" => "{pt AgreePrivPol_appeal}"
+			),
+			"AgreeAllTerms" => array (
+				"en" => "By clicking \"Submit Appeal\", you agree to these terms and the terms of the <a href=\"privacy.php\">Privacy Policy</a> and the <a href=\"https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use\" target=\"_new\">Wikimedia Labs Terms of Use</a>.",
+				"pt" => "{pt AgreeAllTerms}"
+			),
+			"AppealSubmitInfo" => array (
+				"en" => "Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href=\"http://en.wikipedia.org/wiki/Special:Mytalk\">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace \"your reason here\" with your appeal.",
+				"pt" => "{pt AppealSubmitInfo}"
 			)
 	);
 	public static $system = array (
@@ -82,6 +114,64 @@ class SystemMessages {
 			"StillAppeal" => array (
 					"en" => "If you still wish to appeal your block, you may visit us on IRC at <a href=\"http://webchat.freenode.net/?channels=wikipedia-en-unblock\">#wikipedia-en-unblock</a> (if you haven't already done so) or email ArbCom at arbcom-l@lists.wikimedia.org.",
 					"pt" => "{pt StillAppeal}"
+			),
+			"Uname" => array (
+				"en" => "The username you entered",
+				"pt" => "{pt Uname}"
+			),
+			"VerifyBlock" => array (
+				"en" => "Please verify that you are blocked by following the instructions above.",
+				"pt" => "{pt VerifyBlock}"
+			),
+			"IsAccountBlocked" => array (
+				"en" => "Is it your account that is blocked?",
+				"pt" => "{pt IsAccountBlocked}"
+			),
+			"IfHaveAccount" => array (
+				"en" => "If you have an account, please select 'Yes' to \"Do you have an account on Wikipedia?\".",
+				"pt" => "{pt IfHaveAccount}"
+			),
+			"VerifyEmailText" => array (
+				"en" => "This is an automated message from the English Wikipedia Unblock Ticket Request System. In order for your appeal to be processed, you need to confirm that the email address you entered with your appeal is valid. To do this, simply click the link below.  If you did not file an appeal then simply do nothing, and the appeal will be deleted.",
+				"pt" => "{pt VerifyEmailText}"
+			),
+			"NameOfAccount" => array (
+				"en" => "What is the name of your account?",
+				"pt" => "{pt NameOfAccount}"
+			),
+			"WhatIsBlocked" => array (
+				"en" => "What has been blocked?",				"pt" => "{pt WhatIsBlocked}"
+			),
+			"MyAccount" => array (
+				"en" => "My account",				"pt" => "{pt MyAccount}"
+			),
+			"MyIPorRange" => array (
+				"en" => "My IP address or range (my account is not blocked)",				"pt" => "{pt MyIPorRange}"
+			),
+			"AssistBlock" => array (
+				"en" => "For assistance with a block, please complete the form below:",	
+				"pt" => "{pt AssistBlock}"
+			),
+			"ReqEmail" => array (
+				"en" => "What is your email address? <b>If you do not supply a deliverable email address, we will be unable to reply to your appeal and therefore it will not be considered.<br /><font color=red>Note: There is inconsistent delivery to Microsoft email services (such as: live.com, hotmail.com, outlook.com, etc.). If you use one of these services, we can not guarentee that you will recieve a confirmation email. Please avoid using these services.",				"pt" => "{pt ReqEmail}"
+			),
+			"HaveAccount" => array (
+				"en" => "If you have an account, please select 'Yes' to 'Do you have an account on Wikipedia?'",				"pt" => "{pt HaveAccount}"
+			),
+			"WhyUnblock" => array (
+				"en" => "Why do you believe you should be unblocked?",				"pt" => "{pt WhyUnblock}"
+			),
+			"WhatEdit" => array (
+				"en" => "If you are unblocked, what articles do you intend to edit?",				"pt" => "{pt WhatEdit}"
+			),
+			"WhyBlockAffect" => array (
+				"en" => "Why do you think there is a block currently affecting you? If you believe it's in error, tell us how.",				"pt" => "{pt WhyBlockAffect}"
+			),
+			"AnythingElse" => array (
+				"en" => "Is there anything else you would like us to consider when reviewing your block?",				"pt" => "{pt AnythingElse}"
+			),
+			"SubmitAppeal" => array (
+				"en" => "Submit Appeal",				"pt" => "{pt SubmitAppeal}"
 			)
 	);
 	public static $log = array (
@@ -157,7 +247,11 @@ class SystemMessages {
 			"NotifiedWMF" => array(
 					"en" =>	"Emailed Wikimedia Foundation staff at ca@wikimedia.org",
 					"pt" => "Enviado email para funcionários da Wikimedia Foundation pelo ca@wikimedia.org"
-			)			
+			),
+			"AppealCreated" => array (
+				"en" => "Appeal Created",	
+				"pt" => "{pt AppealCreated}"
+			)
 	);
 	public static $error = array (
 			"AppealNotNumeric" => array (
@@ -239,8 +333,23 @@ class SystemMessages {
 			"BadCaptcha" => array(
 					"en" => "The response you provided to the captcha was not correct. Please try again.",
 					"pt" => "{pt BadCaptcha}"
+			),
+			"NotBlocked" => array (
+				"en" => "is not currently blocked.",
+				"pt" => "{pt NotBlocked}"
+			),
+			"AppealTalkpage" => array (
+				"en" => "You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.",
+				"pt" => "{pt AppealTalkpage}"
+			),
+			"AlreadySubmitted" => array (
+				"en" => "It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.",
+				"pt" => "{pt AlreadySubmitted}"
+			),
+			"JSError" => array (
+				"en" => "It looks like your browser either doesn't support Javascript, or Javascript is disabled. Elements of this form require Javascript to display properly. Please enable Javascript or use another browser to continue. Thank you!",
+				"pt" => "{pt JSError}"
 			)
-			
 	);
 	public static $tos = array (
 			"Welcome" => array (

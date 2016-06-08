@@ -84,28 +84,28 @@ if(isset($_POST["submit"])){
          throw new UTRSCredentialsException($message);
       }
       if ($registered && !$autoblock && !Appeal::verifyBlock($wikiAccount, TRUE)) {
-        throw new UTRSValidationException('The username you entered ('.$wikiAccount.') is not currently blocked. Please verify that you are blocked by following the instructions above.');
+        throw new UTRSValidationException(SystemMessages::$log['Uname'][$lang] ."(".$wikiAccount.")". SystemMessages::$tos['NotBlocked'][$lang]." ".SystemMessages::$log['VerifyBlock'][$lang]);
       }
       elseif ($registered && $autoblock  && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. Is it your account that is blocked?');
+        throw new UTRSValidationException(SystemMessages::$system['YourIP'][$lang]. "(".$ip.")". SystemMessages::$tos['NotBlocked'][$lang]." ".SystemMessages::$log['IsAccountBlocked'][$lang]);
       }
       elseif (!$registered && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
+        throw new UTRSValidationException(SystemMessages::$system['YourIP'][$lang]. "(".$ip.")". SystemMessages::$tos['NotBlocked'][$lang]." ". SystemMessages::$log['HaveAccount'][$lang]);
       }
       if ($registered && !Appeal::verifyNoPublicAppeal($wikiAccount)) {
-        throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
+        throw new UTRSValidationException(SystemMessages::$tos['AppealTalkpage'][$lang]);
       }
       elseif (!$registered && !Appeal::verifyNoPublicAppeal($ip)) {
-        throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
+        throw new UTRSValidationException(SystemMessages::$tos['AppealTalkpage'][$lang]);
       }
       if ($registered) {
 	      if (Appeal::activeAppeal($email, $wikiAccount)) {
-	        throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+	        throw new UTRSValidationException(SystemMessages::$tos['AlreadySubmitted'][$lang]);
 	      }
       }
 	  else {
 		  if (Appeal::activeAppeal($email, NULL)) {
-		  	throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+		  	throw new UTRSValidationException(SystemMessages::$tos['AlreadySubmitted'][$lang]);
 		  }
       }
 
@@ -133,7 +133,7 @@ if(isset($_POST["submit"])){
       $success = true;
       
       $log = Log::getCommentsByAppealId($appeal->getID());
-      $log->addNewItem("Appeal Created", 1);
+      $log->addNewItem(SystemMessages::$error['AppealCreated'][$lang], 1);
       Log::ircNotification("\x033New appeal has been created for\x032 " . $appeal->getCommonName() . " \x033(\x032 " . $appeal->getID() . " \x033) URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
    }
    catch (UTRSValidationException $ex){
@@ -154,9 +154,9 @@ if(isset($_POST["submit"])){
    }
 }
 
-skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
-var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
-var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
+skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">". SystemMessages::$log['NameOfAccount'][$lang]."</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
+var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">".SystemMessages::$log['WhatIsBlocked'][$lang]."</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " />". SystemMessages::$log['MyAccount'][$lang]." &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " />". SystemMessages::$log['MyIPorRange'][$lang]."<br />\";
+var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">".SystemMessages::$system['CreateAccount'][$lang]."</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function hasAccount(){
@@ -179,11 +179,11 @@ window.onload = function ()
    }
 }; " : "" ));
 ?>
-<center><b>Welcome to the Unblock Ticket Request System.</b>
+<center><b>".SystemMessages::$system['Welcome'][$lang]."</b>
 <div id="inputBox">
 <?php
 if($success){
-   displaySuccess("Your appeal has been recorded and is pending email address verification.  Please check your email inbox for a message from UTRS.  If you can't find such a message in your inbox, please check your junk mail folder.");
+   displaySuccess(SystemMessages::$system['AppealSucess'][$lang]);
 } else {
 ?>
 <p>If you are presently blocked from editing on Wikipedia (which you may verify by 
@@ -197,7 +197,7 @@ linked in the previous paragraph, you may not be blocked, but instead could be h
 <a href="http://en.wikipedia.org/wiki/Wikipedia:Edit filter">edit filter</a>. For more information, and instructions on
 how to receive assistance, please see those links.</p>
 
-<p><b>For assistance with a block, please complete the form below:</b></p>
+<p><b>".SystemMessages::$log['AssistBlock'][$lang]."</b></p>
 
 <noscript>
 <?php displayError("It looks like your browser either doesn't support Javascript, or " .
@@ -212,17 +212,17 @@ if($errorMessages){
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
-echo '<label id="emailLabel" for="accountName" class="required">What is your email address? <b>If you do not supply a deliverable email address, we will be unable to reply to your appeal and therefore it will not be considered.<br /><font color=red>Note: There is inconsistent delivery to Microsoft email services (such as: live.com, hotmail.com, outlook.com, etc.). If you use one of these services, we can not guarentee that you will recieve a confirmation email. Please avoid using these services.</font></b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
-echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
+echo '<label id="emailLabel" for="accountName" class="required">'.SystemMessages::$log['ReqEmail'][$lang].'</font></b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
+echo '<label id="registeredLabel" for="registered" class="required">'.SystemMessages::$log['HaveAccount'][$lang].'</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
-echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
+echo '<label id="appealLabel" for="appeal" class="required">'.SystemMessages::$log['WhyUnblock'][$lang].'</label><br /><br />';
 echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
-echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
+echo '<label id="editsLabel" for="edits" class="required">'.SystemMessages::$log['WhatEdit'][$lang].'</label><br /><br />';
 echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
 echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
-echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
+echo '<label id="otherInfoLabel" for="otherInfo">'.SystemMessages::$log['AnythingElse'][$lang].'</label><br /><br />';
 echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
 
 if (isset($privatekey)) {
@@ -244,22 +244,16 @@ will in most cases allow us to distinguish you from any vandals editing from the
 not store this information any longer than necessary, and do not share it with any third party. For more
 information, please see our <a href="privacy.php">Privacy Policy.</a>
 
-By using this project, you agree that any private information you give to this project may be made publicly available and not be treated as confidential.
-
-By using this project, you agree that the volunteer administrators of this project will have access to any data you submit. This can include your IP address, your username/password combination for accounts created in Labs services, and any other information that you send. The volunteer administrators of this project are bound by the Wikimedia Labs Terms of Use, and are not allowed to share this information or use it in any non-approved way.
-
-Since access to this information is fundamental to the operation of Wikimedia Labs, these terms regarding use of your data expressly override the Wikimedia Foundation's Privacy Policy as it relates to the use and access of your personal information.
-
-By clicking "Submit Appeal", you agree to these terms and the terms of the <a href="privacy.php">Privacy Policy</a> and the <a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new">Wikimedia Labs Terms of Use</a>.</p></small>
+SystemMessages::$tos['WikimediaLabsDisclaimer'][$lang]'.</p></small>
 <?php
 
-echo '<input type="submit" name="submit" value="Submit Appeal"/>';
+echo '<input type="submit" name="submit" value=SystemMessages::$log[\'SubmitAppeal\'][$lang]/>';
 echo '</form>';
 
 } /* !$success */
 ?>
 
-<p>Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace "your reason here" with your appeal.</p>
+<p>".SystemMessages::$system['AppealSubmitInfo'][$lang]."</p>
 </div></center>
 <?php 
 

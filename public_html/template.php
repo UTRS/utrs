@@ -310,6 +310,20 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="logout">
       <a href="<?php echo getRootURL() . 'logout.php'; ?>">Logout</a>
    </li>
+   if (!isset($_COOKIE['language'])) {
+   		$lang="ERROR!";
+   }
+   elseif ($_COOKIE['language'] == 'en') {
+   		$lang="English Wikipedia";
+   }
+   elseif ($_COOKIE['language'] == 'pt') {
+   		$lang="Wikipédia portuguesa";
+   }
+   else {
+   		$lang="ERROR!";
+   }
+   echo "<li style=\"float:right;\"><a href=\"langVerify.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
+   echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>"; 
 <?php } ELSE { ?>
    <li id="appealForm">
       <a href="<?php echo getRootURL() . 'index.php'; ?>">Appeal a Block</a>
@@ -333,11 +347,8 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="jobs">
       <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
    </li>
-   <?php 
-   if ($adminNav == true) {
-      adminNav();
-   }
-   if (!isset($_COOKIE['language'])) {
+   <?php } 
+ if (!isset($_COOKIE['language'])) {
    		$lang="ERROR!";
    }
    elseif ($_COOKIE['language'] == 'en') {
@@ -350,12 +361,17 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    		$lang="ERROR!";
    }
    echo "<li style=\"float:right;\"><a href=\"langVerify.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
-   echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>";  
- } ?>
+   echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>"; ?>
 </ul>
 <div style="clear: both"></div>
 </div>
 <div style="clear: both"></div>
+<?php
+   //this is for the navigation for the tool admin pages
+   if ($adminNav == true) {
+      adminNav();
+   }
+?>
 <div id="main">
 <?php
 }
@@ -383,6 +399,8 @@ Version <?php echo getVersion() ?>.</p>
 
 function adminNav() {
 ?>
+<div>
+<ul id="adminNav">
    <li id="adminNavHeader">
       <p>Administration</p>
    </li>
@@ -405,6 +423,9 @@ function adminNav() {
    <li id="massEmail">
       <a href="<?php echo getRootURL() . 'massEmail.php'; ?>">Send Mass Email</a>
    </li>
-   <?php } 
+<?php   }?>
+ </ul>
+</div>
+<?php 
 }
 ?>

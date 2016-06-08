@@ -378,7 +378,7 @@ global $lang;
 <p style="text-align:center; font-size:small;"><?php echo SystemMessages::$system['ActiveUsers'][$lang]?> <?php echo getLoggedInUsers(); ?></p>
 <?php }?>
 <p><?php echo SystemMessages::$information['UTRSInfo'][$lang]?>
-<?php SystemMessages::$system['Version'][$lang]?> <?php echo SystemMessages::$system['Version'][$lang]() ?>.</p>
+<?php echo SystemMessages::$information['Version'][$lang] ." ". getVersion() ?>.</p>
 </div>
 </body>
 </html>

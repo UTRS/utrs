@@ -29,5 +29,15 @@ function isHttps()
 
 	return false;
 }
+function forceHTTPS() {
+	if (isHttps()) {
+		// Client can clearly use HTTPS, so let's enforce it for all connections.
+		header("Strict-Transport-Security: max-age=15768000");
+	}
+	else {
+		$path = 'https://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+		header("Location: " . $path);
+	}
+}
 
 ?>

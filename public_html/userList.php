@@ -4,14 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 ini_set('session.use_cookies', '1');
 require_once('src/network.php');
-if (isHttps()) {
-	// Client can clearly use HTTPS, so let's enforce it for all connections.
-	header("Strict-Transport-Security: max-age=15768000");
-}
-else {
-	$path = 'https://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-	header("Location: " . $path);
-}
+forceHTTPS();
 require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/statsLib.php');

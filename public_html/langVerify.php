@@ -19,8 +19,11 @@ else {
 	else {
 //Template header()
 skinHeader();
-
-throw new UTRSValidationException('To use UTRS, it is required that you set a language and wiki to use. This is so that your appeal (or list of appeals for administrators) is selected from the right language. You can reset this at any time if you make a mistake. Once an appeal is filed in one language, it is impossible to change the language and wiki of that appeal.');
+try {
+	throw new UTRSValidationException('To use UTRS, it is required that you set a language and wiki to use. This is so that your appeal (or list of appeals for administrators) is selected from the right language. You can reset this at any time if you make a mistake. Once an appeal is filed in one language, it is impossible to change the language and wiki of that appeal.');
+} catch (UTRSValidationException $ex){
+   	  $errorMessages = $ex->getMessage() . $errorMessages;
+}
 
 ?>
 <center>

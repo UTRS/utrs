@@ -40,8 +40,8 @@ echo SystemMessages::$system['SelectLang']['en'];
 echo SystemMessages::$system['SelectLang']['pt'];
 ?></b>
 <br><br><br>
-<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> <a href = "langVerify.php?set=en">English Wikipedia (en.wikipedia.org)</a>
-<br><br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> <a href = "langVerify.php?set=pt">Wikipédia portuguesa (pt.wikipedia.org)</a>
+<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> <a href = "langVerify.php?set=en<?php if (isset($_GET["reset"])) {echo "&reset=yes";} ?>">English Wikipedia (en.wikipedia.org)</a>
+<br><br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> <a href = "langVerify.php?set=pt<?php if (isset($_GET["reset"])) {echo "&reset=yes";} ?>">Wikipédia portuguesa (pt.wikipedia.org)</a>
 </center>
 <?php 
 

@@ -9,7 +9,7 @@ require_once('src/messages.php');
 
 $destination = getRootURL() . 'home.php';
 
-if(!isset($_COOKIE["language"]) && !isset($_GET["reset"])){
+if(isset($_COOKIE["language"]) && !isset($_GET["reset"])){
 	header("Location: " . $destination);
 }
 else {

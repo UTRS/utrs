@@ -156,7 +156,7 @@ if(isset($_POST["submit"])){
 
 skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">". SystemMessages::$system['NameOfAccount'][$lang]."</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">".SystemMessages::$system['WhatIsBlocked'][$lang]."</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " />". SystemMessages::$system['MyAccount'][$lang]." &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " />". SystemMessages::$system['MyIPorRange'][$lang]."<br />\";
-var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">".SystemMessages::$system['CreateAccount'][$lang]."</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
+var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">".SystemMessages::$information['CreateAccount'][$lang]."</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function hasAccount(){

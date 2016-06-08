@@ -51,7 +51,7 @@ if(isset($_POST["submit"])){
             
          if(!$resp->is_valid) {
             $captchaErr = $resp->error;
-            throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
+            throw new UTRSValidationException(SystemMessages::$error['BadCaptcha'][$lang]);
          }
 
          debug('captcha valid <br/>');
@@ -72,11 +72,11 @@ if(isset($_POST["submit"])){
       if($ban){
          $expiry = $ban->getExpiry();
          $avoidable = strcmp($ban->getTarget(), $wikiAccount) == 0 && !$registered;
-         $message = ($ban->isIP() ? "Your IP address" : $ban->getTarget()) . " has been banned " . 
-            ($expiry ? "until " . $expiry : "indefinitely") . " by " . $ban->getAdmin()->getUsername() .
-            " for the reason '" . $ban->getReason() . "'.";
+         $message = ($ban->isIP() ? SystemMessages::$system['YourIP'][$lang] : $ban->getTarget()) . " ".SystemMessages::$system['HasBanned'][$lang]. " ".
+            ($expiry ? SystemMessages::$system['Until'][$lang]." " . $expiry : SystemMessages::$system['Indef'][$lang]) . " " .SystemMessages::$system['by'][$lang]. " " . $ban->getAdmin()->getUsername() .
+            " ".SystemMessages::$system['Reason'][$lang]." '" . $ban->getReason() . "'.";
          if($avoidable){
-            $message .= " You may be able to resubmit your appeal by selecting a different username.";
+            $message .= " ".SystemMessages::$system['DiffUName'][$lang];
          }
          else{
             $message .= " If you still wish to appeal your block, you may visit us on IRC at " . 

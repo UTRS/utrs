@@ -44,6 +44,30 @@ class SystemMessages {
 			"SelectLang" => array (
 					"en" => "Please select the wiki and language you are editing on.",
 					"pt" => "{pt SelectLang}"
+			),
+			"YourIP" => array (
+					"en" => "Your IP address",
+					"pt" => "{pt YourIP}"
+			),
+			"HasBanned" => array (
+					"en" => "has been banned",
+					"pt" => "{pt HasBanned}"
+			),
+			"Until" => array (
+					"en" => "until",
+					"pt" => "{pt Until}"
+			),
+			"Indef" => array (
+					"en" => "indefinitely",
+					"pt" => "{pt Indef}"
+			),
+			"By" => array (
+					"en" => "by",
+					"pt" => "{pt by}"
+			),
+			"Reason" => array (
+					"en" => "for the reason",
+					"pt" => "{pt Reason}"
 			)
 	);
 	public static $log = array (
@@ -197,6 +221,10 @@ class SystemMessages {
 			"LangError" => array (
 					"en" => "EN: To use UTRS, it is required that you set a language and wiki to use. This is so that your appeal (or list of appeals for administrators) is selected from the right language. You can reset this at any time if you make a mistake. Once an appeal is filed in one language, it is impossible to change the language and wiki of that appeal.",
 					"pt" => "PT: {pt lang-error}"
+			),
+			"BadCaptcha" => array(
+					"en" => "The response you provided to the captcha was not correct. Please try again.",
+					"pt" => "{pt BadCaptcha}"
 			)
 			
 	);

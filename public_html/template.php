@@ -11,7 +11,7 @@ require_once('src/noticeObject.php');
 require_once('src/messages.php');
 
 function skinHeader($script = '', $adminNav = false) {
-
+global $lang;
 $loggedIn = loggedIn();
 
 $sitenoticeText = "";
@@ -370,6 +370,7 @@ Request System
 }
 
 function skinFooter() {
+global $lang;
 ?>
 <br>
 <div style="clear:both;"></div>

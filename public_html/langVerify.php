@@ -8,7 +8,7 @@ require_once('template.php');
 require_once('src/messages.php');
 require_once('src/exceptions.php');
 
-$destination = getRootURL() . 'home.php';
+$destination = getRootURL() . 'index.php';
 
 if(isset($_COOKIE["language"]) && !isset($_GET["reset"])){
 	header("Location: " . $destination);

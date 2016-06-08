@@ -21,14 +21,16 @@ else {
 	else {
 //Template header()
 skinHeader();
-try {
-	throw new UTRSNetworkException(
-			SystemMessages::$error['LangError']['en']." ".
-			SystemMessages::$error['LangError']['pt']
-			);
-} catch (UTRSNetworkException $ex){
-   	  $errorMessages = $ex->getMessage();
-   	  displayError($errorMessages);
+if(!isset($_COOKIE["language"])) {
+	try {
+		throw new UTRSNetworkException(
+				SystemMessages::$error['LangError']['en']." ".
+				SystemMessages::$error['LangError']['pt']
+				);
+	} catch (UTRSNetworkException $ex){
+	   	  $errorMessages = $ex->getMessage();
+	   	  displayError($errorMessages);
+	}
 }
 
 ?>

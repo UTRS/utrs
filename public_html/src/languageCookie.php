@@ -10,4 +10,7 @@ function checkCookie() {
 		return "";
 	}
 }
+function getCookie() {
+	return $_COOKIE['language'];
+}
 ?>

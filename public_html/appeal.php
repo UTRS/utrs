@@ -11,6 +11,7 @@ ini_set('session.use_cookies', '1');
 
 require_once('src/languageCookie.php');
 echo checkCookie();
+$lang=getCookie();
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');
@@ -27,7 +28,6 @@ verifyLogin('appeal.php?id=' . $_GET['id']);
 
 $error = null;
 $errorMessages = '';
-$lang = 'en';
 
 //Template header()
 skinHeader("	

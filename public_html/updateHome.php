@@ -1,5 +1,8 @@
 <?php
 
+require_once('src/languageCookie.php');
+echo checkCookie();
+$lang=getCookie();
 require_once("src/unblocklib.php");
 require_once("src/userObject.php");
 require_once('src/messages.php');

@@ -4,6 +4,7 @@ ini_set('display_errors', 'On');
 
 require_once('src/languageCookie.php');
 echo checkCookie();
+$lang=getCookie();
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');

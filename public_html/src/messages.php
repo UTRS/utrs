@@ -43,7 +43,7 @@ class SystemMessages {
 			),
 			"SelectLang" => array (
 					"en" => "Please select the wiki and language you are editing on.",
-					"pt" => ""
+					"pt" => "{pt SelectLang}"
 			)
 	);
 	public static $log = array (
@@ -195,8 +195,8 @@ class SystemMessages {
                     "pt" => "Você tentou acionar o API da UTRS com parâmetros incorretos"
             ),
 			"LangError" => array (
-					"en" => "To use UTRS, it is required that you set a language and wiki to use. This is so that your appeal (or list of appeals for administrators) is selected from the right language. You can reset this at any time if you make a mistake. Once an appeal is filed in one language, it is impossible to change the language and wiki of that appeal.",
-					"pt" => ""
+					"en" => "EN: To use UTRS, it is required that you set a language and wiki to use. This is so that your appeal (or list of appeals for administrators) is selected from the right language. You can reset this at any time if you make a mistake. Once an appeal is filed in one language, it is impossible to change the language and wiki of that appeal.",
+					"pt" => "PT: {pt lang-error}"
 			)
 			
 	);

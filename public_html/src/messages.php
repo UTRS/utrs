@@ -36,8 +36,17 @@ class SystemMessages {
 			"AppealSubmitInfo" => array (
 				"en" => "Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href=\"http://en.wikipedia.org/wiki/Special:Mytalk\">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace \"your reason here\" with your appeal.",
 				"pt" => "{pt AppealSubmitInfo}"
-			)
-	);
+			),
+			"ReviewCount" => array (
+				"en" => "Review count:",				"pt" => "{pt ReviewCount}"
+			),
+			"UnblockCount" => array (
+				"en" => "Unblock count:",				"pt" => "{pt UnblockCount}"
+			),
+			"BecauseWMF" => array (
+				"en" => "This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.",	
+				"pt" => "{pt BecauseWMF}"
+			));
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
@@ -172,6 +181,22 @@ class SystemMessages {
 			),
 			"SubmitAppeal" => array (
 				"en" => "Submit Appeal",				"pt" => "{pt SubmitAppeal}"
+			),
+			"Userlink" => array (
+				"en" => "User:",
+				"pt" => "{pt Userlink}"
+			),
+			"ContribsLink" => array (
+				"en" => "Special:Contributions/",
+				"pt" => "{pt ContribsLink}"
+			),
+			"WMFStaffAssist" => array (
+				"en" => "This is an email from the Unblock Ticket Request System.  Please do not reply to this email, replies will go to an unmonitored email box. <br><br> Assistance is requested from a Wikimedia Foundation staff member on ",
+				"pt" => "{pt WMFStaffAssist}"
+			),
+			"TicketNum" => array (
+				"en" => "UTRS Ticket #",
+				"pt" => "{pt TicketNum}"
 			)
 	);
 	public static $log = array (
@@ -230,8 +255,7 @@ class SystemMessages {
 			"RevealCUData" => array(
 					"en" => "Revealed this appeals CU data: ",
 					"pt" => "Revelada a informação de checkuser destes pedidos"
-			)
-			,
+			),
 			"RevealEmail" => array(
 					"en" => "Revealed this appeals email: ",
 					"pt" => "Revelado o email destes pedidos"
@@ -249,8 +273,12 @@ class SystemMessages {
 					"pt" => "Enviado email para funcionários da Wikimedia Foundation pelo ca@wikimedia.org"
 			),
 			"AppealCreated" => array (
-				"en" => "Appeal Created",	
+				"en" => "Appeal Created",
 				"pt" => "{pt AppealCreated}"
+			),
+			"WMFReq" => array (
+				"en" => "WMF Assistance requested on unblock appeal #",
+				"pt" => "{pt WMFReq}"
 			)
 	);
 	public static $error = array (
@@ -349,6 +377,78 @@ class SystemMessages {
 			"JSError" => array (
 				"en" => "It looks like your browser either doesn't support Javascript, or Javascript is disabled. Elements of this form require Javascript to display properly. Please enable Javascript or use another browser to continue. Thank you!",
 				"pt" => "{pt JSError}"
+			),
+			"NoResults" => array (
+				"en" => "No results were returned for appeal ID",
+				"pt" => "{pt NoResults}"
+			),
+			"EmailRequired" => array (
+				"en" => "An email address is required in order to stay in touch with you about your appeal.",
+				"pt" => "{pt EmailRequired}"
+			),
+			"AccountRequired" => array (
+				"en" => "We need to know if you have an account on the English Wikipedia.",
+				"pt" => "{pt AccountRequired}"
+			),
+			"AccountNameRequired" => array (
+				"en" => "If you have an account, we need to know the name of your account.",
+				"pt" => "{pt AccountNameRequired}"
+			),
+			"WhatBlockRequired" => array (
+				"en" => "If you have an account, we need to know if you are appealing a direct block or an IP block.",
+				"pt" => "{pt WhatBlockRequired}"
+			),
+			"WhichAdminRequired" => array (
+				"en" => "We need to know which administrator placed your block.",
+				"pt" => "{pt WhichAdminRequired}"
+			),
+			"NoReasonUnblock" => array (
+				"en" => "You have not provided a reason why you wish to be unblocked.",
+				"pt" => "{pt NoReasonUnblock}"
+			),
+			"UserReasonNeedUnblock" => array (
+				"en" => "You have not told us what you think the reason you are blocked is.",
+				"pt" => "{pt UserReasonNeedUnblock}"
+			),
+			"WhichEditsRequired" => array (
+				"en" => "You have not told us what edits you wish to make once unblocked.",
+				"pt" => "{pt WhichEditsRequired}"
+			),
+			"ValidEmailRequired" => array (
+				"en" => "You have not provided a valid email address.",
+				"pt" => "{pt ValidEmailRequired}"
+			),
+			"NoMailinator" => array (
+				"en" => "Temporary email addresses, such as those issued by Mailinator, are not accepted.",
+				"pt" => "{pt NoMailinator}"
+			),
+			"EmailBlacklisted" => array (
+				"en" => "The email address you have entered is blacklisted. You must enter an email address that you own.",
+				"pt" => "{pt EmailBlacklisted}"
+			),
+			"UsernameInvalid" => array (
+				"en" => "The username you have entered is invalid. Usernames may not contain the characters",
+				"pt" => "{pt UsernameInvalid}"
+			),
+			"InvalidStatus" => array (
+				"en" => "The status you provided is invalid.",
+				"pt" => "{pt InvalidStatus}"
+			),
+			"AlreadyReserved" => array (
+				"en" => "This request is already reserved. If the person holding this ticket seems to be unavailable, ask a tool admin to break their reservation.",
+				"pt" => "{pt AlreadyReserved}"
+			),
+			"EmailAlreadyVerified" => array (
+				"en" => "The email address for this appeal has already been verified.",
+				"pt" => "{pt EmailAlreadyVerified}"
+			),
+			"InvalidEmailToken" => array (
+				"en" => "Invalid email confirmation token.  Please ensure that you have copied and pasted the verification URL correctly.",
+				"pt" => "{pt InvalidEmailToken}"
+			),
+			"NoData" => array (
+				"en" => "No unblock data found.",
+				"pt" => "{pt NoData}"
 			)
 	);
 	public static $tos = array (

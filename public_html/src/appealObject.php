@@ -278,7 +278,7 @@ class Appeal extends Model {
       $query->closeCursor();
 
       if ($values === false) {
-         throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
+         throw new UTRSDatabaseException(SystemMessages::$error['NoResults'][$lang].' ' . $id);
       }
       
       return self::newTrusted($values);
@@ -473,45 +473,45 @@ class Appeal extends Model {
       // confirm that all required fields exist
       if(!isset($this->emailAddress) || strcmp(trim($this->emailAddress), '') == 0 ){
          $emailErr = true;
-         $errorMsgs .= "<br />An email address is required in order to stay in touch with you about your appeal.";
+         $errorMsgs .= "<br />".SystemMessages::$tos['EmailRequired'][$lang];
       }
       if(!isset($this->hasAccount)){
-         $errorMsgs .= "<br />We need to know if you have an account on the English Wikipedia.";
+         $errorMsgs .= "<br />".SystemMessages::$tos['AccountRequired'][$lang];
       }
       if($this->hasAccount){
          if(!isset($this->accountName) || strcmp(trim($this->accountName), '') == 0 ){
-            $errorMsgs .= "<br />If you have an account, we need to know the name of your account.";
+            $errorMsgs .= "<br />".SystemMessages::$tos['AccountNameRequired'][$lang];
          }
          if(!isset($this->isAutoBlock)){
-            $errorMsgs .= "<br />If you have an account, we need to know if you are appealing a direct block or an IP block.";
+            $errorMsgs .= "<br />".SystemMessages::$tos['WhatBlockRequired'][$lang];
          }
       }
       if(!isset($this->blockingAdmin) || strcmp(trim($this->blockingAdmin), '') == 0){
-         $errorMsgs .= "<br />We need to know which administrator placed your block.";
+         $errorMsgs .= "<br />".SystemMessages::$tos['WhichAdminRequired'][$lang];
       }
       if(!isset($this->appeal) || strcmp(trim($this->appeal), '') == 0){
-         $errorMsgs .= "<br />You have not provided a reason why you wish to be unblocked.";
+         $errorMsgs .= "<br />".SystemMessages::$tos['NoReasonUnblock'][$lang];
       }
       if(!isset($this->blockReason) || strcmp(trim($this->blockReason), '') == 0){
-         $errorMsgs .= "<br />You have not told us what you think the reason you are blocked is.";
+         $errorMsgs .= "<br />".SystemMessages::$tos['UserReasonNeedUnblock'][$lang];
       }
       if(!isset($this->intendedEdits) || strcmp(trim($this->intendedEdits), '') == 0){
-         $errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
+         $errorMsgs .= "<br />".SystemMessages::$tos['WhichEditsRequired'][$lang];
       }
       
       // validate fields
       if(!$emailErr){
          $email = $this->emailAddress;
          if(!validEmail($email)){
-            $errorMsgs .= "<br />You have not provided a valid email address.";
+            $errorMsgs .= "<br />".SystemMessages::$tos['ValidEmailRequired'][$lang];
          }
          $matches = array();
          if(preg_match(Appeal::$EMAIL_BLACKLIST, $email, $matches)){
             if($matches[1] == "mailinator"){
-               $errorMsgs .= "<br />Temporary email addresses, such as those issued by Mailinator, are not accepted.";
+               $errorMsgs .= "<br />".SystemMessages::$tos['NoMailinator'][$lang];
             }
             else{
-               $errorMsgs .= "<br />The email address you have entered is blacklisted. You must enter an email address that you own.";
+               $errorMsgs .= "<br />".SystemMessages::$tos['EmailBlacklisted'][$lang];
             }
          }
       }
@@ -558,9 +558,9 @@ class Appeal extends Model {
    
    public function getUserPage() {
       if ($this->accountName && $this->hasAccount) {
-         return "User:" . $this->accountName;
+         return SystemMessages::$log['Userlink'][$lang] . $this->accountName;
       } else {
-         return "Special:Contributions/" . $this->ipAddress;
+         return SystemMessages::$log['ContribsLink'][$lang] . $this->ipAddress;
       }
    }
    
@@ -606,7 +606,7 @@ class Appeal extends Model {
       }
 
       if (!is_null($this->handlingAdmin)) {
-         $this->handlingAdminObject = UTRSUser::getUserById($this->handlingAdmin);
+         $this->handlingAdminObject = UTRSSystemMessages::$log['Userlink'][$lang].getUserById($this->handlingAdmin);
          return $this->handlingAdminObject;
       }
 
@@ -682,20 +682,18 @@ class Appeal extends Model {
       	|| strcmp($newStatus, self::$STATUS_INVALID) == 0) {
          // TODO: query to modify the row
          $this->status = $newStatus;
-         if ($this->status == self::$STATUS_CLOSED) { UTRSUser::getUserByUsername($_SESSION['user'])->incrementClose();
+         if ($this->status == self::$STATUS_CLOSED) { UTRSSystemMessages::$log['Userlink'][$lang].getUserByUsername($_SESSION['user'])->incrementClose();
          }
       }
       else{
          // Note: this shouldn't happen
-         throw new UTRSIllegalModificationException("The status you provided is invalid.");
+         throw new UTRSIllegalModificationException(SystemMessages::$tos['InvalidStatus'][$lang]);
       }
    }
    
    public function setHandlingAdmin($admin, $saveadmin = 0){
       if($this->getHandlingAdminId() != null && $admin != null){
-         throw new UTRSIllegalModificationException("This request is already reserved. "
-           . "If the person holding this ticket seems to be unavailable, ask a tool "
-           . "admin to break their reservation.");
+         throw new UTRSIllegalModificationException(SystemMessages::$tos['AlreadyReserved'][$lang]);
       }
       
       if ($this->getHandlingAdminId() == null && $admin == null) {
@@ -746,11 +744,11 @@ class Appeal extends Model {
 
    public function verifyEmail($token) {
       if ($this->status !== self::$STATUS_UNVERIFIED) {
-         throw new UTRSIllegalModificationException('The email address for this appeal has already been verified.');
+         throw new UTRSIllegalModificationException(SystemMessages::$tos['EmailAlreadyVerified'][$lang]);
       }
 
       if ($token !== $this->emailToken) {
-         throw new UTRSIllegalModificationException('Invalid email confirmation token.  Please ensure that you have copied and pasted the verification URL correctly.');
+         throw new UTRSIllegalModificationException(SystemMessages::$tos['InvalidEmailToken'][$lang]);
       }
 
       $db = ConnectToDB();
@@ -809,7 +807,7 @@ class Appeal extends Model {
         $review = count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data)));
         $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data)); 
         if ($review<$unblock) {
-          //throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
+          //throw new UTRSValidationException(SystemMessages::$system['ReviewCount'][$lang] ".$review.", SystemMessages::$system['UnblockCount'][$lang]".$unblock);
           return False;
         }
         else { 
@@ -817,7 +815,7 @@ class Appeal extends Model {
         }
       }
       else {
-        //throw new UTRSValidationException("No unblock data found."); 
+        //throw new UTRSValidationException(SystemMessages::$tos['NoData'][$lang]"); 
         return True; 
       }
    }
@@ -864,15 +862,13 @@ class Appeal extends Model {
 		$headers	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
 		//BODY
-		$body		= "This is an email from the Unblock Ticket Request System.  Please do not reply to this email, replies will go to an unmonitored email box." .
-						"<br><br>" . 
-						"Assistance is requested from a Wikimedia Foundation staff member on " .
-						"<a href=\"https://utrs.wmflabs.org/appeal.php?id=" . $this->getID() . ">UTRS Ticket #" . $this->getID() . "</a>." .
+		$body		= SystemMessages::$system['WMFStaffAssist'][$lang] .
+						"<a href=\"https://utrs.wmflabs.org/appeal.php?id=" . $this->getID() . ">".SystemMessages::$log['TicketNum'][$lang] . $this->getID() . "</a>." .
 						"<br><br>" .
-						"This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.";
+						SystemMessages::$system['BecauseWMF'][$lang];
 						
 		//SUBJECT
-		$subject = "WMF Assistance requested on unblock appeal #" . $this->getID();
+		$subject = SystemMessages::$error['WMFReq'][$lang] . $this->getID();
 		
 		//MAIL
 		mail($email, $subject, $body, $headers);

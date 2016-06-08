@@ -342,19 +342,19 @@ Request System
    </li>
    <?php } 
  if (!isset($_COOKIE['language'])) {
-   		$lang="ERROR!";
+   		$langtext="ERROR!";
    }
    elseif ($_COOKIE['language'] == 'en') {
-   		$lang="English Wikipedia";
+   		$langtext="English Wikipedia";
    }
    elseif ($_COOKIE['language'] == 'pt') {
-   		$lang="Wikipédia portuguesa";
+   		$langtext="Wikipédia portuguesa";
    }
    else {
-   		$lang="ERROR!";
+   		$langtext="ERROR!";
    }
    echo "<li style=\"float:right;\"><a href=\"langVerify.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
-   echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>"; ?>
+   echo "<li style=\"float:right;\">Wiki/Language: ".$langtext."</li>"; ?>
 </ul>
 <div style="clear: both"></div>
 </div>

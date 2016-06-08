@@ -333,7 +333,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="jobs">
       <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
    </li>
-   <li style="float:right;">test</li>
+   
    <?php
  } ?>
 </ul>
@@ -341,11 +341,25 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
 </div>
 <div style="clear: both"></div>
 <?php
-   //this is for the navigation for the tool admin pages
+   //this is for the navigation for the tool admin pages ?>
+<div>
+<ul id="adminNav"><?php 
    if ($adminNav == true) {
       adminNav();
    }
+   if ($_COOKIE['language'] == 'en') {
+   		$lang="English Wikipedia";
+   }
+   elseif ($_COOKIE['language'] == 'pt') {
+   		$lang="Wikipédia portuguesa";
+   }
+   else {
+   	$lang="ERROR!";
+   	
+   echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>";
 ?>
+</ul>
+</div>
 <div id="main">
 <?php
 }
@@ -373,8 +387,7 @@ Version <?php echo getVersion() ?>.</p>
 
 function adminNav() {
 ?>
-<div>
-<ul id="adminNav">
+
    <li id="adminNavHeader">
       <p>Administration</p>
    </li>
@@ -397,9 +410,6 @@ function adminNav() {
    <li id="massEmail">
       <a href="<?php echo getRootURL() . 'massEmail.php'; ?>">Send Mass Email</a>
    </li>
-   <?php } ?>
-</ul>
-</div>
-<?php
+   <?php } 
 }
 ?>

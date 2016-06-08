@@ -10,6 +10,13 @@ function checkCookie() {
 		return "";
 	}
 }
+function cookieExist() {
+	if (!isset($_COOKIE['language'])) {
+		return false;
+	}
+	else {
+		return true;
+}
 function getCookie() {
 	return $_COOKIE['language'];
 }

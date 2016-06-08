@@ -46,7 +46,16 @@ class SystemMessages {
 			"BecauseWMF" => array (
 				"en" => "This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.",	
 				"pt" => "{pt BecauseWMF}"
-			));
+			),
+			"UTRSInfo" => array (
+				"en" => "The Unblock Ticket Request System is a project hosted on the Wikimedia Labs intended to assist users with the unblock process. <br /> This software is licensed under the <a id=\"GPL\" href=\"http://www.gnu.org/copyleft/gpl.html\" target=\"_NEW\">GNU General Public License Version 3 or Later</a>.<br /> For questions or assistance with the Unblock Ticket Request System, please email our administration team at <a href=\"mailto:utrs-admins@googlegroups.com\">utrs-admins&#64;googlegroups.com</a>.<br />",
+				"pt" => "{pt UTRSInfo}"
+			),
+			"Version" => array (
+				"en" => "Version",
+				"pt" => "{pt Version}"
+			)
+	);
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
@@ -197,8 +206,23 @@ class SystemMessages {
 			"TicketNum" => array (
 				"en" => "UTRS Ticket #",
 				"pt" => "{pt TicketNum}"
-			)
-	);
+			),
+			"ActiveUsers" => array (
+				"en" => "Users active in the last five minutes:",
+				"pt" => "{pt ActiveUsers}"
+			),
+			"SiteTitle" => array (
+				"en" => "Unblock Ticket Request System",
+				"pt" => "{pt SiteTitle}"
+			),
+			"HeaderSiteTitle" => array (
+				"en" => "Unblock Ticket<br />Request System",
+				"pt" => "{pt HeaderSiteTitle}"
+			),
+			"Administration" => array (
+				"en" => "Administration",
+				"pt" => "{pt Administration}"
+			));
 	public static $log = array (
 			"StatusToCU" => array (
 					"en" => 'Status change to AWAITING_CHECKUSER',
@@ -449,6 +473,92 @@ class SystemMessages {
 			"NoData" => array (
 				"en" => "No unblock data found.",
 				"pt" => "{pt NoData}"
+			),
+			"SiteNoticeError" => array (
+					"en" => "An error occured when getting the sitenotice:",
+					"pt" => "{pt SiteNoticeError}"
+			)
+	);
+	public static $links = array (
+			"Home" => array (
+					"en" => 'Home',
+					"pt" => "{pt Home}"
+			),
+			"Stats" => array (
+					"en" => "Statistics",
+					"pt" => "{pt Stats}"
+			),
+			"TemplateManagement" => array (
+					"en" => "Manage/View Templates",
+					"pt" => "{pt TemplateManagement}"
+			),
+			"UserManagement" => array (
+					"en" => "Tool Administration",
+					"pt" => "{pt UserManagement}"
+			),
+			"Userlist" => array (
+					"en" => "Userlist",
+					"pt" => "{pt Userlist}"
+			),
+			"Search" => array (
+					"en" => "Search",
+					"pt" => "{pt Search}"
+			),
+			"Preferences" => array (
+					"en" => "Preferences",
+					"pt" => "{pt Preferences}"
+			),
+			"PrivPolAdmin" => array(
+					"en" => "Privacy Policy",
+					"pt" => "{pt PrivPolAdmin}"
+			),
+			"Jobs" => array(
+					"en" => "UTRS Team",
+					"pt" => "{pt Jobs}"
+			),
+			"Logout" => array(
+					"en" => "Logout",
+					"pt" => "{pt Logout}"
+			),
+			"AppealBlock" => array(
+					"en" => "Appeal a Block",
+					"pt" => "{pt AppealBlock}"
+			),
+			"GTAB" => array(
+					"en" => "Guide to Appealing Blocks",
+					"pt" => "{pt GTAB}"
+			),
+			"GTABLink" => array(
+					"en" => "http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks",
+					"pt" => "{pt GTABLink}"
+			),
+			"Login" => array(
+					"en" => "Admins: Log in to review requests",
+					"pt" => "{pt Login}"
+			),
+			"Register" => array(
+					"en" => "Admins: Request an account",
+					"pt" => "{pt Register}"
+			),
+			"PrivPol" => array(
+					"en" => "Privacy Policy",
+					"pt" => "{pt PrivPol}"
+			),
+			"BanManagement" => array (
+				"en" => "Ban Management",
+				"pt" => "{pt BanManagement}"
+			),
+			"HookManagement" => array (
+				"en" => "Hook Management",
+				"pt" => "{pt HookManagement}"
+			),
+			"SitenoticeManagement" => array (
+				"en" => "Sitenotice Management",
+				"pt" => "{pt SitenoticeManagement}"
+			),
+			"MassEmail" => array (
+				"en" => "Send Mass Email",
+				"pt" => "{pt MassEmail}"
 			)
 	);
 	public static $tos = array (

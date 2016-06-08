@@ -473,45 +473,45 @@ class Appeal extends Model {
       // confirm that all required fields exist
       if(!isset($this->emailAddress) || strcmp(trim($this->emailAddress), '') == 0 ){
          $emailErr = true;
-         $errorMsgs .= "<br />".SystemMessages::$tos['EmailRequired'][$lang];
+         $errorMsgs .= "<br />".SystemMessages::$error['EmailRequired'][$lang];
       }
       if(!isset($this->hasAccount)){
-         $errorMsgs .= "<br />".SystemMessages::$tos['AccountRequired'][$lang];
+         $errorMsgs .= "<br />".SystemMessages::$error['AccountRequired'][$lang];
       }
       if($this->hasAccount){
          if(!isset($this->accountName) || strcmp(trim($this->accountName), '') == 0 ){
-            $errorMsgs .= "<br />".SystemMessages::$tos['AccountNameRequired'][$lang];
+            $errorMsgs .= "<br />".SystemMessages::$error['AccountNameRequired'][$lang];
          }
          if(!isset($this->isAutoBlock)){
-            $errorMsgs .= "<br />".SystemMessages::$tos['WhatBlockRequired'][$lang];
+            $errorMsgs .= "<br />".SystemMessages::$error['WhatBlockRequired'][$lang];
          }
       }
       if(!isset($this->blockingAdmin) || strcmp(trim($this->blockingAdmin), '') == 0){
-         $errorMsgs .= "<br />".SystemMessages::$tos['WhichAdminRequired'][$lang];
+         $errorMsgs .= "<br />".SystemMessages::$error['WhichAdminRequired'][$lang];
       }
       if(!isset($this->appeal) || strcmp(trim($this->appeal), '') == 0){
-         $errorMsgs .= "<br />".SystemMessages::$tos['NoReasonUnblock'][$lang];
+         $errorMsgs .= "<br />".SystemMessages::$error['NoReasonUnblock'][$lang];
       }
       if(!isset($this->blockReason) || strcmp(trim($this->blockReason), '') == 0){
-         $errorMsgs .= "<br />".SystemMessages::$tos['UserReasonNeedUnblock'][$lang];
+         $errorMsgs .= "<br />".SystemMessages::$error['UserReasonNeedUnblock'][$lang];
       }
       if(!isset($this->intendedEdits) || strcmp(trim($this->intendedEdits), '') == 0){
-         $errorMsgs .= "<br />".SystemMessages::$tos['WhichEditsRequired'][$lang];
+         $errorMsgs .= "<br />".SystemMessages::$error['WhichEditsRequired'][$lang];
       }
       
       // validate fields
       if(!$emailErr){
          $email = $this->emailAddress;
          if(!validEmail($email)){
-            $errorMsgs .= "<br />".SystemMessages::$tos['ValidEmailRequired'][$lang];
+            $errorMsgs .= "<br />".SystemMessages::$error['ValidEmailRequired'][$lang];
          }
          $matches = array();
          if(preg_match(Appeal::$EMAIL_BLACKLIST, $email, $matches)){
             if($matches[1] == "mailinator"){
-               $errorMsgs .= "<br />".SystemMessages::$tos['NoMailinator'][$lang];
+               $errorMsgs .= "<br />".SystemMessages::$error['NoMailinator'][$lang];
             }
             else{
-               $errorMsgs .= "<br />".SystemMessages::$tos['EmailBlacklisted'][$lang];
+               $errorMsgs .= "<br />".SystemMessages::$error['EmailBlacklisted'][$lang];
             }
          }
       }
@@ -687,13 +687,13 @@ class Appeal extends Model {
       }
       else{
          // Note: this shouldn't happen
-         throw new UTRSIllegalModificationException(SystemMessages::$tos['InvalidStatus'][$lang]);
+         throw new UTRSIllegalModificationException(SystemMessages::$error['InvalidStatus'][$lang]);
       }
    }
    
    public function setHandlingAdmin($admin, $saveadmin = 0){
       if($this->getHandlingAdminId() != null && $admin != null){
-         throw new UTRSIllegalModificationException(SystemMessages::$tos['AlreadyReserved'][$lang]);
+         throw new UTRSIllegalModificationException(SystemMessages::$error['AlreadyReserved'][$lang]);
       }
       
       if ($this->getHandlingAdminId() == null && $admin == null) {
@@ -744,11 +744,11 @@ class Appeal extends Model {
 
    public function verifyEmail($token) {
       if ($this->status !== self::$STATUS_UNVERIFIED) {
-         throw new UTRSIllegalModificationException(SystemMessages::$tos['EmailAlreadyVerified'][$lang]);
+         throw new UTRSIllegalModificationException(SystemMessages::$error['EmailAlreadyVerified'][$lang]);
       }
 
       if ($token !== $this->emailToken) {
-         throw new UTRSIllegalModificationException(SystemMessages::$tos['InvalidEmailToken'][$lang]);
+         throw new UTRSIllegalModificationException(SystemMessages::$error['InvalidEmailToken'][$lang]);
       }
 
       $db = ConnectToDB();
@@ -815,7 +815,7 @@ class Appeal extends Model {
         }
       }
       else {
-        //throw new UTRSValidationException(SystemMessages::$tos['NoData'][$lang]"); 
+        //throw new UTRSValidationException(SystemMessages::$error['NoData'][$lang]"); 
         return True; 
       }
    }
@@ -868,7 +868,7 @@ class Appeal extends Model {
 						SystemMessages::$system['BecauseWMF'][$lang];
 						
 		//SUBJECT
-		$subject = SystemMessages::$error['WMFReq'][$lang] . $this->getID();
+		$subject = SystemMessages::$log['WMFReq'][$lang] . $this->getID();
 		
 		//MAIL
 		mail($email, $subject, $body, $headers);

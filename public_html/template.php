@@ -355,8 +355,9 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    }
    else {
    	$lang="ERROR!";
-   	
+   }
    echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>";
+   echo "<li style=\"float:right;\"><a href=\"verifyLang.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/25px-Blue_pencil.svg.png\"></li></a>";
 ?>
 </ul>
 </div>

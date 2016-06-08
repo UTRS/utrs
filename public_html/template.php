@@ -265,7 +265,7 @@ if($loggedIn){
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >
 Unblock Ticket<br />
-Request System <?php if(strpos(__FILE__, "/beta/") !== false){ echo "BETA"; } ?>
+Request System
 </a></div>
 <?php if($sitenoticeText){?>
 <div id="sitenotice">

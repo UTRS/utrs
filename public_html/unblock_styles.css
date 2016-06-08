@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+@CHARSET "ISO-8859-1";
 
 body{
    font-family: sans-serif;
@@ -68,7 +68,7 @@ form{
    text-align: left;
    margin-left: -20px;
    padding-left: 4px;
-   width:102%;
+   width:100%;
    font-size: 0.8em;
 }
 
@@ -84,12 +84,14 @@ form{
    color: black;
    width: 100%;
    font-size: .95em;
-   font-family: Arial, sans-serif;
+   font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
    border-bottom: 1px solid #ddd;
    border-top: 1px solid #ddd;
    margin-left: -20px;
    margin-bottom: 10px;
    padding-left: 20px;
+   font-variant: small-caps;
+   text-transform: lowercase;
    text-align:center;
 }
 

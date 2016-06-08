@@ -39,7 +39,7 @@ form{
    font-size: 2.0em;
    font-weight: bold;
    color: #000 !important;
-   width: 101%;
+   width: 100%;
    border: none;
    padding-left: 20px;
    padding-top: 20px;
@@ -82,7 +82,7 @@ form{
    background-color: #f9f9f9;
    height:auto;
    color: black;
-   width: 101%;
+   width: 100%;
    font-size: .95em;
    font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
    border-bottom: 1px solid #ddd;
@@ -90,8 +90,6 @@ form{
    margin-left: -20px;
    margin-bottom: 10px;
    padding-left: 20px;
-   font-variant: small-caps;
-   text-transform: lowercase;
    text-align:center;
 }
 
@@ -199,7 +197,7 @@ background-color: #e0e0e0 !important;
    padding-left: 20px;
    padding-top: 10px;
    padding-bottom: 10px;
-   width:101%;
+   width:100%;
 }
 
 #footer p{

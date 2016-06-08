@@ -24,8 +24,8 @@ skinHeader();
 if(!isset($_COOKIE["language"])) {
 	try {
 		throw new UTRSNetworkException(
-				SystemMessages::$error['LangError']['en']." ".
-				SystemMessages::$error['LangError']['pt']
+				"<br>".SystemMessages::$error['LangError']['en']." ".
+				"<br><br>".SystemMessages::$error['LangError']['pt']
 				);
 	} catch (UTRSNetworkException $ex){
 	   	  $errorMessages = $ex->getMessage();

@@ -337,14 +337,17 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    if ($adminNav == true) {
       adminNav();
    }
-   if ($_COOKIE['language'] == 'en') {
+   if (!isset($_COOKIE['language'])) {
+   		$lang="ERROR!";
+   }
+   elseif ($_COOKIE['language'] == 'en') {
    		$lang="English Wikipedia";
    }
    elseif ($_COOKIE['language'] == 'pt') {
    		$lang="Wikipédia portuguesa";
    }
    else {
-   	$lang="ERROR!";
+   		$lang="ERROR!";
    }
    echo "<li style=\"float:right;\"><a href=\"langVerify.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
    echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>";  

@@ -37,6 +37,13 @@ class UTRSCredentialsException extends UTRSException{
 	}
 }
 
+class UTRSNetworkException extends UTRSException{
+	public function __construct($errorMsg){
+		$message = "<b>An error occured while loading the page: </b>" . $errorMsg;
+		parent::__construct($message, 10005, null);
+	}
+}
+
 class UTRSIllegalArgumentException extends UTRSException{
 	public function __construct($arg, $expected, $function){
 		$message = "Argument " . $arg . " was provided to " . $function . " when " . $expected . " was expected.<br/>";

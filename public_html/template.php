@@ -264,8 +264,8 @@ if($loggedIn){
 </head>
 <body>
 <div id="header"><a <?php if($loggedIn) { ?>href="home.php"<?php }else{ ?>href="index.php"<?php } ?> >
-English Wikipedia<br />
-Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ echo "BETA"; } ?>
+Unblock Ticket<br />
+Request System <?php if(strpos(__FILE__, "/beta/") !== false){ echo "BETA"; } ?>
 </a></div>
 <?php if($sitenoticeText){?>
 <div id="sitenotice">
@@ -371,8 +371,8 @@ function skinFooter() {
 <p style="text-align:center; font-size:small;">Users active in the last five minutes: <?php echo getLoggedInUsers(); ?></p>
 <?php }?>
 <p>The Unblock Ticket Request System is a project hosted on the Wikimedia Labs intended to assist
-users with the <a href="http://en.wikipedia.org/wiki/Wikipedia:Appealing_a_block" target="_NEW">unblock process</a> on the English Wikipedia. <br />
-This project is licensed under the
+users with the <a href="http://en.wikipedia.org/wiki/Wikipedia:Appealing_a_block" target="_NEW">unblock process</a>. <br />
+This software is licensed under the
 <a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later</a>.<br />
 For questions or assistance with the Unblock Ticket Request System, please email our administration team at
 <a href="mailto:utrs-admins@googlegroups.com">utrs-admins&#64;googlegroups.com</a>.<br />

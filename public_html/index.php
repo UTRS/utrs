@@ -186,9 +186,9 @@ if($success){
    displaySuccess(SystemMessages::$system['AppealSucess'][$lang]);
 } else {
 ?>
-<p><?php SystemMessages::$information['BlockIntro'][$lang]?></p>
+<p><?php echo SystemMessages::$information['BlockIntro'][$lang]?></p>
 
-<p><?php SystemMessages::$information['PageProtect'][$lang]?></p>
+<p><?php echo SystemMessages::$information['PageProtect'][$lang]?></p>
 
 <p><b><?php echo SystemMessages::$system['AssistBlock'][$lang]?></b></p>
 

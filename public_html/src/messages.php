@@ -6,7 +6,7 @@ class SystemMessages {
 					"pt" => "De: Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n"
 			),
 			"CreateAccount" => array (
-				"en" => "We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.",	
+				"en" => "We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.",
 				"pt" => "{pt CreateAccount}"
 			),
 			"Welcome" => array (

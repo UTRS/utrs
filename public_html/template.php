@@ -333,17 +333,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="jobs">
       <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
    </li>
-   
-   <?php
- } ?>
-</ul>
-<div style="clear: both"></div>
-</div>
-<div style="clear: both"></div>
-<?php
-   //this is for the navigation for the tool admin pages ?>
-<div>
-<ul id="adminNav"><?php 
+   <?php 
    if ($adminNav == true) {
       adminNav();
    }
@@ -357,10 +347,12 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    	$lang="ERROR!";
    }
    echo "<li style=\"float:right;\">Wiki/Language: ".$lang."</li>";
-   echo "<li style=\"float:right;\"><a href=\"verifyLang.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/25px-Blue_pencil.svg.png\"></li></a>";
-?>
+   echo "<li style=\"float:right;\"><a href=\"verifyLang.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
+ } ?>
 </ul>
+<div style="clear: both"></div>
 </div>
+<div style="clear: both"></div>
 <div id="main">
 <?php
 }
@@ -388,7 +380,6 @@ Version <?php echo getVersion() ?>.</p>
 
 function adminNav() {
 ?>
-
    <li id="adminNavHeader">
       <p>Administration</p>
    </li>

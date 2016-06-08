@@ -16,6 +16,7 @@ function cookieExist() {
 	}
 	else {
 		return true;
+	}
 }
 function getCookie() {
 	return $_COOKIE['language'];

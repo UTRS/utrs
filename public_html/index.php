@@ -179,7 +179,7 @@ window.onload = function ()
    }
 }; " : "" ));
 ?>
-<center><b><?php echo SystemMessages::$system['Welcome'][$lang] ?></b>
+<center><b><?php echo SystemMessages::$information['Welcome'][$lang] ?></b>
 <div id="inputBox">
 <?php
 if($success){

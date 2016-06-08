@@ -2,6 +2,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+require_once('src/languageCookie.php');
+echo checkCookie();
 require_once('recaptchalib.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');

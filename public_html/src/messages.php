@@ -149,7 +149,7 @@ class SystemMessages {
 				"en" => "My IP address or range (my account is not blocked)",				"pt" => "{pt MyIPorRange}"
 			),
 			"AssistBlock" => array (
-				"en" => "For assistance with a block, please complete the form below:",	
+				"en" => "For assistance with a block, please complete the form below:",
 				"pt" => "{pt AssistBlock}"
 			),
 			"ReqEmail" => array (

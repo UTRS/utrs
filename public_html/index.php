@@ -186,24 +186,14 @@ if($success){
    displaySuccess(SystemMessages::$system['AppealSucess'][$lang]);
 } else {
 ?>
-<p>If you are presently blocked from editing on Wikipedia (which you may verify by 
-clicking <a href="http://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=edit">here</a>), you may fill out
-the form below to have an administrator review your block. Please complete all fields labelled in 
-<span class="required">red text</span>, as these are required in order for us to complete a full review of your block.</p>
+<p><?php SystemMessages::$information['BlockInfo'][$lang]?></p>
 
-<p>If you are having trouble editing a particular page or making a particular edit, but are able to edit the page
-linked in the previous paragraph, you may not be blocked, but instead could be having difficulty with 
-<a href="http://en.wikipedia.org/wiki/Wikipedia:Protection policy">page protection</a> or the 
-<a href="http://en.wikipedia.org/wiki/Wikipedia:Edit filter">edit filter</a>. For more information, and instructions on
-how to receive assistance, please see those links.</p>
+<p><?php SystemMessages::$information['PageProtect'][$lang]?></p>
 
 <p><b><?php echo SystemMessages::$system['AssistBlock'][$lang]?></b></p>
 
 <noscript>
-<?php displayError("It looks like your browser either doesn't support Javascript, or " .
-                             "Javascript is disabled. Elements of this form require Javascript " .
-                             "to display properly. Please enable Javascript or use another browser " .
-                             "to continue. Thank you!");?>
+<?php displayError(SystemMessages::$error['JSError'][$lang]);?>
 </noscript>
 
 <?php 
@@ -220,7 +210,7 @@ echo '<label id="appealLabel" for="appeal" class="required">'.SystemMessages::$s
 echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
 echo '<label id="editsLabel" for="edits" class="required">'.SystemMessages::$system['WhatEdit'][$lang].'</label><br /><br />';
 echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
-echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
+echo '<label id="blockInfoLabel" for="blockReaon" class="required">'.SystemMessages::$system['WhyBlockAffect'][$lang].'</label><br /><br />';
 echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
 echo '<label id="otherInfoLabel" for="otherInfo">'.SystemMessages::$system['AnythingElse'][$lang].'</label><br /><br />';
 echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
@@ -238,11 +228,7 @@ if (isset($privatekey)) {
 
 ?>
 <small>
-<p>By submitting this unblock request, you are consenting to allow us to collect information about
-your computer and that you agree with our <a href="privacy.php">Privacy Policy</a>.  This information
-will in most cases allow us to distinguish you from any vandals editing from the same location. We do
-not store this information any longer than necessary, and do not share it with any third party. For more
-information, please see our <a href="privacy.php">Privacy Policy.</a>
+<p><?php echo SystemMessages::$information['AgreePrivPol_appeal'][$lang]?>
 
 <?php echo SystemMessages::$privpol_all['WikimediaLabsDisclaimer'][$lang]?></p></small>
 <?php

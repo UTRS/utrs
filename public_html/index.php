@@ -84,13 +84,13 @@ if(isset($_POST["submit"])){
          throw new UTRSCredentialsException($message);
       }
       if ($registered && !$autoblock && !Appeal::verifyBlock($wikiAccount, TRUE)) {
-        throw new UTRSValidationException(SystemMessages::$log['Uname'][$lang] ."(".$wikiAccount.")". SystemMessages::$tos['NotBlocked'][$lang]." ".SystemMessages::$log['VerifyBlock'][$lang]);
+        throw new UTRSValidationException(SystemMessages::$system['Uname'][$lang] ."(".$wikiAccount.")". SystemMessages::$tos['NotBlocked'][$lang]." ".SystemMessages::$system['VerifyBlock'][$lang]);
       }
       elseif ($registered && $autoblock  && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException(SystemMessages::$system['YourIP'][$lang]. "(".$ip.")". SystemMessages::$tos['NotBlocked'][$lang]." ".SystemMessages::$log['IsAccountBlocked'][$lang]);
+        throw new UTRSValidationException(SystemMessages::$system['YourIP'][$lang]. "(".$ip.")". SystemMessages::$tos['NotBlocked'][$lang]." ".SystemMessages::$system['IsAccountBlocked'][$lang]);
       }
       elseif (!$registered && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException(SystemMessages::$system['YourIP'][$lang]. "(".$ip.")". SystemMessages::$tos['NotBlocked'][$lang]." ". SystemMessages::$log['HaveAccount'][$lang]);
+        throw new UTRSValidationException(SystemMessages::$system['YourIP'][$lang]. "(".$ip.")". SystemMessages::$tos['NotBlocked'][$lang]." ". SystemMessages::$system['HaveAccount'][$lang]);
       }
       if ($registered && !Appeal::verifyNoPublicAppeal($wikiAccount)) {
         throw new UTRSValidationException(SystemMessages::$tos['AppealTalkpage'][$lang]);
@@ -132,8 +132,8 @@ if(isset($_POST["submit"])){
 
       $success = true;
       
-      $log = Log::getCommentsByAppealId($appeal->getID());
-      $log->addNewItem(SystemMessages::$error['AppealCreated'][$lang], 1);
+      $system = Log::getCommentsByAppealId($appeal->getID());
+      $system->addNewItem(SystemMessages::$error['AppealCreated'][$lang], 1);
       Log::ircNotification("\x033New appeal has been created for\x032 " . $appeal->getCommonName() . " \x033(\x032 " . $appeal->getID() . " \x033) URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
    }
    catch (UTRSValidationException $ex){
@@ -154,8 +154,8 @@ if(isset($_POST["submit"])){
    }
 }
 
-skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">". SystemMessages::$log['NameOfAccount'][$lang]."</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
-var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">".SystemMessages::$log['WhatIsBlocked'][$lang]."</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " />". SystemMessages::$log['MyAccount'][$lang]." &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " />". SystemMessages::$log['MyIPorRange'][$lang]."<br />\";
+skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">". SystemMessages::$system['NameOfAccount'][$lang]."</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
+var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">".SystemMessages::$system['WhatIsBlocked'][$lang]."</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " />". SystemMessages::$system['MyAccount'][$lang]." &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " />". SystemMessages::$system['MyIPorRange'][$lang]."<br />\";
 var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">".SystemMessages::$system['CreateAccount'][$lang]."</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
@@ -197,7 +197,7 @@ linked in the previous paragraph, you may not be blocked, but instead could be h
 <a href="http://en.wikipedia.org/wiki/Wikipedia:Edit filter">edit filter</a>. For more information, and instructions on
 how to receive assistance, please see those links.</p>
 
-<p><b><?php echo SystemMessages::$log['AssistBlock'][$lang]?></b></p>
+<p><b><?php echo SystemMessages::$system['AssistBlock'][$lang]?></b></p>
 
 <noscript>
 <?php displayError("It looks like your browser either doesn't support Javascript, or " .
@@ -244,10 +244,10 @@ will in most cases allow us to distinguish you from any vandals editing from the
 not store this information any longer than necessary, and do not share it with any third party. For more
 information, please see our <a href="privacy.php">Privacy Policy.</a>
 
-<?php echo SystemMessages::$tos['WikimediaLabsDisclaimer'][$lang]?></p></small>
+<?php echo SystemMessages::$privpol_all['WikimediaLabsDisclaimer'][$lang]?></p></small>
 <?php
 
-echo '<input type="submit" name="submit" value='.SystemMessages::$log['SubmitAppeal'][$lang].'/>';
+echo '<input type="submit" name="submit" value='.SystemMessages::$system['SubmitAppeal'][$lang].'>';
 echo '</form>';
 
 } /* !$success */

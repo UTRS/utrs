@@ -179,7 +179,7 @@ window.onload = function ()
    }
 }; " : "" ));
 ?>
-<center><b>".SystemMessages::$system['Welcome'][$lang]."</b>
+<center><b><?php echo SystemMessages::$system['Welcome'][$lang] ?></b>
 <div id="inputBox">
 <?php
 if($success){
@@ -197,7 +197,7 @@ linked in the previous paragraph, you may not be blocked, but instead could be h
 <a href="http://en.wikipedia.org/wiki/Wikipedia:Edit filter">edit filter</a>. For more information, and instructions on
 how to receive assistance, please see those links.</p>
 
-<p><b>".SystemMessages::$log['AssistBlock'][$lang]."</b></p>
+<p><b><?php echo SystemMessages::$log['AssistBlock'][$lang]?></b></p>
 
 <noscript>
 <?php displayError("It looks like your browser either doesn't support Javascript, or " .
@@ -212,17 +212,17 @@ if($errorMessages){
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
-echo '<label id="emailLabel" for="accountName" class="required">'.SystemMessages::$log['ReqEmail'][$lang].'</font></b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
-echo '<label id="registeredLabel" for="registered" class="required">'.SystemMessages::$log['HaveAccount'][$lang].'</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
+echo '<label id="emailLabel" for="accountName" class="required">'.SystemMessages::$system['ReqEmail'][$lang].'</font></b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
+echo '<label id="registeredLabel" for="registered" class="required">'.SystemMessages::$system['HaveAccount'][$lang].'</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
-echo '<label id="appealLabel" for="appeal" class="required">'.SystemMessages::$log['WhyUnblock'][$lang].'</label><br /><br />';
+echo '<label id="appealLabel" for="appeal" class="required">'.SystemMessages::$system['WhyUnblock'][$lang].'</label><br /><br />';
 echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
-echo '<label id="editsLabel" for="edits" class="required">'.SystemMessages::$log['WhatEdit'][$lang].'</label><br /><br />';
+echo '<label id="editsLabel" for="edits" class="required">'.SystemMessages::$system['WhatEdit'][$lang].'</label><br /><br />';
 echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
 echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
-echo '<label id="otherInfoLabel" for="otherInfo">'.SystemMessages::$log['AnythingElse'][$lang].'</label><br /><br />';
+echo '<label id="otherInfoLabel" for="otherInfo">'.SystemMessages::$system['AnythingElse'][$lang].'</label><br /><br />';
 echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
 
 if (isset($privatekey)) {
@@ -244,16 +244,16 @@ will in most cases allow us to distinguish you from any vandals editing from the
 not store this information any longer than necessary, and do not share it with any third party. For more
 information, please see our <a href="privacy.php">Privacy Policy.</a>
 
-SystemMessages::$tos['WikimediaLabsDisclaimer'][$lang]'.</p></small>
+<?php echo SystemMessages::$tos['WikimediaLabsDisclaimer'][$lang]?></p></small>
 <?php
 
-echo '<input type="submit" name="submit" value=SystemMessages::$log[\'SubmitAppeal\'][$lang]/>';
+echo '<input type="submit" name="submit" value='.SystemMessages::$log['SubmitAppeal'][$lang].'/>';
 echo '</form>';
 
 } /* !$success */
 ?>
 
-<p>".SystemMessages::$system['AppealSubmitInfo'][$lang]."</p>
+<p><?php echo SystemMessages::$system['AppealSubmitInfo'][$lang]?></p>
 </div></center>
 <?php 
 

@@ -208,7 +208,7 @@ function debug($message){
  * 				only on redirection pages.
  * @throws UTRSDatabaseException
  */
-function connectToDB($suppressOutput = false){
+function connectToDB($suppressOutput = false,$forcedLang="en"){
 	global $CONFIG;
 
 	static $pdo = false;
@@ -222,7 +222,12 @@ function connectToDB($suppressOutput = false){
 	}
 
 	try {
-		$pdo = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		if ($forcedLang == "en") {
+			$pdo = new PDO($CONFIG['db']['dsn']['en'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		}
+		if ($forcedLang == "pt") {
+			$pdo = new PDO($CONFIG['db']['dsn']['pt'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		}
 	} catch (PDOException $pdo_ex) {
 		debug($pdo_ex->getMessage());
 		throw new UTRSDatabaseException("Failed to connect to database server!");

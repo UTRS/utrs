@@ -33,7 +33,7 @@ class UTRSBot
     public function notifyUser($username, $templateVars)
     {
         
-        if ($this->enabled) {
+        if ($this->enabled == "true") {
             $user = $this->objPeachy->initUser($username);
             
             $template = $this->objPeachy->initPage("Template:" . $this->userTemplate);
@@ -64,7 +64,7 @@ class UTRSBot
     public function notifyAdmin($username, $templateVars)
     {
         
-        if ($this->enabled) {
+        if ($this->enabled == "true") {
             $user = $this->objPeachy->initUser($username);
             
             //Get Blocking Admin from API
@@ -97,7 +97,7 @@ class UTRSBot
     public function notifyOPP($ip, $templateVars)
     {
         
-        if ($this->enabled) {
+        if ($this->enabled == "true") {
             $template = $this->objPeachy->initPage("Template:" . $this->oppTemplate);
             
             $this->objPeachy->set_runpage("User:UTRSBot/notifyOPP");
@@ -124,7 +124,7 @@ class UTRSBot
     public function closeUserTemplate()
     {
         
-        if ($this->enabled) {
+        if ($this->enabled == "true") {
             $this->objPeachy->set_runpage("User:UTRSBot/closeAppeals");
             
             $result = $this->objPeachy->apiQuery(array(

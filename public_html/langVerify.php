@@ -6,6 +6,7 @@ ini_set('session.use_cookies', '1');
 
 require_once('template.php');
 require_once('src/messages.php');
+require_once('src/exceptions.php');
 
 $destination = getRootURL() . 'home.php';
 
@@ -29,7 +30,7 @@ try {
 <center>
 <h2>Please select the wiki and language you are editing on</h2>
 <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/40px-Flag_of_the_United_Kingdom.svg.png"> <a href = "langVerify.php?set=en">English Wikipedia (en.wikipedia.org)</a>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> <a href = "langVerify.php?set=pt">Wikipédia portuguesa (pt.wikipedia.org)</a>
+<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/40px-Flag_of_Portugal.svg.png"> <a href = "langVerify.php?set=pt">Wikipédia portuguesa (pt.wikipedia.org)</a>
 </center>
 <?php 
 

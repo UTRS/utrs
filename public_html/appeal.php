@@ -608,7 +608,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 			$disabled = " disabled = 'disabled' ";
 		}
-		echo "<input type=\"button\" " . $disabled . " value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
+		echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
 	}
   //New button
 	$disabled = "";
@@ -628,7 +628,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Reset to new\" onClick=\"doNew()\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Reset to new\" onClick=\"doNew()\">&nbsp;";
 	//Return button
 	$disabled = "";
 	if (
@@ -652,7 +652,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
 	//Awaiting user button
 	$disabled = "";
 	if (
@@ -673,7 +673,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	    ) {
 	    $disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . " value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
 	//Invalid button
 	$disabled = "";
 	if (
@@ -684,7 +684,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . " value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
   //Checkuser button
 	$disabled = "";
 	if (
@@ -703,7 +703,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
 	echo "</div></div>";
 	echo "<hr style='width:475px;'>"; 
 	//On Hold button

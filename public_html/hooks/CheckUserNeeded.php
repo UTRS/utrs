@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class CheckUserNeeded
 {
 
@@ -9,7 +9,7 @@ class CheckUserNeeded
 
    public function getOutput() {
 
-      echo "<h2>Checkuser Needed</h2>";
+      echo "<h2>".SystemMessages::$system['CheckUserNeededHook'][$lang]."</h2>";
       echo printCheckuserNeeded();
 
 

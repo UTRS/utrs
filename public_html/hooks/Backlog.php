@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class Backlog
 {
 
@@ -9,7 +9,7 @@ class Backlog
 
    public function getOutput() {
 
-      echo "<h2>Backlog</h2>";
+      echo "<h2>".SystemMessages::$system['BacklogHook'][$lang]."</h2>";
       echo printBacklog();
 
 

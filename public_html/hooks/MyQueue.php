@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class MyQueue
 {
 
@@ -9,7 +9,7 @@ class MyQueue
 
    public function getOutput() {
 
-      echo "<h2>My Queue</h2>";
+      echo "<h2>".SystemMessages::$system['MyQueueHook'][$lang]."</h2>";
       echo printMyQueue();
 
 

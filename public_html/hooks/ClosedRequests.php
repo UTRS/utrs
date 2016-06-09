@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class ClosedRequests
 {
 
@@ -9,7 +9,7 @@ class ClosedRequests
 
    public function getOutput() {
 
-      echo "<h2>Last 5 closed requests</h2>";
+      echo "<h2>".SystemMessages::$system['ClosedRequestsHook'][$lang]."</h2>";
       echo printRecentClosed();
 
 

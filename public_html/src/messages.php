@@ -227,58 +227,122 @@ class SystemMessages {
 				"en" => "Administration",
 				"pt" => "{pt Administration}"
 			),
-		"ReleaseButton" => array (
-			"en" => "Release",
-			"pt" => "{pt ReleaseButton}"
-		),
-		"ReleaseButton" => array (
-			"en" => "Release",
-			"pt" => "{pt ReleaseButton}"
-		),
-		"ReserveButton" => array (
-			"en" => "Reserve",
-			"pt" => "{pt ReserveButton}"
-		),
-		"ResetButton" => array (
-			"en" => "Reset to new",
-			"pt" => "{pt ResetButton}"
-		),
-		"ReviewerButton" => array (
-			"en" => "Back to Reviewer",
-			"pt" => "{pt ReviewerButton}"
-		),
-		"ResponseButton" => array (
-			"en" => "Await Response",
-			"pt" => "{pt ResponseButton}"
-		),
-		"InvalidButton" => array (
-			"en" => "Invalid",
-			"pt" => "{pt InvalidButton}"
-		),
-		"CUButton" => array (
-			"en" => "Send for Checkuser Review",
-			"pt" => "{pt CUButton}"
-		),
-		"HoldButton" => array (
-			"en" => "Place on hold",
-			"pt" => "{pt HoldButton}"
-		),
-		"WMFButton" => array (
-			"en" => "Request WMF Staff",
-			"pt" => "{pt WMFButton}"
-		),
-		"ProxyButton" => array (
-			"en" => "Request Proxy Check",
-			"pt" => "{pt ProxyButton}"
-		),
-		"ToolAdminButton" => array (
-			"en" => "Request Tool Administrator",
-			"pt" => "{pt ToolAdminButton}"
-		),
-		"CloseAppeal" => array (
-				"en" => "Close",
-				"pt" => "{pt CloseAppeal}"
-		)
+			"ReleaseButton" => array (
+				"en" => "Release",	
+				"pt" => "{pt ReleaseButton}"
+			),
+			"ReleaseButton" => array (
+				"en" => "Release",	
+				"pt" => "{pt ReleaseButton}"
+			),
+			"ReserveButton" => array (
+				"en" => "Reserve",
+				"pt" => "{pt ReserveButton}"
+			),
+			"ResetButton" => array (
+				"en" => "Reset to new",
+				"pt" => "{pt ResetButton}"
+			),
+			"ReviewerButton" => array (
+				"en" => "Back to Reviewer",
+				"pt" => "{pt ReviewerButton}"
+			),
+			"ResponseButton" => array (
+				"en" => "Await Response",
+				"pt" => "{pt ResponseButton}"
+			),
+			"InvalidButton" => array (
+				"en" => "Invalid",
+				"pt" => "{pt InvalidButton}"
+			),
+			"CUButton" => array (
+				"en" => "Send for Checkuser Review",
+				"pt" => "{pt CUButton}"
+			),
+			"HoldButton" => array (
+				"en" => "Place on hold",
+				"pt" => "{pt HoldButton}"
+			),
+			"WMFButton" => array (
+				"en" => "Request WMF Staff",
+				"pt" => "{pt WMFButton}"
+			),
+			"ProxyButton" => array (
+				"en" => "Request Proxy Check",
+				"pt" => "{pt ProxyButton}"
+			),
+			"ToolAdminButton" => array (
+				"en" => "Request Tool Administrator",
+				"pt" => "{pt ToolAdminButton}"
+			),
+			"CloseAppeal" => array (
+					"en" => "Close",
+					"pt" => "{pt CloseAppeal}"
+			),
+			"AwaitProxyHook" => array(
+					"en" => "Awaiting Proxy Check",
+					"pt" => "{pt AwaitProxyHook}"				
+			),
+			"AwaitReviewerHook" => array(
+					"en" => "Awaiting reviewer response",
+					"pt" => "{pt AwaitReviewerHook}"
+			),
+			"AwaitAdminHook" => array(
+					"en" => "Awaiting tool admin",
+					"pt" => "{pt AwaitAdminHook}"
+			),
+			"AwaitUserHook" => array(
+					"en" => "Awaiting user response",
+					"pt" => "{pt AwaitUserHook}"
+			),
+			"BacklogHook" => array(
+					"en" => "Backlog",
+					"pt" => "{pt BacklogHook}"
+			),
+			"CheckUserNeededHook" => array(
+					"en" => "Checkuser Needed",
+					"pt" => "{pt CheckUserNeededHook}"
+			),
+			"ClosedRequestsHook" => array(
+					"en" => "Last 5 closed requests",
+					"pt" => "{pt ClosedRequestsHook}"
+			),
+			"cuNumberHook1" => array(
+					"en" => "Number of appeals with CU data:",
+					"pt" => "{pt cuNumberHook1}"
+			),
+			"cuNumberHook2" => array(
+					"en" => "appeals have checkuser data in them.",
+					"pt" => "{pt cuNumberHook2}"
+			),
+			"cuNumberHook3" => array(
+					"en" => "Latest appeal with CU data at:",
+					"pt" => "{pt cuNumberHook3}"
+			),
+			"cuNumberHook4" => array(
+					"en" => "Run Now",
+					"pt" => "{pt cuNumberHook4}"
+			),
+			"MyQueueHook" => array(
+					"en" => "My Queue",
+					"pt" => "{pt MyQueueHook}"
+			),
+			"NewRequestsHook" => array(
+					"en" => "New Requests",
+					"pt" => "{pt NewRequestsHook}"
+			),
+			"OnHoldHook" => array(
+					"en" => "On Hold",
+					"pt" => "{pt OnHoldHook}"
+			),
+			"UnverifiedHook" => array(
+					"en" => "Awaiting email verification",
+					"pt" => "{pt UnverifiedHook}"
+			),
+			"WaitingOnMeHook" => array(
+					"en" => "Waiting on me",
+					"pt" => "{pt WaitingOnMeHook}"
+			)
 	);
 	public static $log = array (
 			"StatusToCU" => array (

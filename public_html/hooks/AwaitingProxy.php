@@ -1,7 +1,6 @@
 <?php
-
-class AwaitingProxy
-{
+require_once('../src/messages.php');
+class AwaitingProxy {
 
    private $secure;
 
@@ -10,7 +9,7 @@ class AwaitingProxy
    }
 
    public function getOutput() {
-      echo "<h2>Awaiting <a href=\"" . getWikiLink("WP:OPP", $this->secure) . "\" target=\"_new\">WP:OPP</a></h2>";
+      echo "<h2>".System::$system['AwaitProxyHook'][$lang]."</a></h2>";
       echo printProxyCheckNeeded();
 
    }

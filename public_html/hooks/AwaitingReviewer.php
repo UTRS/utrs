@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class AwaitingReviewer
 {
 
@@ -9,7 +9,7 @@ class AwaitingReviewer
 
    public function getOutput() {
 
-         echo "<h2>Awaiting reviewer response</h2>";
+         echo "<h2>".System::$system['AwaitReviewerHook'][$lang]."</a></h2>";
          echo printReviewer();
 
 

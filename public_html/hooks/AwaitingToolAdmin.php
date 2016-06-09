@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class AwaitingToolAdmin
 {
 
@@ -9,7 +9,7 @@ class AwaitingToolAdmin
 
    public function getOutput() {
 
-      echo "<h2>Awaiting tool admin</h2>";
+      echo "<h2>".System::$system['AwaitAdminHook'][$lang]."</a></h2>";
       echo printToolAdmin();
 
    }

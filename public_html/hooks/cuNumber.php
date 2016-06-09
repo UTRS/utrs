@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class cuNumber
 {
 
@@ -9,10 +9,10 @@ class cuNumber
 
    public function getOutput() {
       if(verifyAccess($GLOBALS['DEVELOPER'])){
-        echo "<h2>Number of appeals with CU data:</h2>";
-        echo $this->getNumOfCuData() . " appeals have checkuser data in them.<br>" ;
-        echo "Latest appeal with CU data at:<br>" . $this->getOldestCuData() . "<br>";
-        echo "<a href=\"/src/checkuserDataRemoval.php\">Run Now</a>";
+        echo "<h2>".SystemMessages::$system['cuNumberHook1'][$lang]."</h2>";
+        echo $this->getNumOfCuData() . " ".SystemMessages::$system['cuNumberHook2'][$lang]."<br>" ;
+        echo SystemMessages::$system['cuNumberHook3'][$lang]."<br>" . $this->getOldestCuData() . "<br>";
+        echo "<a href=\"/src/checkuserDataRemoval.php\">".SystemMessages::$system['cuNumberHook4'][$lang]."</a>";
       }
    }
 

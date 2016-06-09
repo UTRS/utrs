@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class WaitingOnMe
 {
 
@@ -9,7 +9,7 @@ class WaitingOnMe
 
    public function getOutput() {
 
-      echo "<h2>Waiting on me</h2>";
+      echo "<h2>".SystemMessages::$system['WaitingOnMeHook'][$lang]."</h2>";
       echo printMyReview();
 
 

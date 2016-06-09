@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class UnverifiedAppeals
 {
 
@@ -9,7 +9,7 @@ class UnverifiedAppeals
 
    public function getOutput() {
    	if(verifyAccess($GLOBALS['DEVELOPER'])){
-      echo "<h2>Awaiting email verification</h2>";
+      echo "<h2>".SystemMessages::$system['UnverifiedHook'][$lang]."</h2>";
       echo printUnverified();
    	}
       

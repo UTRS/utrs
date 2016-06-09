@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class NewRequests
 {
 
@@ -8,7 +8,7 @@ class NewRequests
    }
 
    public function getOutput() {
-      echo "<h2>New Requests</h2>";
+      echo "<h2>".SystemMessages::$system['NewRequestsHook'][$lang]."</h2>";
       echo printNewRequests();
    }
 

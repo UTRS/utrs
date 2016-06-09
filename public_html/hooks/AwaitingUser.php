@@ -1,5 +1,5 @@
 <?php
-
+require_once('../src/messages.php');
 class AwaitingUser
 {
 
@@ -9,7 +9,7 @@ class AwaitingUser
 
    public function getOutput() {
 
-      echo "<h2>Awaiting user response</h2>";
+      echo "<h2>".System::$system['AwaitUserHook'][$lang]."</a></h2>";
       echo printUserReplyNeeded();
 
 

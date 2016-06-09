@@ -576,7 +576,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	
 	// This section affects the action buttons
 	echo '<div class="btn-toolbar" role="toolbar" id="tool-row">';
-	echo '<div class="btn-group" role="group">';
+	echo '<div class="btn-group btn-group-justified" role="group">';
 	$disabled = "";
 	// Reserve and release buttons
 	if ($appeal->getHandlingAdmin()) {
@@ -686,7 +686,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	}
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
 	echo "</div><br />";
-	echo '<div class="btn-group" role="group">';
+	echo '<div class="btn-group btn-group-justified" role="group">';
   //Checkuser button
 	$disabled = "";
 	if (
@@ -729,6 +729,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
+	echo "</div><br />";
+	echo '<div class="btn-group btn-group-justified" role="group">';
 	//Awaiting Proxy
 	$disabled = "";
 	if (

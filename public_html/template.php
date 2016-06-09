@@ -289,7 +289,7 @@ if($loggedIn){
    <li id="stats">
       <a href="<?php echo getRootURL() . 'statistics.php'; ?>"><?php echo SystemMessages::$links['Stats'][$lang] ?></a>
    </li>
-   <?php if(verifyAccess($GLOBALS['ADMIN'])) { ?>
+   <?php if(verifyAccess($GLOBALS['ADMIN'])||verifyAccess($GLOBALS['DEVELOPER'])) { ?>
    <li id="mgmtUser">
       <a href="<?php echo getRootURL() . 'userMgmt.php'; ?>"><?php echo SystemMessages::$links['UserManagement'][$lang] ?></a>
    </li>

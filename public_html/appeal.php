@@ -576,181 +576,31 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	
 	// This section affects the action buttons
 	echo '<div class="btn-toolbar" role="toolbar" id="tool-row">';
-	echo '<div class="btn-group" role="group">';
-	$disabled = "";
+	echo '<div class="btn-group centered" role="group">';
 	// Reserve and release buttons
 	echo StatusButtonChecks::checkReserveRelease($appeal,$user);
-  //New button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status and not a dev
-			($appeal->getStatus() == Appeal::$STATUS_INVALID && !verifyAccess($GLOBALS['DEVELOPER'])) ||
-		//Awaiting new
-		$appeal->getStatus() == Appeal::$STATUS_NEW ||
-		//When is assigned
-		($appeal->getHandlingAdmin()) ||
-		//Assigned and not CU or Admin
-		!verifyAccess($GLOBALS['ADMIN']) ||
-		//Awaiting admin and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY ||
-		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Reset to new\" onClick=\"doNew()\">&nbsp;";
+    //New button
+	echo StatusButtonChecks::checkNew($appeal,$user);
 	//Return button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//Appeal needs to be reserved to send back to an admin
-		!($appeal->getHandlingAdmin()) ||
-		//Appeal is not in checkuser or admin status
-		($appeal->getStatus() != Appeal::$STATUS_AWAITING_CHECKUSER && $appeal->getStatus() != Appeal::$STATUS_AWAITING_ADMIN && $appeal->getStatus() != Appeal::$STATUS_AWAITING_PROXY  && $appeal->getStatus() != Appeal::$STATUS_ON_HOLD) ||
-		//Appeal is in checkuser status and user is not a checkuser or has the appeal assigned to them and not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !verifyAccess($GLOBALS['CHECKUSER']) /*|| $appeal->getHandlingAdmin() != $user*/) ||
-    //For above, no one really cares if your the active handling admin for reviewing a CU req...
-		//Appeal is in admin status and user is not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
-		//If it is in the proxy queue, allow through
-		//!($appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY) ||
-		//There is no old handling admin - Not going to work, i've mod'd the comment to not require the old admin
-		//$appeal->getOldHandlingAdmin() == null ||
-		//Appeal is closed and not an admin
-		($appeal->getStatus() == Appeal::$STATUS_CLOSED)
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
+	echo StatusButtonChecks::checkReturn($appeal,$user);
 	//Awaiting user button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//When it is already in STATUS_AWAITING_USER status
-	    $appeal->getStatus() == Appeal::$STATUS_AWAITING_USER ||
-	    //When not assigned
-	    !($appeal->getHandlingAdmin()) ||
-	    //When not handling user and not admin
-	    !($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
-	    //In AWAITING_ADMIN status and not admin
-	    ($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
-	    //Awaiting checkuser and not CU or admin
-	    ($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
-	    //Appeal is closed and not an admin
-	    ($appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN']))
-	    ) {
-	    $disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+	echo StatusButtonChecks::checkAwaitUser($appeal,$user);
 	//Invalid button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-			//When not dev
-			!verifyAccess($GLOBALS['DEVELOPER'])
-	) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
+	echo StatusButtonChecks::checkInvalid($appeal,$user);
 	echo "</div><br />";
-	echo '<div class="btn-group" role="group">';
-  //Checkuser button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//Awaiting checkuser (if it's already set to CU)
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
-		//Assigned and not CU or Admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
-		//Awaiting admin and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+	echo '<div class="btn-group centered" role="group">';
+    //Checkuser button
+	echo StatusButtonChecks::checkCheckuser($appeal,$user);
 	//On Hold button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//Already on hold
-		$appeal->getStatus() == Appeal::$STATUS_ON_HOLD ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
-		//When not handling user and not admin
-		(!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN']))) ||
-		//In AWAITING_ADMIN status and not admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN'])) ||
-		//Awaiting checkuser and not CU or admin
-		($appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER']))) ||
-		//Appeal is closed and not an admin
-		($appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN']))
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
+	echo StatusButtonChecks::checkHold($appeal,$user);
 	echo "</div><br />";
-	echo '<div class="btn-group" role="group">';
+	echo '<div class="btn-group centered" role="group">';
 	//Awaiting Proxy
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//Already on proxy
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_PROXY ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
-		//When not handling user and not admin
-		!($appeal->getHandlingAdmin() == $user || verifyAccess($GLOBALS['ADMIN'])) ||
-		//In AWAITING_ADMIN status and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//Awaiting checkuser and not CU or admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
-		//Appeal is closed and not an admin
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+	echo StatusButtonChecks::checkAwaitProxy($appeal,$user);
 	//Awaiting admin
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//Already on awaiting admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN
-		//Only condition to allow an appeal to be sent to awaiting admin for any reason
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Tool Admin\" onClick=\"doAdmin()\">&nbsp;";
+	echo StatusButtonChecks::checkAwaitAdmin($appeal,$user);
 	//Close button
-	$disabled = "";
-	if (
-			//When it is already in INVALID status
-			$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-		//When set to AWAITING_ADMIN and not admin
-		$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-		//Not handling user and not admin
-		$appeal->getHandlingAdmin() != $user && !verifyAccess($GLOBALS['ADMIN']) ||
-		//When not assigned
-		!($appeal->getHandlingAdmin()) ||
-		//When closed
-		$appeal->getStatus() == Appeal::$STATUS_CLOSED
-		) {
-		$disabled = "disabled='disabled'";
-	}
-	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Close\" onClick=\"doClose();\">";
+	echo StatusButtonChecks::checkClose($appeal,$user);
 	echo "</div></div>";
 	?>
 </div>

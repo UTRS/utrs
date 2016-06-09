@@ -580,7 +580,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo StatusButtonChecks::checkReserveRelease($appeal,$user);
 	//Change Status?>
 	<div class="btn-group">
-		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Change Status <span class="caret"></span></button>
+		<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Change Status <span class="caret"></span></button>
 		<ul class="dropdown-menu" role="menu"><?php 
 			//New button
 			echo StatusButtonChecks::checkNew($appeal,$user);
@@ -594,7 +594,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
     </div>
     <?php //Defer group?>
     <div class="btn-group">
-		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Requests <span class="caret"></span></button>
+		<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Requests <span class="caret"></span></button>
 		<ul class="dropdown-menu" role="menu"><?php 
 			//Checkuser button
 			echo StatusButtonChecks::checkCheckuser($appeal,$user);

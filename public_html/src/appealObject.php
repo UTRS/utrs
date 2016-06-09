@@ -892,7 +892,7 @@ class StatusButtonChecks {
 			) {
 				$disabled = " disabled = 'disabled' ";
 			}
-			return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
+			return "<input type=\"button\" class=\"btn btn-danger " . $disabled . "\" value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
 		} else {
 			if (
 					//When it is already in INVALID status
@@ -906,7 +906,7 @@ class StatusButtonChecks {
 			) {
 				$disabled = "disabled";
 			}
-			return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
+			return "<input type=\"button\" class=\"btn btn-success " . $disabled . "\" value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
 		}
 	}
 	static function checkNew($appeal,$user) {
@@ -1093,7 +1093,7 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Close\" onClick=\"doClose();\">";
+		return "<input type=\"button\" class=\"btn btn-danger " . $disabled . "\" value=\"Close\" onClick=\"doClose();\">";
 	}
 }
 

@@ -228,11 +228,11 @@ class SystemMessages {
 				"pt" => "{pt Administration}"
 			),
 			"ReleaseButton" => array (
-				"en" => "Release",	
+				"en" => "Release",
 				"pt" => "{pt ReleaseButton}"
 			),
 			"ReleaseButton" => array (
-				"en" => "Release",	
+				"en" => "Release",
 				"pt" => "{pt ReleaseButton}"
 			),
 			"ReserveButton" => array (
@@ -602,6 +602,30 @@ class SystemMessages {
 			"HooksNoAppeals" => array (
 					"en" => "No unblock requests in queue",
 					"pt" => "{pt HooksNoAppeals}"
+			),
+			"NoResultsBanID" => array (
+				"en" => "'No results were returned for ban ID '",
+				"pt" => "{pt NoResultsBanID}"
+			),
+			"DurationPositive" => array (
+				"en" => "Duration must be a positive number.",
+				"pt" => "{pt DurationPositive}"
+			),
+			"UnitOfTime" => array (
+				"en" => "You must select a unit of time if you set a duration.",
+				"pt" => "{pt UnitOfTime}"
+			),
+			"ReasonRequired" => array (
+				"en" => "You must provide a reason!",
+				"pt" => "{pt ReasonRequired}"
+			),
+			"ReasonTooLarge" => array (
+				"en" => "Your reason must be less than 1024 characters.",
+				"pt" => "{pt ReasonTooLarge}"
+			),
+			"InvalidTarget" => array (
+				"en" => "The target must be an IP address, email address, or valid Wikipedia username",
+				"pt" => "{pt InvalidTarget}"
 			)
 	);
 	public static $links = array (

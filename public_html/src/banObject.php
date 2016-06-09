@@ -101,7 +101,7 @@ class Ban{
 		$query->closeCursor();
 
 		if($values === false){
-			throw new UTRSDatabaseException('No results were returned for ban ID ' . $id);
+			throw new UTRSDatabaseException(SystemMessages::$error['NoResultsBanID'][$lang] . $id);
 		}
 		
 		return new Ban($values, true);
@@ -109,16 +109,16 @@ class Ban{
 	
 	public static function validate(array $values){
 		if(isset($values['durationAmt']) && strlen($values['durationAmt']) != 0 && !preg_match("/^[0-9]{1,}$/", $values['durationAmt'])){
-			throw new UTRSIllegalModificationException("Duration must be a positive number.");
+			throw new UTRSIllegalModificationException(SystemMessages::$error['DurationPositive'][$lang]);
 		}
 		if(isset($values['durationAmt']) && strlen($values['durationAmt']) != 0 && (!isset($values['durationUnit']) || strlen($values['durationUnit']) == 0)){
-			throw new UTRSIllegalModificationException("You must select a unit of time if you set a duration.");
+			throw new UTRSIllegalModificationException(SystemMessages::$error['UnitOfTime'][$lang]);
 		}
 		if(!isset($values['reason']) || strlen($values['reason']) === 0){
-			throw new UTRSIllegalModificationException("You must provide a reason!");
+			throw new UTRSIllegalModificationException(SystemMessages::$error['ReasonRequired'][$lang]);
 		}
 		if(strlen($values['reason']) > 1024){
-			throw new UTRSIllegalModificationException("Your reason must be less than 1024 characters.");
+			throw new UTRSIllegalModificationException(SystemMessages::$error['ReasonTooLarge'][$lang]);
 		}
 		// if NOT ip address AND NOT email AND contains one of the characters
 		if(preg_match('/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/', $values['target']) == 0
@@ -130,7 +130,7 @@ class Ban{
 		   strpos($values['target'], ">") !== false || strpos($values['target'], "@") !== false ||
 		   strpos($values['target'], "%") !== false || strpos($values['target'], ":") !== false || 
 		   strpos($values['target'], '$') !== false)){
-		   	throw new UTRSIllegalModificationException("The target must be an IP address, email address, or valid Wikipedia username");
+		   	throw new UTRSIllegalModificationException(SystemMessages::$error['InvalidTarget'][$lang]);
 		}
 	}
 	

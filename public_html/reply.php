@@ -22,10 +22,23 @@ if(!isset($_GET['id'])){
    // if not supposed to be here, send to appeals page
    header("Location: " . getRootURL() . "index.php");
 }
-try{
-   $id = $_GET['id'];
-   $appeal = Appeal::getAppealByID($id);
 
+try{
+	//Get appeal by id
+	if (is_numeric($_GET['id'])) {
+		$id = $_GET['id'];
+		$appeal = Appeal::getAppealByID($id);
+	} else {
+		throw new UTRSIllegalModificationException("The appeal ID provided is invalid. This incident has been logged.");
+	}
+	
+	//Throw error if not reserved
+	if ($appeal->getStatus() == Appeal::$STATUS_NEW) {
+		throw new UTRSIllegalModificationException("Your appeal has not yet been claimed by an administrator. If you filed an" . 
+				"appeal before May 24th, the text providing you with this link was sent in error.");
+	}
+	
+   //Ensure email is the correct email for this appeal
    if(!isset($_GET['confirmEmail']) || strcmp($_GET['confirmEmail'], $appeal->getEmail()) !== 0){
       throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .
          "This security step assures us that we are still talking to the same person. Thank you.");

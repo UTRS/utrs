@@ -5,6 +5,9 @@
 
 require_once('unblocklib.php');
 require_once('exceptions.php');
+chdir('../');
+require_once(getcwd() . "/includes/Peachy/Init.php");
+require_once(getcwd() . "/src/appealObject.php");
 
 echo "Starting to clear out private data from closed appeals.\n";
 
@@ -20,11 +23,11 @@ try{
     $unverifiedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE status = 'Unverified' " .
                 " AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
     // appeals that have been marked invalid by a developer
-    $invalidAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
-        		"comment = 'Invalid'";
+    $invalidAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE " .
+        		"status = 'Invalid'";
 
 	// grab appeals and IPs
-	$query = "SELECT appealID, ip, email FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
+	$query = "SELECT appealID, ip, email, status FROM appeal WHERE (appealID = ANY (" . $closedAppealsSubquery . ")" .
 			        " OR appealID = ANY (" . $unverifiedAppealsSubquery . ")" .
 			        "OR appealID = ANY (" . $invalidAppealsSubquery . "))" .	
                                 " AND email IS NOT NULL" .
@@ -69,6 +72,12 @@ try{
 		echo "Starting to remove private data...\n";
 
 		foreach ($results as $appeal) {
+			if ($appeal['status'] == Appeal::$STATUS_INVALID) {
+				$invalid = TRUE;
+			}
+			else {
+				$invalid = FALSE;
+			}
 			echo "Processing appeal #" . $appeal['appealID'] . "\n";
 
 			echo "\tObscuring IP address and blanking email address...\n";
@@ -90,7 +99,7 @@ try{
 				$error = var_export($delete_cudata_stmt->errorInfo(), true);
 				throw new UTRSDatabaseException($error);
 			}
-
+			if (!$invalid) {
                         echo "\tClosing appeal...\n";
                         $close = $close_unverify_stmt->execute(array(
                                 ':appealID'     => $appeal['appealID']));
@@ -99,6 +108,7 @@ try{
                                 $error = var_export($close_unverify_stmt->errorInfo(), true);
                                 throw new UTRSDatabaseException($error);
                         }
+			}
 
 			echo "Appeal #" . $appeal['appealID'] . " complete.\n";
 		}

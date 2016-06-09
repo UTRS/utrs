@@ -685,6 +685,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
+	echo "</div><br />";
+	echo '<div class="btn-group" role="group">';
   //Checkuser button
 	$disabled = "";
 	if (
@@ -704,8 +706,6 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
-	echo "</div></div>";
-	echo "<hr style='width:475px;'>"; 
 	//On Hold button
 	$disabled = "";
 	if (
@@ -726,9 +726,9 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
-	echo "<input type=\"button\" " . $disabled . "  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
-	echo "<input type=\"button\" " . $disabled . "  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	//Awaiting Proxy
 	$disabled = "";
 	if (
@@ -749,7 +749,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
 	//Awaiting admin
 	$disabled = "";
 	if (
@@ -761,7 +761,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . "  value=\"Tool Admin\" onClick=\"doAdmin()\">&nbsp;";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Tool Admin\" onClick=\"doAdmin()\">&nbsp;";
 	//Close button
 	$disabled = "";
 	if (
@@ -778,7 +778,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		) {
 		$disabled = "disabled='disabled'";
 	}
-	echo "<input type=\"button\" " . $disabled . " value=\"Close\" onClick=\"doClose();\">";
+	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Close\" onClick=\"doClose();\">";
+	echo "</div></div>";
 	?>
 </div>
 <h3>Responses</h3>

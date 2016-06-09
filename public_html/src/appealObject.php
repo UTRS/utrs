@@ -601,12 +601,11 @@ class Appeal extends Model {
    }
    
    public function getHandlingAdmin(){
-      if (!is_null($this->handlingAdminObject)) {
+   	  if (!is_null($this->handlingAdminObject)) {
          return $this->handlingAdminObject;
       }
-
       if (!is_null($this->handlingAdmin)) {
-         $this->handlingAdminObject = SystemMessages::$system['Userlink'][$lang].getUserById($this->handlingAdmin);
+         $this->handlingAdminObject = UTRSUser::getUserById($this->handlingAdmin);
          return $this->handlingAdminObject;
       }
 

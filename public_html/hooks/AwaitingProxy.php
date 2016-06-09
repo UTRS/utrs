@@ -9,6 +9,7 @@ class AwaitingProxy {
    }
 
    public function getOutput() {
+   	global $lang;
       echo "<h2>".System::$system['AwaitProxyHook'][$lang]."</a></h2>";
       echo printProxyCheckNeeded();
 

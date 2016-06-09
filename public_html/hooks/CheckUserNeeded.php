@@ -8,7 +8,7 @@ class CheckUserNeeded
    }
 
    public function getOutput() {
-
+   	global $lang;
       echo "<h2>".SystemMessages::$system['CheckUserNeededHook'][$lang]."</h2>";
       echo printCheckuserNeeded();
 

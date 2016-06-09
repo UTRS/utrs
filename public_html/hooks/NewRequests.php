@@ -8,6 +8,7 @@ class NewRequests
    }
 
    public function getOutput() {
+   	global $lang;
       echo "<h2>".SystemMessages::$system['NewRequestsHook'][$lang]."</h2>";
       echo printNewRequests();
    }

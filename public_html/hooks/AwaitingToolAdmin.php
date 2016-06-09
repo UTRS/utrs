@@ -8,7 +8,7 @@ class AwaitingToolAdmin
    }
 
    public function getOutput() {
-
+   	global $lang;
       echo "<h2>".System::$system['AwaitAdminHook'][$lang]."</a></h2>";
       echo printToolAdmin();
 

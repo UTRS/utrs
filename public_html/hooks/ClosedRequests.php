@@ -8,7 +8,7 @@ class ClosedRequests
    }
 
    public function getOutput() {
-
+   	global $lang;
       echo "<h2>".SystemMessages::$system['ClosedRequestsHook'][$lang]."</h2>";
       echo printRecentClosed();
 

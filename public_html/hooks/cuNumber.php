@@ -8,6 +8,7 @@ class cuNumber
    }
 
    public function getOutput() {
+   	global $lang;
       if(verifyAccess($GLOBALS['DEVELOPER'])){
         echo "<h2>".SystemMessages::$system['cuNumberHook1'][$lang]."</h2>";
         echo $this->getNumOfCuData() . " ".SystemMessages::$system['cuNumberHook2'][$lang]."<br>" ;

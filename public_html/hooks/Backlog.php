@@ -8,7 +8,7 @@ class Backlog
    }
 
    public function getOutput() {
-
+   	global $lang;
       echo "<h2>".SystemMessages::$system['BacklogHook'][$lang]."</h2>";
       echo printBacklog();
 

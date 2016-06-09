@@ -8,7 +8,7 @@ class WaitingOnMe
    }
 
    public function getOutput() {
-
+   	global $lang;
       echo "<h2>".SystemMessages::$system['WaitingOnMeHook'][$lang]."</h2>";
       echo printMyReview();
 

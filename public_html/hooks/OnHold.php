@@ -8,7 +8,7 @@ class OnHold
    }
 
    public function getOutput() {
-
+   	global $lang;
       echo "<h2>".SystemMessages::$system['OnHoldHook'][$lang]."</h2>";
       echo printOnHold();
 

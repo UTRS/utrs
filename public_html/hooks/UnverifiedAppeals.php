@@ -8,6 +8,7 @@ class UnverifiedAppeals
    }
 
    public function getOutput() {
+   	global $lang;
    	if(verifyAccess($GLOBALS['DEVELOPER'])){
       echo "<h2>".SystemMessages::$system['UnverifiedHook'][$lang]."</h2>";
       echo printUnverified();

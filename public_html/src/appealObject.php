@@ -876,6 +876,7 @@ class Appeal extends Model {
 }
 class StatusButtonChecks {
 	static function checkReserveRelease($appeal,$user) {
+		global $lang;
 		$disabled = "";
 		if ($appeal->getHandlingAdmin()) {
 			if (
@@ -910,6 +911,7 @@ class StatusButtonChecks {
 		}
 	}
 	static function checkNew($appeal,$user) {
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status and not a dev
@@ -931,6 +933,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"#\" onClick=\"doNew()\">".SystemMessages::$system['ResetButton'][$lang]."</a></li>";
 	}
 	static function checkReturn($appeal,$user) {
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -957,6 +960,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=return\"\">".SystemMessages::$system['ReviewerButton'][$lang]."</a></li>";
 	}
 	static function checkAwaitUser($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -980,6 +984,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=user\"\">".SystemMessages::$system['ResponseButton'][$lang]."</a></li>";
 	}
 	static function checkInvalid($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -993,6 +998,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=invalid\"\">".SystemMessages::$system['InvalidButton'][$lang]."</a></li>";
 	}
 	static function checkCheckuser($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -1014,6 +1020,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"#\" onClick=\"doCheckuser()\">".SystemMessages::$system['CUButton'][$lang]."</a></li>";
 	}
 	static function checkHold($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -1041,6 +1048,7 @@ class StatusButtonChecks {
 			"<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=wmfhold\">".SystemMessages::$system['WMFButton'][$lang]."</a></li>";
 	}
 	static function checkAwaitProxy($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -1064,6 +1072,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=proxy\">".SystemMessages::$system['ProxyButton'][$lang]."</a></li>";
 	}
 	static function checkAwaitAdmin($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status
@@ -1078,6 +1087,7 @@ class StatusButtonChecks {
 		return "<li class=" . $disabled . "><a href=\"#\" onClick=\"doAdmin()\">".SystemMessages::$system['ToolAdminButton'][$lang]."</a></li>";
 	}
 	static function checkClose($appeal,$user){
+		global $lang;
 		$disabled = "";
 		if (
 				//When it is already in INVALID status

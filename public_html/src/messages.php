@@ -236,7 +236,7 @@ class SystemMessages {
 			"pt" => "{pt ReleaseButton}"
 		),
 		"ReserveButton" => array (
-			"en" => "Reserve",
+			"en" => "Reserve",
 			"pt" => "{pt ReserveButton}"
 		),
 		"ResetButton" => array (

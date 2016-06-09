@@ -581,7 +581,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	//Change Status?>
 	<div class="btn-group">
 		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Change Status <span class="caret"></span></button>
-		<ul class="dropdown-menu" role="menu">
+		<ul class="dropdown-menu" role="menu"><?php 
 			//New button
 			echo StatusButtonChecks::checkNew($appeal,$user);
 			//Return button
@@ -590,9 +590,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 			echo StatusButtonChecks::checkInvalid($appeal,$user);
 			//Awaiting user button
 			echo StatusButtonChecks::checkAwaitUser($appeal,$user);
-			<li><a href="#">Tablet</a></li>
-	      	<li><a href="#">Smartphone</a></li>
-    	</ul>
+    	?></ul>
     </div>
     <?php //Defer group?>
     <div class="btn-group">

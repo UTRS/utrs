@@ -576,32 +576,41 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	
 	// This section affects the action buttons
 	echo '<div class="btn-toolbar" role="toolbar" id="tool-row">';
-	echo '<div class="btn-group centered" role="group">';
 	// Reserve and release buttons
 	echo StatusButtonChecks::checkReserveRelease($appeal,$user);
-    //New button
-	echo StatusButtonChecks::checkNew($appeal,$user);
-	//Return button
-	echo StatusButtonChecks::checkReturn($appeal,$user);
-	//Awaiting user button
-	echo StatusButtonChecks::checkAwaitUser($appeal,$user);
-	//Invalid button
-	echo StatusButtonChecks::checkInvalid($appeal,$user);
-	echo "</div><br />";
-	echo '<div class="btn-group centered" role="group">';
-    //Checkuser button
-	echo StatusButtonChecks::checkCheckuser($appeal,$user);
-	//On Hold button
-	echo StatusButtonChecks::checkHold($appeal,$user);
-	echo "</div><br />";
-	echo '<div class="btn-group centered" role="group">';
-	//Awaiting Proxy
-	echo StatusButtonChecks::checkAwaitProxy($appeal,$user);
-	//Awaiting admin
-	echo StatusButtonChecks::checkAwaitAdmin($appeal,$user);
+	//Change Status?>
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Change Status <span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu">
+			//New button
+			echo StatusButtonChecks::checkNew($appeal,$user);
+			//Return button
+			echo StatusButtonChecks::checkReturn($appeal,$user);
+			//Invalid button
+			echo StatusButtonChecks::checkInvalid($appeal,$user);
+			//Awaiting user button
+			echo StatusButtonChecks::checkAwaitUser($appeal,$user);
+			<li><a href="#">Tablet</a></li>
+	      	<li><a href="#">Smartphone</a></li>
+    	</ul>
+    </div>
+    <?php //Defer group?>
+    <div class="btn-group">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Requests <span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu"><?php 
+			//Checkuser button
+			echo StatusButtonChecks::checkCheckuser($appeal,$user);
+			//On Hold button
+			echo StatusButtonChecks::checkHold($appeal,$user);
+			//Awaiting Proxy
+			echo StatusButtonChecks::checkAwaitProxy($appeal,$user);
+			//Awaiting admin
+			echo StatusButtonChecks::checkAwaitAdmin($appeal,$user);
+    	?></ul>
+    </div>
+	<?php 
 	//Close button
 	echo StatusButtonChecks::checkClose($appeal,$user);
-	echo "</div></div>";
 	?>
 </div>
 <h3>Responses</h3>

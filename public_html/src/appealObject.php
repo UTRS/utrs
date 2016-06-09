@@ -927,7 +927,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Reset to new\" onClick=\"doNew()\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Reset to new\" onClick=\"doNew()\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"#\" onClick=\"doNew()\">Reset to new</a></li>";
 	}
 	static function checkReturn($appeal,$user) {
 		$disabled = "";
@@ -952,7 +953,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return  "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
+		//return  "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Back to Reviewing admin\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=return'\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=return\"\">Back to Reviewer</a></li>";
 	}
 	static function checkAwaitUser($appeal,$user){
 		$disabled = "";
@@ -974,7 +976,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Await Response\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=user'\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=user\"\">Await Response</a></li>";
 	}
 	static function checkInvalid($appeal,$user){
 		$disabled = "";
@@ -986,7 +989,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=invalid\"\">Invalid</a></li>";
 	}
 	static function checkCheckuser($appeal,$user){
 		$disabled = "";
@@ -1006,7 +1010,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"#\" onClick=\"doCheckuser()\">Send for Checkuser Review</a></li>";
 	}
 	static function checkHold($appeal,$user){
 		$disabled = "";
@@ -1028,9 +1033,12 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;".
-			"<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;".
-			"<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;".
+		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=hold\">Place on hold</a></li>".
+			//"<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;".
+			"<li class=" . $disabled . "><a href=\"#\" id=\"adminhold\">Request blocking admin</a></li>".
+			//"<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
+			"<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=wmfhold\">Request WMF Staff</a></li>";
 	}
 	static function checkAwaitProxy($appeal,$user){
 		$disabled = "";
@@ -1052,7 +1060,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request Proxy Check\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=proxy'\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=proxy\">Request Proxy Check</a></li>";
 	}
 	static function checkAwaitAdmin($appeal,$user){
 		$disabled = "";
@@ -1065,7 +1074,8 @@ class StatusButtonChecks {
 		) {
 			$disabled = "disabled";
 		}
-		return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Tool Admin\" onClick=\"doAdmin()\">&nbsp;";
+		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Tool Admin\" onClick=\"doAdmin()\">&nbsp;";
+		return "<li class=" . $disabled . "><a href=\"#\" onClick=\"doAdmin()\">Request Tool Administrator</a></li>";
 	}
 	static function checkClose($appeal,$user){
 		$disabled = "";

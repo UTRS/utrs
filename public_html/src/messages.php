@@ -236,7 +236,7 @@ class SystemMessages {
 					"en" => "Released Appeal",
 					"pt" => "Pedido Feito" 
 			),
-			"AppealReserve" => array (
+			"AppealReserved" => array (
 					"en" => "Reserved appeal",
 					"pt" => "Pedido Reservado"
 			),

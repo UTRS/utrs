@@ -55,7 +55,11 @@ class SystemMessages {
 				"en" => "Version",
 				"pt" => "{pt Version}"
 			)
-	);
+	,
+		"BlameTParis" => array (
+			"en" => "To UTRS users/appellants: This is likely not your fault, but an error on the part of a tool developer.",
+			"pt" => "{pt BlameTParis}"
+		));
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
@@ -343,7 +347,23 @@ class SystemMessages {
 					"en" => "Waiting on me",
 					"pt" => "{pt WaitingOnMeHook}"
 			)
-	);
+	,
+		"Argument" => array (
+			"en" => "Argument",
+			"pt" => "{pt Argument}"
+		),
+		"WasProvided" => array (
+			"en" => "was provided to",
+			"pt" => "{pt WasProvided}"
+		),
+		"When" => array (
+			"en" => "when",
+			"pt" => "{pt When}"
+		),
+		"WasExpected" => array (
+			"en" => "was exptected",
+			"pt" => "{pt WasExpected}"
+		));
 	public static $log = array (
 			"StatusToCU" => array (
 					"en" => 'Status change to AWAITING_CHECKUSER',
@@ -626,6 +646,30 @@ class SystemMessages {
 			"InvalidTarget" => array (
 				"en" => "The target must be an IP address, email address, or valid Wikipedia username",
 				"pt" => "{pt InvalidTarget}"
+			),
+			"ErrorAppeals" => array (
+				"en" => "There were errors processing your unblock appeal:",
+				"pt" => "{pt ErrorAppeals}"
+			),
+			"ActionNotPreformed" => array (
+				"en" => "The action you requested could not be performed:",
+				"pt" => "{pt ActionNotPreformed}"
+			),
+			"DataBaseError" => array (
+				"en" => "A database error occured when attempting to process your request:",
+				"pt" => "{pt DataBaseError}"
+			),
+			"AccessDenied" => array (
+				"en" => "Access denied:",
+				"pt" => "{pt AccessDenied}"
+			),
+			"ErrorPageLoad" => array (
+				"en" => "An error occured while loading the page:",
+				"pt" => "{pt ErrorPageLoad}"
+			),
+			"TryAgainLater" => array (
+				"en" => "Please try again later; if the problem persists, contact a tool developer with this message. Thanks!",
+				"pt" => "{pt TryAgainLater}"
 			)
 	);
 	public static $links = array (

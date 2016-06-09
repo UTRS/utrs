@@ -579,7 +579,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo '<div class="btn-group" role="group">';
 	$disabled = "";
 	// Reserve and release buttons
-	echo StatusButtonChecks::checkReserveRelease($appeal);
+	echo StatusButtonChecks::checkReserveRelease($appeal,$user);
   //New button
 	$disabled = "";
 	if (

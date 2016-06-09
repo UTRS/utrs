@@ -875,7 +875,7 @@ class Appeal extends Model {
    }
 }
 class StatusButtonChecks {
-	static function checkReserveRelease($appeal) {
+	static function checkReserveRelease($appeal,$user) {
 		if ($appeal->getHandlingAdmin()) {
 			if (
 					//When it is already in INVALID status

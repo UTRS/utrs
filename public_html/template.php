@@ -387,7 +387,7 @@ global $lang;?>
 <div>
 <ul id="adminNav">
    <li id="adminNavHeader">
-      <p>SystemMessages::$log['Administration'][$lang]</p>
+      <p><?php echo SystemMessages::$log['Administration'][$lang] ?></p>
    </li>
    <li id="mgmtTemp">
       <a href="<?php echo getRootURL() . 'tempMgmt.php'; ?>"> <?php echo SystemMessages::$links['TemplateManagement'][$lang];?></a>

@@ -593,7 +593,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 			) {
 			$disabled = " disabled = 'disabled' ";
 		}
-		echo "<input type=\"button\" " . $disabled . " value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
+		echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
 	} else {
 		if (
 				//When it is already in INVALID status

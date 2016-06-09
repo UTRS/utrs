@@ -590,6 +590,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 			echo StatusButtonChecks::checkInvalid($appeal,$user);
 			//Awaiting user button
 			echo StatusButtonChecks::checkAwaitUser($appeal,$user);
+			//On Hold button
+			echo StatusButtonChecks::checkHold($appeal,$user);
     	?></ul>
     </div>
     <?php //Defer group?>
@@ -598,8 +600,6 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		<ul class="dropdown-menu" role="menu"><?php 
 			//Checkuser button
 			echo StatusButtonChecks::checkCheckuser($appeal,$user);
-			//On Hold button
-			echo StatusButtonChecks::checkHold($appeal,$user);
 			//Awaiting Proxy
 			echo StatusButtonChecks::checkAwaitProxy($appeal,$user);
 			//Awaiting admin

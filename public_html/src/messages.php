@@ -215,6 +215,10 @@ class SystemMessages {
 				"en" => "Unblock Ticket Request System",
 				"pt" => "{pt SiteTitle}"
 			),
+			"AppealClose" => array (
+					"en" => "Close",
+					"pt" => "{pt AppealClose}"
+			),
 			"HeaderSiteTitle" => array (
 				"en" => "Unblock Ticket<br />Request System",
 				"pt" => "{pt HeaderSiteTitle}"
@@ -222,7 +226,55 @@ class SystemMessages {
 			"Administration" => array (
 				"en" => "Administration",
 				"pt" => "{pt Administration}"
-			));
+			),
+		"ReleaseButton" => array (
+			"en" => "Release",
+			"pt" => "{pt ReleaseButton}"
+		),
+		"ReleaseButton" => array (
+			"en" => "Release",
+			"pt" => "{pt ReleaseButton}"
+		),
+		"ReserveButton" => array (
+			"en" => "Reserve",
+			"pt" => "{pt ReserveButton}"
+		),
+		"ResetButton" => array (
+			"en" => "Reset to new",
+			"pt" => "{pt ResetButton}"
+		),
+		"ReviewerButton" => array (
+			"en" => "Back to Reviewer",
+			"pt" => "{pt ReviewerButton}"
+		),
+		"ResponseButton" => array (
+			"en" => "Await Response",
+			"pt" => "{pt ResponseButton}"
+		),
+		"InvalidButton" => array (
+			"en" => "Invalid",
+			"pt" => "{pt InvalidButton}"
+		),
+		"CUButton" => array (
+			"en" => "Send for Checkuser Review",
+			"pt" => "{pt CUButton}"
+		),
+		"HoldButton" => array (
+			"en" => "Place on hold",
+			"pt" => "{pt HoldButton}"
+		),
+		"WMFButton" => array (
+			"en" => "Request WMF Staff",
+			"pt" => "{pt WMFButton}"
+		),
+		"ProxyButton" => array (
+			"en" => "Request Proxy Check",
+			"pt" => "{pt ProxyButton}"
+		),
+		"ToolAdminButton" => array (
+			"en" => "Request Tool Administrator",
+			"pt" => "{pt ToolAdminButton}"
+		));
 	public static $log = array (
 			"StatusToCU" => array (
 					"en" => 'Status change to AWAITING_CHECKUSER',

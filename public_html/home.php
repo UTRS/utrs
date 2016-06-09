@@ -25,9 +25,6 @@ $errorMessages = '';
 //Template header()
 skinHeader();
 
-//Welcome message
-echo '<p>Welcome, ' . $_SESSION['user'] . '.</p>';
-
 //Get user's personalized hooks
 init();
 getHooks();

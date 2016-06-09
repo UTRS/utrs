@@ -310,9 +310,6 @@ if($loggedIn){
    <li id="jobs">
       <a href="https://utrs.wmflabs.org/team.php"><?php echo SystemMessages::$links['Jobs'][$lang] ?></a>
    </li>
-   <li id="logout">
-      <a href="<?php echo getRootURL() . 'logout.php'; ?>"><?php echo SystemMessages::$links['Logout'][$lang] ?></a>
-   </li>
 <?php } ELSE { ?>
    <li id="appealForm">
       <a href="<?php echo getRootURL() . 'index.php'; ?>"><?php echo SystemMessages::$links['AppealBlock'][$lang] ?></a>
@@ -350,7 +347,12 @@ if($loggedIn){
    		$langtext="ERROR!";
    }
    echo "<li style=\"float:right;\"><a href=\"langVerify.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
-   echo "<li style=\"float:right;\">Wiki/Language: ".$langtext."</li>"; ?>
+   echo "<li style=\"float:right;\">Wiki/Language: ".$langtext."</li>";
+   if ($loggedIn) { ?>
+   	<li style="float:right;" id="logout">
+      <?php echo SystemMessages::$information['LoggedInAs'][$lang] .": ".$_SESSION['user']." | "?><a href="<?php echo getRootURL() . 'logout.php'; ?>"><?php echo SystemMessages::$links['Logout'][$lang] ?></a>
+   	</li>
+   <?php } ?>
 </ul>
 <div style="clear: both"></div>
 </div>

@@ -606,7 +606,7 @@ class Appeal extends Model {
       }
 
       if (!is_null($this->handlingAdmin)) {
-         $this->handlingAdminObject = UTRSSystemMessages::$log['Userlink'][$lang].getUserById($this->handlingAdmin);
+         $this->handlingAdminObject = SystemMessages::$log['Userlink'][$lang].getUserById($this->handlingAdmin);
          return $this->handlingAdminObject;
       }
 

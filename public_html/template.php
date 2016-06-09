@@ -289,9 +289,6 @@ if($loggedIn){
    <li id="stats">
       <a href="<?php echo getRootURL() . 'statistics.php'; ?>"><?php echo SystemMessages::$links['Stats'][$lang] ?></a>
    </li>
-   <li id="mgmtTemp">
-      <a href="<?php echo getRootURL() . 'tempMgmt.php'; ?>"><?php echo SystemMessages::$links['TemplateManagement'][$lang] ?></a>
-   </li>
    <?php if(verifyAccess($GLOBALS['ADMIN'])) { ?>
    <li id="mgmtUser">
       <a href="<?php echo getRootURL() . 'userMgmt.php'; ?>"><?php echo SystemMessages::$links['UserManagement'][$lang] ?></a>
@@ -386,7 +383,7 @@ global $lang;
 }
 
 function adminNav() {
-?>
+global $lang;?>
 <div>
 <ul id="adminNav">
    <li id="adminNavHeader">

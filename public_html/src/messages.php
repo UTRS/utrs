@@ -240,35 +240,35 @@ class SystemMessages {
 			"pt" => "{pt ReserveButton}"
 		),
 		"ResetButton" => array (
-			"en" => "Reset to new",
+			"en" => "Reset to new",
 			"pt" => "{pt ResetButton}"
 		),
 		"ReviewerButton" => array (
-			"en" => "Back to Reviewer",
+			"en" => "Back to Reviewer",
 			"pt" => "{pt ReviewerButton}"
 		),
 		"ResponseButton" => array (
-			"en" => "Await Response",
+			"en" => "Await Response",
 			"pt" => "{pt ResponseButton}"
 		),
 		"InvalidButton" => array (
-			"en" => "Invalid",
+			"en" => "Invalid",
 			"pt" => "{pt InvalidButton}"
 		),
 		"CUButton" => array (
-			"en" => "Send for Checkuser Review",
+			"en" => "Send for Checkuser Review",
 			"pt" => "{pt CUButton}"
 		),
 		"HoldButton" => array (
-			"en" => "Place on hold",
+			"en" => "Place on hold",
 			"pt" => "{pt HoldButton}"
 		),
 		"WMFButton" => array (
-			"en" => "Request WMF Staff",
+			"en" => "Request WMF Staff",
 			"pt" => "{pt WMFButton}"
 		),
 		"ProxyButton" => array (
-			"en" => "Request Proxy Check",
+			"en" => "Request Proxy Check",
 			"pt" => "{pt ProxyButton}"
 		),
 		"ToolAdminButton" => array (

@@ -576,40 +576,10 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	
 	// This section affects the action buttons
 	echo '<div class="btn-toolbar" role="toolbar" id="tool-row">';
-	echo '<div class="btn-group btn-group-justified" role="group">';
+	echo '<div class="btn-group" role="group">';
 	$disabled = "";
 	// Reserve and release buttons
-	if ($appeal->getHandlingAdmin()) {
-		if (
-				//When it is already in INVALID status
-				$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-			//Not handling user and not admin
-			$appeal->getHandlingAdmin()->getUserId() != $user->getUserId() && !verifyAccess($GLOBALS['ADMIN']) ||
-			//In AWAITING_ADMIN status and not admin
-			$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-			//Awaiting checkuser and not CU or admin
-			$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
-			//Appeal is closed and not an admin
-			$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-			) {
-			$disabled = " disabled = 'disabled' ";
-		}
-		echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
-	} else {
-		if (
-				//When it is already in INVALID status
-				$appeal->getStatus() == Appeal::$STATUS_INVALID ||
-			//Awaiting admin and not admin
-			$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
-			//Appeal awaiting CU and not CU or Admin
-			$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
-			//Appeal close and not admin
-			$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
-		) {
-			$disabled = " disabled = 'disabled' ";
-		}
-		echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
-	}
+	echo StatusButtonChecks::checkReserveRelease($appeal);
   //New button
 	$disabled = "";
 	if (
@@ -686,7 +656,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	}
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Invalid\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=invalid'\">&nbsp;";
 	echo "</div><br />";
-	echo '<div class="btn-group btn-group-justified" role="group">';
+	echo '<div class="btn-group" role="group">';
   //Checkuser button
 	$disabled = "";
 	if (
@@ -730,7 +700,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;";
 	echo "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 	echo "</div><br />";
-	echo '<div class="btn-group btn-group-justified" role="group">';
+	echo '<div class="btn-group" role="group">';
 	//Awaiting Proxy
 	$disabled = "";
 	if (

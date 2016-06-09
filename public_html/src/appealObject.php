@@ -874,5 +874,40 @@ class Appeal extends Model {
 	   
    }
 }
+class StatusButtonChecks {
+	static function checkReserveRelease($appeal) {
+		if ($appeal->getHandlingAdmin()) {
+			if (
+					//When it is already in INVALID status
+					$appeal->getStatus() == Appeal::$STATUS_INVALID ||
+					//Not handling user and not admin
+					$appeal->getHandlingAdmin()->getUserId() != $user->getUserId() && !verifyAccess($GLOBALS['ADMIN']) ||
+					//In AWAITING_ADMIN status and not admin
+					$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+					//Awaiting checkuser and not CU or admin
+					$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
+					//Appeal is closed and not an admin
+					$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
+			) {
+				$disabled = " disabled = 'disabled' ";
+			}
+			return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Release\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=release'\">&nbsp;";
+		} else {
+			if (
+					//When it is already in INVALID status
+					$appeal->getStatus() == Appeal::$STATUS_INVALID ||
+					//Awaiting admin and not admin
+					$appeal->getStatus() == Appeal::$STATUS_AWAITING_ADMIN && !verifyAccess($GLOBALS['ADMIN']) ||
+					//Appeal awaiting CU and not CU or Admin
+					$appeal->getStatus() == Appeal::$STATUS_AWAITING_CHECKUSER && !(verifyAccess($GLOBALS['ADMIN']) || verifyAccess($GLOBALS['CHECKUSER'])) ||
+					//Appeal close and not admin
+					$appeal->getStatus() == Appeal::$STATUS_CLOSED && !verifyAccess($GLOBALS['ADMIN'])
+			) {
+				$disabled = " disabled = 'disabled' ";
+			}
+			return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\" value=\"Reserve\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=reserve'\">&nbsp;";
+		}
+	}  
+}
 
 ?>

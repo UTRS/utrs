@@ -272,9 +272,14 @@ class SystemMessages {
 			"pt" => "{pt ProxyButton}"
 		),
 		"ToolAdminButton" => array (
-			"en" => "Request Tool Administrator",
+			"en" => "Request Tool Administrator",
 			"pt" => "{pt ToolAdminButton}"
-		));
+		),
+		"CloseAppeal" => array (
+				"en" => "Close",
+				"pt" => "{pt CloseAppeal}"
+		)
+	);
 	public static $log = array (
 			"StatusToCU" => array (
 					"en" => 'Status change to AWAITING_CHECKUSER',

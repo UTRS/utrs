@@ -1,5 +1,5 @@
 <?php
-require_once('../src/messages.php');
+require_once('src/messages.php');
 class AwaitingToolAdmin
 {
 

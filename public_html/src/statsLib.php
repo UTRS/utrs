@@ -62,7 +62,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
 * @param String $orderby optional order of the results and direction
 */
 function printAppealList(array $criteria = array(), $limit = "", $orderby = "", $timestamp = 0) {
-   
+   global $lang;
    $currentUser = getCurrentUser();
    $secure = TRUE; //Setting up for eventual full migration to https 
    
@@ -91,7 +91,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
    $query->closeCursor();
 
    if (!$foundone) {
-      return "<b>No unblock requests in queue</b>";
+      return "<b>".SystemMessages::$error['HooksNoAppeals'][$lang]."</b>";
    }
 
    return $requests . "</table>";

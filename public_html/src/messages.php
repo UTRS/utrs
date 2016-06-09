@@ -598,6 +598,10 @@ class SystemMessages {
 			"SiteNoticeError" => array (
 					"en" => "An error occured when getting the sitenotice:",
 					"pt" => "{pt SiteNoticeError}"
+			),
+			"HooksNoAppeals" => array (
+					"en" => "No unblock requests in queue",
+					"pt" => "{pt HooksNoAppeals}"
 			)
 	);
 	public static $links = array (

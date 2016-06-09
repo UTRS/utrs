@@ -575,7 +575,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	<?php
 	
 	// This section affects the action buttons
-	
+	echo '<div class="btn-toolbar" role="toolbar" id="tool-row">';
+	echo '<div class="btn-group" role="group">';
 	$disabled = "";
 	// Reserve and release buttons
 	if ($appeal->getHandlingAdmin()) {
@@ -703,7 +704,8 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		$disabled = "disabled='disabled'";
 	}
 	echo "<input type=\"button\" " . $disabled . "  value=\"Checkuser\" onClick=\"doCheckUser()\">&nbsp;";
-	echo "<hr style='width:475px;'>";
+	echo "</div></div>";
+	echo "<hr style='width:475px;'>"; 
 	//On Hold button
 	$disabled = "";
 	if (

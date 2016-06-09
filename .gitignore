@@ -27,3 +27,4 @@ fonts/*
 #any config
 
 config*
+*.cfg

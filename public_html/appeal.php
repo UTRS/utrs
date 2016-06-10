@@ -491,7 +491,7 @@ if (
 		($appeal->getStatus() != Appeal::$STATUS_UNVERIFIED) 
 		|| verifyAccess($GLOBALS['DEVELOPER'])) {
 ?>
-<h1>SystemMessages::$system['DetailsReqNum'][$lang]<?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> - <?php
+<h1><?php echo SystemMessages::$system['DetailsReqNum'][$lang]?><?php echo $appeal->getID(); ?>: <a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getCommonName(); ?></a> - <?php
 if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])){
 	echo "******";
 	echo substr($appeal->getEmail(), strpos($appeal->getEmail(), "@")); 
@@ -509,27 +509,27 @@ else {
 <table class="appeal">
 <tr>
 <td valign=top class="left">
-<div class="linklist">SystemMessages::$links['AcctLinks'][$lang]
+<div class="linklist"><?php echo SystemMessages::$links['AcctLinks'][$lang]?>
 <ul>
-  <li><a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank">SystemMessages::$system['Upage'][$lang]</a></li>
-  <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">User Talk Page</a></li>
-  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => [''] . $appeal->getCommonName())); ?>" target="_blank">SystemMessages::$links['BlkLog'][$lang]</a></li>
-  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank">Find block</a></li> 
+  <li><a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['Upage'][$lang]?></a></li>
+  <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$links['UTPageNoLink']?></a></li>
+  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => [''] . $appeal->getCommonName())); ?>" target="_blank"><?php echo SystemMessages::$links['BlkLog'][$lang]?></a></li>
+  <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank"><?php echo SystemMessages::$system['FindBlk'] ?></a></li> 
   <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">SystemMessages::$system['Crontribs'][$lang]</a></li>
   <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
   <!-- <li><a href="<?php //echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li> We are unable to create accounts right now--> 
 </ul>
 </div>
-SystemMessages::$system['Timestamp'][$lang] <?php echo $appeal->getTimestamp(); ?><br>
+<?php echo SystemMessages::$system['Timestamp'][$lang]?> <?php echo $appeal->getTimestamp(); ?><br>
 <?php if (!$appeal->hasAccount() && $appeal->getAccountName()) {?>
-SystemMessages::$information['RequestUname'][$lang] <a href="<?php echo getWikiLink([''] . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>
+<?php echo SystemMessages::$information['RequestUname'][$lang]?> <a href="<?php echo getWikiLink([''] . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>
 <?php }?>
 <?php if (Appeal::getAppealCountByIP($appeal->getIP()) > 1) {?>
-SystemMessages::$system['AppealByIP'][$lang] <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
+<?php echo SystemMessages::$system['AppealByIP'][$lang]?> <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>
 <?php }?>
-SystemMessages::$system['Status'][$lang] <b><?php echo $appeal->getStatus(); ?></b><br>
-SystemMessages::$system['ReqUnblockFor'][$lang]<b><?php if ($appeal->isAutoblock() && $appeal->hasAccount()) {echo [''];} elseif ($appeal->hasAccount()) {echo [''];} elseif (!$appeal->hasAccount()) {echo [''];} else {throw new UTRSValidationException(['']);}?></b>
-<div class="linklist">SystemMessages::$system['BlkAdmin'][$lang]
+<?php echo SystemMessages::$system['Status'][$lang]?> <b><?php echo $appeal->getStatus(); ?></b><br>
+<?php echo SystemMessages::$system['ReqUnblockFor'][$lang] ?><b><?php if ($appeal->isAutoblock() && $appeal->hasAccount()) {echo SystemMessages::$system['IPorAuto'][$lang];} elseif ($appeal->hasAccount()) {echo SystemMessages::$system['Acct'][$lang];} elseif (!$appeal->hasAccount()) {echo SystemMessages::$system['IP'][$lang];;} else {throw new UTRSValidationException(SystemMessages::$error['NoneType'][$lang]);}?></b>
+<div class="linklist"><?php SystemMessages::$system['BlkAdmin'][$lang]?>
 <ul>
   <li><a href="<?php echo getWikiLink([''] . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
   <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li>

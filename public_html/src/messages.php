@@ -79,7 +79,147 @@ class SystemMessages {
 				"en" => "IP Address",
 				"pt" => "{pt IP}"
 			)
-	);
+	,
+		"AssignedAppeals" => array (
+			"en" => "Assigned Appeals",
+			"pt" => "{pt AssignedAppeals}"
+		),
+		"ClosedAppeals" => array (
+			"en" => "Closed Appeals",
+			"pt" => "{pt ClosedAppeals}"
+		),
+		"AccountUpdateSuccess" => array (
+			"en" => "Account successfully updated.",
+			"pt" => "{pt AccountUpdateSuccess}"
+		),
+		"UserIDField" => array (
+			"en" => "User ID:",
+			"pt" => "{pt UserIDField}"
+		),
+		"WPAcctField" => array (
+			"en" => "Wikipedia account:",
+			"pt" => "{pt WPAcctField}"
+		),
+		"NumClosedAppealsField" => array (
+			"en" => "Number of closed appeals:",
+			"pt" => "{pt NumClosedAppealsField}"
+		),
+		"RegisteredField" => array (
+			"en" => "Registered:",
+			"pt" => "{pt RegisteredField}"
+		),
+		"UTC" => array (
+			"en" => "UTC",
+			"pt" => "{pt UTC}"
+		),
+		"AccessLevels" => array (
+			"en" => "Access levels",
+			"pt" => "{pt AccessLevels}"
+		),
+		"ApproveAcctField" => array (
+			"en" => "Approve this account:",
+			"pt" => "{pt ApproveAcctField}"
+		),
+		"ConfDiff" => array (
+			"en" => "Confirmation diff",
+			"pt" => "{pt ConfDiff}"
+		),
+		"ActivateAcctField" => array (
+			"en" => "Activate account:",
+			"pt" => "{pt ActivateAcctField}"
+		),
+		"ToolAdminField" => array (
+			"en" => "Tool administrator:",
+			"pt" => "{pt ToolAdminField}"
+		),
+		"ToolDevField" => array (
+			"en" => "Tool developer:",
+			"pt" => "{pt ToolDevField}"
+		),
+		"CUField" => array (
+			"en" => "Checkuser:",
+			"pt" => "{pt CUField}"
+		),
+		"OSField" => array (
+			"en" => "Oversight:",
+			"pt" => "{pt OSField}"
+		),
+		"WMFStaffField" => array (
+			"en" => "WMF Staff:",
+			"pt" => "{pt WMFStaffField}"
+		),
+		"ReasonForAcctChangesField" => array (
+			"en" => "Reason for changes to this account:",
+			"pt" => "{pt ReasonForAcctChangesField}"
+		),
+		"SubmitChanges" => array (
+			"en" => "Submit changes",
+			"pt" => "{pt SubmitChanges}"
+		),
+		"Reset" => array (
+			"en" => "Reset",
+			"pt" => "{pt Reset}"
+		),
+		"LogsForUser" => array (
+			"en" => "Logs for this user",
+			"pt" => "{pt LogsForUser}"
+		),
+		"RenameUserToField" => array (
+			"en" => "Rename this user to:",
+			"pt" => "{pt RenameUserToField}"
+		),
+		"RenameUser" => array (
+			"en" => "Rename user",
+			"pt" => "{pt RenameUser}"
+		),
+		"AssignedCases" => array (
+			"en" => "Assigned cases",
+			"pt" => "{pt AssignedCases}"
+		),
+		"ClosedCases" => array (
+			"en" => "Closed cases",
+			"pt" => "{pt ClosedCases}"
+		),
+		"CheckPerms" => array (
+			"en" => "Check Permissions",
+			"pt" => "{pt CheckPerms}"
+		),
+		"UnapprovedAccts" => array (
+			"en" => "Unapproved accounts",
+			"pt" => "{pt UnapprovedAccts}"
+		),
+		"ActiveAccts" => array (
+			"en" => "Active accounts",
+			"pt" => "{pt ActiveAccts}"
+		),
+		"Devs" => array (
+			"en" => "Developers",
+			"pt" => "{pt Devs}"
+		),
+		"ToolAdmins" => array (
+			"en" => "Tool administrators",
+			"pt" => "{pt ToolAdmins}"
+		),
+		"CUs" => array (
+			"en" => "Checkusers",
+			"pt" => "{pt CUs}"
+		),
+		"WMFStaff" => array (
+			"en" => "WMF Staff",
+			"pt" => "{pt WMFStaff}"
+		),
+		"OSers" => array (
+			"en" => "Oversighters",
+			"pt" => "{pt OSers}"
+		),
+		"InactiveAccts" => array (
+			"en" => "Inactive accounts",
+			"pt" => "{pt InactiveAccts}"
+		),
+		"OSedAccts" => array (
+			"en" => "Oversighted accounts",
+			"pt" => "{pt OSedAccts}"
+		));
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
@@ -875,7 +1015,59 @@ class SystemMessages {
 				"en" => "You may not view appeals that have not been email verified.",
 				"pt" => "{pt NoUnverified}"
 			)
-	);
+	,
+		"MustApproveAcctToMakeAccessChanges" => array (
+			"en" => "You must approve this account in order to make any other access changes.",
+			"pt" => "{pt MustApproveAcctToMakeAccessChanges}"
+		),
+		"MustProvideReasonForRightsChange" => array (
+			"en" => "You must provide a reason for the user rights change.",
+			"pt" => "{pt MustProvideReasonForRightsChange}"
+		),
+		"LackPermsCUFlagOnlyDevsOrCUs" => array (
+			"en" => "You lack sufficient permission to make these changes. The checkuser flag may only be changed by developers or checkusers.",
+			"pt" => "{pt LackPermsCUFlagOnlyDevsOrCUs}"
+		),
+		"LackPermsOSFlagOnlyDevsOrOSers" => array (
+			"en" => "You lack sufficient permission to make these changes. The oversight flag may only be changed by developers or oversighters.",
+			"pt" => "{pt LackPermsOSFlagOnlyDevsOrOSers}"
+		),
+		"LackPermsWMFStaffFlagOnlyDevsOrWMFStaff" => array (
+			"en" => "You lack sufficient permission to make these changes. The WMF Staff flag may only be changed by developers or WMF Staff.",
+			"pt" => "{pt LackPermsWMFStaffFlagOnlyDevsOrWMFStaff}"
+		),
+		"LackPermsDevFlagOnlyDevs" => array (
+			"en" => "You lack sufficient permission to make these changes. The developer flag may only be changed by other developers.",
+			"pt" => "{pt LackPermsDevFlagOnlyDevs}"
+		),
+		"MustProvideUsernameToRename" => array (
+			"en" => "You must provide a new username in order to rename this user.",
+			"pt" => "{pt MustProvideUsernameToRename}"
+		),
+		"UsernameIdenticalToCurrent" => array (
+			"en" => "The name you have provided is identical to the current username.",
+			"pt" => "{pt UsernameIdenticalToCurrent}"
+		),
+		"UserAlreadyHasName" => array (
+			"en" => "Another user already has the name",
+			"pt" => "{pt UserAlreadyHasName}"
+		),
+		"PleaseEnterAnotherUser" => array (
+			"en" => "Please enter another username.",
+			"pt" => "{pt PleaseEnterAnotherUser}"
+		),
+		"UserMgmt" => array (
+			"en" => "User management",
+			"pt" => "{pt UserMgmt}"
+		),
+		"AccessDeniedMsg" => array (
+			"en" => "Access denied: ",
+			"pt" => "{pt AccessDeniedMsg}"
+		),
+		"UserMgmtOnlyForToolAdminsOrWMFStaff" => array (
+			"en" => "User management is only available to tool administrators or WMF Staff. Please click on one of the links above to return to another page.",
+			"pt" => "{pt UserMgmtOnlyForToolAdminsOrWMFStaff}"
+		));
 	public static $links = array (
 			"Home" => array (
 					"en" => 'Home',

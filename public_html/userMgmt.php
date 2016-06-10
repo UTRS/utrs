@@ -168,15 +168,14 @@ echo "<h2>User management</h2>";
 if(!verifyAccess($GLOBALS['ADMIN']) && !verifyAccess($GLOBALS['WMF'])){
 
 	if (!isset($_GET['userId'])) {
-		displayError("<b>Access denied:</a> User management is only available to tool administrators or WMF Staff. "
-		    . "Please click on one of the links above to return to another page.");
+		displayError("<b>Access denied:</b> User management is only available to tool administrators or WMF Staff. Please click on one of the links above to return to another page.");
 	} else {
 		$user = UTRSUser::getUserById($_GET['userId']);
 
 		?>
-		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
-<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
+		<h2>User: </h2><a href="<?php echo getWikiLink(SystemMessages::$system['Userlink'][$lang] . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
+<a href="<?php echo getWikiLink(SystemMessages::$system['UTpage'][$lang] . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
+<a href="<?php echo getWikiLink(SystemMessages::$system['EmailUserLink'][$lang] . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
 		<?php
 		echo "<h2>Assigned Appeals</h2>";
 		echo printAssigned($user->getUserId());
@@ -202,7 +201,7 @@ else{
 		$comments = $requestedUser->getComments();
 		$registered = $requestedUser->getRegistered();
 		$numClosed = $requestedUser->getClosed();
-		$wikiAccount = "User:" . $requestedUser->getWikiAccount();
+		$wikiAccount = SystemMessages::$system['Userlink'][$lang] . $requestedUser->getWikiAccount();
 
 		echo "<h3>" . $requestedUser->getUsername() . "</h3>";
 		if($errors){

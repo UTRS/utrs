@@ -3,7 +3,7 @@ class SystemMessages {
 	public static $information = array (
 			"LoggedInAs" => Array(
 					"en" => "Logged in as",
-					"pt" => "{pt LoggedInAs"
+					"pt" => "{pt LoggedInAs}"
 			),
 			"Blank" => array(
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",

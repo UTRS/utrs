@@ -350,7 +350,7 @@ if($loggedIn){
    echo "<li style=\"float:right;\">Wiki/Language: ".$langtext."</li>";
    if ($loggedIn) { ?>
    	<li style="float:right;" id="logout">
-      <?php echo SystemMessages::$information['LoggedInAs'][$lang] .": ".$_SESSION['user']." | "?><a href="<?php echo getRootURL() . 'logout.php'; ?>"><?php echo SystemMessages::$links['Logout'][$lang] ?></a>
+      <a href="<?php echo getRootURL() . 'logout.php'; ?>"><?php echo SystemMessages::$information['LoggedInAs'][$lang] .": ".$_SESSION['user']." | "?><?php echo SystemMessages::$links['Logout'][$lang] ?></a>
    	</li>
    <?php } ?>
 </ul>

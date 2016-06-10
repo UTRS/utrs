@@ -11,6 +11,7 @@ class UTRSException extends Exception{
 
 class UTRSValidationException extends UTRSException{	
 	public function __construct($errorMsg){
+		global $lang;
 		$message = "<b>".SystemMessages::$error['ErrorAppeals'][$lang]." </b>" . $errorMsg;
 		parent::__construct($message, 10001, null);
 	}
@@ -18,6 +19,7 @@ class UTRSValidationException extends UTRSException{
 
 class UTRSIllegalModificationException extends UTRSException{
 	public function __construct($errorMsg){
+		global $lang;
 		$message = "<b>".SystemMessages::$error['ActionNotPreformed'][$lang]." </b>" . $errorMsg;
 		parent::__construct($message, 10002, null);
 	}
@@ -25,6 +27,7 @@ class UTRSIllegalModificationException extends UTRSException{
 
 class UTRSDatabaseException extends UTRSException{
 	public function __construct($errorMsg){
+		global $lang;
 		$message = "<b>".SystemMessages::$error['DataBaseError'][$lang]." </b><br />" . $errorMsg;
 		parent::__construct($message, 10003, null);
 	}
@@ -32,6 +35,7 @@ class UTRSDatabaseException extends UTRSException{
 
 class UTRSCredentialsException extends UTRSException{
 	public function __construct($errorMsg){
+		global $lang;
 		$message = "<b>".SystemMessages::$error['AccessDenied'][$lang]." </b>";
 		parent::__construct($message, 10004, null);
 	}
@@ -39,6 +43,7 @@ class UTRSCredentialsException extends UTRSException{
 
 class UTRSNetworkException extends UTRSException{
 	public function __construct($errorMsg){
+		global $lang;
 		$message = "<b>".SystemMessages::$error['ErrorPageLoad'][$lang]." </b>"  . $errorMsg;
 		parent::__construct($message, 10005, null);
 	}
@@ -46,6 +51,7 @@ class UTRSNetworkException extends UTRSException{
 
 class UTRSIllegalArgumentException extends UTRSException{
 	public function __construct($arg, $expected, $function){
+		global $lang;
 		$message = SystemMessages::$error['Argument'][$lang]. " " . $arg .   " ".SystemMessages::$error['WasProvided'][$lang]." ".$function .  " ".SystemMessages::$error['When'][$lang]." ". $expected ." ".SystemMessages::$error['WasExpected'][$lang]."<br />"; 
 		$message .= SystemMessages::$error['BlameTParis'][$lang]."<br/>";
 		$message .= SystemMessages::$error['TryAgainLater'][$lang];

@@ -1043,7 +1043,7 @@ class StatusButtonChecks {
 		//return "<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Request a Hold\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=hold'\">&nbsp;".
 		return "<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=hold\">".SystemMessages::$system['HoldButton'][$lang]."</a></li>".
 			//"<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"Blocking Admin\" id=\"adminhold\">&nbsp;".
-			"<li class=" . $disabled . "><a href=\"#\" id=\"adminhold\">Request blocking admin</a></li>".
+			"<li class=" . $disabled . "><a href=\"#\" id=\"adminhold\">".SystemMessages::$system['RequestBlockingAdmin'][$lang]."</a></li>".
 			//"<input type=\"button\" class=\"btn btn-default " . $disabled . "\"  value=\"WMF Staff\" onClick=\"window.location='?id=" . $_GET['id'] . "&action=status&value=wmfhold'\">&nbsp;";
 			"<li class=" . $disabled . "><a href=\"appeal.php?id=" . $_GET['id'] . "&action=status&value=wmfhold\">".SystemMessages::$system['WMFButton'][$lang]."</a></li>";
 	}

@@ -58,12 +58,28 @@ class SystemMessages {
 			"Version" => array (
 				"en" => "Version",
 				"pt" => "{pt Version}"
+			),
+			"BlameTParis" => array (
+				"en" => "To UTRS users/appellants: This is likely not your fault, but an error on the part of a tool developer.",
+				"pt" => "{pt BlameTParis}"
+			),
+			"RequestUname" => array (
+				"en" => "Requested Username:",
+				"pt" => "{pt RequestUname}"
+			),
+			"IPorAuto" => array (
+				"en" => "IP Address/Autoblock underneath an account",
+				"pt" => "{pt IPorAuto}"
+			),
+			"Acct" => array (
+				"en" => "Account",
+				"pt" => "{pt Acct}"
+			),
+			"IP" => array (
+				"en" => "IP Address",
+				"pt" => "{pt IP}"
 			)
-	,
-		"BlameTParis" => array (
-			"en" => "To UTRS users/appellants: This is likely not your fault, but an error on the part of a tool developer.",
-			"pt" => "{pt BlameTParis}"
-		));
+	);
 	public static $system = array (
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
@@ -350,24 +366,176 @@ class SystemMessages {
 			"WaitingOnMeHook" => array(
 					"en" => "Waiting on me",
 					"pt" => "{pt WaitingOnMeHook}"
+			),
+			"Argument" => array (
+				"en" => "Argument",
+				"pt" => "{pt Argument}"
+			),
+			"WasProvided" => array (
+				"en" => "was provided to",
+				"pt" => "{pt WasProvided}"
+			),
+			"When" => array (
+				"en" => "when",
+				"pt" => "{pt When}"
+			),
+			"WasExpected" => array (
+				"en" => "was exptected",
+				"pt" => "{pt WasExpected}"
+			),
+			"RequestBlockingAdmin" => array(
+					"en" => "Request blocking admin",
+					"pt" => "{pt RequestBlockingAdmin}"
+			),
+			"BotUnblockAt" => array (
+				"en" => "User has requested an unblock at",
+				"pt" => "{pt BotUnblockAt}"
+			),
+			"BotRequestedAt" => array (
+				"en" => "User has requested an unblock at",
+				"pt" => "{pt BotRequestedAt}"
+			),
+			"UTRSTemplate" => array (
+				"en" => "{{utrs|",
+				"pt" => "{pt UTRSTemplate}"
+			),
+			"AppealConfirmRevoke" => array (
+				"en" => "Please confirm you want revoke this appeal:",
+				"pt" => "{pt AppealConfirmRevoke}"
+			),
+			"ConfirmToNew" => array (
+				"en" => "Please confirm you want to send this appeal to the new queue:",
+				"pt" => "{pt ConfirmToNew}"
+			),
+			"DetailsReqNum" => array (
+				"en" => "Details for Request #",
+				"pt" => "{pt DetailsReqNum}"
+			),
+			"Crontribs" => array (
+				"en" => "Contribs",
+				"pt" => "{pt Crontribs}"
+			),
+			"Unblock" => array (
+				"en" => "Unblock  ",
+				"pt" => "{pt Unblock}"
+			),
+			"Timestamp" => array (
+				"en" => "Request timestamp:",
+				"pt" => "{pt Timestamp}"
+			),
+			"AppealByIP" => array (
+				"en" => "Appeals by this IP:",
+				"pt" => "{pt AppealByIP}"
+			),
+			"Status" => array (
+				"en" => "Status:",
+				"pt" => "{pt Status}"
+			),
+			"ReqUnblockFor" => array (
+				"en" => "Requesting unblock for: ",
+				"pt" => "{pt ReqUnblockFor}"
+			),
+			"BlkAdmin" => array (
+				"en" => "Blocking Admin:",
+				"pt" => "{pt BlkAdmin}"
+			),
+			"ReservedBy" => array (
+				"en" => "Reserved by:",
+				"pt" => "{pt ReservedBy}"
+			),
+			"Upage" => array (
+				"en" => "User Page",
+				"pt" => "{pt Upage}"
+			),
+			"UTpage" => array (
+				"en" => "User talk:",
+				"pt" => "{pt UTpage}"
+			),
+			"UTPageNoLink" => array (
+				"en" => "User talk Page ",
+				"pt" => "{pt UTPageNoLink}"
+			),
+			"EmailUser" => array (
+				"en" => "Email User",
+				"pt" => "{pt EmailUser}"
+			),
+			"UserAgent" => array (
+				"en" => "User Agent",
+				"pt" => "{pt UserAgent}"
+			),
+			"WhyUnblock" => array (
+				"en" => "Why do you believe you should be unblocked?",
+				"pt" => "{pt WhyUnblock}"
+			),
+			"IntendEdit" => array (
+				"en" => "If you are unblocked, what articles do you intend to edit?",
+				"pt" => "{pt IntendEdit}"
+			),
+			"AffectYou" => array (
+				"en" => "Why do you think there is a block currently affecting you? If you believe it's in error, tell us how.",
+				"pt" => "{pt AffectYou}"
+			),
+			"AnyConsider" => array (
+				"en" => "Is there anything else you would like us to consider when reviewing your block?",
+				"pt" => "{pt AnyConsider}"
+			),
+			"Responses" => array (
+				"en" => "Responses",
+				"pt" => "{pt Responses}"
+			),
+			"Select" => array (
+				"en" => "Please select",
+				"pt" => "{pt Select}"
+			),
+			"LogsBReq" => array (
+				"en" => "Logs for this request",
+				"pt" => "{pt LogsBReq}"
+			),
+			"NewComment" => array (
+				"en" => "new comment",
+				"pt" => "{pt NewComment}"
+			),
+			"QuickCmt" => array (
+				"en" => "Quick Comment",
+				"pt" => "{pt QuickCmt}"
+			),
+			"BanMgmt" => array (
+				"en" => "Ban Management",
+				"pt" => "{pt BanMgmt}"
+			),
+			"BanEmail" => array (
+				"en" => "Ban Email",
+				"pt" => "{pt BanEmail}"
+			),
+			"BanIP" => array (
+				"en" => "Ban IP",
+				"pt" => "{pt BanIP}"
+			),
+			"BanUname" => array (
+				"en" => "Ban Username",
+				"pt" => "{pt BanUname}"
+			),
+			"RevealMgmt" => array (
+				"en" => "Reveal Management",
+				"pt" => "{pt RevealMgmt}"
+			),
+			"EmailAddr" => array (
+				"en" => "Email Address",
+				"pt" => "{pt EmailAddr}"
+			),
+			"CU data" => array (
+				"en" => "CU data",
+				"pt" => "{pt CU data}"
+			),
+			"OversightInfo" => array (
+				"en" => "Oversighted Appeal Information - No current affect",
+				"pt" => "{pt OversightInfo}"
+			),
+			"Reveal" => array (
+				"en" => "Reveal",
+				"pt" => "{pt Reveal}"
 			)
-	,
-		"Argument" => array (
-			"en" => "Argument",
-			"pt" => "{pt Argument}"
-		),
-		"WasProvided" => array (
-			"en" => "was provided to",
-			"pt" => "{pt WasProvided}"
-		),
-		"When" => array (
-			"en" => "when",
-			"pt" => "{pt When}"
-		),
-		"WasExpected" => array (
-			"en" => "was exptected",
-			"pt" => "{pt WasExpected}"
-		));
+	);
 	public static $log = array (
 			"StatusToCU" => array (
 					"en" => 'Status change to AWAITING_CHECKUSER',
@@ -448,6 +616,14 @@ class SystemMessages {
 			"WMFReq" => array (
 				"en" => "WMF Assistance requested on unblock appeal #",
 				"pt" => "{pt WMFReq}"
+			),
+			"AppealScrapped" => array (
+				"en" => "Appeal has been scrapped.",
+				"pt" => "{pt AppealScrapped}"
+			),
+			"AppealReset" => array (
+				"en" => "Reset appeal to NEW",
+				"pt" => "{pt AppealReset}"
 			)
 	);
 	public static $error = array (
@@ -674,6 +850,30 @@ class SystemMessages {
 			"TryAgainLater" => array (
 				"en" => "Please try again later; if the problem persists, contact a tool developer with this message. Thanks!",
 				"pt" => "{pt TryAgainLater}"
+			),
+			"NeedProxyCheck" => array (
+				"en" => "and is in need of a proxy check",
+				"pt" => "{pt NeedProxyCheck}"
+			),
+			"NoneType" => array (
+				"en" => "No Appeal type specified",
+				"pt" => "{pt NoneType}"
+			),
+			"RevealReqNeeded" => array (
+				"en" => "Access denied. You need to submit a reveal request in the bottom right.",
+				"pt" => "{pt RevealReqNeeded}"
+			),
+			"NoTempAvail" => array (
+				"en" => "No templates available",
+				"pt" => "{pt NoTempAvail}"
+			),
+			"InvalidByDev" => array (
+				"en" => "You may not view appeals that have been marked invalid by a developer.",
+				"pt" => "{pt InvalidByDev}"
+			),
+			"NoUnverified" => array (
+				"en" => "You may not view appeals that have not been email verified.",
+				"pt" => "{pt NoUnverified}"
 			)
 	);
 	public static $links = array (
@@ -756,6 +956,50 @@ class SystemMessages {
 			"MassEmail" => array (
 				"en" => "Send Mass Email",
 				"pt" => "{pt MassEmail}"
+			),
+			"AcctLinks" => array (
+				"en" => "Account links:",
+				"pt" => "{pt AcctLinks}"
+			),
+			"BlkLog" => array (
+				"en" => "Block Log",
+				"pt" => "{pt BlkLog}"
+			),
+			"FindBlk" => array (
+				"en" => "Find block ",
+				"pt" => "{pt FindBlk}"
+			),
+			"BlockLogLink" => array (
+				"en" => "Special:Log/block:",
+				"pt" => "{pt BlockLogLink}"
+			),
+			"BlockList" => array (
+				"en" => "Special:BlockList:",
+				"pt" => "{pt BlockList}"
+			),
+			"Contributions" => array (
+				"en" => "Special:Contributions/:",
+				"pt" => "{pt Contributions}"
+			),
+			"UnblockLink" => array (
+				"en" => "Special:Unblock/:",
+				"pt" => "{pt UnblockLink}"
+			),
+			"UsrLink" => array (
+				"en" => "User:",
+				"pt" => "{pt UsrLink}"
+			),
+			"EmailUserLink" => array (
+				"en" => "Special:EmailUser/",
+				"pt" => "{pt EmailUserLink}"
+			),
+			"ChangeStatus" => array (
+				"en" => "Change Status",
+				"pt" => "{pt ChangeStatus}"
+			),
+			"Requests" => array (
+				"en" => "Requests",
+				"pt" => "{pt Requests}"
 			)
 	);
 	public static $tos = array (

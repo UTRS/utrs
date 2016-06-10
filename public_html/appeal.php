@@ -513,7 +513,7 @@ else {
 <ul>
   <li><a href="<?php echo getWikiLink($appeal->getUserPage(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['Upage'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['UTPageNoLink'][$lang]?></a></li>
-  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => [''] . $appeal->getCommonName())); ?>" target="_blank"><?php echo SystemMessages::$links['BlkLog'][$lang]?></a></li>
+  <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => SystemMessages::$links['UsrLnk'][$lang] . $appeal->getCommonName())); ?>" target="_blank"><?php echo SystemMessages::$links['BlkLog'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank"><?php echo SystemMessages::$links['FindBlk'][$lang] ?></a></li> 
   <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php SystemMessages::$system['Crontribs'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
@@ -522,7 +522,7 @@ else {
 </div>
 <?php echo SystemMessages::$system['Timestamp'][$lang]?> <?php echo $appeal->getTimestamp(); ?><br>
 <?php if (!$appeal->hasAccount() && $appeal->getAccountName()) {?>
-<?php echo SystemMessages::$information['RequestUname'][$lang]?> <a href="<?php echo getWikiLink([''] . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>
+<?php echo SystemMessages::$information['RequestUname'][$lang]?> <a href="<?php echo getWikiLink(SystemMessages::$links['UsrLnk'][$lang] . $appeal->getAccountName(), $user->getUseSecure()); ?>" target="_blank"><?php echo $appeal->getAccountName(); ?></a><br>
 <?php }?>
 <?php if (Appeal::getAppealCountByIP($appeal->getIP()) > 1) {?>
 <?php echo SystemMessages::$system['AppealByIP'][$lang]?> <a href="search.php?id=<?php echo $appeal->getID(); ?>"><b><?php echo Appeal::getAppealCountByIP($appeal->getIP()); ?></b></a><br>

@@ -516,7 +516,7 @@ else {
   <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => SystemMessages::$links['UsrLnk'][$lang] . $appeal->getCommonName())); ?>" target="_blank"><?php echo SystemMessages::$links['BlkLog'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank"><?php echo SystemMessages::$links['FindBlk'][$lang] ?></a></li> 
   <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['Crontribs'][$lang]?></a></li>
-  <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
+  <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['Unblock'][$lang]?></a></li> 
   <!-- <li><a href="<?php //echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li> We are unable to create accounts right now--> 
 </ul>
 </div>

@@ -11,43 +11,43 @@ class UTRSException extends Exception{
 
 class UTRSValidationException extends UTRSException{	
 	public function __construct($errorMsg){
-		$message = "<b>".['']." </b>" . $errorMsg;
+		$message = "<b>".SystemMessages::$error['ErrorAppeals'][$lang]." </b>" . $errorMsg;
 		parent::__construct($message, 10001, null);
 	}
 }
 
 class UTRSIllegalModificationException extends UTRSException{
 	public function __construct($errorMsg){
-		$message = "<b>".['']." </b>" . $errorMsg;
+		$message = "<b>".SystemMessages::$error['ActionNotPreformed'][$lang]." </b>" . $errorMsg;
 		parent::__construct($message, 10002, null);
 	}
 }
 
 class UTRSDatabaseException extends UTRSException{
 	public function __construct($errorMsg){
-		$message = "<b>".['']." </b><br />" . $errorMsg;
+		$message = "<b>".SystemMessages::$error['DataBaseError'][$lang]." </b><br />" . $errorMsg;
 		parent::__construct($message, 10003, null);
 	}
 }
 
 class UTRSCredentialsException extends UTRSException{
 	public function __construct($errorMsg){
-		$message = "<b>".['']." </b>";
+		$message = "<b>".SystemMessages::$error['AccessDenied'][$lang]." </b>";
 		parent::__construct($message, 10004, null);
 	}
 }
 
 class UTRSNetworkException extends UTRSException{
 	public function __construct($errorMsg){
-		$message = "<b>".['']." </b>"  . $errorMsg;
+		$message = "<b>".SystemMessages::$error['ErrorPageLoad'][$lang]." </b>"  . $errorMsg;
 		parent::__construct($message, 10005, null);
 	}
 }
 
 class UTRSIllegalArgumentException extends UTRSException{
 	public function __construct($arg, $expected, $function){
-		$message = ['']. " " . $arg .   " ".['']." ".$function .  " ".['']." ". $expected ." ".['']."<br />"; 
-		$message .= "['']<br/>";
+		$message = SystemMessages::$error['Argument'][$lang]. " " . $arg .   " ".SystemMessages::$error['WasProvided'][$lang]." ".$function .  " ".SystemMessages::$error['When'][$lang]." ". $expected ." ".SystemMessages::$error['WasExpected'][$lang]."<br />"; 
+		$message .= SystemMessages::$error['BlameTParis'][$lang]."<br/>";
 		$message .= SystemMessages::$error['TryAgainLater'][$lang];
 		parent::__construct($message, 10005, null);
 	}

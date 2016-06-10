@@ -530,6 +530,10 @@ class SystemMessages {
 			"Reveal" => array (
 				"en" => "Reveal",
 				"pt" => "{pt Reveal}"
+			),
+			"Unblock" => array (
+				"en" => "Reveal",
+				"pt" => "{pt Reveal}"
 			)
 	);
 	public static $log = array (

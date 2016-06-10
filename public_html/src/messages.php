@@ -391,10 +391,6 @@ class SystemMessages {
 				"en" => "User has requested an unblock at",
 				"pt" => "{pt BotUnblockAt}"
 			),
-			"BotRequestedAt" => array (
-				"en" => "User has requested an unblock at",
-				"pt" => "{pt BotRequestedAt}"
-			),
 			"UTRSTemplate" => array (
 				"en" => "{{utrs|",
 				"pt" => "{pt UTRSTemplate}"

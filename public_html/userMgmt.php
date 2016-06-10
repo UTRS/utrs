@@ -53,20 +53,16 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		}
 		// check credentials (unlikely someone will spoof the POST header, but just in case)
 		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() && !$user->isDeveloper())){
-			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					        "changes. The checkuser flag may only be changed by developers or checkusers. ");
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these changes. The checkuser flag may only be changed by developers or checkusers. ");
 		}
 		if(($newOversight != $oversight) && (!$user->isOversighter() && !$user->isDeveloper())){
-			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					"changes. The oversight flag may only be changed by developers or oversighters. ");
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these changes. The oversight flag may only be changed by developers or oversighters. ");
 		}
 		if(($newWMF != $wmf) && (!$user->isWMF() && !$user->isDeveloper())){
-			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					"changes. The WMF Staff flag may only be changed by developers or WMF Staff. ");
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these changes. The WMF Staff flag may only be changed by developers or WMF Staff. ");
 		}
 		if(($newDeveloper != $developer) & !$user->isDeveloper()){
-			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					        "changes. The developer flag may only be changed by other developers.");
+			throw new UTRSIllegalModificationException("You lack sufficient permission to make these changes. The developer flag may only be changed by other developers.");
 		}
 		// carry out changes
 		if(!$approved & $newApproved){
@@ -115,14 +111,12 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		   strpos($newName, ">") !== false | strpos($newName, "@") !== false |
 		   strpos($newName, "%") !== false | strpos($newName, ":") !== false |
 		   strpos($newName, '$') !== false){
-		   	throw new UTRSIllegalModificationException('The username you have entered is invalid. Usernames ' .
-		   	 	'may not contain the characters # / | [ ] { } < > @ % : $');
+		   	throw new UTRSIllegalModificationException('The username you have entered is invalid. Usernames may not contain the characters # / | [ ] { } < > @ % : $');
 		}
 		try{
 			$existingUser = UTRSUser::getUserByUsername($newName);
 			// if no exception, then there's a problem
-			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName .
-				"\". Please enter another username.");
+			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName . "\". Please enter another username.");
 		}
 		catch(UTRSDatabaseException $e){
 			if(strpos($e->getMessage(), "No results were returned") !== false){

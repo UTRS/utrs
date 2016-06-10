@@ -515,7 +515,7 @@ else {
   <li><a href="<?php echo getWikiLink("User_talk:" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['UTPageNoLink'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("Special:Log/block", $user->getUseSecure(), array('page' => SystemMessages::$links['UsrLnk'][$lang] . $appeal->getCommonName())); ?>" target="_blank"><?php echo SystemMessages::$links['BlkLog'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("Special:BlockList", $user->getUseSecure(), array('wpTarget' => $appeal->getCommonName(), 'limit' => '50')); ?>" target="_blank"><?php echo SystemMessages::$links['FindBlk'][$lang] ?></a></li> 
-  <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php SystemMessages::$system['Crontribs'][$lang]?></a></li>
+  <li><a href="<?php echo getWikiLink("Special:Contributions/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank"><?php echo SystemMessages::$system['Crontribs'][$lang]?></a></li>
   <li><a href="<?php echo getWikiLink("Special:Unblock/" . $appeal->getCommonName(), $user->getUseSecure()); ?>" target="_blank">Unblock</a></li> 
   <!-- <li><a href="<?php //echo getWikiLink("Special:UserLogin", $user->getUseSecure(), array('type'=>"signup")); ?>" target="_blank">Create Account</a></li> We are unable to create accounts right now--> 
 </ul>
@@ -529,26 +529,26 @@ else {
 <?php }?>
 <?php echo SystemMessages::$system['Status'][$lang]?> <b><?php echo $appeal->getStatus(); ?></b><br>
 <?php echo SystemMessages::$system['ReqUnblockFor'][$lang] ?><b><?php if ($appeal->isAutoblock() && $appeal->hasAccount()) {echo SystemMessages::$information['IPorAuto'][$lang];} elseif ($appeal->hasAccount()) {echo SystemMessages::$information['Acct'][$lang];} elseif (!$appeal->hasAccount()) {echo SystemMessages::$information['IP'][$lang];;} else {throw new UTRSValidationException(SystemMessages::$error['NoneType'][$lang]);}?></b>
-<div class="linklist"><?php SystemMessages::$system['BlkAdmin'][$lang]?>
+<div class="linklist"><?php echo SystemMessages::$system['BlkAdmin'][$lang]?>
 <ul>
   <li><a href="<?php echo getWikiLink(SystemMessages::$links['UsrLink'][$lang] . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"><?php echo $appeal->getBlockingAdmin(); ?></a></li>
-  <li><a href="<?php echo getWikiLink(SystemMessages::$system['UTpage'][$lang] . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li>
-  <li><a href="<?php echo getWikiLink(SystemMessages::$links['EmailUserLink'][$lang]  . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> SystemMessages::$system['EmailUser'][$lang]</a></li>
+  <li><a href="<?php echo getWikiLink(SystemMessages::$system['UTpage'][$lang] . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> <?php echo SystemMessages::$system['UTPageNoLink'][$lang]?></a></li>
+  <li><a href="<?php echo getWikiLink(SystemMessages::$links['EmailUserLink'][$lang]  . $appeal->getBlockingAdmin(), $user->getUseSecure()); ?>" target=\"_blank\"> <?php echo SystemMessages::$system['EmailUser'][$lang]?></a></li>
   </ul>
   </div>
 <?php if ($appeal->getHandlingAdmin()) {?>
-<div class="linklist">SystemMessages::$system['ReservedBy'][$lang]
+<div class="linklist"><?php echo SystemMessages::$system['ReservedBy'][$lang]?>
 <ul>
 <li><a href="userMgmt.php?userId=<?php echo $appeal->getHandlingAdmin()->getUserId(); ?>"><?php echo $handlingAdmin = $appeal->getHandlingAdmin()->getUsername(); ?></a></li> 
-<li><a href="<?php echo getWikiLink(SystemMessages::$links['UsrLink'][$lang] . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> SystemMessages::$system['Upage'][$lang]</a></li> 
-<li><a href="<?php echo getWikiLink(SystemMessages::$system['UTpage'][$lang] . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> User talk Page</a></li> 
-<li><a href="<?php echo getWikiLink(SystemMessages::$links['EmailUserLink'][$lang]  . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> SystemMessages::$system['EmailUser'][$lang]</a></li>
+<li><a href="<?php echo getWikiLink(SystemMessages::$links['UsrLink'][$lang] . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> <?php echo SystemMessages::$system['Upage'][$lang]?></a></li> 
+<li><a href="<?php echo getWikiLink(SystemMessages::$system['UTpage'][$lang] . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> <?php echo SystemMessages::$system['UTPageNoLink'][$lang]?></a></li> 
+<li><a href="<?php echo getWikiLink(SystemMessages::$links['EmailUserLink'][$lang]  . $appeal->getHandlingAdmin()->getWikiAccount(), $user->getUseSecure()); ?>" target=\"_blank\"> <?php echo SystemMessages::$system['EmailUser'][$lang]?></a></li>
 </ul>
 </div>
 <?php }
 if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['WMF'])) {
 	?>
-<h3>SystemMessages::$system['UserAgent'][$lang]</h3>
+<h3><?php echo SystemMessages::$system['UserAgent'][$lang]?></h3>
 <div class="info" style="height:60px !important;"><?php 
 if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 		echo $appeal->getIP() . " " . $appeal->getUserAgent();
@@ -559,13 +559,13 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 <?php }?>
 
 
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getAppeal()))); ?>)">SystemMessages::$system['WhyUnblock'][$lang]</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getAppeal()))); ?>)"><?php echo SystemMessages::$system['WhyUnblock'][$lang]?></a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getAppeal())); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)">SystemMessages::$system['IntendEdit'][$lang]</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getIntendedEdits()))); ?>)"><?php echo SystemMessages::$system['IntendEdit'][$lang]?></a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getIntendedEdits())); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getBlockReason()))); ?>)">SystemMessages::$system['AffectYou'][$lang]</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getBlockReason()))); ?>)"><?php echo SystemMessages::$system['AffectYou'][$lang]?></a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getBlockReason())); ?></div>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getOtherInfo()))); ?>)">SystemMessages::$system['AnyConsider'][$lang]</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode(nl2br($appeal->getOtherInfo()))); ?>)"><?php echo SystemMessages::$system['AnyConsider'][$lang]?></a></h3>
 <div class="info"><?php echo nl2br(htmlspecialchars($appeal->getOtherInfo())); ?></div>
 <br>
 </td>
@@ -580,7 +580,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo StatusButtonChecks::checkReserveRelease($appeal,$user);
 	//SystemMessages::$links['ChangeStatus'][$lang]?>
 	<div class="btn-group">
-		<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">SystemMessages::$links['ChangeStatus'][$lang] <span class="caret"></span></button>
+		<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"><?php echo SystemMessages::$links['ChangeStatus'][$lang]?> <span class="caret"></span></button>
 		<ul class="dropdown-menu" role="menu"><?php 
 			//New button
 			echo StatusButtonChecks::checkNew($appeal,$user);
@@ -596,7 +596,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
     </div>
     <?php //Defer group?>
     <div class="btn-group">
-		<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">SystemMessages::$links['Requests'][$lang] <span class="caret"></span></button>
+		<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><?php echo SystemMessages::$links['Requests'][$lang]?> <span class="caret"></span></button>
 		<ul class="dropdown-menu" role="menu"><?php 
 			//Checkuser button
 			echo StatusButtonChecks::checkCheckuser($appeal,$user);
@@ -611,7 +611,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	echo StatusButtonChecks::checkClose($appeal,$user);
 	?>
 </div>
-<h3>SystemMessages::$system['Responses'][$lang]</h3>
+<h3><?php echo SystemMessages::$system['Responses'][$lang]?></h3>
 <div style="text-align:center;">
 <!-- 
 	<input type="button" value="Username" onClick="window.location='sendEmail.php?tid=7&id=<?php echo $_GET['id']; ?>'">&nbsp;
@@ -643,14 +643,14 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 	$higherPerms = TRUE;
 }
 else {$higherPerms = FALSE;}?>
-<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML($higherPerms))) ?>)">SystemMessages::$system['LogsBReq'][$lang]</a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>">SystemMessages::$system['NewComment'][$lang]</a>)</h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(<?php echo htmlspecialchars(json_encode($log->getLargeHTML($higherPerms))) ?>)"><?php echo SystemMessages::$system['LogsBReq'][$lang]?></a> (<a href="comment.php?id=<?php echo $_GET['id']; ?>"><?php echo SystemMessages::$system['NewComment'][$lang]?></a>)</h3>
 <div class="comments">
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value=<?php echo SystemMessages::$system['QuickCmt'][$lang]?></form>
 
 <?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
-<h3>SystemMessages::$system['BanMgmt'][$lang]</h3>
+<h3><?php echo SystemMessages::$system['BanMgmt'][$lang]?></h3>
 <div style="text-align:center;">
 <input type="button" value=<?php echo SystemMessages::$system['BanEmail'][$lang]?> onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=0'">&nbsp;
 <input type="button" value=<?php echo SystemMessages::$system['BanIP'][$lang]?> onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=1'">&nbsp;
@@ -658,11 +658,11 @@ else {$higherPerms = FALSE;}?>
 </div>
 <?php }?>
 <?php if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['CHECKUSER'])) {?>
-<h3>SystemMessages::$system['RevealMgmt'][$lang]</h3>
+<h3><?php echo SystemMessages::$system['RevealMgmt'][$lang]?></h3>
 <div style="text-align:center;"><form action="?id=<?php echo $_GET['id']; ?>&action=reveal" method="post">
-<input type="radio" name="revealitem" value="email" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email">SystemMessages::$system['EmailAddr'][$lang]</label>
-<input type="radio" name="revealitem" value="cudata" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['CHECKUSER'])) {echo "disabled='disabled'";} ?>><label for="cudata">SystemMessages::$system['CU data'][$lang]</label>
-<input type="radio" name="revealitem" value="oversightinfo" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['OVERSIGHT'])) {echo "disabled='disabled'";} ?>><label for="email">SystemMessages::$system['OversightInfo'][$lang]</label>
+<input type="radio" name="revealitem" value="email" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email"><?php echo SystemMessages::$system['EmailAddr'][$lang]?></label>
+<input type="radio" name="revealitem" value="cudata" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['CHECKUSER'])) {echo "disabled='disabled'";} ?>><label for="cudata"><?php echo SystemMessages::$system['CU data'][$lang]?></label>
+<input type="radio" name="revealitem" value="oversightinfo" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['OVERSIGHT'])) {echo "disabled='disabled'";} ?>><label for="email"><?php echo SystemMessages::$system['OversightInfo'][$lang]?></label>
 <input type="text" name="revealcomment" style="width:75%;"><input type="submit" style="width:20%" value=<?php echo SystemMessages::$system['Reveal'][$lang]?>></form>
 </div>
 <?php }?>

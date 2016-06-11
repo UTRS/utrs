@@ -272,9 +272,9 @@ if($loggedIn){
        }
        $(":input").change(function() {
            if ($(this).attr("maxlength") != "undefined") {
-               if ($(this).val().length > (parseInt($(this).arr("maxlength")) - 10)) {
-                   varMax = parseInt($(this).arr("maxlength"))
-                   varLeft = parseInt($(this).arr("maxlength")) - $(this).val().length
+               if ($(this).val().length > (parseInt($(this).attr("maxlength")) - 10)) {
+                   varMax = parseInt($(this).attr("maxlength"))
+                   varLeft = parseInt($(this).attr("maxlength")) - $(this).val().length
 
                    //Change Element Border
                    $(this).css("border", "this solid #FF0000")

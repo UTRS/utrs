@@ -217,16 +217,16 @@ echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
 echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
-echo '<p id="sizeAppeal"></p>';
+echo '<span id="sizeAppeal"></span>';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
 echo '<textarea id="Edits" maxlength="1024" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
-echo '<p id="sizeEdits"></p>';
+echo '<span id="sizeEdits"></span>';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
 echo '<textarea id="Block" maxlength="1024" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
-echo '<p id="sizeBlock"></p>';
+echo '<span id="sizeBlock"></span>';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
 echo '<textarea id="Other" maxlength="2048" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
-echo '<p id="sizeOther"></p>';
+echo '<span id="sizeOther"></span>';
 
 if (isset($privatekey)) {
    echo '<span class="overridePre">';

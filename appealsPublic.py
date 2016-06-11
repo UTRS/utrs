@@ -13,7 +13,7 @@ def database_connect(type):
 	db = MySQLdb.connect(host="localhost",user=credentials.mysqluser,passwd=credentials.mysqlpass,db="utrs")
 	cursor = db.cursor()
 	print "Query content: " + querycontent
-	cursor.execute("SELECT appealID, hasAccount, blockingAdmin, ip, wikiAccountName, timestamp, status FROM utrs.appeal WHERE "+querycontent)
+	cursor.execute("SELECT appealID, hasAccount, blockingAdmin, ip, wikiAccountName, timestamp, status FROM enwikipedia.appeal WHERE "+querycontent)
 	numrows = int(cursor.rowcount)
 	database = cursor.fetchall()
 	return formatDBoutput(database,tableheader)

@@ -272,7 +272,7 @@ if($loggedIn){
        }
        $(":input").keyup(function() {
            if ($(this).attr("maxlength") != "undefined") {
-               if ($(this).val().length > (parseInt($(this).attr("maxlength")) - 10)) {
+               if ($(this).val().length > (parseInt($(this).attr("maxlength")) - 100)) {
                    varMax = parseInt($(this).attr("maxlength"))
                    varLeft = parseInt($(this).attr("maxlength")) - $(this).val().length
 

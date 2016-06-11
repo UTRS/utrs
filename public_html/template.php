@@ -270,7 +270,7 @@ if($loggedIn){
                $("#Zone3").css('border', '0px #000000 solid');
            })
        }
-       $(":input").change(function() {
+       $(":input").keyup(function() {
            if ($(this).attr("maxlength") != "undefined") {
                if ($(this).val().length > (parseInt($(this).attr("maxlength")) - 10)) {
                    varMax = parseInt($(this).attr("maxlength"))

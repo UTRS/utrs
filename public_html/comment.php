@@ -36,8 +36,8 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 	</tr>
 	<tr>
 		<td colspan="2" align=left>
-			<textarea name="comment" id="Comment" rows="15" cols="60"></textarea>
-			<span id="sizeComment"></span>
+			<textarea name="comment" id="comment" rows="15" cols="60" maxlength="10000"></textarea>
+			<span id="sizecomment"></span>
 		</td>
 	</tr>
 	<tr>

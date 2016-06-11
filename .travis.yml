@@ -17,13 +17,28 @@ env:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
+  - pip install --user codecov
 
 script:
     - bash travis.sh
-    - phpunit
+    - bash .travis.phplint.sh
+    - phpunit --coverage-clover=coverage.xml
+    - codecov
 
 sudo: false
 
 matrix:
   allow_failures:
     - php: 7.0
+
+after_success:
+  - codecov
+
+notifications:
+  irc:
+    channels:
+      - "chat.freenode.net#wikipedia-en-utrs-dev"
+    on_success: change
+    on_failure: always
+    template:
+      - "%{repository}/%{branch}/%{commit} - %{author} %{message} %{build_url}"

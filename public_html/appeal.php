@@ -813,8 +813,8 @@ else {$higherPerms = FALSE;}?>
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post">
-<input type="text" name="comment" id="quickComment" style="width:75%;" onblur="sizeAudit('quickComment','sizeQuickComment',10000)"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
-<p id="sizeQuickComment"></p>
+<input type="text" name="comment" id="quickComment" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
+<p id="sizequickComment"></p>
 </form>
 
 <?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
@@ -850,25 +850,6 @@ else {
 	displayError("You may not view appeals that have not been email verified.");
 }
 ?>
-<script type="text/javascript">
-function sizeAudit(item,name,max) {
-	var size = document.getElementById(item).value.length;
-	if(size>max){
-		document.getElementById(item).style.border = "thin solid #FF0000";
-		document.getElementById(name).innerHTML = "You have inputed too much content into the above text box. Please reduce to "+max+" charecters.";
-		document.getElementById(name).style.color = "#FF0000";
-		document.getElementById(name).style.background = "#FFFFFF";
-		document.getElementById("quickSubmit").disabled = true;
-	}
-	else {
-		document.getElementById(item).style.border = "none none #FF0000";
-		document.getElementById(name).innerHTML = "";
-		document.getElementById(name).style.color = "#FFFFFF";
-		document.getElementById(name).style.background = "none";
-		document.getElementById("quickSubmit").disabled = false;
-	}
-}
-</script>
 <?php
 skinFooter();
 

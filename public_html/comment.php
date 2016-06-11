@@ -36,8 +36,8 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 	</tr>
 	<tr>
 		<td colspan="2" align=left>
-			<textarea name="comment" id="comment" rows="15" cols="60" onblur="sizeAudit('comment','sizeComment',10000)"></textarea>
-			<p id="sizeComment"></p>
+			<textarea name="comment" id="Comment" rows="15" cols="60"></textarea>
+			<span id="sizeComment"></span>
 		</td>
 	</tr>
 	<tr>
@@ -45,25 +45,6 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 	</tr>
 </table>
 </form>
-<script type="text/javascript">
-function sizeAudit(item,name,max) {
-	var size = document.getElementById(item).value.length;
-	if(size>max){
-		document.getElementById(item).style.border = "thin solid #FF0000";
-		document.getElementById(name).innerHTML = "You have inputed too much content into the above text box. Please reduce to "+max+" charecters.";
-		document.getElementById(name).style.color = "#FF0000";
-		document.getElementById(name).style.background = "#FFFFFF";
-		document.getElementById("submit").disabled = true;
-	}
-	else {
-		document.getElementById(item).style.border = "none none #FF0000";
-		document.getElementById(name).innerHTML = "";
-		document.getElementById(name).style.color = "#FFFFFF";
-		document.getElementById(name).style.background = "none";
-		document.getElementById("submit").disabled = false;
-	}
-}
-</script>
 <?php 
 
 skinFooter();

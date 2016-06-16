@@ -193,6 +193,7 @@ function printRecentClosed() {
 }
 
 function printBacklog() {
+	global $lang;
    $db = connectToDB();
    
    $currentUser = getCurrentUser();

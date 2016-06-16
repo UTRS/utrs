@@ -483,8 +483,9 @@ function getNumberAppealsClosedByUser($userId){
 }
 
 function printUserLogs($userId){
+	global $lang;
    if(!$userId){
-      throw new UTRSIllegalArgumentException($userId, "A valid userID", "printUserLogs()");
+      throw new UTRSIllegalArgumentException($userId, SystemMessages::$error['InvalidUserIDNeedValid'][$lang], "printUserLogs()");
    }
    
    $db = connectToDB();

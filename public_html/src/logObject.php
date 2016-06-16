@@ -144,7 +144,7 @@ class Log {
 	}
 
 	public function getSmallHTML($higherPerms) {
-
+		global $lang;
 		$HTMLOutput = "";
 
 		$HTMLOutput .= "<table class=\"logTable\">";
@@ -188,7 +188,7 @@ class Log {
 	}
 
 	public function getLargeHTML($higherPerms) {
-
+		global $lang;
 		$HTMLOutput = "";
 
 		$HTMLOutput .= "<table class=\"logLargeTable\">";

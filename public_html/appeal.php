@@ -73,7 +73,7 @@ if (verifyAccess($GLOBALS['CHECKUSER'])
 			if ($_POST['revealitem'] == "cudata") {
 				if (verifyAccess($GLOBALS['CHECKUSER'])||verifyAccess($GLOBALS['WMF'])) {
 					$appeal->insertRevealLog($user->getUserId(), $_POST['revealitem']);
-					$log->addNewItem(SystemMessages::$log['RevealCUData'][$lang].$_POST['revealcomment'], 1, TRUE);
+					$log->addNewItem(SystemMessages::$log['RevealCUData'][$lang].": ".$_POST['revealcomment'], 1, TRUE);
 				}
 			}
 			if ($_POST['revealitem'] == "email") {

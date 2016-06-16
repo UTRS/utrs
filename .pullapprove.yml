@@ -5,6 +5,7 @@ reset_on_push: false
 reviewers:
   name: UTRS Architects
   members:
-  - 'tool-developers'
+  - 'TParis'
+  - dqwiki
   name: default
   required: 1

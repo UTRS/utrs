@@ -5,6 +5,8 @@ ini_set('display_errors', 'On');
 require_once('src/languageCookie.php');
 echo checkCookie();
 $lang=getCookie();
+require_once('src/network.php');
+forceHTTPS();
 require_once('recaptchalib.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');

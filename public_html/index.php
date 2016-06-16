@@ -3,6 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+require_once('src/network.php');
+forceHTTPS();
 require_once('recaptchalib.php');
 require_once('template.php');
 require_once('src/unblocklib.php');

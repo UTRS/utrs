@@ -1,6 +1,14 @@
 <?php
 class SystemMessages {
 	public static $information = array (
+			"Unverified" => Array(
+					"en" => "Unverified",
+					"pt" => "{pt Unverified}"
+			),
+			"Verified" => Array(
+					"en" => "Verified",
+					"pt" => "{pt Verified}"
+			),
 			"CurrentLength" => Array(
 					"en" => "Current length: ",
 					"pt" => "{pt CurrentLength}"
@@ -647,6 +655,22 @@ class SystemMessages {
 			)
 	);
 	public static $error = array (
+			"NoLogsForUser" => array (
+					"en" => "No logs exist for this user.",
+					"pt" => "{pt NoLogsForUser}"
+			),
+			"InvalidUserIDNeedValid" => array (
+					"en" => "A valid userID",
+					"pt" => "{pt InvalidUserIDNeedValid}"
+			),
+			"NoUsers" => array (
+					"en" => "No users in list",
+					"pt" => "{pt NoUsers}"
+			),
+			"NoRequests" => array (
+					"en" => "No unblock requests in queue",
+					"pt" => "{pt NoRequests}"
+			),
 			"ErrorWord" => array (
 					"en" => "ERROR",
 					"pt" => "{pt ErrorWord}"
@@ -921,6 +945,14 @@ class SystemMessages {
 			)
 	);
 	public static $links = array (
+			"Manage" => array (
+					"en" => 'Manage',
+					"pt" => "{pt Manage}"
+			),
+			"Zoom" => array (
+					"en" => 'Zoom',
+					"pt" => "{pt Zoom}"
+			),
 			"Home" => array (
 					"en" => 'Home',
 					"pt" => "{pt Home}"

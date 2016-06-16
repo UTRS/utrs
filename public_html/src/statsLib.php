@@ -80,7 +80,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
       
       $requests .= "\t<tr>\n";
       $requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>".SystemMessages::$error['ErrorWord'][$lang]."</a></td>\n";
+      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>".SystemMessages::$links['Zoom'][$lang]."</a></td>\n";
       $requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:".$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
       if ($timestamp == 1) {
          $requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
@@ -141,6 +141,7 @@ function printCheckuserNeeded() {
  * Return a list of the last five appeals to be closed
  */
 function printRecentClosed() {
+	global $lang;
    $db = connectToDB();
    
    $currentUser = getCurrentUser();
@@ -176,7 +177,7 @@ function printRecentClosed() {
                
       $requests .= "\t<tr>\n";
       $requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
+      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>".SystemMessages::$information['Zoom']."</a></td>\n";
       $requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" . $appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
       $requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
       $requests .= "\t</tr>\n";
@@ -185,7 +186,7 @@ function printRecentClosed() {
    $query->closeCursor();
 
    if (!$foundone) {
-      return "<b>No unblock requests in queue</b>";
+      return "<b>".SystemMessages::$error['NoRequests'][$lang]."</b>";
    }
 
    return $requests . "</table>";
@@ -238,7 +239,7 @@ function printBacklog() {
 
       $requests .= "\t<tr>\n";
       $requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>Zoom</a></td>\n";
+      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID(). "'>".SystemMessages::$links['Zoom'][$lang]."</a></td>\n";
       $requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" .$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
       $requests .= "\t\t<td> " . $data['since_last_action'] . " days since last action</td>\n";
       $requests .= "\t</tr>\n";
@@ -247,7 +248,7 @@ function printBacklog() {
    $query->closeCursor();
 
    if (!$foundone) {
-      return "<b>No unblock requests in queue</b>";
+      return "<b>".SystemMessages::$error['NoRequests'][$lang]."</b>";
    }
 
    return $requests . "</table>";
@@ -375,6 +376,7 @@ function checkWikiPerms($UTRSUserName, $wikiPermission) {
 }
 
 function printUserList(array $criteria = array(), $limit = "", $orderBy = "", $access = FALSE){
+	global $lang;
    $currentUser = getCurrentUser();
    $secure = TRUE;
    
@@ -394,16 +396,16 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = "", $a
       $list .= "\t<tr>\n";
       if ($access) {
       $list .= "\t\t<td>" . $userId . ".</td>\n";
-      $list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
+      $list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">".SystemMessages::$links['Manage'][$lang]."</a></td>\n";
       $list .= "\t\t<td>" . $username . "</td>\n";
       }
       $list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("User:" . $wikiAccount, $secure) . "' target='_NEW'>" . $wikiAccount . "</a></td>\n";
       if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
          if (array_key_exists("approved", $criteria)) {
-            $verified = (checkWikiPerms($wikiAccount, "sysop")) ? "<p style=\"color:green\">Verified</p>" : "<p style=\"color:red\">Unverified</p>";
+            $verified = (checkWikiPerms($wikiAccount, "sysop")) ? "<p style=\"color:green\">".SystemMessages::$information['Verified'][$lang]."</p>" : "<p style=\"color:red\">".SystemMessages::$information['Unverified'][$lang]."</p>";
             $list .= "\t\t<td>" . $verified . "</td>\n";
          } else if (array_key_exists("checkuser", $criteria)) {
-            $verified = (checkWikiPerms($wikiAccount, "checkuser")) ? "<p style=\"color:green\">Verified</p>" : "<p style=\"color:red\">Unverified</p>";
+            $verified = (checkWikiPerms($wikiAccount, "checkuser")) ? "<p style=\"color:green\">".SystemMessages::$information['Verified'][$lang]."</p>" : "<p style=\"color:red\">".SystemMessages::$information['Unverified'][$lang]."</p>";
             $list .= "\t\t<td>" . $verified . "</td>\n";
          }
       }
@@ -413,7 +415,7 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = "", $a
    $result->closeCursor();
 
    if (!$foundone) {
-      return "<b>No users meet this criteria.</b>";
+      return "<b>".SystemMessages::$error['NoUsers'][$lang]."</b>";
    }
 
    return $list . "</table>";
@@ -494,7 +496,7 @@ function printUserLogs($userId){
    
    if(!$result){
       $error = var_export($query->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    

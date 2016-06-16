@@ -13,6 +13,14 @@ class SystemMessages {
 					"en" => "Current length: ",
 					"pt" => "{pt CurrentLength}"
 			),
+			"EditWord" => Array(
+					"en" => "Edit",
+					"pt" => "{pt EditWord}"
+			),
+			"ViewWord" => Array(
+					"en" => "View",
+					"pt" => "{pt ViewWord}"
+			),
 			"UserWord" => Array(
 					"en" => "User",
 					"pt" => "{pt UserWord}"
@@ -658,6 +666,14 @@ class SystemMessages {
 			"NoLogsForUser" => array (
 					"en" => "No logs exist for this user.",
 					"pt" => "{pt NoLogsForUser}"
+			),
+			"NoSiteNoticeExist" => array (
+					"en" => "No Sitenotices currently exist.",
+					"pt" => "{pt NoSiteNoticeExist}"
+			),
+			"NoTemplatesExist" => array (
+					"en" => "No templates currently exist.",
+					"pt" => "{pt NoTemplatesExist}"
 			),
 			"InvalidUserIDNeedValid" => array (
 					"en" => "A valid userID",

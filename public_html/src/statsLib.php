@@ -327,7 +327,7 @@ function queryUsers(array $criteria = array(), $limit = "", $orderby = ""){
    
    if($result === false){
       $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    
@@ -472,7 +472,7 @@ function getNumberAppealsClosedByUser($userId){
    
    if(!$result){
       $error = var_export($query->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    
@@ -529,7 +529,7 @@ function printUserLogs($userId){
 
    // shouldn't happen, but meh
    if (!$foundone) {
-      return "<b>No logs exist for this user.</b>";
+      return "<b>".SystemMessages::$error['NoLogsForUser'][$lang]."</b>";
    }
 
    return $list . "</table>";
@@ -542,7 +542,7 @@ function printTemplateList(){
    
    if($query === false){
       $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    
@@ -562,10 +562,10 @@ function printTemplateList(){
       $list .= "\t\t<td>" . $name . "</td>\n";
       $list .= "\t\t<td><a style=\"color:green\" href=\"tempMgmt.php?id=" . $id . "\">";
       if(verifyAccess($GLOBALS['ADMIN'])){
-         $list .= "Edit";
+         $list .= SystemMessages::$information['EditWord'][$lang];
       }
       else{
-         $list .= "View";
+         $list .= SystemMessages::$information['ViewWord'][$lang];
       }
       $list .= "</a></td>\n\t</tr>\n";
    }
@@ -573,7 +573,7 @@ function printTemplateList(){
    $query->closeCursor();
 
    if (!$foundone) {
-      return "<b>No templates currently exist.</b>";
+      return "<b>".SystemMessages::$error['NoTemplatesExist'][$lang]."</b>";
    }
 
    return $list . "</table>";
@@ -586,7 +586,7 @@ function printLastThirtyActions() {
    
    if($query === false){
       $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    
@@ -653,7 +653,7 @@ function printSitenoticeMessages(){
    
    if($query === false){
       $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    
@@ -683,7 +683,7 @@ function printSitenoticeMessages(){
    $query->closeCursor();
 
    if(!$foundone){
-      return "<b>There are currently no sitenotice messages.</b>";
+      return "<b>".SystemMessages::$error['NoSiteNoticeExist'][$lang]."</b>";
    }
    
    return $table . "</table>\n";

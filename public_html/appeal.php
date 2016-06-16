@@ -570,7 +570,7 @@ if ($appeal->checkRevealLog($user->getUserId(), "cudata")) {
 <br>
 </td>
 <td valign=top class="right">
-<h3><a href="javascript:void(0)" onClick="showContextWindow(actionsContextWindow);">Actions</a></h3>
+<h3><a href="javascript:void(0)" onClick="showContextWindow(actionsContextWindow);"><?php SystemMessages::$information['ActionPlural'][$lang]; ?></a></h3>
 <div style="text-align:center;">
 	<?php
 	

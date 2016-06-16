@@ -1,6 +1,10 @@
 <?php
 class SystemMessages {
 	public static $information = array (
+			"CurrentLength" => Array(
+					"en" => "Current length: ",
+					"pt" => "{pt CurrentLength}"
+			),
 			"UserWord" => Array(
 					"en" => "User",
 					"pt" => "{pt UserWord}"
@@ -8,6 +12,10 @@ class SystemMessages {
 			"ActionWord" => Array(
 					"en" => "Action",
 					"pt" => "{pt ActionWord}"
+			),
+			"ActionPlural" => Array(
+					"en" => "Actions",
+					"pt" => "{pt ActionPlural}"
 			),
 			"TSWord" => Array(
 					"en" => "Timestamp",
@@ -639,9 +647,25 @@ class SystemMessages {
 			)
 	);
 	public static $error = array (
+			"SiteNoticeID" => array (
+					"en" => "No sitenotice with ID",
+					"pt" => "{pt SiteNoticeID}"
+			),
+			"SiteNoticeAddedButLost" => array (
+					"en" => "Sitenotice was added but could not be found.",
+					"pt" => "{pt SiteNoticeAddedButLost}"
+			),
+			"FormatingIssue" => array (
+					"en" => "Your message contains overlapping formatting which will not display properly. Special formats within special format must end before the preceding format ends. For example, '<tt>this /string *is* formatted/ correctly</tt>', however '<tt>this *string /is* not/ correct</tt>' because the bold section ends before the italic section does. Furthermore, links may not contain other links.",
+					"pt" => "{pt FormatingIssue}"
+			),
+			"MessageIsTooLong" => array (
+					"en" => "Your message is too long to store in the database. Please shorten your message to less than 2048 characters.",
+					"pt" => "{pt MessageIsTooLong}"
+			),
 			"NoPermissionViewCmt" => array (
 					"en" => "You do not have the relevant permissions to view this comment.",
-					"pt" => "{pt NoPermissionViewCmt" 
+					"pt" => "{pt NoPermissionViewCmt}" 
 			),
 			"AppealNotNumeric" => array (
 					"en" => "The appeal ID is not numeric",

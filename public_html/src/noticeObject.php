@@ -34,9 +34,9 @@ class Notice{
 	}
 	
 	private static function validate($message){
+		global $lang;
 		if(strlen($message) > 2048){
-			throw new UTRSIllegalModificationException("Your message is too long to store in the database. " .
-				"Please shorten your message to less than 2048 characters. (Current length: " . strlen($mess) . ")");
+			throw new UTRSIllegalModificationException(SystemMessages::$error['MessageIsTooLong'][$lang]." (". SystemMessages::$information['CurrentLength'][$lang] . strlen($mess) . ")");
 		}
 		
 		$syntaxCodes = array();
@@ -130,11 +130,8 @@ class Notice{
 	}
 	
 	private static function checkForExistingToken($syntaxCodes, $match){
-		$syntaxError = "Your message contains overlapping formatting which will not display properly. Special" .
-			" formats within special format must end before the preceding format ends." .
-			" For example, '<tt>this /string *is* formatted/ correctly</tt>', however " .
-			"'<tt>this *string /is* not/ correct</tt>' because the bold section ends before the italic section does." .
-			" Furthermore, links may not contain other links.";
+		global $lang;
+		$syntaxError = SystemMessages::$error['FormatingIssue'][$lang];
 
 		for($j = 0; $j < sizeOf($syntaxCodes); $j++){
 			if($syntaxCodes[$j] == $match){
@@ -144,6 +141,7 @@ class Notice{
 	}
 
 	private function updateTime() {
+		global $lang;
 		$db = connectToDB();
 
 		$query = $db->prepare("SELECT time FROM sitenotice WHERE messageID = :messageId");
@@ -158,7 +156,7 @@ class Notice{
 		
 		$data = $query->fetch(PDO::FETCH_ASSOC);
 		if ($data === false) {
-			throw new UTRSDatabaseException('Sitenotice was added but could not be found.');
+			throw new UTRSDatabaseException(SystemMessages::$error['SiteNoticeAddedButLost'][$lang]);
 		}
 		
 		$this->lastEditTime = $data['time'];
@@ -329,7 +327,7 @@ class Notice{
 		$query->closeCursor();
 
 		if ($row === false) {
-			throw new UTRSDatabaseException("No sitenotice with ID $messageId.");
+			throw new UTRSDatabaseException(SystemMessages::$error['SiteNoticeID'][$lang] . " " . $messageId);
 		}
 
 		return new Notice($row, true);

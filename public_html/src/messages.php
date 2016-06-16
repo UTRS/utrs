@@ -3,15 +3,15 @@ class SystemMessages {
 	public static $information = array (
 			"UserWord" => Array(
 					"en" => "User",
-					"pt" => "{pt LoggedInAs}"
+					"pt" => "{pt UserWord}"
 			),
 			"ActionWord" => Array(
 					"en" => "Action",
-					"pt" => "{pt LoggedInAs}"
+					"pt" => "{pt ActionWord}"
 			),
 			"TSWord" => Array(
 					"en" => "Timestamp",
-					"pt" => "{pt LoggedInAs}"
+					"pt" => "{pt TSWord}"
 			),
 			"LoggedInAs" => Array(
 					"en" => "Logged in as",

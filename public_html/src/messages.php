@@ -117,11 +117,19 @@ class SystemMessages {
 			)
 	);
 	public static $system = array (
+			"IDtext" => array (
+					"en" => "ID",
+					"pt" => "{pt IDtext}"
+			),
+			"TextText" => array (
+					"en" => "Text",
+					"pt" => "{pt TextText}"
+			),
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",
 					//Unblock Review Team can be translated here. Could we do that?
-					"pt" => "From:Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
+					"pt" => "From: Equipe de Revisão de Desbloqueios <noreply-unblock@utrs.wmflabs.org>\r\n" 
 			),
 			"EmailMIME" => array (
 					//No translation should be need
@@ -130,8 +138,8 @@ class SystemMessages {
 			),
 			"EmailContentType" => array (
 					//No translation should be need
-					"en" => "Content-Type: text/html; charset=ISO-8859-1\r\n",
-					"pt" => "Content-Type: text/html; charset=ISO-8859-1\r\n" 
+					"en" => "Content-Type: text/html; charset=UTF-8\r\n",
+					"pt" => "Content-Type: text/html; charset=UTF-8\r\n" 
 			),
 			"AppealReturnEmail" => array (
 					"en" => "Hello {{adminname}}, \n\nThis is a notification that an appeal has been returned to your queue. \n\n<b>DO NOT reply to this email</b> - it is coming from an unattended email address. If you wish\nto review the reply, please click the link below.\n",

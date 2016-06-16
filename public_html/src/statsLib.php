@@ -177,7 +177,7 @@ function printRecentClosed() {
                
       $requests .= "\t<tr>\n";
       $requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>".SystemMessages::$information['Zoom']."</a></td>\n";
+      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>".SystemMessages::$links['Zoom']."</a></td>\n";
       $requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:" . $appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
       $requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";
       $requests .= "\t</tr>\n";

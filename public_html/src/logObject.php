@@ -149,8 +149,8 @@ class Log {
 
 		$HTMLOutput .= "<table class=\"logTable\">";
 		$HTMLOutput .= "<tr>";
-		$HTMLOutput .= "<th class=\"logUserHeader\">User</th>";
-		$HTMLOutput .= "<th class=\"logActionHeader\">Action</th>";
+		$HTMLOutput .= "<th class=\"logUserHeader\">".SystemMessages::$information['UserWord'][$lang]."</th>";
+		$HTMLOutput .= "<th class=\"logActionHeader\">".SystemMessages::$information['ActionWord'][$lang]."</th>";
 		$HTMLOutput .= "</tr>";
 
 		for ($i = 0; $i < count($this->log); $i++) {
@@ -193,9 +193,9 @@ class Log {
 
 		$HTMLOutput .= "<table class=\"logLargeTable\">";
 		$HTMLOutput .= "<tr>";
-		$HTMLOutput .= "<th class=\"logLargeUserHeader\">User</th>";
-		$HTMLOutput .= "<th class=\"logLargeActionHeader\">Action</th>";
-		$HTMLOutput .= "<th class=\"logLargeTimeHeader\">Timestamp</th>";
+		$HTMLOutput .= "<th class=\"logLargeUserHeader\">".SystemMessages::$information['UserWord'][$lang]."</th>";
+		$HTMLOutput .= "<th class=\"logLargeActionHeader\">".SystemMessages::$information['ActionWord'][$lang]."</th>";
+		$HTMLOutput .= "<th class=\"logLargeTimeHeader\">".SystemMessages::$information['TSWord'][$lang]."</th>";
 		$HTMLOutput .= "</tr>";
 
 		for ($i = 0; $i < count($this->log); $i++) {
@@ -220,7 +220,7 @@ class Log {
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
 			if ($data['protected'] && !$higherPerms){
-				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
+				$safeCmt = "<font color=\"red\">".SystemMessages::$error['NoPermissionViewCmt'][$lang]."</font>";
 			}
 			else {
 				$safeCmt = $data['comment'];

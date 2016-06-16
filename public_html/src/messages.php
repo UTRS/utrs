@@ -1,6 +1,18 @@
 <?php
 class SystemMessages {
 	public static $information = array (
+			"UserWord" => Array(
+					"en" => "User",
+					"pt" => "{pt LoggedInAs}"
+			),
+			"ActionWord" => Array(
+					"en" => "Action",
+					"pt" => "{pt LoggedInAs}"
+			),
+			"TSWord" => Array(
+					"en" => "Timestamp",
+					"pt" => "{pt LoggedInAs}"
+			),
 			"LoggedInAs" => Array(
 					"en" => "Logged in as",
 					"pt" => "{pt LoggedInAs}"
@@ -627,8 +639,12 @@ class SystemMessages {
 			)
 	);
 	public static $error = array (
+			"NoPermissionViewCmt" => array (
+					"en" => "You do not have the relevant permissions to view this comment.",
+					"pt" => "{pt NoPermissionViewCmt" 
+			),
 			"AppealNotNumeric" => array (
-					"en" => 'The appeal ID is not numeric',
+					"en" => "The appeal ID is not numeric",
 					"pt" => "O ID do pedido não é numérico" 
 			),
 			"AlreadyReserved" => array (

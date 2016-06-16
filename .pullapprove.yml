@@ -5,6 +5,6 @@ reset_on_push: false
 reviewers:
   name: UTRS Architects
   members:
-  - tool-developers
+  - 'tool-developers'
   name: default
   required: 1

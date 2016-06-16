@@ -661,8 +661,8 @@ function printSitenoticeMessages(){
    
    $table = "<table class=\"sitenoticeTable\">\n";
    $table .= "<tr>\n";
-   $table .= "<th class=\"sitenoticeIDHeader\">ID</th>\n";
-   $table .= "<th class=\"sitenoticeTextHeader\">Text</th>\n";
+   $table .= "<th class=\"sitenoticeIDHeader\">".SystemMessages::$information['IDtext'][$lang]."</th>\n";
+   $table .= "<th class=\"sitenoticeTextHeader\">".SystemMessages::$information['TextText'][$lang]."</th>\n";
    $table .= "<th class=\"sitenoticeLinkHeader\">&nbsp;</th>\n";
    $table .= "<th class=\"sitenoticeLinkHeader\">&nbsp;</th>\n";
    $table .= "</tr>";
@@ -674,9 +674,9 @@ function printSitenoticeMessages(){
       $table .= "<td style=\"text-align:center;\">" . $rowData['messageID'] . "</td>\n";
       $table .= "<td>\"" . $rowData['summary'] . ($rowData['length'] > 64 ? " ..." : "") . "\"</td>\n";
       $table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?id=" . 
-         $rowData['messageID'] . "\">Edit</a></td>\n";
+         $rowData['messageID'] . "\">".SystemMessages::$information['EditWord'][$lang]."</a></td>\n";
       $table .= "<td style=\"text-align:center;\"><a href=\"" . getRootURL() . "sitenotice.php?delete=" . 
-         $rowData['messageID'] . "\">Delete</a></td>\n";
+         $rowData['messageID'] . "\">".SystemMessages::$information['DeleteText'][$lang]."</a></td>\n";
       $table .= "</tr>\n";
    }
 

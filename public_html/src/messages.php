@@ -125,6 +125,10 @@ class SystemMessages {
 					"en" => "Text",
 					"pt" => "{pt TextText}"
 			),
+			"DeleteText" => array (
+					"en" => "Delete",
+					"pt" => "{pt DeleteText}"
+			),
 			// Email syntax is very specific, be careful with editing these. I've reverted some of the changes for technical reasons
 			"EmailFrom" => array (
 					"en" => "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n",

@@ -48,7 +48,7 @@ function queryAppeals(array $criteria = array(), $limit = "", $orderby = "", $ti
    
    if($query === false){
       $error = var_export($db->errorInfo(), true);
-      debug('ERROR: ' . $error . '<br/>');
+      debug(SystemMessages::$error['ErrorWord'][$lang].': ' . $error . '<br/>');
       throw new UTRSDatabaseException($error);
    }
    
@@ -80,7 +80,7 @@ function printAppealList(array $criteria = array(), $limit = "", $orderby = "", 
       
       $requests .= "\t<tr>\n";
       $requests .= "\t\t<td>" . $appeal->getID() . ".</td>\n";
-      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>Zoom</a></td>\n";
+      $requests .= "\t\t<td><a style=\"color:green\" href='appeal.php?id=" . $appeal->getID() . "'>".SystemMessages::$error['ErrorWord'][$lang]."</a></td>\n";
       $requests .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("user:".$appeal->getCommonName(), $secure) . "' target='_NEW'>" . $appeal->getCommonName() . "</a></td>\n";
       if ($timestamp == 1) {
          $requests .= "\t\t<td>" . $data['timestamp'] . "</td>\n";

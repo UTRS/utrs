@@ -647,14 +647,14 @@ else {$higherPerms = FALSE;}?>
 <div class="comments">
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
-<form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value=<?php echo SystemMessages::$system['QuickCmt'][$lang]?></form>
+<form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="<?php echo SystemMessages::$system['QuickCmt'][$lang]?>"</form>
 
 <?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
 <h3><?php echo SystemMessages::$system['BanMgmt'][$lang]?></h3>
 <div style="text-align:center;">
-<input type="button" value=<?php echo SystemMessages::$system['BanEmail'][$lang]?> onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=0'">&nbsp;
-<input type="button" value=<?php echo SystemMessages::$system['BanIP'][$lang]?> onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=1'">&nbsp;
-<input type="button" value=<?php echo SystemMessages::$system['BanUname'][$lang]?> onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=2'">&nbsp;
+<input type="button" value="<?php echo SystemMessages::$system['BanEmail'][$lang]?>" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=0'">&nbsp;
+<input type="button" value="<?php echo SystemMessages::$system['BanIP'][$lang]?>" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=1'">&nbsp;
+<input type="button" value="<?php echo SystemMessages::$system['BanUname'][$lang]?>" onClick="window.location='banMgmt.php?appeal=<?php echo $_GET['id'];?>&target=2'">&nbsp;
 </div>
 <?php }?>
 <?php if (verifyAccess($GLOBALS['OVERSIGHT'])||verifyAccess($GLOBALS['WMF'])||verifyAccess($GLOBALS['DEVELOPER'])||verifyAccess($GLOBALS['CHECKUSER'])) {?>
@@ -663,7 +663,7 @@ else {$higherPerms = FALSE;}?>
 <input type="radio" name="revealitem" value="email" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])) {echo "disabled='disabled'";} ?>><label for="email"><?php echo SystemMessages::$system['EmailAddr'][$lang]?></label>
 <input type="radio" name="revealitem" value="cudata" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['CHECKUSER'])) {echo "disabled='disabled'";} ?>><label for="cudata"><?php echo SystemMessages::$system['CU data'][$lang]?></label>
 <input type="radio" name="revealitem" value="oversightinfo" <?php if (!verifyAccess($GLOBALS['WMF'])&&!verifyAccess($GLOBALS['DEVELOPER'])&&!verifyAccess($GLOBALS['OVERSIGHT'])) {echo "disabled='disabled'";} ?>><label for="email"><?php echo SystemMessages::$system['OversightInfo'][$lang]?></label>
-<input type="text" name="revealcomment" style="width:75%;"><input type="submit" style="width:20%" value=<?php echo SystemMessages::$system['Reveal'][$lang]?>></form>
+<input type="text" name="revealcomment" style="width:75%;"><input type="submit" style="width:20%" value="<?php echo SystemMessages::$system['Reveal'][$lang]?>"></form>
 </div>
 <?php }?>
 </td>

@@ -647,6 +647,10 @@ class SystemMessages {
 			)
 	);
 	public static $error = array (
+			"ErrorWord" => array (
+					"en" => "ERROR",
+					"pt" => "{pt ErrorWord}"
+			),
 			"SiteNoticeID" => array (
 					"en" => "No sitenotice with ID",
 					"pt" => "{pt SiteNoticeID}"

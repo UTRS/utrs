@@ -813,7 +813,8 @@ else {$higherPerms = FALSE;}?>
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
 <form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post">
-<input type="text" name="comment" id="quickComment" maxlength="10000" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
+<?php //500 is fine here as it's only a quick comment. Anything bigger should be full comment. --DQ ?>
+<input type="text" name="comment" id="quickComment" maxlength="500" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
 <p id="sizequickComment"></p>
 </form>
 

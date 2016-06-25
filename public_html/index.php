@@ -218,13 +218,21 @@ echo '<label id="registeredLabel" for="registered" class="required">Do you have 
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
-echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
+echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea>';
+echo '<span id="sizeAppeal"></span>';
+echo '<br /><br />';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
-echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
+echo '<textarea id="Edits" maxlength="1024" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea>';
+echo '<span id="sizeEdits"></span>';
+echo '<br /><br />';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
-echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
+echo '<textarea id="Block" maxlength="1024" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea>';
+echo '<span id="sizeBlock"></span>';
+echo '<br /><br />';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
-echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<textarea id="Other" maxlength="2048" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea>';
+echo '<span id="sizeOther"></span>';
+echo '<br /><br />';
 
 if (isset($privatekey)) {
    echo '<span class="overridePre">';
@@ -254,7 +262,7 @@ Since access to this information is fundamental to the operation of Wikimedia La
 By clicking "Submit Appeal", you agree to these terms and the terms of the <a href="privacy.php">Privacy Policy</a> and the <a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new">Wikimedia Labs Terms of Use</a>.</p></small>
 <?php
 
-echo '<input type="submit" name="submit" value="Submit Appeal"/>';
+echo '<input type="submit" name="submit" id="submit" value="Submit Appeal"/>';
 echo '</form>';
 
 } /* !$success */

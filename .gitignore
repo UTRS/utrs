@@ -30,3 +30,4 @@ config*
 
 #includes files
 *includes/*
+.idea/

@@ -391,11 +391,11 @@ function printUserList(array $criteria = array(), $limit = "", $orderBy = "", $a
       $wikiAccount = $data['wikiAccount'];
                
       $list .= "\t<tr>\n";
-      $list .= "\t\t<td>" . $userId . ".</td>\n";
       if ($access) {
+      $list .= "\t\t<td>" . $userId . ".</td>\n";
       $list .= "\t\t<td><a style=\"color:green\" href=\"userMgmt.php?userId=" . $userId . "\">Manage</a></td>\n";
-      }
       $list .= "\t\t<td>" . $username . "</td>\n";
+      }
       $list .= "\t\t<td><a style=\"color:blue\" href='" . getWikiLink("User:" . $wikiAccount, $secure) . "' target='_NEW'>" . $wikiAccount . "</a></td>\n";
       if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
          if (array_key_exists("approved", $criteria)) {

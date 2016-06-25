@@ -27,3 +27,6 @@ fonts/*
 #any config
 
 config*
+
+#includes files
+*includes/*

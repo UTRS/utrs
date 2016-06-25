@@ -29,3 +29,6 @@ fonts/*
 config*
 
 .idea/
+
+#ignore dependancies
+includes/*

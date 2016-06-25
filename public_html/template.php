@@ -280,7 +280,7 @@ if($loggedIn){
                    $(this).css("border", "this solid #FF0000")
 
                    //Display alert
-                   $("#size" + $(this).attr("id")).css("color", "#FF0000").css("background", "#FFFFFF").text("This field only allows " + varMax + " characters.  You have " + varLeft + " left.")
+                   $("#size" + $(this).attr("id")).css("color", "#FF0000").css("background", "#F8FCFF").text("This field only allows " + varMax + " characters.  You have " + varLeft + " left.")
                } else {
                    $(this).css("border", "none none #000000")
 

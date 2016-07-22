@@ -188,12 +188,13 @@ if ($appeal->getHandlingAdmin() == null || $admin->getUserId() != $appeal->getHa
     else { throw new UTRSIllegalModificationException("The template ID number is not set."); }
 		echo "\">\n"; // closes <form>
 		echo "<textarea name=\"emailText\" id=\"emailText\" rows=\"15\" cols=\"60\" maxlength=\"10000\">";
-		echo '<p id="sizeemailText"></p>';
 		
 		if(isset($email_text)){
 			echo htmlspecialchars($email_text);
 		}
 		echo "</textarea>\n";
+		echo '<p id="sizeemailText"></p>';
+		
 		if ($template) {
 			if ($template->getStatusUser()) {
 				echo "<b>NOTE: Using this template will set the appeal request status to AWAITING_USER</b><br>";

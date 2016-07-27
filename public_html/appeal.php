@@ -647,7 +647,11 @@ else {$higherPerms = FALSE;}?>
 <div class="comments">
 <?php echo str_replace("\r\n", " ", $log->getSmallHTML($higherPerms)); ?>
 </div>
-<form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post"><input type="text" name="comment" style="width:75%;"><input type="submit" style="width:20%" value="<?php echo SystemMessages::$system['QuickCmt'][$lang]?>"</form>
+<form action="?id=<?php echo $_GET['id']; ?>&action=comment" method="post">
+<?php //500 is fine here as it's only a quick comment. Anything bigger should be full comment. --DQ ?>
+<input type="text" name="comment" id="quickComment" maxlength="500" style="width:75%;"><input type="submit" style="width:20%" value="Quick Comment" id="quickSubmit">
+<p id="sizequickComment"></p>
+</form>
 
 <?php if (verifyAccess($GLOBALS['ADMIN'])) {?>
 <h4><?php echo SystemMessages::$system['BanMgmt'][$lang]?></h4>

@@ -208,14 +208,22 @@ echo '<label id="emailLabel" for="accountName" class="required">'.SystemMessages
 echo '<label id="registeredLabel" for="registered" class="required">'.SystemMessages::$system['HaveAccount'][$lang].'</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
-echo '<label id="appealLabel" for="appeal" class="required">'.SystemMessages::$system['WhyUnblock'][$lang].'</label><br /><br />';
-echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
-echo '<label id="editsLabel" for="edits" class="required">'.SystemMessages::$system['WhatEdit'][$lang].'</label><br /><br />';
-echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
-echo '<label id="blockInfoLabel" for="blockReaon" class="required">'.SystemMessages::$system['WhyBlockAffect'][$lang].'</label><br /><br />';
-echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
-echo '<label id="otherInfoLabel" for="otherInfo">'.SystemMessages::$system['AnythingElse'][$lang].'</label><br /><br />';
-echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
+echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea>';
+echo '<span id="sizeAppeal"></span>';
+echo '<br /><br />';
+echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
+echo '<textarea id="Edits" maxlength="1024" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea>';
+echo '<span id="sizeEdits"></span>';
+echo '<br /><br />';
+echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
+echo '<textarea id="Block" maxlength="1024" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea>';
+echo '<span id="sizeBlock"></span>';
+echo '<br /><br />';
+echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
+echo '<textarea id="Other" maxlength="2048" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea>';
+echo '<span id="sizeOther"></span>';
+echo '<br /><br />';
 
 if (isset($privatekey)) {
    echo '<span class="overridePre">';

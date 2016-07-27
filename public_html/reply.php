@@ -158,14 +158,17 @@ else if($errors){
 if(!$submitted || $errors ){
 ?>
 <form name="sendReply" id="sendReply" method="POST" action="reply.php?id=<?php echo $_GET['id'];?>&confirmEmail=<?php echo $_GET['confirmEmail'];?>">
-<textarea rows="15" cols="60" name="reply" id="reply"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
+<?php // Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k. ?>
+<textarea rows="15" cols="60" name="reply" id="reply" maxlength="2048"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
+echo '<p id="sizereply"></p>';
 <input name="submit" id="submit" type="submit" value="Send Reply" />
 </form>
 <?php 
 } // closes if(!isset($_POST['submit']) | $errors )
 
 } // closes else from if(!$accessGranted)
-
+?>
+<?php
 skinFooter();
 
 ?>

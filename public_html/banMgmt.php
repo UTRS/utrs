@@ -20,6 +20,8 @@ $errors = '';
 $target = null;
 $displayTarget = null;
 
+global $lang;
+
 try{
 	if(!verifyAccess($GLOBALS['ADMIN'])){
 		throw new UTRSCredentialsException(SystemMessages::$error['TooladminsOnlyBan'][$lang]);

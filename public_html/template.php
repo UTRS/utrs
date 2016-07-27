@@ -384,7 +384,7 @@ if($loggedIn){
    		$langtext="ERROR!";
    }
    echo "<li style=\"float:right;\"><a href=\"langVerify.php?reset=yes\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Blue_pencil.svg/20px-Blue_pencil.svg.png\"></li></a>";
-   echo "<li style=\"float:right;\">Wiki/Language: ".$langtext."</li>";
+   echo "<li id=\"navigation_menu_language\" style=\"float:right;\">Wiki/Language: ".$langtext."</li>";
    if ($loggedIn) { ?>
    	<li style="float:right;" id="logout">
       <a href="<?php echo getRootURL() . 'logout.php'; ?>"><?php echo SystemMessages::$information['LoggedInAs'][$lang] .": ".$_SESSION['user']." | "?><?php echo SystemMessages::$links['Logout'][$lang] ?></a>

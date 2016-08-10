@@ -27,3 +27,5 @@ fonts/*
 #any config
 
 config*
+
+.idea/

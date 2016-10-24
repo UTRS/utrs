@@ -5,8 +5,6 @@
 
 require_once('unblocklib.php');
 require_once('exceptions.php');
-require_once(__DIR__ . "/../includes/Peachy/Init.php");
-require_once(__DIR__ . "/../src/appealObject.php");
 
 echo "Starting to clear out private data from closed appeals.\n";
 
@@ -71,7 +69,7 @@ try{
 		echo "Starting to remove private data...\n";
 
 		foreach ($results as $appeal) {
-			if ($appeal['status'] == Appeal::$STATUS_INVALID) {
+			if ($appeal['status'] == "INVALID") {
 				$invalid = TRUE;
 			}
 			else {

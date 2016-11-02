@@ -2,6 +2,9 @@
 
 require_once("src/unblocklib.php");
 require_once("src/userObject.php");
+require_once('sitemaintain.php');
+
+checkOnline();
 
 verifyLogin('home.php');
 

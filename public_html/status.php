@@ -1,6 +1,6 @@
 <?php
 
-global $online = True;
-global $expected = False;
+function online() {return True;}
+function expected() {return False;}
 
 ?>

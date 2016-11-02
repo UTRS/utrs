@@ -12,6 +12,9 @@ require_once('src/appealObject.php');
 require_once('src/logObject.php');
 require_once('src/messages.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 verifyLogin('banMgmt.php');
 
@@ -19,6 +22,8 @@ $errors = '';
 
 $target = null;
 $displayTarget = null;
+
+global $lang;
 
 try{
 	if(!verifyAccess($GLOBALS['ADMIN'])){

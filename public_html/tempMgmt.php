@@ -11,6 +11,9 @@ require_once('src/templateObj.php');
 require_once('src/logObject.php');
 require_once('src/statsLib.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 verifyLogin('tempMgmt.php');
 

@@ -19,7 +19,9 @@ require_once('src/messages.php');
 require_once('src/emailTemplates.class.php');
 require_once('template.php');
 require_once('src/UTRSBot.class.php');
+require_once('sitemaintain.php');
 
+checkOnline();
 // make sure user is logged in, if not, kick them out
 verifyLogin('appeal.php?id=' . $_GET['id']);
 

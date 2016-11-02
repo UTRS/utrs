@@ -282,7 +282,11 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					//Log admin message
 					$log->addNewItem($adminmessage);
 					//Post admin message on wiki
-				    $bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));	
+					if ($appeal->isAutoblock()) {
+				    	$bot->notifyAdmin($appeal->getIP(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));
+					} else {
+				    	$bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));
+					}	
 					//Log that the admin was notified on-wiki
 					$log->addNewItem(SystemMessages::$log['NotifiedAdmin'][$lang], 1);			
 				} elseif ($_GET['value'] == "wmfhold") {

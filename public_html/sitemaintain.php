@@ -1,8 +1,8 @@
 <?php
 
+require_once('status.php');
+
 function checkOnline() {
-  $online = False;
-  $expected = False;
   if (!$online) {
     skinHeader();
     echo "<center><h2>UTRS is down :(</h2>";

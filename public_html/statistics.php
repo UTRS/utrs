@@ -7,6 +7,9 @@ require_once('src/exceptions.php');
 require_once('src/appealObject.php');
 require_once('src/statsLib.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 verifyLogin('statistics.php');
 

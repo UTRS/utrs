@@ -1,6 +1,9 @@
 <?php
 require_once('src/unblocklib.php');
 require_once('src/noticeObject.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 function skinHeader($script = '', $adminNav = false) {
 

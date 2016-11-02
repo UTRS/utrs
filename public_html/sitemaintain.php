@@ -3,10 +3,10 @@
 require_once('status.php');
 
 function checkOnline() {
-  if (!$online) {
+  if (!online()) {
     skinHeader();
     echo "<center><h2>UTRS is down :(</h2>";
-    if ($expected) {
+    if (expected()) {
       echo "<br />This is a scheduled maintence window in which UTRS is down. We hope to be live again as soon as possibe.</center>";
     }
     else {

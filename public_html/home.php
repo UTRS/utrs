@@ -4,12 +4,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 ini_set('session.use_cookies', '1');
 
+require_once('sitemaintain.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');
 require_once('src/statsLib.php');
 require_once('src/hooks.php');
 require_once('template.php');
+
+checkOnline();
 
 // make sure user is logged in, if not, kick them out
 verifyLogin('home.php');

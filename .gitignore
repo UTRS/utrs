@@ -32,3 +32,5 @@ config*
 
 #ignore dependancies
 includes/*
+
+*peachy*

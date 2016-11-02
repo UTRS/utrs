@@ -31,3 +31,5 @@ config*
 #includes files
 *includes/*
 .idea/
+
+*peachy*

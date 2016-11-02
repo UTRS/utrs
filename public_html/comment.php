@@ -10,7 +10,10 @@ require_once('src/appealObject.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/logObject.php');
-require_once('template.php');
+require_once('template.php');    
+require_once('sitemaintain.php');
+
+checkOnline();
 
 // make sure user is logged in, if not, kick them out
 verifyLogin('appeal.php?id=' . $_GET['id']);

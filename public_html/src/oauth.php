@@ -72,7 +72,7 @@ function sign_request( $method, $url, $params = array() ) {
  * @return void
  */
 function doAuthorizationRedirect() {
-    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $gTokenSecret;
+    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gTokenSecret;
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
@@ -84,7 +84,7 @@ function doAuthorizationRedirect() {
         
         // OAuth information
         'oauth_callback' => 'oob', // Must be "oob" for MWOAuth
-        'oauth_consumer_key' => $gConsumerKey,
+        'oauth_consumer_key' => $CONFIG['oauth']['consumerKey'],
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),
         'oauth_timestamp' => time(),
@@ -102,19 +102,19 @@ function doAuthorizationRedirect() {
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
     $data = curl_exec( $ch );
     if ( !$data ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         exit(0);
     }
     curl_close( $ch );
     $token = json_decode( $data );
     if ( is_object( $token ) && isset( $token->error ) ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
         exit(0);
     }
     if ( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Invalid response from token request';
         exit(0);
     }
@@ -131,7 +131,7 @@ function doAuthorizationRedirect() {
     $url .= strpos( $url, '?' ) ? '&' : '?';
     $url .= http_build_query( array(
         'oauth_token' => $token->key,
-        'oauth_consumer_key' => $gConsumerKey,
+        'oauth_consumer_key' => $CONFIG['oauth']['consumerKey'],
     ) );
     header( "Location: $url" );
     echo 'Please see <a href="' . htmlspecialchars( $url ) . '">' . htmlspecialchars( $url ) . '</a>';
@@ -142,7 +142,7 @@ function doAuthorizationRedirect() {
  * @return void
  */
 function fetchAccessToken() {
-    global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gTokenSecret;
+    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gTokenSecret;
 
     $url = $mwOAuthUrl . '/token';
     $url .= strpos( $url, '?' ) ? '&' : '?';
@@ -151,7 +151,7 @@ function fetchAccessToken() {
         'oauth_verifier' => $_GET['oauth_verifier'],
 
         // OAuth information
-        'oauth_consumer_key' => $gConsumerKey,
+        'oauth_consumer_key' => $CONFIG['oauth']['consumerKey'],
         'oauth_token' => $gTokenKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),
@@ -204,11 +204,11 @@ function fetchAccessToken() {
  * @return array API results
  */
 function doApiQuery( $post, &$ch = null ) {
-    global $apiUrl, $gUserAgent, $gConsumerKey, $gTokenKey;
+    global $apiUrl, $gUserAgent, $gTokenKey;
 
     $headerArr = array(
         // OAuth information
-        'oauth_consumer_key' => $gConsumerKey,
+        'oauth_consumer_key' => $CONFIG['oauth']['consumerKey'],
         'oauth_token' => $gTokenKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),
@@ -257,12 +257,12 @@ function doApiQuery( $post, &$ch = null ) {
  * @return void
  */
 function doIdentify() {
-    global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gConsumerSecret;
+    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gConsumerSecret;
 
     $url = $mwOAuthUrl . '/identify';
     $headerArr = array(
         // OAuth information
-        'oauth_consumer_key' => $gConsumerKey,
+        'oauth_consumer_key' => $CONFIG['oauth']['consumerKey'],
         'oauth_token' => $gTokenKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),

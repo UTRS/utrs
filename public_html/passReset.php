@@ -8,7 +8,10 @@ require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/appealObject.php');
-require_once('template.php');
+require_once('template.php');   
+require_once('sitemaintain.php');
+
+checkOnline();
 
 if(loggedIn()){
 	// wrong page, for logged out peeps only
@@ -28,7 +31,7 @@ if(isset($_POST['submit'])){
 		$username = $_POST['username'];
 		$email = $_POST['email'];
 		// throws exception if username is invalid
-		$user = User::getUserByUsername($username);
+		$user = UTRSUser::getUserByUsername($username);
 		if(strcmp($email, $user->getEmail()) != 0){
 			throw new UTRSIllegalModificationException("The email address you have provided does not match the one in our records.");
 		}
@@ -60,7 +63,7 @@ else if(isset($_GET['confirm'])){
 				"received a password reset email, please copy and paste the link to your browser's address bar " .
 				"exactly as it appears in the email.");	
 		}
-		$user = User::getUserById($_GET['user']);
+		$user = UTRSUser::getUserById($_GET['user']);
 		$user->verifyConfirmation($_GET['confirm']); // throws exceptions if invalid
 		
 		mt_srand(time());

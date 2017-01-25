@@ -4,6 +4,8 @@ ini_set('display_errors', 'On');
 require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
+require_once('UTRSBot.class.php');
+require_once("includes/Peachy/Init.php");
 
 
 /**
@@ -21,6 +23,10 @@ class Appeal extends Model {
     * The appeal has not yet passed email verification
     */
    public static $STATUS_UNVERIFIED = 'UNVERIFIED';
+   /**
+    * The appeal has been marked invalid by a developer
+    */
+   public static $STATUS_INVALID = 'INVALID';
    /**
     * The appeal is new and has not yet been addressed
     */
@@ -157,6 +163,8 @@ class Appeal extends Model {
       'emailToken'      => 'emailToken');
 
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
+     
+   private static $config = "UTRSBot";
 
    public static function getColumnMap() {
       return self::$columnMap;
@@ -188,12 +196,27 @@ class Appeal extends Model {
    }
 
    public static function newUntrusted($values) {
+	   
+      $objPeachy = Peachy::newWiki( self::$config );
+	  
       $appeal = new Appeal($values);
 
       $appeal->ipAddress = self::getIPFromServer();
       $appeal->status = self::$STATUS_UNVERIFIED;
       $appeal->handlingAdmin = null;
       $appeal->handlingAdminObject = null;
+	  
+	  //Get blocking admin from API
+	  // WARNING: These need to be the raw values to get the appropriate block information from
+	  // the API. DO NOT CHANGE.
+      if ($appeal->isAutoBlock()) {
+	  	$blockinfo = $objPeachy->initUser( $appeal->getIP() )->get_blockinfo();
+      }
+      else {
+      	$blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
+      }
+	  $appeal->blockingAdmin = $blockinfo['by'];
+	  
 
       // False means "uncached", getUserAgent() will fetch it when
       // called, if the user has permission.
@@ -259,8 +282,50 @@ class Appeal extends Model {
       
       return self::newTrusted($values);
    }
+   public function checkRevealLog($userID,$item) {
+   	$appealID = $this->appealID;
+   	$db = connectToDB();
+   	
+   	$query = $db->prepare("
+         SELECT revealID FROM revealFlags
+         WHERE appealID = :appealID AND item = :item AND toUser = :touser");
+   	
+   	$result = $query->execute(array(
+   			':appealID' => $appealID,':item' => $item, ':touser' => $userID));
+   	
+   	if(!$result){
+   		$error = var_export($query->errorInfo(), true);
+   		throw new UTRSDatabaseException($error);
+   	}
+   	
+   	$values = $query->fetch(PDO::FETCH_ASSOC);
+   	$query->closeCursor();
+   	
+   	if ($values === false) {
+   		return False;
+   	}
+   	
+   	return True;
+   }
+   public function insertRevealLog($userID,$item) {
+   	$appealID = $this->appealID;
+   	$db = connectToDB();
    
+   	$query = $db->prepare("
+         INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
+   
+   	$result = $query->execute(array(
+   			':appealID' => $appealID,':item' => $item, ':toUser' => $userID));
+   
+   	if(!$result){
+   		$error = var_export($query->errorInfo(), true);
+   		throw new UTRSDatabaseException($error);
+   	}
+   
+   	return;
+   }
    public static function getCheckUserData($appealID) {
+   	  //Check reveal
       if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {
          $db = connectToDB();
          
@@ -540,7 +605,7 @@ class Appeal extends Model {
       }
 
       if (!is_null($this->handlingAdmin)) {
-         $this->handlingAdminObject = User::getUserById($this->handlingAdmin);
+         $this->handlingAdminObject = UTRSUser::getUserById($this->handlingAdmin);
          return $this->handlingAdminObject;
       }
 
@@ -612,11 +677,11 @@ class Appeal extends Model {
       if(strcmp($newStatus, self::$STATUS_NEW) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_USER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_ADMIN) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_CHECKUSER) == 0
         || strcmp($newStatus, self::$STATUS_AWAITING_PROXY) == 0 || strcmp($newStatus, self::$STATUS_CLOSED) == 0
-        || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0){
+        || strcmp($newStatus, self::$STATUS_ON_HOLD) == 0 || strcmp($newStatus, self::$STATUS_AWAITING_REVIEWER) == 0
+      	|| strcmp($newStatus, self::$STATUS_INVALID) == 0) {
          // TODO: query to modify the row
          $this->status = $newStatus;
-         if ($this->status == self::$STATUS_CLOSED) {
-            User::getUserByUsername($_SESSION['user'])->incrementClose();
+         if ($this->status == self::$STATUS_CLOSED) { UTRSUser::getUserByUsername($_SESSION['user'])->incrementClose();
          }
       }
       else{
@@ -699,11 +764,17 @@ class Appeal extends Model {
          ':status'   => self::$STATUS_NEW,
          ':appealID' => $this->appealID));
 
+	  /* On Wiki Notifications */
+	  $bot = new UTRSBot();
+	  $time = date('M d, Y H:i:s', time());
+	  $bot->notifyUser($this->getCommonName(), array($this->appealID, $time));
+	  
+	  /* Change object and clean up */
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
       $query->closeCursor();
    }
-   public function verifyBlock($username, $ipornot) {
+   public static function verifyBlock($username, $ipornot) {
       if ($ipornot) {
 	   	  $data = json_decode(file_get_contents('http://en.wikipedia.org/w/api.php?action=query&list=users&ususers='.urlencode($username).'&format=json&usprop=blockinfo'),true);
 	      $checkFound = False;
@@ -727,7 +798,7 @@ class Appeal extends Model {
       	return True;
       }
    }
-   public function verifyNoPublicAppeal($username) {
+   public static function verifyNoPublicAppeal($username) {
       //not sorting the api, seems to catch on pageid
       $data = file_get_contents('http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=User_talk:'.$username);
       $checkFound = False;
@@ -749,13 +820,19 @@ class Appeal extends Model {
         return True; 
       }
    }
-   public function activeAppeal($email,$wikiAccount) {
+   public static function activeAppeal($email,$wikiAccount) {
       $db = ConnectToDB();
-
+	if (isset($wikiAccount)) {
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE (email =\"".$email."\"
-          OR wikiAccountName = \"".$wikiAccount."\") AND status !=\"closed\";");
+          OR wikiAccountName = \"".$wikiAccount."\") AND (status !=\"closed\" AND status !=\"invalid\");");
+	}
+	else {
+		$query = $db->prepare("
+         SELECT * FROM appeal
+         WHERE email =\"".$email."\" AND (status !=\"closed\" AND status !=\"invalid\");");
+		}
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);
@@ -773,6 +850,32 @@ class Appeal extends Model {
       }      
           
       
+   }
+   
+   public function sendWMF() {
+	   
+		//TO Address
+		$email		= "ca@wikimedia.org";
+		
+		//Headeers and FROm address
+		$headers	= "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n";
+		$headers	.= "MIME-Version: 1.0\r\n";
+		$headers	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
+		//BODY
+		$body		= "This is an email from the Unblock Ticket Request System.  Please do not reply to this email, replies will go to an unmonitored email box." .
+						"<br><br>" . 
+						"Assistance is requested from a Wikimedia Foundation staff member on " .
+						"<a href=\"https://utrs.wmflabs.org/appeal.php?id=" . $this->getID() . ">UTRS Ticket #" . $this->getID() . "</a>." .
+						"<br><br>" .
+						"This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.";
+						
+		//SUBJECT
+		$subject = "WMF Assistance requested on unblock appeal #" . $this->getID();
+		
+		//MAIL
+		mail($email, $subject, $body, $headers);
+	   
    }
 }
 

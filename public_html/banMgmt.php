@@ -10,7 +10,11 @@ require_once('src/statsLib.php');
 require_once('src/banObject.php');
 require_once('src/appealObject.php');
 require_once('src/logObject.php');
+require_once('src/messages.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 verifyLogin('banMgmt.php');
 
@@ -19,9 +23,11 @@ $errors = '';
 $target = null;
 $displayTarget = null;
 
+global $lang;
+
 try{
 	if(!verifyAccess($GLOBALS['ADMIN'])){
-		throw new UTRSCredentialsException("Ban management is limited to tool administrators.");
+		throw new UTRSCredentialsException(SystemMessages::$error['TooladminsOnlyBan'][$lang]);
 	}
 
 	// set target if link followed from appeals page

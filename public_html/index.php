@@ -3,13 +3,18 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+require_once('src/network.php');
+forceHTTPS();
 require_once('recaptchalib.php');
 require_once('template.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');
 require_once('src/banObject.php');
-require_once('src/logObject.php');
+require_once('src/logObject.php');  
+require_once('sitemaintain.php');
+
+checkOnline();
 
 $publickey = @$CONFIG['recaptcha']['publickey'];
 $privatekey = @$CONFIG['recaptcha']['privatekey'];
@@ -57,10 +62,10 @@ if(isset($_POST["submit"])){
       $email = $_POST["appeal_email"];
       $registered = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
       $wikiAccount = (isset($_POST["appeal_wikiAccountName"]) ? $_POST["appeal_wikiAccountName"] : null);
-      if ($_POST["appeal_autoblock"] == 1) {
+      if (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 1) {
         $autoblock = true;      
       }
-      if ($_POST["appeal_autoblock"] == 0) {
+      if (!isset($_POST["appeal_autoblock"]) || (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 0)) {
         $autoblock = false;      
       }
        
@@ -97,8 +102,15 @@ if(isset($_POST["submit"])){
       elseif (!$registered && !Appeal::verifyNoPublicAppeal($ip)) {
         throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
       }
-      if (Appeal::activeAppeal($email, $wikiAccount)) {
-        throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+      if ($registered) {
+	      if (Appeal::activeAppeal($email, $wikiAccount)) {
+	        throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+	      }
+      }
+	  else {
+		  if (Appeal::activeAppeal($email, NULL)) {
+		  	throw new UTRSValidationException("It looks like you have already submitted an appeal to UTRS. Please wait for that appeal to be reviewed. If you think this message is in error, please contact the email at the bottom of the page.");
+		  }
       }
 
       $appeal = Appeal::newUntrusted($_POST);
@@ -204,18 +216,26 @@ if($errorMessages){
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
-echo '<label id="emailLabel" for="accountName" class="required">What is your email address? <b>If you do not supply a deliverable email address, we will be unable to reply to your appeal and therefore it will not be considered.</b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
+echo '<label id="emailLabel" for="accountName" class="required">What is your email address? <b>If you do not supply a deliverable email address, we will be unable to reply to your appeal and therefore it will not be considered.<br /><font color=red>Note: There is inconsistent delivery to Microsoft email services (such as: live.com, hotmail.com, outlook.com, etc.). If you use one of these services, we can not guarantee that you will recieve a confirmation email. Please avoid using these services.</font></b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
 echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
 echo '<span id="variableQuestionSection"></span><br />';
-echo '<label id="blockingAdminLabel" for="blockingAdmin" class="required">According to your block message, which administrator placed this block?</label>  <input id="blockingAdmin" type="text" name="appeal_blockingAdmin" value="' . posted('appeal_blockingAdmin') . '"/><br /><br />';
+echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
-echo '<textarea id="appeal" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea><br /><br />';
+echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea>';
+echo '<span id="sizeAppeal"></span>';
+echo '<br /><br />';
 echo '<label id="editsLabel" for="edits" class="required">If you are unblocked, what articles do you intend to edit?</label><br /><br />';
-echo '<textarea id="edits" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea><br /><br />';
+echo '<textarea id="Edits" maxlength="1024" name="appeal_intendedEdits" rows="5" >' . posted('appeal_intendedEdits') . '</textarea>';
+echo '<span id="sizeEdits"></span>';
+echo '<br /><br />';
 echo '<label id="blockInfoLabel" for="blockReaon" class="required">Why do you think there is a block currently affecting you? If you believe it\'s in error, tell us how.</label><br /><br />';
-echo '<textarea id="block" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea><br /><br />';
+echo '<textarea id="Block" maxlength="1024" name="appeal_blockReason" rows="5" >' . posted('appeal_blockReason') . '</textarea>';
+echo '<span id="sizeBlock"></span>';
+echo '<br /><br />';
 echo '<label id="otherInfoLabel" for="otherInfo">Is there anything else you would like us to consider when reviewing your block?</label><br /><br />';
-echo '<textarea id="otherInfo" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea><br /><br />';
+echo '<textarea id="Other" maxlength="2048" name="appeal_otherInfo" rows="3" >' . posted('appeal_otherInfo') . '</textarea>';
+echo '<span id="sizeOther"></span>';
+echo '<br /><br />';
 
 if (isset($privatekey)) {
    echo '<span class="overridePre">';
@@ -245,7 +265,7 @@ Since access to this information is fundamental to the operation of Wikimedia La
 By clicking "Submit Appeal", you agree to these terms and the terms of the <a href="privacy.php">Privacy Policy</a> and the <a href="https://wikitech.wikimedia.org/wiki/Wikitech:Labs_Terms_of_use" target="_new">Wikimedia Labs Terms of Use</a>.</p></small>
 <?php
 
-echo '<input type="submit" name="submit" value="Submit Appeal"/>';
+echo '<input type="submit" name="submit" id="submit" value="Submit Appeal"/>';
 echo '</form>';
 
 } /* !$success */

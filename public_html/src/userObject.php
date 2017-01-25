@@ -7,7 +7,7 @@ require_once('unblocklib.php');
 require_once('userMgmtLogObject.php');
 
 
-class User{
+class UTRSUser{
 	
 	private $username;
 	private $userId;
@@ -17,6 +17,8 @@ class User{
 	private $active;
 	private $toolAdmin;
 	private $checkuser;
+	private $wmf;
+	private $oversight;
 	private $developer;
 	private $useSecure;
 	private $acceptToS;
@@ -38,8 +40,10 @@ class User{
 			$this->toolAdmin = ($vars['toolAdmin'] == 1 || $vars['toolAdmin'] == '1' ? true : false);
 			$this->checkuser = ($vars['checkuser'] == 1 || $vars['checkuser'] == '1' ? true : false);
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
+			$this->oversight = ($vars['oversighter'] == 1 || $vars['oversighter'] == '1' ? true : false);
+			$this->wmf = ($vars['wmf'] == 1 || $vars['wmf'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
-			$this->useSecure = ($vars['useSecure'] == 1 || $vars['useSecure'] == '1' ? true : false);
+			$this->useSecure = True;
 			$this->acceptToS = ($vars['acceptToS'] == 1 || $vars['acceptToS'] == '1' ? true : false);
 			$this->replyNotify = $vars['replyNotify'];
 			$this->comments = $vars['comments'];
@@ -56,7 +60,9 @@ class User{
 			$this->toolAdmin = 0;
 			$this->checkuser = 0;
 			$this->developer = 0;
-			$this->useSecure = !isset($vars['useSecure']);
+			$this->oversight = 0;
+			$this->wmf = 0;
+			$this->useSecure = True;
 			$this->acceptToS = 1;
 			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
@@ -149,7 +155,7 @@ class User{
 			throw new UTRSDatabaseException('No results were returned for user ID ' . $id);
 		}
 		
-		return new User($values, true);
+		return new UTRSUser($values, true);
 	}
 	
 	public static function getUserByUsername($username){
@@ -172,7 +178,7 @@ class User{
 			throw new UTRSDatabaseException('No results were returned for username ' . $username);
 		}
 		
-		return new User($values, true);
+		return new UTRSUser($values, true);
 	}
 	
 	public function getUserId() {
@@ -221,6 +227,14 @@ class User{
 	
 	public function isCheckuser(){
 		return $this->checkuser;
+	}
+	
+	public function isOversighter(){
+		return $this->oversight;
+	}
+	
+	public function isWMF(){
+		return $this->wmf;
 	}
 	
 	public function isDeveloper(){
@@ -359,7 +373,7 @@ class User{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", "Autorized", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -428,16 +442,18 @@ class User{
 		}
 		
 		$this->active = true;
-		$this->comments = null;
+		$this->comments = "Enabled";
 		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId);
 	}
 	
-	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $reason){
+	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){
 		// safety checks
 		$adminFlag = (bool)$adminFlag;
 		$devFlag = (bool)$devFlag;
 		$cuFlag = (bool)$cuFlag;
+		$wmfFlag = (bool)$wmfFlag;
+		$oversightFlag = (bool)$oversightFlag;
 		
 		$db = connectToDB();
 		
@@ -445,13 +461,17 @@ class User{
 			UPDATE user
 			SET toolAdmin = :toolAdmin,
 			    developer = :developer,
-			    checkuser = :checkuser
+			    checkuser = :checkuser,
+				oversighter = :oversighter,
+				wmf = :wmf
 			WHERE userID = :userID");
 
 		$result = $query->execute(array(
 			':toolAdmin'	=> $adminFlag,
 			':developer'	=> $devFlag,
 			':checkuser'	=> $cuFlag,
+			':oversighter'	=> $oversightFlag,
+			':wmf'	=> $wmfFlag,
 			':userID'	=> $this->userId));
 
 		if(!$result){
@@ -463,15 +483,25 @@ class User{
 		$this->toolAdmin = $adminFlag;
 		$this->checkuser = $cuFlag;
 		$this->developer = $devFlag;
-		
-		UserMgmtLog::insert("changed permissions for", 
-					(($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
-					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
-					($devFlag == TRUE)? "Developer":""), $reason, $this->userId, $admin->userId);
-		echo "changed permissions for\"". 
-					($adminFlag == TRUE)? "Administrator":"". ($cuFlag == TRUE || $devFlag == TRUE)? ",":"".
-					($cuFlag == TRUE)? "Checkuser":"". ($devFlag == TRUE)? ",":"".
-					($devFlag == TRUE)? "Developer":"". $reason. $this->userId. $admin->userId;
+		$this->wmf = $wmfFlag;
+		$this->oversight = $oversightFlag;
+		$full = " to ";
+		if ($adminFlag) {
+			$full .= "Administrator ";
+		}
+		if ($cuFlag) {
+			$full .= "CheckUser ";
+		}
+		if ($devFlag) {
+			$full .= "Developer ";
+		}
+		if ($wmfFlag) {
+			$full .= "WMF Staff ";
+		}
+		if ($oversightFlag) {
+			$full .= "Oversight ";
+		}
+		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId);
 	}
 	
 	

@@ -13,6 +13,11 @@ config.inc.php
 beta/*
 alpha/*
 
+#ignore bootstrap js/css/etc.
+js/*
+css/*
+fonts/*
+
 .settings/*
 
 #ignore potential htaccess
@@ -22,3 +27,6 @@ alpha/*
 #any config
 
 config*
+
+.idea/
+public_html/status.php

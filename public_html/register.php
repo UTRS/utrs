@@ -2,12 +2,19 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+require_once('src/network.php');
+forceHTTPS();
 require_once('recaptchalib.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/userObject.php');
 require_once('src/logObject.php');
+require_once('src/appealObject.php');
+require_once('src/banObject.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 $publickey = @$CONFIG['recaptcha']['publickey'];
 $privatekey = @$CONFIG['recaptcha']['privatekey'];
@@ -52,6 +59,16 @@ if(isset($_POST["submit"])){
       $username = TRIM($username);
       $email = TRIM($email);
       $wikiAccount = TRIM($wikiAccount);
+      $ip = Appeal::getIPFromServer();
+      
+      $ban = Ban::isBanned($ip, $email, $wikiAccount);
+      if($ban){
+      	$message = "You are prohibited from using the UTRS Appeals system, and therefore may not create an account. This is only permitted for English Wikipedia Administrators.";
+      	throw new UTRSCredentialsException($message);
+      }
+      elseif (Appeal::verifyBlock($ip, FALSE)) {
+      	throw new UTRSValidationException('Your IP Address ('.$ip.') is currently blocked on the English Wikipedia. You need to be a English Wikipedia Administrator to create an account.');
+      }
       
       if($username === '' || $username == null){
          if($errorMessages != null){
@@ -104,7 +121,7 @@ if(isset($_POST["submit"])){
       }
       
       if(!$errorMessages){
-         $user = new User($_POST, false);
+         $user = new UTRSUser($_POST, false);
          debug('object created<br/>');
          Log::ircNotification("\x033New user account\x032 " . $user->getUsername() . "\x033 has been requested. URL: " . getRootURL() . "userMgmt.php?userId=" . $user->getUserId());
       }

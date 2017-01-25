@@ -7,6 +7,8 @@ require_once('exceptions.php');
 require_once('userObject.php');
 require_once(dirname(__FILE__) . '/config.inc.php');
 
+$GLOBALS['WMF'] = -3;
+$GLOBALS['OVERSIGHT'] = -2;
 $GLOBALS['CHECKUSER'] = -1;
 $GLOBALS['APPROVED'] = 0;
 $GLOBALS['ACTIVE'] = 1;
@@ -132,7 +134,7 @@ function getLoggedInUsers(){
 	$users = array();
 	
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-		$user = User::getUserById($data['userID']);
+		$user = UTRSUser::getUserById($data['userID']);
 		$users[] = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
 	}
 	
@@ -149,7 +151,7 @@ function verifyLogin($destination = 'home.php'){
 		exit;
 	}
 	// if user has somehow lost access, kick them out
-	$user = User::getUserByUsername($_SESSION['user']);
+	$user = UTRSUser::getUserByUsername($_SESSION['user']);
 	if(!$user->isApproved() | !$user->isActive()){
 			header("Location: " . getRootURL() . 'logout.php');
 			exit;
@@ -165,6 +167,8 @@ function verifyLogin($destination = 'home.php'){
  * Confirm user is logged in AND has the necessary access level to proceed
  * @param $level int - the access level required:
  * VALID ARGUMENTS:
+ * -3 - Only WMF Staff may view this
+ * -2 - Only oversight may view this
  * -1 - Only checkusers may view this
  *  0 - Any approved user, including inactive ones, can view (or above)
  *  1 - Only active users may view this 
@@ -176,8 +180,8 @@ function verifyLogin($destination = 'home.php'){
 function verifyAccess($level){
 	// validate
 	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] & 
-			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER']){
-		throw new UTRSIllegalArgumentException($level, '-1, 0, 1, 2, or 3', 'verifyAccess()');
+			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER'] & $level !== $GLOBALS['WMF'] & $level !== $GLOBALS['OVERSIGHT']){
+		throw new UTRSIllegalArgumentException($level, '-3, -2, -1, 0, 1, 2, or 3', 'verifyAccess()');
 	}
 	
 	$user = getCurrentUser();
@@ -186,12 +190,16 @@ function verifyAccess($level){
 	}
 	
 	switch($level){
-		case $GLOBALS['CHECKUSER']: return $user->isCheckuser(); // doesn't cascase up like others
+		case $GLOBALS['WMF']: return $user->isWMF(); 
+		case $GLOBALS['OVERSIGHT']: return ($user->isOversighter() | $user->isWMF()); 
+		case $GLOBALS['CHECKUSER']: return ($user->isCheckuser() | $user->isWMF()); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
 		case $GLOBALS['ACTIVE']: return ($user->isActive()); // on second thought, it should be possible to disable admins and devs too
 		case $GLOBALS['ADMIN']: return ($user->isAdmin() | $user->isDeveloper());
 		case $GLOBALS['DEVELOPER']: return $user->isDeveloper();
 	}
+	//Add protection incase things fail
+	return false;
 }
 
 /**
@@ -221,7 +229,7 @@ function debug($message){
  * 				only on redirection pages.
  * @throws UTRSDatabaseException
  */
-function connectToDB($suppressOutput = false){
+function connectToDB($suppressOutput = false,$forcedLang="en"){
 	global $CONFIG;
 
 	static $pdo = false;
@@ -235,7 +243,12 @@ function connectToDB($suppressOutput = false){
 	}
 
 	try {
-		$pdo = new PDO($CONFIG['db']['dsn'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		if ($forcedLang == "en") {
+			$pdo = new PDO($CONFIG['db']['dsn']['en'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		}
+		if ($forcedLang == "pt") {
+			$pdo = new PDO($CONFIG['db']['dsn']['pt'], $CONFIG['db']['user'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		}
 	} catch (PDOException $pdo_ex) {
 		debug($pdo_ex->getMessage());
 		throw new UTRSDatabaseException("Failed to connect to database server!");
@@ -275,7 +288,7 @@ function getWikiLink($basepage, $useSecure = false, array $queryOptions = array(
 
 function getCurrentUser(){
 	if(loggedIn()){
-		return User::getUserByUsername($_SESSION['user']);
+		return UTRSUser::getUserByUsername($_SESSION['user']);
 	}
 	return null;
 }
@@ -449,8 +462,24 @@ function censorEmail($email){
 	return $email;
 }
 
-function getHeadCommit() {
-	return @trim(@`git rev-parse HEAD`);
+function getVersion() {
+	return exec("git describe --tags --abbrev=0")." ".exec("git branch |grep \"*\"|tail -c +3")."@<a href='https://github.com/UTRS/utrs/commit/".exec("git rev-parse HEAD |head -c 7")."'>".exec("git rev-parse HEAD |head -c 7")."</a>";
 }
+
+function convHTML2UTF16($text) {
+
+		$pattern = "/\&\#([0-9]{0,5})\;/";
+		//Get specific template
+		$matches = array();
+		$found = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+		
+		//Don't even fucking asks how or why this works or how the fuck I came up with it.  Just leave it be.
+		for ($i = 0; $i < count($matches[0]); $i++) {
+			$text = str_replace($matches[0][$i][0], utf8_encode(json_decode("\"\u" . dechex($matches[1][$i][0]) . "\"")), $text);
+		}
+				
+		return $text;		
+}
+
 
 ?>

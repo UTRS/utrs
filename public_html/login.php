@@ -7,9 +7,14 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 ini_set('session.use_cookies', '1');
 
+require_once('src/network.php');
+forceHTTPS();
 require_once('src/unblocklib.php');
 require_once('src/oauth.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 $user = '';
 $destination = '';
@@ -195,6 +200,7 @@ if(isset($_POST['login'])){
 			session_start();
 			$_SESSION['user'] = $user;
 			$_SESSION['passwordHash'] = $password;
+			$_SESSION['language'] = $_POST['language'];
 			
 			// now that the session has been started, we can check access...
 			if(!verifyAccess($GLOBALS['APPROVED'])){

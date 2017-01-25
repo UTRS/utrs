@@ -10,7 +10,10 @@ require_once('src/appealObject.php');
 require_once('src/userObject.php');
 require_once('src/templateObj.php');
 require_once('src/logObject.php');
-require_once('template.php');
+require_once('template.php');    
+require_once('sitemaintain.php');
+
+checkOnline();
 
 // make sure user is logged in, if not, kick them out
 verifyLogin('appeal.php?id=' . $_GET['id']);
@@ -35,10 +38,13 @@ $appeal = Appeal::getAppealByID($_GET['id']);
 		<td><?php echo $appeal->getCommonName(); ?></td>
 	</tr>
 	<tr>
-		<td colspan="2" align=left><textarea name="comment" rows="15" cols="60"></textarea></td>
+		<td colspan="2" align=left>
+			<textarea name="comment" id="comment" rows="15" cols="60" maxlength="10000"></textarea>
+			<span id="sizecomment"></span>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="2" align=left><input type="submit" value="Submit comment"></td>
+		<td colspan="2" align=left><input type="submit" id="submit" value="Submit comment"></td>
 	</tr>
 </table>
 </form>

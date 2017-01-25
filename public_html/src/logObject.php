@@ -18,6 +18,7 @@ class LogItem {
 	private $comment;
 	private $commentUser;
 	private $action;
+	private $protected;
 
 	public function __construct($vars) {
 		$this->commentID = $vars['commentID'];
@@ -26,10 +27,11 @@ class LogItem {
 		$this->comment = $vars['comment'];
 		$this->commentUser = $vars['commentUser'];
 		$this->action = $vars['action'];
+		$this->protected = $vars['protected'];
 	}
 
 	function getLogArray() {
-		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action);
+		return array('commentID' => $this->commentID, 'appealID' => $this->appealID, 'timestamp' => $this->timestamp, 'comment' => $this->comment, 'commentUser' => $this->commentUser, 'action' => $this->action,'protected' => $this->protected);
 	}
 }
 class Log {
@@ -44,7 +46,7 @@ class Log {
 			$this->log = array();
 
 			$query = $vars['dataset'];
-
+			
 			while (($data = $query->fetch(PDO::FETCH_BOTH)) !== false) {
 				//Creates a new log item with the data
 				$this->log[] = new LogItem($data);
@@ -70,11 +72,11 @@ class Log {
 		return new Log(array('dataset' => $query, 'appealID' => $id));
 	}
 
-	public function addNewItem($comment, $action = null) {
+	public function addNewItem($comment, $action = null, $protected = FALSE) {
 		$db = connectToDB();
-
+		$protected=(bool)$protected;
 		if (isset($_SESSION['user']) && strlen($_SESSION['user']) != 0) {
-			$user = User::getUserByUsername($_SESSION['user']);
+			$user = UTRSUser::getUserByUsername($_SESSION['user']);
 			$userid = $user->getUserId();
 		} else {
 			$userid = null;
@@ -89,14 +91,16 @@ class Log {
 		$timestamp = time();
 
 		$query = $db->prepare("
-			INSERT INTO comment (appealID, timestamp, comment, commentUser, action)
-			VALUES (:appealID, NOW(), :comment, :commentUser, :action)");
+			INSERT INTO comment (appealID, timestamp, comment, commentUser, action, protected)
+			VALUES (:appealID, NOW(), :comment, :commentUser, :action, :protected)");
 
 		$result = $query->execute(array(
 			':appealID'	=> $this->appealID,
 			':comment'	=> $comment,
 			':commentUser'	=> $userid,
-			':action'	=> $action));
+			':action'	=> $action,
+			':protected'	=> $protected
+		));
 
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);
@@ -110,7 +114,7 @@ class Log {
 			Appeal::getAppealById($this->appealID)->updateLastLogId($id);
 		}
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $comment, 'commentUser' => $userid, 'action' => $action, 'protected' => $protected));
 	}
 
 	function addAppellantReply($reply){
@@ -135,10 +139,10 @@ class Log {
 
 		$id = $db->lastInsertId();
 
-		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null));
+		$this->log[] = new LogItem(array('commentID' => $id, 'appealID' => $this->appealID, 'timestamp' => $timestamp, 'comment' => $reply, 'commentUser' => null, 'action' => null, 'protected' => null));
 	}
 
-	public function getSmallHTML() {
+	public function getSmallHTML($higherPerms) {
 
 		$HTMLOutput = "";
 
@@ -154,7 +158,7 @@ class Log {
 			$data = $this->log[$i]->getLogArray();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
-			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
+			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . UTRSUser::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			// if posted by appellant
 			if(!$data['commentUser']){
 				$styleUser = "highlight";
@@ -167,7 +171,13 @@ class Log {
 			} else {
 				$dots = "";
 			}
-			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150) . $italicsEnd . $dots . "</td>";
+			if ($data['protected'] && !$higherPerms){
+				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the relevant permissions to view this comment.")),0,150)."</font>";
+			}
+			else {
+				$safeCmt = substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150);
+			}
+			$HTMLOutput .= "<td class=\"" . $styleAction . "\">" . $italicsStart . $safeCmt . $italicsEnd . $dots . "</td>";
 			$HTMLOutput .= "</tr>";
 		}
 
@@ -176,7 +186,7 @@ class Log {
 		return $HTMLOutput;
 	}
 
-	public function getLargeHTML() {
+	public function getLargeHTML($higherPerms) {
 
 		$HTMLOutput = "";
 
@@ -193,7 +203,7 @@ class Log {
 			$styleTime = ($i%2 == 1) ? "largeLogTimeOne" : "largeLogTimeTwo";
 			$data = $this->log[$i]->getLogArray();
 			$timestamp = (is_numeric($data['timestamp']) ? date("Y-m-d H:m:s", $data['timestamp']) : $data['timestamp']);
-			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . User::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
+			$username = ($data['commentUser']) ? "<a href=\"userMgmt.php?userId=" . $data['commentUser'] . "\">" . UTRSUser::getUserById($data['commentUser'])->getUserName() . "</a>" : Appeal::getAppealByID($data['appealID'])->getCommonName();
 			$italicsStart = ($data['action']) ? "<i>" : "";
 			$italicsEnd = ($data['action']) ? "</i>" : "";
 			// if posted by appellant
@@ -208,7 +218,13 @@ class Log {
 
 			$HTMLOutput .= "<tr>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleUser . "\">" . $username . "</td>";
-			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $comment)) . $italicsEnd . "</td>";
+			if ($data['protected'] && !$higherPerms){
+				$safeCmt = "<font color=\"red\">You do not have the relevant permissions to view this comment.";
+			}
+			else {
+				$safeCmt = $data['comment'];
+			}
+			$HTMLOutput .= "<td valign=top class=\"" . $styleAction . "\">" . $italicsStart . sanitizeText(str_replace("\\r\\n", "<br>", $safeCmt)) . $italicsEnd . "</td>";
 			$HTMLOutput .= "<td valign=top class=\"" . $styleTime . "\">" . $timestamp . "</td>";
 			$HTMLOutput .= "</tr>";
 		}

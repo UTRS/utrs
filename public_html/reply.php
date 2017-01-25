@@ -12,6 +12,9 @@ require_once('src/templateObj.php');
 require_once('src/logObject.php');
 require_once('src/emailTemplates.class.php');
 require_once('template.php');
+require_once('sitemaintain.php');
+
+checkOnline();
 
 $errors = '';
 $appeal = null;
@@ -22,10 +25,23 @@ if(!isset($_GET['id'])){
    // if not supposed to be here, send to appeals page
    header("Location: " . getRootURL() . "index.php");
 }
-try{
-   $id = $_GET['id'];
-   $appeal = Appeal::getAppealByID($id);
 
+try{
+	//Get appeal by id
+	if (is_numeric($_GET['id'])) {
+		$id = $_GET['id'];
+		$appeal = Appeal::getAppealByID($id);
+	} else {
+		throw new UTRSIllegalModificationException("The appeal ID provided is invalid. This incident has been logged.");
+	}
+	
+	//Throw error if not reserved
+	if ($appeal->getStatus() == Appeal::$STATUS_NEW) {
+		throw new UTRSIllegalModificationException("Your appeal has not yet been claimed by an administrator. If you filed an" . 
+				"appeal before May 24th, the text providing you with this link was sent in error.");
+	}
+	
+   //Ensure email is the correct email for this appeal
    if(!isset($_GET['confirmEmail']) || strcmp($_GET['confirmEmail'], $appeal->getEmail()) !== 0){
       throw new UTRSIllegalModificationException("Please use the link provided to you in your email to access this page. " .
          "This security step assures us that we are still talking to the same person. Thank you.");
@@ -141,14 +157,17 @@ else if($errors){
 if(!$submitted || $errors ){
 ?>
 <form name="sendReply" id="sendReply" method="POST" action="reply.php?id=<?php echo $_GET['id'];?>&confirmEmail=<?php echo $_GET['confirmEmail'];?>">
-<textarea rows="15" cols="60" name="reply" id="reply"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
+<?php // Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k. ?>
+<textarea rows="15" cols="60" name="reply" id="reply" maxlength="2048"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
+echo '<p id="sizereply"></p>';
 <input name="submit" id="submit" type="submit" value="Send Reply" />
 </form>
 <?php 
 } // closes if(!isset($_POST['submit']) | $errors )
 
 } // closes else from if(!$accessGranted)
-
+?>
+<?php
 skinFooter();
 
 ?>

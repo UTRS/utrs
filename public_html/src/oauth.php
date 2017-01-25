@@ -27,7 +27,7 @@
  * @return string Signature
  */
 function sign_request( $method, $url, $params = array() ) {
-    global $gConsumerSecret, $gTokenSecret;
+    global $CONFIG, $gTokenSecret;
 
     $parts = parse_url( $url );
 
@@ -63,7 +63,7 @@ function sign_request( $method, $url, $params = array() ) {
     $toSign = rawurlencode( strtoupper( $method ) ) . '&' .
         rawurlencode( "$scheme://$host$path" ) . '&' .
         rawurlencode( join( '&', $pairs ) );
-    $key = rawurlencode( $gConsumerSecret ) . '&' . rawurlencode( $gTokenSecret );
+    $key = rawurlencode( $CONFIG['oauth']['tokenSecret'] ) . '&' . rawurlencode( $gTokenSecret );
     return base64_encode( hash_hmac( 'sha1', $toSign, $key, true ) );
 }
 
@@ -111,6 +111,7 @@ function doAuthorizationRedirect() {
     if ( is_object( $token ) && isset( $token->error ) ) {
         header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+		echo 'Reason: ' . htmlspecialchars( $token->message );
         exit(0);
     }
     if ( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ) {
@@ -170,19 +171,20 @@ function fetchAccessToken() {
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
     $data = curl_exec( $ch );
     if ( !$data ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         exit(0);
     }
     curl_close( $ch );
     $token = json_decode( $data );
     if ( is_object( $token ) && isset( $token->error ) ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+		echo 'Reason: ' . htmlspecialchars( $token->message );
         exit(0);
     }
     if ( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Invalid response from token request';
         exit(0);
     }
@@ -239,13 +241,13 @@ function doApiQuery( $post, &$ch = null ) {
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
     $data = curl_exec( $ch );
     if ( !$data ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         exit(0);
     }
     $ret = json_decode( $data );
     if ( $ret === null ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Unparsable API response: <pre>' . htmlspecialchars( $data ) . '</pre>';
         exit(0);
     }
@@ -257,7 +259,7 @@ function doApiQuery( $post, &$ch = null ) {
  * @return void
  */
 function doIdentify() {
-    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gConsumerSecret, $CONFIG;
+    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $CONFIG;
 
     $url = $mwOAuthUrl . '/identify';
     $headerArr = array(
@@ -289,7 +291,7 @@ function doIdentify() {
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
     $data = curl_exec( $ch );
     if ( !$data ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         exit(0);
     }
@@ -304,7 +306,7 @@ function doIdentify() {
     // There are three fields in the response
     $fields = explode( '.', $data );
     if ( count( $fields ) !== 3 ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Invalid identify response: ' . htmlspecialchars( $data );
         exit(0);
     }
@@ -315,16 +317,16 @@ function doIdentify() {
         $header = json_decode( $header );
     }
     if ( !is_object( $header ) || $header->typ !== 'JWT' || $header->alg !== 'HS256' ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Invalid header in identify response: ' . htmlspecialchars( $data );
         exit(0);
     }
 
     // Verify the signature
     $sig = base64_decode( strtr( $fields[2], '-_', '+/' ), true );
-    $check = hash_hmac( 'sha256', $fields[0] . '.' . $fields[1], $gConsumerSecret, true );
+    $check = hash_hmac( 'sha256', $fields[0] . '.' . $fields[1], $CONFIG['oauth']['tokenSecret'], true );
     if ( $sig !== $check ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'JWT signature validation failed: ' . htmlspecialchars( $data );
         echo '<pre>'; var_dump( base64_encode($sig), base64_encode($check) ); echo '</pre>';
         exit(0);
@@ -336,7 +338,7 @@ function doIdentify() {
         $payload = json_decode( $payload );
     }
     if ( !is_object( $payload ) ) {
-        header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 500 Internal Server Error" );
         echo 'Invalid payload in identify response: ' . htmlspecialchars( $data );
         exit(0);
     }

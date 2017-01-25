@@ -72,7 +72,7 @@ function sign_request( $method, $url, $params = array() ) {
  * @return void
  */
 function doAuthorizationRedirect() {
-    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gTokenSecret;
+    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gTokenSecret, $CONFIG;
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
@@ -142,7 +142,7 @@ function doAuthorizationRedirect() {
  * @return void
  */
 function fetchAccessToken() {
-    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gTokenSecret;
+    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gTokenSecret, $CONFIG;
 
     $url = $mwOAuthUrl . '/token';
     $url .= strpos( $url, '?' ) ? '&' : '?';
@@ -204,7 +204,7 @@ function fetchAccessToken() {
  * @return array API results
  */
 function doApiQuery( $post, &$ch = null ) {
-    global $apiUrl, $gUserAgent, $gTokenKey;
+    global $apiUrl, $gUserAgent, $gTokenKey, $CONFIG;
 
     $headerArr = array(
         // OAuth information
@@ -257,7 +257,7 @@ function doApiQuery( $post, &$ch = null ) {
  * @return void
  */
 function doIdentify() {
-    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gConsumerSecret;
+    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gConsumerSecret, $CONFIG;
 
     $url = $mwOAuthUrl . '/identify';
     $headerArr = array(

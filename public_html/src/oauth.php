@@ -76,7 +76,7 @@ function doAuthorizationRedirect() {
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
-    $gTokenSecret = '';
+    $gTokenSecret = $CONFIG['oauth']['tokenSecret'];
     $url = $mwOAuthUrl . '/initiate';
     $url .= strpos( $url, '?' ) ? '&' : '?';
     $url .= http_build_query( array(

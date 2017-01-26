@@ -96,7 +96,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 
     $is_admin = in_array("sysop", $payload->groups);
     $is_check = in_array("checkuser", $payload->groups);
-	$is_blocked = $payload['blocked'];
+	$is_blocked = $payload->blocked;
     $username = $payload->username;
 	global $CONFIG;
 	if ($is_blocked) {

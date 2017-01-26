@@ -27,7 +27,7 @@
  * @return string Signature
  */
 function sign_request( $method, $url, $params = array() ) {
-    global $CONFIG, $gTokenSecret;
+    global $CONFIG;
 
     $parts = parse_url( $url );
 
@@ -63,7 +63,7 @@ function sign_request( $method, $url, $params = array() ) {
     $toSign = rawurlencode( strtoupper( $method ) ) . '&' .
         rawurlencode( "$scheme://$host$path" ) . '&' .
         rawurlencode( join( '&', $pairs ) );
-    $key = rawurlencode( $CONFIG['oauth']['tokenSecret'] ) . '&' . rawurlencode( $gTokenSecret );
+    $key = rawurlencode( $gConsumerSecret ) . '&' . rawurlencode( $CONFIG['oauth']['tokenSecret'] );
     return base64_encode( hash_hmac( 'sha1', $toSign, $key, true ) );
 }
 
@@ -72,11 +72,11 @@ function sign_request( $method, $url, $params = array() ) {
  * @return void
  */
 function doAuthorizationRedirect() {
-    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gTokenSecret, $CONFIG;
+    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $CONFIG;
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
-    $gTokenSecret = $CONFIG['oauth']['tokenSecret'];
+    $CONFIG['oauth']['tokenSecret'] = $CONFIG['oauth']['tokenSecret'];
     $url = $mwOAuthUrl . '/initiate';
     $url .= strpos( $url, '?' ) ? '&' : '?';
     $url .= http_build_query( array(
@@ -110,7 +110,7 @@ function doAuthorizationRedirect() {
     $token = json_decode( $data );
     if ( is_object( $token ) && isset( $token->error ) ) {
         header( "HTTP/1.1 500 Internal Server Error" );
-        echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+        echo 'Error retrieving token: ' . htmlspecialchars( $token->error ).'\n';
 		echo 'Reason: ' . htmlspecialchars( $token->message );
         exit(0);
     }
@@ -143,7 +143,7 @@ function doAuthorizationRedirect() {
  * @return void
  */
 function fetchAccessToken() {
-    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $gTokenSecret, $CONFIG;
+    global $mwOAuthUrl, $gUserAgent, $gTokenKey, $CONFIG;
 
     $url = $mwOAuthUrl . '/token';
     $url .= strpos( $url, '?' ) ? '&' : '?';
@@ -179,7 +179,7 @@ function fetchAccessToken() {
     $token = json_decode( $data );
     if ( is_object( $token ) && isset( $token->error ) ) {
         header( "HTTP/1.1 500 Internal Server Error" );
-        echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+        echo 'Error retrieving token: ' . htmlspecialchars( $token->error ).'\n';
 		echo 'Reason: ' . htmlspecialchars( $token->message );
         exit(0);
     }
@@ -193,7 +193,7 @@ function fetchAccessToken() {
     session_name('UTRSLogin');
     session_start();
     $_SESSION['tokenKey'] = $gTokenKey = $token->key;
-    $_SESSION['tokenSecret'] = $gTokenSecret = $token->secret;
+    $_SESSION['tokenSecret'] = $CONFIG['oauth']['tokenSecret'] = $token->secret;
     session_write_close();
 }
 

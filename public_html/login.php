@@ -129,7 +129,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
             ));
             debug('object created<br/>');
         } else {
-            $user = User::getUserById($data['userID']);
+            $user = UTRSUser::getUserById($data['userID']);
             if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email) {
                 // XXX: Logging?
                 $query = $db->prepare("

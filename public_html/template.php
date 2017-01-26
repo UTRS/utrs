@@ -1,9 +1,6 @@
 <?php
 require_once('src/unblocklib.php');
 require_once('src/noticeObject.php');
-require_once('sitemaintain.php');
-
-checkOnline();
 
 function skinHeader($script = '', $adminNav = false) {
 
@@ -38,21 +35,20 @@ if($loggedIn){
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <link rel="stylesheet" href="unblock_styles.css?<?php /* Forces browsers to re-fetch the stylesheet when it changes */ echo sha1(file_get_contents('unblock_styles.css')) ?>">
 <title>Unblock Ticket Request System - Register an Account</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
 <?php if($script){
    echo "<script type=\"text/javascript\">" . $script . "</script>";
 }
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
 <style>
    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
    #sortable li span { position: absolute; margin-left: -1.3em; }
-</style>
-<script>
-   
-   function serialize(mixed_value) {
+   </style>
+   <script>
+   function serialize (mixed_value) {
        // http://kevin.vanzonneveld.net
        // +   original by: Arpad Ray (mailto:arpad@php.net)
        // +   improved by: Dino
@@ -71,9 +67,8 @@ if($loggedIn){
        // *     example 2: serialize({firstName: 'Kevin', midName: 'van', surName: 'Zonneveld'});
        // *     returns 2: 'a:3:{s:9:"firstName";s:5:"Kevin";s:7:"midName";s:3:"van";s:7:"surName";s:9:"Zonneveld";}'
 
-       var _getType = function(inp) {
-           var type = typeof inp,
-               match;
+       var _getType = function (inp) {
+           var type = typeof inp, match;
            var key;
            if (type == 'object' && !inp) {
                return 'null';
@@ -139,7 +134,7 @@ if($loggedIn){
 
                    okey = (key.match(/^[0-9]+$/) ? parseInt(key, 10) : key);
                    vals += this.serialize(okey) +
-                       this.serialize(mixed_value[key]);
+                           this.serialize(mixed_value[key]);
                    count++;
                }
                val += ":" + count + ":{" + vals + "}";
@@ -157,143 +152,108 @@ if($loggedIn){
 
    $(function() {
 
-       var hookArray;
+     var hookArray;
 
-       $("#Zone1").sortable({
-           connectWith: '#Zone2, #Zone3, #trashbin',
-           start: function(event, ui) {
-               $("#Zone1").css('border', '1px #000000 solid');
-               $("#Zone2").css('border', '1px #000000 solid');
-               $("#Zone3").css('border', '1px #000000 solid');
-               $("#trashbin").css('border', '1px #000000 solid');
-           },
-           update: function(event, ui) {
-               if (ui.item.parent().attr('id') == 'Zone1')
-                   buildArray();
-           }
-       });
-       $("#Zone1").disableSelection();
-       $("#Zone2").sortable({
-           connectWith: '#Zone1, #Zone3, #trashbin',
-           start: function(event, ui) {
-               $("#Zone1").css('border', '1px #000000 solid');
-               $("#Zone2").css('border', '1px #000000 solid');
-               $("#Zone3").css('border', '1px #000000 solid');
-               $("#trashbin").css('border', '1px #000000 solid');
-           },
-           update: function(event, ui) {
-               if (ui.item.parent().attr('id') == 'Zone2')
-                   buildArray();
-           }
-       });
-       $("#Zone2").disableSelection();
-       $("#Zone3").sortable({
-           connectWith: '#Zone2, #Zone1, #trashbin',
-           start: function(event, ui) {
-               $("#Zone1").css('border', '1px #000000 solid');
-               $("#Zone2").css('border', '1px #000000 solid');
-               $("#Zone3").css('border', '1px #000000 solid');
-               $("#trashbin").css('border', '1px #000000 solid');
-           },
-           update: function(event, ui) {
-               if (ui.item.parent().attr('id') == 'Zone3')
-                   buildArray();
-           }
-       });
+      $( "#Zone1" ).sortable({ connectWith: '#Zone2, #Zone3, #trashbin',
+        start: function (event, ui) {
+            $("#Zone1").css('border','1px #000000 solid');
+            $("#Zone2").css('border','1px #000000 solid');
+            $("#Zone3").css('border','1px #000000 solid');
+            $("#trashbin").css('border','1px #000000 solid');
+        },
+        update:  function (event, ui) {
+            if (ui.item.parent().attr('id') == 'Zone1')
+               buildArray();
+        }
+      });
+      $( "#Zone1" ).disableSelection();
+      $( "#Zone2" ).sortable({ connectWith: '#Zone1, #Zone3, #trashbin',
+        start: function (event, ui) {
+            $("#Zone1").css('border','1px #000000 solid');
+            $("#Zone2").css('border','1px #000000 solid');
+            $("#Zone3").css('border','1px #000000 solid');
+            $("#trashbin").css('border','1px #000000 solid');
+        },
+        update:  function (event, ui) {
+            if (ui.item.parent().attr('id') == 'Zone2')
+                buildArray();
+        }
+      });
+      $( "#Zone2" ).disableSelection();
+      $( "#Zone3" ).sortable({ connectWith: '#Zone2, #Zone1, #trashbin',
+          start: function (event, ui) {
+              $("#Zone1").css('border','1px #000000 solid');
+              $("#Zone2").css('border','1px #000000 solid');
+              $("#Zone3").css('border','1px #000000 solid');
+              $("#trashbin").css('border','1px #000000 solid');
+          },
+          update:  function (event, ui) {
+              if (ui.item.parent().attr('id') == 'Zone3')
+                  buildArray();
+          }
+        });
 
-       $("#Zone3").disableSelection();
-       $("#bottomZone").sortable({
-           connectWith: '#Zone1, #Zone2, #Zone1',
-           start: function(event, ui) {
-               $("#Zone1").css('border', '1px #000000 solid');
-               $("#Zone2").css('border', '1px #000000 solid');
-               $("#Zone3").css('border', '1px #000000 solid');
-           },
-           update: function(event, ui) {
-               if (ui.item.parent().attr('id') == 'bottomZone')
-                   buildArray(true);
-           }
-       });
+        $( "#Zone3" ).disableSelection();
+        $( "#bottomZone" ).sortable({ connectWith: '#Zone1, #Zone2, #Zone1',
+            start: function (event, ui) {
+                $("#Zone1").css('border','1px #000000 solid');
+                $("#Zone2").css('border','1px #000000 solid');
+                $("#Zone3").css('border','1px #000000 solid');
+            },
+            update:  function (event, ui) {
+                if (ui.item.parent().attr('id') == 'bottomZone')
+                    buildArray(true);
+            }
+          });
 
-       $("#bottomZone").disableSelection();
-       $("#trashbin").sortable({
-           update: function(event, ui) {
-               if (ui.item.parent().attr('id') == 'trashbin')
-                   buildArray(true);
-           }
-       });
-       $("#trashbin").disableSelection();
+          $( "#bottomZone" ).disableSelection();
+          $( "#trashbin" ).sortable({
+              update:  function (event, ui) {
+                  if (ui.item.parent().attr('id') == 'trashbin')
+                      buildArray(true);
+              }
+              });
+          $( "#trashbin" ).disableSelection();
 
-       function buildArray(reload) {
+      function buildArray(reload) {
 
-           hookArray = null;
-           hookArray = new Array(3);
+        hookArray = null;
+        hookArray = new Array(3);
 
-           $("#hookContainer").children().each(function(index) {
-               if (index < 3) {
+          $("#hookContainer").children().each( function(index) {
+            if (index < 3) {
                    hookArray[index] = new Array($("#Zone" + (index + 1)).length);
-                   $("#Zone" + (index + 1)).children().each(function(zoneindex) {
-                       hookArray[(index)][zoneindex] = this.id;
-                   })
-               }
-           })
+               $("#Zone" + (index + 1)).children().each( function(zoneindex) {
+                     hookArray[(index)][zoneindex] = this.id;
+               })
+            }
+          })
 
-           sendToServer(reload);
-       }
+          sendToServer(reload);
+      }
 
-       function sendToServer(reload) {
-           $("#Zone1").sortable({
-               disabled: true
-           });
-           $("#Zone2").sortable({
-               disabled: true
-           });
-           $("#Zone3").sortable({
-               disabled: true
-           });
-           //alert(serialize(hookArray));
-           $.post("updateHome.php", {
-               data: serialize(hookArray)
-           }, function(data, reload) {
-               if (reload) {
-                   location.reload(true)
-               }
-               //alert("Data Loaded: " + data);
-               $("#Zone1").sortable({
-                   disabled: false
-               });
-               $("#Zone2").sortable({
-                   disabled: false
-               });
-               $("#Zone3").sortable({
-                   disabled: false
-               });
-               $("#Zone1").css('border', '0px #000000 solid');
-               $("#Zone2").css('border', '0px #000000 solid');
-               $("#Zone3").css('border', '0px #000000 solid');
-           })
-       }
-       $(":input").keyup(function() {
-           if ($(this).attr("maxlength") != "undefined") {
-               if ($(this).val().length > (parseInt($(this).attr("maxlength")) - 100)) {
-                   varMax = parseInt($(this).attr("maxlength"))
-                   varLeft = parseInt($(this).attr("maxlength")) - $(this).val().length
+      function sendToServer(reload) {
+               $("#Zone1").sortable({disabled: true});
+               $("#Zone2").sortable({disabled: true});
+               $("#Zone3").sortable({disabled: true});
+               //alert(serialize(hookArray));
+            $.post("updateHome.php", { data: serialize(hookArray) }, function(data, reload) {
+              if (reload) {
+                  location.reload(true)
+              }
+                  //alert("Data Loaded: " + data);
+                  $("#Zone1").sortable({disabled: false});
+                  $("#Zone2").sortable({disabled: false});
+                  $("#Zone3").sortable({disabled: false});
+                  $("#Zone1").css('border','0px #000000 solid');
+                  $("#Zone2").css('border','0px #000000 solid');
+                  $("#Zone3").css('border','0px #000000 solid');
+            }
+         )
+      }
+   }
+)
 
-                   //Change Element Border
-                   $(this).css("border", "this solid #FF0000")
-
-                   //Display alert
-                   $("#size" + $(this).attr("id")).css("color", "#FF0000").css("background", "#F8FCFF").text("This field only allows " + varMax + " characters.  You have " + varLeft + " left.")
-               } else {
-                   $(this).css("border", "none none #000000")
-
-                   //Display alert
-                   $("#size" + $(this).attr("id")).css("color", "#FFF").css("background", "none").text("")
-			   }
-           }
-       });
-   });
-   
 </script>
 
 </head>
@@ -326,9 +286,6 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
       <a href="<?php echo getRootURL() . 'userMgmt.php'; ?>">Tool Administration</a>
    </li>
    <?php } ?>
-   <li id="listUser">
-      <a href="<?php echo getRootURL() . 'userList.php'; ?>">Userlist</a>
-   </li>
    <li id="search">
       <a href="<?php echo getRootURL() . 'search.php'; ?>">Search</a>
    </li>
@@ -336,11 +293,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
       <a href="<?php echo getRootURL() . 'prefs.php'; ?>">Preferences</a>
    </li>
    <li id="privacyPolicy">
-      <a href="<?php echo getRootURL() . 'admin_privacy.php'; ?>">Privacy Policy</a>
-   </li>
-   <?php #This is static for a reason, please leave it as so. ?>
-   <li id="jobs">
-      <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
+      <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>
    <li id="logout">
       <a href="<?php echo getRootURL() . 'logout.php'; ?>">Logout</a>
@@ -355,21 +308,10 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
    <li id="loginLink">
       <a href="<?php echo getRootURL() . 'login.php'; ?>">Admins: Log in to review requests</a>
    </li>
-   <li id="register">
-      <a href="<?php echo getRootURL() . 'register.php'; ?>">Admins: Request an account</a>
-   </li>
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>
    </li>
-   <li id="listUser">
-      <a href="<?php echo getRootURL() . 'userList.php'; ?>">UTRS Userlist</a>
-   </li>
-   <?php #This is static for a reason, please leave it as so. ?>
-   <li id="jobs">
-      <a href="https://utrs.wmflabs.org/team.php">UTRS Team</a>
-   </li>
-   <?php
- } ?>
+<?php } ?>
 </ul>
 <div style="clear: both"></div>
 </div>
@@ -398,7 +340,7 @@ This project is licensed under the
 <a id="GPL" href="http://www.gnu.org/copyleft/gpl.html" target="_NEW">GNU General Public License Version 3 or Later</a>.<br />
 For questions or assistance with the Unblock Ticket Request System, please email our administration team at
 <a href="mailto:utrs-admins@googlegroups.com">utrs-admins&#64;googlegroups.com</a>.<br />
-Version <?php echo getVersion() ?>.</p>
+Version <?php echo getHeadCommit() ?>.</p>
 </div>
 </body>
 </html>

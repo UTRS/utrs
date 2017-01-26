@@ -10,9 +10,6 @@ require_once('src/userObject.php');
 require_once('src/statsLib.php');
 require_once('src/logObject.php');
 require_once('template.php');
-require_once('sitemaintain.php');
-
-checkOnline();
 
 verifyLogin('userMgmt.php');
 
@@ -22,14 +19,12 @@ $errors = '';
 if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADMIN'])){
 	$user = getCurrentUser();
 	$userId = $_GET['userId'];
-	$requestedUser = UTRSUser::getUserById($userId);
+	$requestedUser = User::getUserById($userId);
 	$approved = $requestedUser->isApproved();
 	$active = $requestedUser->isActive();
 	$admin = $requestedUser->isAdmin();
 	$checkuser = $requestedUser->isCheckuser();
 	$developer = $requestedUser->isDeveloper();
-	$wmf = $requestedUser->isWMF();
-	$oversight = $requestedUser->isOversighter();
 
 	try{
 		$newApproved = isset($_POST['approved']);
@@ -38,15 +33,13 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		$newAdmin = isset($_POST['admin']);
 		$newDeveloper = isset($_POST['developer']);
 		$newCheckuser = isset($_POST['checkuser']);
-		$newWMF = isset($_POST['wmf']);
-		$newOversight = isset($_POST['oversight']);
 
 		// check required fields
 		if(!$approved & !$newApproved){
 			throw new UTRSIllegalModificationException("You must approve this account in order to " .
 				            "make any other access changes.");
 		}
-		if(!$newApproved & !$reason){
+		if(!$newActive & !$reason){
 			throw new UTRSIllegalModificationException("You must provide a reason for the user rights " .
 					        "change.");
 		}
@@ -54,14 +47,6 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 		if(($newCheckuser != $checkuser) && (!$user->isCheckuser() && !$user->isDeveloper())){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
 					        "changes. The checkuser flag may only be changed by developers or checkusers. ");
-		}
-		if(($newOversight != $oversight) && (!$user->isOversighter() && !$user->isDeveloper())){
-			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					"changes. The oversight flag may only be changed by developers or oversighters. ");
-		}
-		if(($newWMF != $wmf) && (!$user->isWMF() && !$user->isDeveloper())){
-			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
-					"changes. The WMF Staff flag may only be changed by developers or WMF Staff. ");
 		}
 		if(($newDeveloper != $developer) & !$user->isDeveloper()){
 			throw new UTRSIllegalModificationException("You lack sufficient permission to make these " .
@@ -73,18 +58,29 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 			//Approve user in database
 			$requestedUser->approve($user);
 
+			//Notify IRC of approval
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been approved by\x032 " . $_SESSION['user']);
+
 		}
 		if($active & !$newActive){
 
 			//Mark user disabled in the database
 			$requestedUser->disable($user, $reason);
 
+			//Notify IRC of the change
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been disabled by\x032 " . $_SESSION['user']);
+
 		}
 		else if(!$active & $newActive){
 			$requestedUser->enable($user);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's account has been enabled by\x032 " . $_SESSION['user']);
 		}
-		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser) | ($newOversight != $oversight) | ($newWMF != $wmf)){
-			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user, $newWMF, $newOversight, $reason);
+		if(($newAdmin != $admin) | ($newDeveloper != $developer) | ($newCheckuser != $checkuser)){
+			$requestedUser->setPermissions($newAdmin, $newDeveloper, $newCheckuser, $user, $reason);
+			Log::ircNotification("\x032 " . $requestedUser->getUsername() . "\x033's permissions have been changed by\x032 " . $_SESSION['user'] . " to the following flags: ". 
+			($newAdmin == TRUE)? "Administrator":"". ($newCheckuser == TRUE || $newDeveloper == TRUE)? ",":"".
+			($newCheckuser == TRUE)? "Checkuser":"". ($newDeveloper == TRUE)? ",":"".
+			($newDeveloper == TRUE)? "Developer":"");
 			//Tool Admin: " . ($newAdmin ? 'true' : 'false') . " Tool Developer: " . ($newDeveloper ? 'true' : 'false') . " Checkuser: " . ($newCheckuser ? 'true' : 'false'));
 		}
 		// reset current user
@@ -97,7 +93,7 @@ if(isset($_GET['userId']) & isset($_POST['submit']) & verifyAccess($GLOBALS['ADM
 else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS['ADMIN'])){
 	$user = getCurrentUser();
 	$userId = $_GET['userId'];
-	$requestedUser = UTRSUser::getUserById($userId);
+	$requestedUser = User::getUserById($userId);
 	$newName = trim($_POST['newName']);
 
 	try{
@@ -118,7 +114,7 @@ else if(isset($_GET['userId']) & isset($_POST['rename']) & verifyAccess($GLOBALS
 		   	 	'may not contain the characters # / | [ ] { } < > @ % : $');
 		}
 		try{
-			$existingUser = UTRSUser::getUserByUsername($newName);
+			$existingUser = User::getUserByUsername($newName);
 			// if no exception, then there's a problem
 			throw new UTRSIllegalModificationException("Another user already has the name \"" . $newName .
 				"\". Please enter another username.");
@@ -146,8 +142,11 @@ verifyLogin('userMgmt.php');
 
 skinHeader("function toggleRequired() {
 	var label = document.getElementById('commentsLabel');
-	if(label.className != 'required'){
+	if(label.className == 'required'){
 		label.className = '';
+	}
+	else{
+		label.className='required';
 	}
 }
 
@@ -164,18 +163,18 @@ function setRequired(required) {
 
 echo "<h2>User management</h2>";
 
-if(!verifyAccess($GLOBALS['ADMIN']) && !verifyAccess($GLOBALS['WMF'])){
+if(!verifyAccess($GLOBALS['ADMIN'])){
 
 	if (!isset($_GET['userId'])) {
-		displayError("<b>Access denied:</a> User management is only available to tool administrators or WMF Staff. "
+		displayError("<b>Access denied:</a> User management is only available to tool administrators. "
 		    . "Please click on one of the links above to return to another page.");
 	} else {
-		$user = UTRSUser::getUserById($_GET['userId']);
+		$user = User::getUserById($_GET['userId']);
 
 		?>
-		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
-<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
-<a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), UTRSUser::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
+		<h2>User: </h2><a href="<?php echo getWikiLink("User:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"><?php echo $user->getUsername(); ?></a> |
+<a href="<?php echo getWikiLink("User_talk:" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> User talk Page</a> |
+<a href="<?php echo getWikiLink("Special:EmailUser/" . $user->getWikiAccount(), User::getUserByUsername($_SESSION['user'])->getUseSecure()); ?>" target="_blank"> Email User</a><br>
 		<?php
 		echo "<h2>Assigned Appeals</h2>";
 		echo printAssigned($user->getUserId());
@@ -190,14 +189,12 @@ else{
 		$user = getCurrentUser();
 		$secure = $user->getUseSecure();
 		$userId = $_GET['userId'];
-		$requestedUser = UTRSUser::getUserById($userId);
+		$requestedUser = User::getUserById($userId);
 		$approved = $requestedUser->isApproved();
 		$active = $requestedUser->isActive();
 		$admin = $requestedUser->isAdmin();
 		$checkuser = $requestedUser->isCheckuser();
-		$oversighter = $requestedUser->isOversighter();
 		$developer = $requestedUser->isDeveloper();
-		$wmf = $requestedUser->isWMF();
 		$comments = $requestedUser->getComments();
 		$registered = $requestedUser->getRegistered();
 		$numClosed = $requestedUser->getClosed();
@@ -257,13 +254,7 @@ echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"develop
      ($user->isDeveloper() ? "" : "readonly=\"readonly\" disabled=\"disabled\"") . " />\n</td></tr>";
 echo "<tr><td><label name=\"checkuserLabel\" id=\"checkuserLabel\" for=\"checkuser\">Checkuser:</label> </td><td>&#09;&#09; " .
      "<input name=\"checkuser\" id=\"checkuser\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($checkuser ? "checked=\"checked\" " : " " ) . 
-     ($user->isDeveloper() || $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
-echo "<tr><td><label name=\"oversightLabel\" id=\"oversightLabel\" for=\"oversight\">Oversight:</label> </td><td>&#09;&#09; " .
-		"<input name=\"oversight\" id=\"oversight\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($oversighter ? "checked=\"checked\" " : " " ) .
-		($user->isDeveloper() || $user->isOversighter() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
-echo "<tr><td><label name=\"wmfLabel\" id=\"wmfLabel\" for=\"wmf\">WMF Staff:</label> </td><td>&#09;&#09; " .
-		"<input name=\"wmf\" id=\"wmf\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($wmf ? "checked=\"checked\" " : " " ) .
-		($user->isDeveloper() || $user->isWMF() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
+     ($user->isDeveloper() | $user->isCheckuser() ? "" : " onClick=\"return false;\" ") . " />\n</td></tr>";
 echo "<tr><td colspan=2><label name=\"commentsLabel\" id=\"commentsLabel\" " . (!$active ? "class=\"required\"" : "") . " for=\"comments\" " .
 	 " />Reason for changes to this account:</label>\n";
 echo "<textarea name=\"reason\" id=\"reason\" rows=\"1\" cols=\"50\" />" . "</textarea>\n</td></tr></table>";
@@ -323,45 +314,29 @@ if (isset($_GET['checkperms']) && $_GET['checkperms'] == "yes") {
 <td style="width:50%" valign="top">
 <h3>Unapproved accounts</h3>
 
-<?php echo printUnapprovedAccounts(TRUE); ?>
+<?php echo printUnapprovedAccounts(); ?>
 
 <h3>Active accounts</h3>
 
-<?php echo printActiveAccounts(TRUE); ?>
+<?php echo printActiveAccounts(); ?>
 
 <h3>Developers</h3>
 
-<?php echo printDevelopers(TRUE); ?>
+<?php echo printDevelopers(); ?>
 
 </td>
 <td style="width:50%" valign="top">
 <h3>Tool administrators</h3>
 
-<?php echo printAdmins(TRUE); ?>
+<?php echo printAdmins(); ?>
 
 <h3>Checkusers</h3>
 
-<?php echo printCheckusers(TRUE); ?>
-
-<h3>WMF Staff</h3>
-
-<?php echo printWMFAccounts(TRUE); ?>
-
-<h3>Oversighters</h3>
-
-<?php echo printOversighterAccounts(TRUE); ?>
+<?php echo printCheckusers(); ?>
 
 <h3>Inactive accounts</h3>
 
-<?php echo printInactiveAccounts(TRUE); ?>
-
-<h3>Oversighted accounts</h3>
-
-<?php 
-if(verifyAccess($GLOBALS['OVERSIGHT'])) {
-	echo printOversightedAccounts(TRUE);
-}
- ?>
+<?php echo printInactiveAccounts(); ?>
 
 </td>
 </tr>

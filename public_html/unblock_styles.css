@@ -50,7 +50,7 @@ form{
 
 @media all and (min-width:591px){
    #header{
-      background-image: url('upload.wikimedia.org/wikipedia/commons/5/52/UTRS_icon.svg');
+      background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/b/be/Wikimedia_Community_Logo-Toolserver.svg/70px-Wikimedia_Community_Logo-Toolserver.svg.png');
       background-position: 99% 24px;
       background-repeat: no-repeat;
    }

@@ -10,10 +10,12 @@ ini_set('session.use_cookies', '1');
 require_once('src/network.php');
 forceHTTPS();
 require_once('src/unblocklib.php');
-require_once('template.php');    
+require_once('src/oauth.php');
+require_once('template.php');
 require_once('sitemaintain.php');
 
 checkOnline();
+require_once('src/oauth.php');
 
 $user = '';
 $destination = '';
@@ -33,6 +35,135 @@ else{
 }
 
 debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');
+
+
+/* BEGIN OAUTH */
+
+/**
+ * Set this to the Special:OAuth/authorize URL. 
+ * To work around MobileFrontend redirection, use /wiki/ rather than /w/index.php.
+ */
+$mwOAuthAuthorizeUrl = 'https://www.mediawiki.org/wiki/Special:OAuth/authorize';
+
+/**
+ * Set this to the Special:OAuth URL. 
+ * Note that /wiki/Special:OAuth fails when checking the signature, while
+ * index.php?title=Special:OAuth works fine.
+ */
+$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+
+/**
+ * Set this to the interwiki prefix for the OAuth central wiki.
+ */
+$mwOAuthIW = 'mw';
+
+/**
+ * Set this to the API endpoint
+ */
+$apiUrl = 'https://en.wikipedia.org/w/api.php';
+
+/**
+ * This should normally be "500". But Tool Labs insists on overriding valid 500
+ * responses with a useless error page.
+ */
+$errorCode = 200;
+
+
+// Setup the session cookie
+session_name( 'utrs_oauth' );
+$params = session_get_cookie_params();
+session_set_cookie_params(
+    $params['lifetime'],
+    dirname( $_SERVER['SCRIPT_NAME'] )
+);
+
+
+$gUserAgent = @$CONFIG['oauth']['agent'];
+$gConsumerKey = @$CONFIG['oauth']['consumerKey'];
+$gConsumerSecret = @$CONFIG['oauth']['consumerSecret'];
+
+// Load the user token (request or access) from the session
+$gTokenKey = '';
+$gTokenSecret = '';
+session_name('UTRSLogin');
+session_start();
+
+if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
+    $gTokenKey = $_SESSION['tokenKey'];
+    $gTokenSecret = $_SESSION['tokenSecret'];
+    fetchAccessToken();
+    $payload = doIdentify();
+
+    $is_admin = in_array("sysop", $payload->groups);
+    $is_check = in_array("checkuser", $payload->groups);
+    $username = $payload->username;
+
+    if ($is_admin === TRUE && $payload->confirmed_email === TRUE) {
+        session_name('UTRSLogin');
+        session_start();
+        $_SESSION['user'] = $username;
+        $_SESSION['oauth'] = TRUE;
+
+        $db = connectToDB(true);
+        $query = $db->prepare('
+                SELECT userID FROM user
+                WHERE username = :username');
+
+        $result = $query->execute(array(
+                ':username'	=> $username));
+
+        if($result === false){
+                $error = var_export($query->errorInfo(), true);
+                debug('ERROR: ' . $error . '<br/>');
+                throw new UTRSDatabaseException($error);
+        }
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+        $query->closeCursor();
+        if ($data['userID'] === NULL) {
+            $user = new User(array(
+                'wikiAccount' => $username,
+                'diff' => "",
+                'username' => $username,
+                'email' => $payload->email,
+            ), false, array(
+                'checkuser' => $is_check,
+            ));
+            debug('object created<br/>');
+        } else {
+            $user = UTRSUser::getUserById($data['userID']);
+            if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email) {
+                // XXX: Logging?
+                $query = $db->prepare("
+                        UPDATE user
+                        SET checkuser = :checkuser,
+                            email = :email
+                        WHERE userID = :userID");
+                $result = $query->execute(array(
+                        ':checkuser' => (bool)$is_check,
+                        ':email' => $payload->email,
+                        ':userID' => (int)$data['userID']));
+                if(!$result){
+                    $error = var_export($query->errorInfo(), true);
+                    debug('ERROR: ' . $error . '<br/>');
+                    throw new UTRSDatabaseException($error);
+                }
+            }
+        }
+        header("Location: " . "home.php");
+        exit;
+    } else if ($is_admin === TRUE) {
+        $errors = 'You need to have a confirmed email address set in MediaWiki to use UTRS.';
+    } else {
+        $errors = 'Only administrators can review requests on UTRS.';
+    }
+
+} else if (!$logout) {
+    doAuthorizationRedirect();
+}
+
+session_write_close();
+
+/* END OAUTH */
 
 if(isset($_POST['login'])){
 	try{
@@ -137,15 +268,13 @@ if($logout){
 }
 ?>
 
-<div id="loginBox">
-<p>If you do not already have an UTRS account, please <a href="register.php">register here</a>.</p>
-
 <?php 
 if($errors){
 	displayError($errors);
 }
 ?>
 
+<!-- keeping just in case
 <form name="loginForm" id="loginForm" action="login.php" method="POST"><input id="destination" name="destination" value="<?php echo $destination; ?>" type="hidden"><table>
       <tr>
          <td><label for="username" id="usernameLabel">Username: </label></td>
@@ -172,6 +301,7 @@ if($errors){
 
 <p><a href="passReset.php">Forgot your password?</a></p>
 </div>
+-->
 </center>
 <?php 
 skinFooter();

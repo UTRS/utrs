@@ -43,7 +43,29 @@ function loggedIn(){
 		session_name('UTRSLogin');
 		session_start();
 	}
-	
+        if (isset($_SESSION['user']) && isset($_SESSION['oauth'])) {
+            $user = $_SESSION['user'];
+            if ($_SESSION['oauth'] === TRUE) {
+		$db = connectToDB(true);
+                $query = $db->prepare('
+			SELECT userID FROM user
+			WHERE username = :username');
+
+		$result = $query->execute(array(
+			':username'	=> $user));
+
+		if($result === false){
+			$error = var_export($query->errorInfo(), true);
+			debug('ERROR: ' . $error . '<br/>');
+			throw new UTRSDatabaseException($error);
+                }
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		$query->closeCursor();
+
+                registerLogin($data['userID'], $db);
+                return true;
+            }
+        }
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];

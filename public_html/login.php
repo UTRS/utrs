@@ -127,7 +127,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         $data = $query->fetch(PDO::FETCH_ASSOC);
         $query->closeCursor();
         if ($data['userID'] === NULL) {
-            $user = new User(array(
+            $user = new UTRSUser(array(
                 'wikiAccount' => $username,
                 'diff' => "",
                 'username' => $username,

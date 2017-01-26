@@ -125,7 +125,10 @@ function doAuthorizationRedirect() {
     }
 
     // Now we have the request token, we need to save it for later.
-    session_name('UTRSLogin');
+    if (strpos($CONFIG['site_root'], 'beta') !== false || strpos($CONFIG['site_root'], 'alpha') !== false) {
+    	session_name('UTRSDevLogin');
+	}
+	else {session_name('UTRSLogin');}
     session_start();
     $_SESSION['tokenKey'] = $token->key;
     $_SESSION['tokenSecret'] = $token->secret;

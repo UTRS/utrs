@@ -26,6 +26,11 @@
  *      data (if application/x-www-form-urlencoded).
  * @return string Signature
  */
+ 
+global $CONFIG;
+$gConsumerKey=$CONFIG['oauth']['consumerKey'];
+$gConsumerSecret=$CONFIG['oauth']['consumerSecret'];
+ 
 function sign_request( $method, $url, $params = array() ) {
     global $gConsumerSecret, $gTokenSecret;
 

@@ -96,9 +96,16 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 
     $is_admin = in_array("sysop", $payload->groups);
     $is_check = in_array("checkuser", $payload->groups);
+	$is_blocked = $payload['blocked'];
     $username = $payload->username;
-
-    if ($is_admin === TRUE && $payload->confirmed_email === TRUE) {
+	global $CONFIG;
+	if ($is_blocked) {
+		$errors = 'You are currently blocked from editing. To appeal your block, please use <a href="'.$CONFIG['site_root'].'">the appeal form</a>';
+	}
+    else if (
+	($is_admin === TRUE && $payload->confirmed_email === TRUE) || //main site
+	((strpos($CONFIG['site_root'], 'beta') !== false || strpos($CONFIG['site_root'], 'alpha')) && $payload->confirmed_email === TRUE) //dev branch
+	) {
         session_name('UTRSLogin');
         session_start();
         $_SESSION['user'] = $username;

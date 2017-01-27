@@ -155,7 +155,10 @@ function verifyLogin($destination = 'home.php'){
 	if(!$user->isApproved() | !$user->isActive()){
 			header("Location: " . getRootURL() . 'logout.php');
 			exit;
-	} else {	
+	} else {
+		echo '<script language="javascript">';
+		echo 'alert("'.$_SERVER['REQUEST_URI'].'")';
+		echo '</script>';	
 		if (!$user->getAcceptToS() && !strpos($_SERVER['REQUEST_URI'], "accepttos.php")) { 
 			header("Location: " . getRootURL() . 'accepttos.php');
 			exit;

@@ -28,9 +28,7 @@
  */
  
 global $CONFIG;
-$gConsumerKey=$CONFIG['oauth']['consumerKey'];
-$gConsumerSecret=$CONFIG['oauth']['consumerSecret'];
- 
+
 function sign_request( $method, $url, $params = array() ) {
     global $gConsumerSecret, $gTokenSecret;
 
@@ -211,8 +209,11 @@ function fetchAccessToken() {
  * @param object $ch Curl handle
  * @return array API results
  */
-function doApiQuery( $post, &$ch = null ) {
-    global $apiUrl, $gUserAgent, $gConsumerKey, $gTokenKey;
+function doApiQuery( $post, &$ch = null /*, $wiki="enwiki"*/) {
+    global $apiUrl, $gUserAgent, $CONFIG;
+	
+	$gConsumerKey=$CONFIG['oauth']['consumerKey']/*[$wiki]*/;
+	$gConsumerSecret=$CONFIG['oauth']['consumerSecret']/*[$wiki]*/;
 
     $headerArr = array(
         // OAuth information

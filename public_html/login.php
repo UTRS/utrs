@@ -34,6 +34,16 @@ else{
 	$destination = getRootURL() . 'home.php';
 }
 
+if (isset($_GET["wiki"])) {
+	$wiki = $_GET["wiki"];
+	$gConsumerKey=$CONFIG['oauth']['consumerKey'][$wiki];
+	$gConsumerSecret=$CONFIG['oauth']['consumerSecret'][$wiki];
+}
+else {
+	header("Location: " . getRootURL() . 'loginsplash.php');
+}
+ 
+
 debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');
 
 
@@ -50,7 +60,12 @@ $mwOAuthAuthorizeUrl = 'https://www.mediawiki.org/wiki/Special:OAuth/authorize';
  * Note that /wiki/Special:OAuth fails when checking the signature, while
  * index.php?title=Special:OAuth works fine.
  */
-$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+if (isset($_GET['wiki']) && $_GET['wiki'] == "enwiki"){
+	$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+}
+else if (isset($_GET['wiki']) && $_GET['wiki'] == "meta"){
+	$mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
+}
 
 /**
  * Set this to the interwiki prefix for the OAuth central wiki.
@@ -60,7 +75,13 @@ $mwOAuthIW = 'mw';
 /**
  * Set this to the API endpoint
  */
-$apiUrl = 'https://en.wikipedia.org/w/api.php';
+if (isset($_GET['wiki']) && $_GET['wiki'] == "enwiki"){
+	$apiUrl = 'https://en.wikipedia.org/w/api.php';
+}
+else if (isset($_GET['wiki']) && $_GET['wiki'] == "meta"){
+	$apiUrl = 'https://meta.wikimedia.org/w/api.php';
+}
+	
 
 /**
  * This should normally be "500". But Tool Labs insists on overriding valid 500
@@ -92,7 +113,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     $gTokenKey = $_SESSION['tokenKey'];
     $gTokenSecret = $_SESSION['tokenSecret'];
     fetchAccessToken();
-    $payload = doIdentify();
+    $payload = doIdentify($_GET['wiki']);
 
     $is_admin = in_array("sysop", $payload->groups);
     $is_check = in_array("checkuser", $payload->groups);

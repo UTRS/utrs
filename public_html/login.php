@@ -124,9 +124,24 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     $gTokenSecret = $_SESSION['tokenSecret'];
     fetchAccessToken();
     $payload = doIdentify($_GET['wiki']);
-
-    $is_admin = in_array("sysop", $payload->groups);
-    $is_check = in_array("checkuser", $payload->groups);
+	if (wiki === "enwiki") {
+    	$is_admin = in_array("sysop", $payload->groups);
+		$is_check = in_array("checkuser", $payload->groups);
+		$is_os = in_array("oversight", $payload->groups);
+		$is_wmf = FALSE;
+	}
+	else if (wiki === "meta") {
+		if (in_array("wmf-supportsafety", $payload->groups) == TRUE) {
+			$is_admin = in_array("wmf-supportsafety", $payload->groups);
+		}
+		else if (in_array("steward", $payload->groups) == TRUE) {
+			$is_admin = in_array("steward", $payload->groups);
+		}
+		$is_check = FALSE;
+		$is_os = FALSE;
+		$is_wmf = in_array("wmf-supportsafety", $payload->groups);
+	}
+    
 	$is_blocked = $payload->blocked;
     $username = $payload->username;
 	global $CONFIG;
@@ -165,19 +180,25 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                 'email' => $payload->email,
             ), false, array(
                 'checkuser' => $is_check,
+                'oversighter' => $is_os,
+                'wmf' => $is_wmf,
             ));
             debug('object created<br/>');
         } else {
             $user = UTRSUser::getUserById($data['userID']);
-            if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email) {
+            if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email || $user->isOversighter() !== $is_os || $user->isWMF() !== $is_wmf) {
                 // XXX: Logging?
                 $query = $db->prepare("
                         UPDATE user
                         SET checkuser = :checkuser,
+                            oversighter = :oversighter,
+                            wmf = :wmf,
                             email = :email
                         WHERE userID = :userID");
                 $result = $query->execute(array(
                         ':checkuser' => (bool)$is_check,
+                        ':oversighter' => (bool)$is_os,
+                        ':wmf' => (bool)$is_wmf,
                         ':email' => $payload->email,
                         ':userID' => (int)$data['userID']));
                 if(!$result){
@@ -200,9 +221,9 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 }
 
 session_write_close();
-
+die();
 /* END OAUTH */
-
+// ALL CODE BEYOND THIS POINT IS RETAINED FOR HISTORICAL PURPOSES ONLY
 if(isset($_POST['login'])){
 	try{
 		$db = connectToDB(true);

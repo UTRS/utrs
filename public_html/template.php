@@ -306,11 +306,7 @@ Unblock Ticket Request System <?php if(strpos(__FILE__, "/beta/") !== false){ ec
       <a href="http://en.wikipedia.org/wiki/Wikipedia:Guide_to_appealing_blocks">Guide to Appealing Blocks</a>
    </li>
    <li id="loginLink">
-<<<<<<< HEAD
-      <a href="<?php echo getRootURL() . 'login.php'; ?>">Admins: Log in to review requests</a>
-=======
       <a href="<?php echo getRootURL() . 'loginsplash.php'; ?>">Admins: Log in to review requests</a>
->>>>>>> e819f74752127a238c4e074dec140b3e3e491ad3
    </li>
    <li id="privacyPolicy">
       <a href="<?php echo getRootURL() . 'privacy.php'; ?>">Privacy Policy</a>

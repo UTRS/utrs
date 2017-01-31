@@ -124,13 +124,14 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     $gTokenSecret = $_SESSION['tokenSecret'];
     fetchAccessToken();
     $payload = doIdentify($_GET['wiki']);
-	if (wiki === "enwiki") {
+	global $wiki;
+	if ($wiki === "enwiki") {
     	$is_admin = in_array("sysop", $payload->groups);
 		$is_check = in_array("checkuser", $payload->groups);
 		$is_os = in_array("oversight", $payload->groups);
 		$is_wmf = FALSE;
 	}
-	else if (wiki === "meta") {
+	else if ($wiki === "meta") {
 		if (in_array("wmf-supportsafety", $payload->groups) == TRUE) {
 			$is_admin = in_array("wmf-supportsafety", $payload->groups);
 		}

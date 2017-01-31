@@ -208,7 +208,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                     throw new UTRSDatabaseException($error);
                 }
 				else {
-					UserMgmtLog::insert("synchronized permissions for", "match onwiki permissions", "", (int)$data['userID'], "UTRS OAuth Authenticator");
+					UserMgmtLog::insert("synchronized permissions for", "to match onwiki permissions", "", (int)$data['userID'], UTRSUser::getUserByUsername("UTRS OAuth Bot"));
 				}
             }
         }

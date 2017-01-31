@@ -2,13 +2,10 @@
 
 require_once("src/unblocklib.php");
 require_once("src/userObject.php");
-require_once('sitemaintain.php');
-
-checkOnline();
 
 verifyLogin('home.php');
 
-$user_id = UTRSUser::getUserByUsername($_SESSION['user'])->getUserId();
+$user_id = User::getUserByUsername($_SESSION['user'])->getUserId();
 
 $data = unserialize($_POST['data']);
 

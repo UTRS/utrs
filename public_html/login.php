@@ -12,6 +12,7 @@ forceHTTPS();
 require_once('src/unblocklib.php');
 require_once('src/oauth.php');
 require_once('template.php');
+require_once('src/exceptions.php');
 require_once('sitemaintain.php');
 
 checkOnline();
@@ -55,18 +56,23 @@ $mwOAuthAuthorizeUrl = 'https://www.mediawiki.org/wiki/Special:OAuth/authorize';
  * Note that /wiki/Special:OAuth fails when checking the signature, while
  * index.php?title=Special:OAuth works fine.
  */
-$wiki = $_GET['wiki']; 
- 
-if (isset($wiki) && $_GET['wiki'] === "enwiki"){
-	$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+if (!isset($_GET['logout']) && isset($_GET['wiki'])) {
+	$wiki = $_GET['wiki'];
 }
-else if (isset($wiki) && $_GET['wiki'] === "meta"){
-	$mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
-}
-else {
-	$errors = 'The MWOAUTH and API URLS are not set';
-	echo 'The MWOAUTH and API URLS are not set';
+else if (!isset($_GET['logout'])) {
 	
+}
+if (!isset($_GET['logout'])) { 
+	if (isset($wiki) && $_GET['wiki'] === "enwiki"){
+		$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+	}
+	else if (isset($wiki) && $_GET['wiki'] === "meta"){
+		$mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
+	}
+	else {
+		header("Location: " . getRootURL() . 'loginsplash.php');
+		
+	}
 }
 
 /**

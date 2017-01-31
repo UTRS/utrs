@@ -55,10 +55,10 @@ $mwOAuthAuthorizeUrl = 'https://www.mediawiki.org/wiki/Special:OAuth/authorize';
  * Note that /wiki/Special:OAuth fails when checking the signature, while
  * index.php?title=Special:OAuth works fine.
  */
-if (isset($_GET['wiki']) && $_GET['wiki'] == "enwiki"){
+if (isset($_GET['wiki']) && $_GET['wiki'] === "enwiki"){
 	$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
 }
-else if (isset($_GET['wiki']) && $_GET['wiki'] == "meta"){
+else if (isset($_GET['wiki']) && $_GET['wiki'] === "meta"){
 	$mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
 }
 else {
@@ -75,10 +75,10 @@ $mwOAuthIW = 'mw';
 /**
  * Set this to the API endpoint
  */
-if (isset($_GET['wiki']) && $_GET['wiki'] == "enwiki"){
+if (isset($_GET['wiki']) && $_GET['wiki'] === "enwiki"){
 	$apiUrl = 'https://en.wikipedia.org/w/api.php';
 }
-else if (isset($_GET['wiki']) && $_GET['wiki'] == "meta"){
+else if (isset($_GET['wiki']) && $_GET['wiki'] === "meta"){
 	$apiUrl = 'https://meta.wikimedia.org/w/api.php';
 }
 	

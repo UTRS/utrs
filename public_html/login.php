@@ -207,6 +207,9 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                     debug('ERROR: ' . $error . '<br/>');
                     throw new UTRSDatabaseException($error);
                 }
+				else {
+					UserMgmtLog::insert("synchronized permissions for", "match onwiki permissions", "", $this->userId, "UTRS OAuth Authenticator");
+				}
             }
         }
         header("Location: " . "home.php");

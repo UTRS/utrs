@@ -61,6 +61,11 @@ if (isset($_GET['wiki']) && $_GET['wiki'] == "enwiki"){
 else if (isset($_GET['wiki']) && $_GET['wiki'] == "meta"){
 	$mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
 }
+else {
+	$errors = 'The MWOAUTH and API URLS are not set';
+	echo 'The MWOAUTH and API URLS are not set';
+	
+}
 
 /**
  * Set this to the interwiki prefix for the OAuth central wiki.

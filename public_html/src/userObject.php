@@ -72,6 +72,8 @@ class UTRSUser{
                             $this->approved = 1;
                             $this->active = 1;
                             $this->checkuser = $oauth["checkuser"];
+							$this->oversight = $oauth["oversighter"];
+							$this->wmf = $oauth["wmf"];
                             $this->acceptToS = 0;
                             $this->useSecure = 1;
                             $this->passwordHash = "xxx";

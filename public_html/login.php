@@ -12,6 +12,7 @@ forceHTTPS();
 require_once('src/unblocklib.php');
 require_once('src/oauth.php');
 require_once('template.php');
+require_once('src/exceptions.php');
 require_once('sitemaintain.php');
 
 checkOnline();
@@ -34,6 +35,11 @@ else{
 	$destination = getRootURL() . 'home.php';
 }
 
+$gConsumerKey=$CONFIG['oauth']['consumerKey'];
+$gConsumerSecret=$CONFIG['oauth']['consumerSecret'];
+
+ 
+
 debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');
 
 
@@ -50,7 +56,27 @@ $mwOAuthAuthorizeUrl = 'https://www.mediawiki.org/wiki/Special:OAuth/authorize';
  * Note that /wiki/Special:OAuth fails when checking the signature, while
  * index.php?title=Special:OAuth works fine.
  */
-$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+
+if (!isset($_GET['logout']) && isset($_GET['wiki'])) {
+	$wiki = $_GET['wiki'];
+}
+else if (!isset($_GET['logout'])) {
+	header("Location: " . getRootURL() . 'loginsplash.php');
+	die();
+}
+if (!isset($_GET['logout'])) { 
+	if (isset($wiki) && $_GET['wiki'] === "enwiki"){
+		$mwOAuthUrl = 'https://en.wikipedia.org/w/index.php?title=Special:OAuth';
+	}
+	else if (isset($wiki) && $_GET['wiki'] === "meta"){
+		$mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
+	}
+	else {
+		header("Location: " . getRootURL() . 'loginsplash.php');
+		die();
+		
+	}
+}
 
 /**
  * Set this to the interwiki prefix for the OAuth central wiki.
@@ -60,7 +86,13 @@ $mwOAuthIW = 'mw';
 /**
  * Set this to the API endpoint
  */
-$apiUrl = 'https://en.wikipedia.org/w/api.php';
+
+if (isset($wiki) && $_GET['wiki'] === "enwiki"){
+	$apiUrl = 'https://en.wikipedia.org/w/api.php';
+}
+else if (isset($wiki) && $_GET['wiki'] === "meta"){
+	$apiUrl = 'https://meta.wikimedia.org/w/api.php';
+}
 
 /**
  * This should normally be "500". But Tool Labs insists on overriding valid 500
@@ -92,13 +124,36 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     $gTokenKey = $_SESSION['tokenKey'];
     $gTokenSecret = $_SESSION['tokenSecret'];
     fetchAccessToken();
-    $payload = doIdentify();
-
-    $is_admin = in_array("sysop", $payload->groups);
-    $is_check = in_array("checkuser", $payload->groups);
+    $payload = doIdentify($_GET['wiki']);
+	global $wiki;
+	if ($wiki === "enwiki") {
+    	$is_admin = in_array("sysop", $payload->groups);
+		$is_check = in_array("checkuser", $payload->groups);
+		$is_os = in_array("oversight", $payload->groups);
+		$is_wmf = FALSE;
+	}
+	else if ($wiki === "meta") {
+		if (in_array("wmf-supportsafety", $payload->groups) == TRUE) {
+			$is_admin = in_array("wmf-supportsafety", $payload->groups);
+		}
+		else if (in_array("steward", $payload->groups) == TRUE) {
+			$is_admin = in_array("steward", $payload->groups);
+		}
+		$is_check = FALSE;
+		$is_os = FALSE;
+		$is_wmf = in_array("wmf-supportsafety", $payload->groups);
+	}
+    
+	$is_blocked = $payload->blocked;
     $username = $payload->username;
-
-    if ($is_admin === TRUE && $payload->confirmed_email === TRUE) {
+	global $CONFIG;
+	if ($is_blocked) {
+		$errors = 'You are currently blocked from editing. To appeal your block, please use <a href="'.$CONFIG['site_root'].'">the appeal form</a>';
+	}
+    else if (
+	($is_admin === TRUE && $payload->confirmed_email === TRUE) || //main site
+	((strpos($CONFIG['site_root'], 'beta') !== false || strpos($CONFIG['site_root'], 'alpha')) && $payload->confirmed_email === TRUE) //dev branch
+	) {
         session_name('UTRSLogin');
         session_start();
         $_SESSION['user'] = $username;
@@ -120,26 +175,32 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         $data = $query->fetch(PDO::FETCH_ASSOC);
         $query->closeCursor();
         if ($data['userID'] === NULL) {
-            $user = new User(array(
+            $user = new UTRSUser(array(
                 'wikiAccount' => $username,
                 'diff' => "",
                 'username' => $username,
                 'email' => $payload->email,
             ), false, array(
                 'checkuser' => $is_check,
+                'oversighter' => $is_os,
+                'wmf' => $is_wmf,
             ));
             debug('object created<br/>');
         } else {
             $user = UTRSUser::getUserById($data['userID']);
-            if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email) {
+            if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email || $user->isOversighter() !== $is_os || $user->isWMF() !== $is_wmf) {
                 // XXX: Logging?
                 $query = $db->prepare("
                         UPDATE user
                         SET checkuser = :checkuser,
+                            oversighter = :oversighter,
+                            wmf = :wmf,
                             email = :email
                         WHERE userID = :userID");
                 $result = $query->execute(array(
                         ':checkuser' => (bool)$is_check,
+                        ':oversighter' => (bool)$is_os,
+                        ':wmf' => (bool)$is_wmf,
                         ':email' => $payload->email,
                         ':userID' => (int)$data['userID']));
                 if(!$result){
@@ -147,6 +208,9 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                     debug('ERROR: ' . $error . '<br/>');
                     throw new UTRSDatabaseException($error);
                 }
+				else {
+					UserMgmtLog::insert("synchronized permissions for", "to match onwiki permissions", "", (int)$data['userID'], UTRSUser::getUserByUsername("UTRS OAuth Bot"));
+				}
             }
         }
         header("Location: " . "home.php");
@@ -164,7 +228,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 session_write_close();
 
 /* END OAUTH */
-
+// ALL CODE BEYOND THIS POINT IS RETAINED FOR HISTORICAL PURPOSES ONLY
 if(isset($_POST['login'])){
 	try{
 		$db = connectToDB(true);

@@ -28,9 +28,7 @@
  */
  
 global $CONFIG;
-$gConsumerKey=$CONFIG['oauth']['consumerKey'];
-$gConsumerSecret=$CONFIG['oauth']['consumerSecret'];
- 
+
 function sign_request( $method, $url, $params = array() ) {
     global $gConsumerSecret, $gTokenSecret;
 
@@ -77,7 +75,7 @@ function sign_request( $method, $url, $params = array() ) {
  * @return void
  */
 function doAuthorizationRedirect() {
-    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $gTokenSecret, $CONFIG;
+    global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $gTokenSecret, $CONFIG, $wiki;
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
@@ -88,7 +86,7 @@ function doAuthorizationRedirect() {
         'format' => 'json',
         
         // OAuth information
-        'oauth_callback' => $CONFIG['site_root'].'login.php', // Must be "oob" or something prefixed by the configured callback URL
+        'oauth_callback' => $CONFIG['site_root'].'login.php?wiki='.$wiki, // Must be "oob" or something prefixed by the configured callback URL
         'oauth_consumer_key' => $gConsumerKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),
@@ -211,8 +209,11 @@ function fetchAccessToken() {
  * @param object $ch Curl handle
  * @return array API results
  */
-function doApiQuery( $post, &$ch = null ) {
-    global $apiUrl, $gUserAgent, $gConsumerKey, $gTokenKey;
+function doApiQuery( $post, &$ch = null /*, $wiki="enwiki"*/) {
+    global $apiUrl, $gUserAgent, $CONFIG;
+	
+	$gConsumerKey=$CONFIG['oauth']['consumerKey']/*[$wiki]*/;
+	$gConsumerSecret=$CONFIG['oauth']['consumerSecret']/*[$wiki]*/;
 
     $headerArr = array(
         // OAuth information

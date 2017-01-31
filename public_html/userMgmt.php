@@ -243,7 +243,7 @@ echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\
 if(!$approved){
 	echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
 		 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" /> " .
-		 "(<a target=\"_blank\" href=\"" . $requestedUser->getDiff() . "\">Confirmation diff</a>)\n</td></tr>";
+		 "\n</td></tr>";
 }
 echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
      "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n</td></tr>";

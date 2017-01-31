@@ -156,7 +156,7 @@ function verifyLogin($destination = 'home.php'){
 			header("Location: " . getRootURL() . 'logout.php');
 			exit;
 	} else {	
-		if (!$user->getAcceptToS() && $_SERVER['REQUEST_URI'] != "/accepttos.php") {
+		if (!$user->getAcceptToS() && !strpos($_SERVER['REQUEST_URI'], "accepttos.php")) { 
 			header("Location: " . getRootURL() . 'accepttos.php');
 			exit;
 		}

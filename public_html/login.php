@@ -34,14 +34,9 @@ else{
 	$destination = getRootURL() . 'home.php';
 }
 
-if (isset($_GET["wiki"])) {
-	$wiki = $_GET["wiki"];
-	$gConsumerKey=$CONFIG['oauth']['consumerKey'][$wiki];
-	$gConsumerSecret=$CONFIG['oauth']['consumerSecret'][$wiki];
-}
-else {
-	header("Location: " . getRootURL() . 'loginsplash.php');
-}
+$gConsumerKey=$CONFIG['oauth']['consumerKey'][$wiki];
+$gConsumerSecret=$CONFIG['oauth']['consumerSecret'][$wiki];
+
  
 
 debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');

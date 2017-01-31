@@ -34,8 +34,8 @@ else{
 	$destination = getRootURL() . 'home.php';
 }
 
-$gConsumerKey=$CONFIG['oauth']['consumerKey'][$wiki];
-$gConsumerSecret=$CONFIG['oauth']['consumerSecret'][$wiki];
+$gConsumerKey=$CONFIG['oauth']['consumerKey'];
+$gConsumerSecret=$CONFIG['oauth']['consumerSecret'];
 
  
 

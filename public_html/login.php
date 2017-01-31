@@ -60,7 +60,7 @@ if (!isset($_GET['logout']) && isset($_GET['wiki'])) {
 	$wiki = $_GET['wiki'];
 }
 else if (!isset($_GET['logout'])) {
-	
+	header("Location: " . getRootURL() . 'loginsplash.php');
 }
 if (!isset($_GET['logout'])) { 
 	if (isset($wiki) && $_GET['wiki'] === "enwiki"){

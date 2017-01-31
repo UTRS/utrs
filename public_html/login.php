@@ -221,7 +221,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 }
 
 session_write_close();
-die();
+if (!$logout) {die();}
 /* END OAUTH */
 // ALL CODE BEYOND THIS POINT IS RETAINED FOR HISTORICAL PURPOSES ONLY
 if(isset($_POST['login'])){

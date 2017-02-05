@@ -272,7 +272,7 @@ echo "<input type=\"reset\" name=\"reset\" id=\"reset\" value=\"Reset\" onclick=
 echo "</form>\n";
 ?>
 		</td>
-		<td style="width:60%;" valign="top">
+		<td valign="top">
 			<h4>Logs for this user</h4>
 			<?php echo printUserLogs($userId); ?>
 		</td>

@@ -31,7 +31,7 @@ class UserMgmtLog{
 		$this->hideTarget = $vars['hideTarget'];
 	}
 
-	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $hideTarget = 0){
+	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $hideTarget = "0"){
 		debug('in insert for userMgmtLog<br/>');
 		
 		if($hideTarget === true){

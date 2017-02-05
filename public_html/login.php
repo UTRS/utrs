@@ -18,6 +18,11 @@ require_once('sitemaintain.php');
 checkOnline();
 require_once('src/oauth.php');
 
+if(loggedIn()){
+	header("Location: " . getRootURL() . 'home.php');
+	exit;
+}
+
 $user = '';
 $destination = '';
 $errors = '';

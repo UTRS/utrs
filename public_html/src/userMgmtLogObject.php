@@ -37,13 +37,13 @@ class UserMgmtLog{
 		$db = connectToDB();
 
 		$query = $db->prepare('INSERT INTO userMgmtLog (`action`, `change`, `reason`, `target`, `doneBy`, `hideTarget`) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
-		$query->bindParam(':hideTarget', $loghideTarget, PDO::PARAM_INT);
 		$result = $query->execute(array(
 			':action'	=> $logAction,
 			':change'   => $logChange,
 			':reason'	=> $logReason,
-			':target'	=> $targetUserId,
+			':target'	=> (int)$targetUserId,
 			':doneBy'	=> $doneByUserId,
+			':hideTarget'=> (int)$loghideTarget
 			));
 		
 		if(!$result){

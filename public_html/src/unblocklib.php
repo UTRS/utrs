@@ -49,7 +49,7 @@ function loggedIn(){
 			$db = connectToDB(true);
             $query = $db->prepare('
 				SELECT userID FROM user
-				WHERE username = :username');
+				WHERE wikiAccount = :username');
 
 			$result = $query->execute(array(
 				':username'	=> $user));

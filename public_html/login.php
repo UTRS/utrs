@@ -132,7 +132,9 @@ $gConsumerSecret = @$CONFIG['oauth']['consumerSecret'];
 // Load the user token (request or access) from the session
 $gTokenKey = '';
 $gTokenSecret = '';
-if (!isset($_GET['logout'])) {//if logout is set, don't reset the session
+if (isset($_GET['oauth_verifier'])) {$oauthreturn=TRUE;}
+else {$oauthreturn=FALSE;}
+if (!isset($_GET['logout']) || !$oauthreturn) {//if logout is set, don't reset the session
 	session_name('UTRSLogin');
 	session_start();
 }

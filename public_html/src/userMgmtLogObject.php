@@ -41,14 +41,13 @@ class UserMgmtLog{
 		$db = connectToDB();
 
 		$query = $db->prepare('INSERT INTO userMgmtLog (`action`, `change`, `reason`, `target`, `doneBy`, `hideTarget`) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
-		print_r($hideTarget);
 		$result = $query->execute(array(
 			':action'	=> $logAction,
 			':change'   => $logChange,
 			':reason'	=> $logReason,
 			':target'	=> $targetUserId,
 			':doneBy'	=> $doneByUserId,
-			':hideTarget'	=> $hideTarget));
+			':hideTarget'	=> strval($hideTarget)));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

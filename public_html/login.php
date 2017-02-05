@@ -18,6 +18,11 @@ require_once('sitemaintain.php');
 checkOnline();
 require_once('src/oauth.php');
 
+if(loggedIn()){
+	header("Location: " . getRootURL() . 'home.php');
+	exit;
+}
+
 $user = '';
 $destination = '';
 $errors = '';
@@ -77,7 +82,17 @@ if (!isset($_GET['logout'])) {
 		
 	}
 }
-
+//Coded by DQ but never deployed. Was going to be used for #122, but I don't know the intended consequences and other fixes may work.
+/*if (session_status() == PHP_SESSION_ACTIVE) {
+	if (isset($_GET['id'])) {
+		header("Location: " . getRootURL() . 'appeal.php?id='.$_GET['id']);
+		die();
+	}
+	else {
+		header("Location: " . getRootURL() . 'home.php');
+		die();
+	}
+}*/
 /**
  * Set this to the interwiki prefix for the OAuth central wiki.
  */
@@ -117,8 +132,12 @@ $gConsumerSecret = @$CONFIG['oauth']['consumerSecret'];
 // Load the user token (request or access) from the session
 $gTokenKey = '';
 $gTokenSecret = '';
-session_name('UTRSLogin');
-session_start();
+if (isset($_GET['oauth_verifier'])) {$oauthreturn=TRUE;}
+else {$oauthreturn=FALSE;}
+if (!session_status() == PHP_SESSION_ACTIVE) {//simplify to check if an active session is going (prevents logout and OAuth issues)
+	session_name('UTRSLogin');
+	session_start();
+}
 
 if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     $gTokenKey = $_SESSION['tokenKey'];
@@ -154,8 +173,6 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 	($is_admin === TRUE && $payload->confirmed_email === TRUE) || //main site
 	((strpos($CONFIG['site_root'], 'beta') !== false || strpos($CONFIG['site_root'], 'alpha')) && $payload->confirmed_email === TRUE) //dev branch
 	) {
-        session_name('UTRSLogin');
-        session_start();
         $_SESSION['user'] = $username;
         $_SESSION['oauth'] = TRUE;
 
@@ -189,6 +206,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         } else {
             $user = UTRSUser::getUserById($data['userID']);
             if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email || $user->isOversighter() !== $is_os || $user->isWMF() !== $is_wmf) {
+                $OAuthBotID = UTRSUser::getUserByUsername("UTRS OAuth Bot")->getUserId();
                 // XXX: Logging?
                 $query = $db->prepare("
                         UPDATE user
@@ -209,7 +227,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                     throw new UTRSDatabaseException($error);
                 }
 				else {
-					UserMgmtLog::insert("synchronized permissions for", "to match onwiki permissions", "", (int)$data['userID'], UTRSUser::getUserByUsername("UTRS OAuth Bot"));
+					UserMgmtLog::insert("synchronized permissions for", "to match onwiki permissions", "OAuth Authentication", (int)$data['userID'], $OAuthBotID,0);
 				}
             }
         }
@@ -222,7 +240,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     }
 
 } else if (!$logout) {
-    doAuthorizationRedirect();
+    doAuthorizationRedirect("&destination=".$returnURL);
 }
 
 session_write_close();

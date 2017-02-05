@@ -43,29 +43,34 @@ function loggedIn(){
 		session_name('UTRSLogin');
 		session_start();
 	}
-        if (isset($_SESSION['user']) && isset($_SESSION['oauth'])) {
-            $user = $_SESSION['user'];
-            if ($_SESSION['oauth'] === TRUE) {
-		$db = connectToDB(true);
-                $query = $db->prepare('
-			SELECT userID FROM user
-			WHERE username = :username');
+    if (isset($_SESSION['user']) && isset($_SESSION['oauth'])) {
+        $user = $_SESSION['user'];
+        if ($_SESSION['oauth'] === TRUE) {
+			$db = connectToDB(true);
+            $query = $db->prepare('
+				SELECT userID FROM user
+				WHERE username = :username');
 
-		$result = $query->execute(array(
-			':username'	=> $user));
+			$result = $query->execute(array(
+				':username'	=> $user));
 
-		if($result === false){
-			$error = var_export($query->errorInfo(), true);
-			debug('ERROR: ' . $error . '<br/>');
-			throw new UTRSDatabaseException($error);
-                }
-		$data = $query->fetch(PDO::FETCH_ASSOC);
-		$query->closeCursor();
-
-                registerLogin($data['userID'], $db);
-                return true;
+			if($result === false){
+				$error = var_export($query->errorInfo(), true);
+				debug('ERROR: ' . $error . '<br/>');
+				throw new UTRSDatabaseException($error);
             }
+			$data = $query->fetch(PDO::FETCH_ASSOC);
+			$query->closeCursor();
+			
+			if (!isset($data['userID']) || $data['userID'] === "" || $data['userID'] === NULL) {
+				debug('ERROR: UserID not set or null from database in loggedIn() in file unblocklib.php<br/>');
+				throw new UTRSValidationException("UserID not set from database while attempting to check logged in status.");
+			}
+
+            registerLogin($data['userID'], $db);
+            return true;
         }
+    }
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];
@@ -147,7 +152,7 @@ function getLoggedInUsers(){
  */
 function verifyLogin($destination = 'home.php'){
 	if(!loggedIn()){
-		header("Location: " . getRootURL() . 'login.php?destination=' . $destination);
+		header("Location: " . getRootURL() . 'loginsplash.php?destination=' . $destination);
 		exit;
 	}
 	// if user has somehow lost access, kick them out

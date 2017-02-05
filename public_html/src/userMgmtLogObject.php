@@ -31,24 +31,20 @@ class UserMgmtLog{
 		$this->hideTarget = $vars['hideTarget'];
 	}
 
-	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $hideTarget = 0){
+	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $loghideTarget) {
 		debug('in insert for userMgmtLog<br/>');
-		
-		if($hideTarget === true){
-			$hideTarget = 1;
-		}
 		
 		$db = connectToDB();
 
 		$query = $db->prepare('INSERT INTO userMgmtLog (`action`, `change`, `reason`, `target`, `doneBy`, `hideTarget`) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
-
 		$result = $query->execute(array(
 			':action'	=> $logAction,
 			':change'   => $logChange,
 			':reason'	=> $logReason,
-			':target'	=> $targetUserId,
+			':target'	=> (int)$targetUserId,
 			':doneBy'	=> $doneByUserId,
-			':hideTarget'	=> (string)$hideTarget));
+			':hideTarget'=> (int)$loghideTarget
+			));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

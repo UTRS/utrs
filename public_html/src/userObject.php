@@ -19,6 +19,7 @@ class UTRSUser{
 	private $checkuser;
 	private $wmf;
 	private $oversight;
+	private $oversighter;
 	private $developer;
 	private $useSecure;
 	private $acceptToS;
@@ -40,7 +41,8 @@ class UTRSUser{
 			$this->toolAdmin = ($vars['toolAdmin'] == 1 || $vars['toolAdmin'] == '1' ? true : false);
 			$this->checkuser = ($vars['checkuser'] == 1 || $vars['checkuser'] == '1' ? true : false);
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
-			$this->oversight = ($vars['oversighter'] == 1 || $vars['oversighter'] == '1' ? true : false);
+			$this->oversighter = ($vars['oversight'] == 1 || $vars['oversight'] == '1' ? true : false);
+			$this->oversighter = ($vars['oversighter'] == 1 || $vars['oversighter'] == '1' ? true : false);
 			$this->wmf = ($vars['wmf'] == 1 || $vars['wmf'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
 			$this->useSecure = True;
@@ -55,29 +57,24 @@ class UTRSUser{
 			$this->username = $vars['username'];
 			$this->email = $vars['email'];
 			$this->wikiAccount = $vars['wikiAccount'];
-			$this->approved = 0;
-			$this->active = 0;
-			$this->toolAdmin = 0;
-			$this->checkuser = 0;
-			$this->developer = 0;
-			$this->oversight = 0;
-			$this->wmf = 0;
-			$this->useSecure = True;
 			$this->acceptToS = 1;
 			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
 			$this->closed = 0;
 			$this->diff = $vars['diff'];
-                        if ($oauth !== NULL) {
-                            $this->approved = 1;
-                            $this->active = 1;
-                            $this->checkuser = $oauth["checkuser"];
-							$this->oversight = $oauth["oversighter"];
-							$this->wmf = $oauth["wmf"];
-                            $this->acceptToS = 0;
-                            $this->useSecure = 1;
-                            $this->passwordHash = "xxx";
-                        }
+            if ($oauth !== NULL) {
+				$this->approved = 1;
+				$this->active = 1;
+				$this->checkuser = $oauth["checkuser"];
+				$this->oversighter = $oauth["oversighter"];
+				$this->wmf = $oauth["wmf"];
+				$this->acceptToS = 0;
+				$this->useSecure = 1;
+				$this->passwordHash = "xxx";
+            }
+			else {
+				throw new UTRSIllegalModificationException("OAuth failed to properly authenticate your identity. If this occurs regularily, please contact a developer.");
+			}
 			$this->insert();
 		}
 		debug('leaving user constructor <br/>');
@@ -375,7 +372,7 @@ class UTRSUser{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId, 0);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -414,7 +411,7 @@ class UTRSUser{
 		$this->active = false;
 		$this->comments = $comments;
 		
-		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId, 0);
 		
 		$emailBody = "Hello " . $this->username . ",\n\nThis is to notify you that your account on the Unblock " .
 		    "Ticket Request System has been disabled by " . $admin->getUsername() . ". The reason given for this " .
@@ -446,7 +443,7 @@ class UTRSUser{
 		$this->active = true;
 		$this->comments = "Enabled";
 		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId, 0);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){
@@ -503,7 +500,7 @@ class UTRSUser{
 		if ($oversightFlag) {
 			$full .= "Oversight ";
 		}
-		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId);
+		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId, 0);
 	}
 	
 	
@@ -532,7 +529,7 @@ class UTRSUser{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), true);
+		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), 0);
 		
 		Log::ircNotification("\x032" . $oldName . "\x033 has been renamed to \x032" . $newName . 
 		    "\x033 by \x032" . $admin->getUsername(), 1);

@@ -372,7 +372,7 @@ class UTRSUser{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId);
+		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId, 0);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -411,7 +411,7 @@ class UTRSUser{
 		$this->active = false;
 		$this->comments = $comments;
 		
-		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId, 0);
 		
 		$emailBody = "Hello " . $this->username . ",\n\nThis is to notify you that your account on the Unblock " .
 		    "Ticket Request System has been disabled by " . $admin->getUsername() . ". The reason given for this " .
@@ -443,7 +443,7 @@ class UTRSUser{
 		$this->active = true;
 		$this->comments = "Enabled";
 		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId, 0);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){
@@ -500,7 +500,7 @@ class UTRSUser{
 		if ($oversightFlag) {
 			$full .= "Oversight ";
 		}
-		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId);
+		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId, 0);
 	}
 	
 	
@@ -529,7 +529,7 @@ class UTRSUser{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), true);
+		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), 0);
 		
 		Log::ircNotification("\x032" . $oldName . "\x033 has been renamed to \x032" . $newName . 
 		    "\x033 by \x032" . $admin->getUsername(), 1);

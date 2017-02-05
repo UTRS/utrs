@@ -214,7 +214,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                             oversighter = :oversighter,
                             wmf = :wmf,
                             email = :email
-                        WHERE wikiAccount = :userID");
+                        WHERE userID = :userID");
                 $result = $query->execute(array(
                         ':checkuser' => (bool)$is_check,
                         ':oversighter' => (bool)$is_os,

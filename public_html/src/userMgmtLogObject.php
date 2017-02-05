@@ -31,19 +31,20 @@ class UserMgmtLog{
 		$this->hideTarget = $vars['hideTarget'];
 	}
 
-	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $loghideTarget){
+	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $loghideTarget) {
 		debug('in insert for userMgmtLog<br/>');
 		
 		$db = connectToDB();
 
 		$query = $db->prepare('INSERT INTO userMgmtLog (`action`, `change`, `reason`, `target`, `doneBy`, `hideTarget`) VALUES (:action, :change, :reason, :target, :doneBy, :hideTarget)');
+		$query->bindParam(':hideTarget', $loghideTarget, PDO::PARAM_INT);
 		$result = $query->execute(array(
 			':action'	=> $logAction,
 			':change'   => $logChange,
 			':reason'	=> $logReason,
 			':target'	=> $targetUserId,
 			':doneBy'	=> $doneByUserId,
-			':hideTarget'	=> $loghideTarget));
+			));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

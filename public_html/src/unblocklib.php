@@ -61,11 +61,16 @@ function loggedIn(){
             }
 			$data = $query->fetch(PDO::FETCH_ASSOC);
 			$query->closeCursor();
+			
+			if (!isset($data['userID']) || $data['userID'] === "" || $data['userID'] === NULL) {
+				debug('ERROR: UserID not set or null from database in loggedIn() in file unblocklib.php<br/>');
+				throw new UTRSValidationException("UserID not set from database while attempting to check logged in status.");
+			}
 
             registerLogin($data['userID'], $db);
             return true;
-            }
         }
+    }
 	if(isset($_SESSION['user']) && isset($_SESSION['passwordHash'])){
 		// presumably good, but confirming that the cookie is valid...
 		$user = $_SESSION['user'];

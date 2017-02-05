@@ -206,6 +206,8 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         } else {
             $user = UTRSUser::getUserById($data['userID']);
             if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email || $user->isOversighter() !== $is_os || $user->isWMF() !== $is_wmf) {
+                $OAuthBotID = UTRSUser::getUserByUsername("UTRS OAuth Bot");
+				print_f($OAuthBotID);
                 // XXX: Logging?
                 $query = $db->prepare("
                         UPDATE user
@@ -226,7 +228,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
                     throw new UTRSDatabaseException($error);
                 }
 				else {
-					UserMgmtLog::insert("synchronized permissions for", "to match onwiki permissions", "OAuth Authentication", (int)$data['userID'], UTRSUser::getUserByUsername("UTRS OAuth Bot"),0);
+					UserMgmtLog::insert("synchronized permissions for", "to match onwiki permissions", "OAuth Authentication", (int)$data['userID'], $OAuthBotID,0);
 				}
             }
         }

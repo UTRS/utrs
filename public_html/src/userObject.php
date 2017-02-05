@@ -19,6 +19,7 @@ class UTRSUser{
 	private $checkuser;
 	private $wmf;
 	private $oversight;
+	private $oversighter;
 	private $developer;
 	private $useSecure;
 	private $acceptToS;
@@ -40,7 +41,8 @@ class UTRSUser{
 			$this->toolAdmin = ($vars['toolAdmin'] == 1 || $vars['toolAdmin'] == '1' ? true : false);
 			$this->checkuser = ($vars['checkuser'] == 1 || $vars['checkuser'] == '1' ? true : false);
 			$this->developer = ($vars['developer'] == 1 || $vars['developer'] == '1' ? true : false);
-			$this->oversight = ($vars['oversighter'] == 1 || $vars['oversighter'] == '1' ? true : false);
+			$this->oversighter = ($vars['oversight'] == 1 || $vars['oversight'] == '1' ? true : false);
+			$this->oversighter = ($vars['oversighter'] == 1 || $vars['oversighter'] == '1' ? true : false);
 			$this->wmf = ($vars['wmf'] == 1 || $vars['wmf'] == '1' ? true : false);
 			$this->passwordHash = $vars['passwordHash'];
 			$this->useSecure = True;
@@ -55,29 +57,24 @@ class UTRSUser{
 			$this->username = $vars['username'];
 			$this->email = $vars['email'];
 			$this->wikiAccount = $vars['wikiAccount'];
-			$this->approved = 0;
-			$this->active = 0;
-			$this->toolAdmin = 0;
-			$this->checkuser = 0;
-			$this->developer = 0;
-			$this->oversight = 0;
-			$this->wmf = 0;
-			$this->useSecure = True;
 			$this->acceptToS = 1;
 			$this->replyNotify = 1;
 			$this->passwordHash = hash("sha512", $vars['password']);
 			$this->closed = 0;
 			$this->diff = $vars['diff'];
-                        if ($oauth !== NULL) {
-                            $this->approved = 1;
-                            $this->active = 1;
-                            $this->checkuser = $oauth["checkuser"];
-							$this->oversight = $oauth["oversighter"];
-							$this->wmf = $oauth["wmf"];
-                            $this->acceptToS = 0;
-                            $this->useSecure = 1;
-                            $this->passwordHash = "xxx";
-                        }
+            if ($oauth !== NULL) {
+				$this->approved = 1;
+				$this->active = 1;
+				$this->checkuser = $oauth["checkuser"];
+				$this->oversighter = $oauth["oversighter"];
+				$this->wmf = $oauth["wmf"];
+				$this->acceptToS = 0;
+				$this->useSecure = 1;
+				$this->passwordHash = "xxx";
+            }
+			else {
+				throw new UTRSIllegalModificationException("OAuth failed to properly authenticate your identity. If this occurs regularily, please contact a developer.");
+			}
 			$this->insert();
 		}
 		debug('leaving user constructor <br/>');

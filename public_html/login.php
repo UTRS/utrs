@@ -240,7 +240,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     }
 
 } else if (!$logout) {
-    doAuthorizationRedirect();
+    doAuthorizationRedirect("&destination=".$returnURL);
 }
 
 session_write_close();

@@ -74,7 +74,7 @@ function sign_request( $method, $url, $params = array() ) {
  * Request authorization
  * @return void
  */
-function doAuthorizationRedirect() {
+function doAuthorizationRedirect($destinationURL) {
     global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $gTokenSecret, $CONFIG, $wiki;
 
     // First, we need to fetch a request token.
@@ -86,7 +86,7 @@ function doAuthorizationRedirect() {
         'format' => 'json',
         
         // OAuth information
-        'oauth_callback' => $CONFIG['site_root'].'login.php?wiki='.$wiki, // Must be "oob" or something prefixed by the configured callback URL
+        'oauth_callback' => $CONFIG['site_root'].'login.php?wiki='.$wiki."&destination=".$destinationURL, // Must be "oob" or something prefixed by the configured callback URL
         'oauth_consumer_key' => $gConsumerKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),

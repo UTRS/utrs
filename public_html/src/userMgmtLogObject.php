@@ -48,7 +48,7 @@ class UserMgmtLog{
 			':reason'	=> $logReason,
 			':target'	=> $targetUserId,
 			':doneBy'	=> $doneByUserId,
-			':hideTarget'	=> (string)$hideTarget));
+			':hideTarget'	=> $hideTarget));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

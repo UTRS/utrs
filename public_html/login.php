@@ -179,10 +179,10 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         $db = connectToDB(true);
         $query = $db->prepare('
                 SELECT userID FROM user
-                WHERE username = :username');
+                WHERE wikiAccount = :wikiAccount');
 
         $result = $query->execute(array(
-                ':username'	=> $username));
+                ':wikiAccount'	=> $username));
 
         if($result === false){
                 $error = var_export($query->errorInfo(), true);

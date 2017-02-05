@@ -59,7 +59,7 @@ class UTRSUser{
 			$this->wikiAccount = $vars['wikiAccount'];
 			$this->acceptToS = 1;
 			$this->replyNotify = 1;
-			$this->passwordHash = hash("sha512", $vars['password']);
+			$this->passwordHash = "xxx";
 			$this->closed = 0;
 			$this->diff = $vars['diff'];
             if ($oauth !== NULL) {

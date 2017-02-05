@@ -229,7 +229,7 @@ class UTRSUser{
 	}
 	
 	public function isOversighter(){
-		return $this->oversight;
+		return $this->oversighter;
 	}
 	
 	public function isWMF(){

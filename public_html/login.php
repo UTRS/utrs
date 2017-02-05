@@ -77,7 +77,17 @@ if (!isset($_GET['logout'])) {
 		
 	}
 }
-
+//Coded by DQ but never deployed. Was going to be used for #122, but I don't know the intended consequences and other fixes may work.
+/*if (session_status() == PHP_SESSION_ACTIVE) {
+	if (isset($_GET['id'])) {
+		header("Location: " . getRootURL() . 'appeal.php?id='.$_GET['id']);
+		die();
+	}
+	else {
+		header("Location: " . getRootURL() . 'home.php');
+		die();
+	}
+}*/
 /**
  * Set this to the interwiki prefix for the OAuth central wiki.
  */
@@ -154,8 +164,6 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 	($is_admin === TRUE && $payload->confirmed_email === TRUE) || //main site
 	((strpos($CONFIG['site_root'], 'beta') !== false || strpos($CONFIG['site_root'], 'alpha')) && $payload->confirmed_email === TRUE) //dev branch
 	) {
-        session_name('UTRSLogin');
-        session_start();
         $_SESSION['user'] = $username;
         $_SESSION['oauth'] = TRUE;
 

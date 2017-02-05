@@ -9,8 +9,10 @@ if(loggedIn()){
 	header("Location: " . getRootURL() . 'home.php');
 	exit;
 }
-if ($_GET["destination"]) {
-	$forwardString = "&destination=".$_GET["destination"];
+if (!empty($_GET)) {
+	if ($_GET["destination"]) {
+		$forwardString = "&destination=".$_GET["destination"];
+	}
 }
 else {$forwardString="";}
 

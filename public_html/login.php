@@ -206,8 +206,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         } else {
             $user = UTRSUser::getUserById($data['userID']);
             if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email || $user->isOversighter() !== $is_os || $user->isWMF() !== $is_wmf) {
-                $OAuthBotID = UTRSUser::getUserByUsername("UTRS OAuth Bot");
-				print_r($OAuthBotID);
+                $OAuthBotID = UTRSUser::getUserByUsername("UTRS OAuth Bot")->getUserId();
                 // XXX: Logging?
                 $query = $db->prepare("
                         UPDATE user

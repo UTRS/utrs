@@ -130,7 +130,7 @@ class UTRSUser{
 		$this->userId = $row['userID'];
 		$this->registered = $row['registered'];
 		
-		UserMgmtLog::insert('created account', 'Requested new account', 'New account', $this->userId, $this->userId, 0);
+		UserMgmtLog::insert('created account', 'Requested new account', 'New account', $this->userId, $this->userId, FALSE);
 		
 		debug('exiting user insert <br/>');
 	}
@@ -372,7 +372,7 @@ class UTRSUser{
 		
 		$this->approved = true;
 		
-		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId, 0);
+		UserMgmtLog::insert("approved account", "", "Authorized", $this->userId, $admin->userId, FALSE);
 		
 		
 		$emailBody = "Hello " . $this->username . ", \n\n" .
@@ -411,7 +411,7 @@ class UTRSUser{
 		$this->active = false;
 		$this->comments = $comments;
 		
-		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId, 0);
+		UserMgmtLog::insert("disabled account", "Account deactivated", $comments, $this->userId, $admin->userId, FALSE);
 		
 		$emailBody = "Hello " . $this->username . ",\n\nThis is to notify you that your account on the Unblock " .
 		    "Ticket Request System has been disabled by " . $admin->getUsername() . ". The reason given for this " .
@@ -443,7 +443,7 @@ class UTRSUser{
 		$this->active = true;
 		$this->comments = "Enabled";
 		
-		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId, 0);
+		UserMgmtLog::insert("enabled account", "Account Enabled" , $this->comments, $this->userId, $admin->userId, FALSE);
 	}
 	
 	public function setPermissions($adminFlag, $devFlag, $cuFlag, $admin, $wmfFlag, $oversightFlag, $reason){
@@ -500,7 +500,7 @@ class UTRSUser{
 		if ($oversightFlag) {
 			$full .= "Oversight ";
 		}
-		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId, 0);
+		UserMgmtLog::insert("changed permissions for", $full, $reason, $this->userId, $admin->userId, FALSE);
 	}
 	
 	
@@ -529,7 +529,7 @@ class UTRSUser{
 			throw new UTRSDatabaseException($error);
 		}
 		
-		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), 0);
+		UserMgmtLog::insert("renamed user to \"". $newName . "\"", "Remamed user", "Old username: \"" . $oldName . "\"", $this->getUserId(), $admin->getUserId(), FALSE);
 		
 		Log::ircNotification("\x032" . $oldName . "\x033 has been renamed to \x032" . $newName . 
 		    "\x033 by \x032" . $admin->getUsername(), 1);

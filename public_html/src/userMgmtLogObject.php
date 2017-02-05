@@ -31,7 +31,7 @@ class UserMgmtLog{
 		$this->hideTarget = $vars['hideTarget'];
 	}
 
-	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $hideTarget){
+	public static function insert($logAction, $logChange, $logReason, $targetUserId, $doneByUserId, $loghideTarget){
 		debug('in insert for userMgmtLog<br/>');
 		
 		$db = connectToDB();
@@ -43,7 +43,7 @@ class UserMgmtLog{
 			':reason'	=> $logReason,
 			':target'	=> $targetUserId,
 			':doneBy'	=> $doneByUserId,
-			':hideTarget'	=> $hideTarget));
+			':hideTarget'	=> $loghideTarget));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

@@ -163,7 +163,7 @@ class UTRSUser{
 		$query = $db->prepare('SELECT * FROM user WHERE username = :username');
 		
 		$result = $query->execute(array(
-			':username'	=> $username));
+			':wikiAccount'	=> $username));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);

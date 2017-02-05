@@ -8,7 +8,10 @@ require_once('src/exceptions.php');
 
 //Template header()
 skinHeader();
-
+if(loggedIn()){
+	header("Location: " . getRootURL() . 'home.php');
+	exit;
+}
 ?>
 <br><br><br><center>
 <b>Please select the Wiki you wish to login with:</b>

@@ -79,7 +79,7 @@ function loggedIn(){
 
 		$query = $db->prepare('
 			SELECT userID FROM user
-			WHERE username = :username
+			WHERE wikiAccount = :username
 			  AND passwordHash = :passwordHash');
 
 		$result = $query->execute(array(

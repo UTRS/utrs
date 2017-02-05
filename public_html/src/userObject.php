@@ -109,7 +109,7 @@ class UTRSUser{
 		
 		debug('Insert complete <br/>');
 
-		$query = $db->prepare("SELECT userID, registered FROM user WHERE username = :username");
+		$query = $db->prepare("SELECT userID, registered FROM user WHERE wikiAccount = :username");
 
 		$result = $query->execute(array(
 			':username'	=> $this->username));
@@ -160,10 +160,10 @@ class UTRSUser{
 	public static function getUserByUsername($username){
 		$db = connectToDB();
 		
-		$query = $db->prepare('SELECT * FROM user WHERE username = :username');
+		$query = $db->prepare('SELECT * FROM user WHERE wikiAccount = :username');
 		
 		$result = $query->execute(array(
-			':wikiAccount'	=> $username));
+			':username'	=> $username));
 		
 		if(!$result){
 			$error = var_export($query->errorInfo(), true);
@@ -516,7 +516,7 @@ class UTRSUser{
 		
 		$query = $db->prepare("
 			UPDATE user
-			SET username = :username
+			SET wikiAccount = :username
 			WHERE userID = :userID");
 
 		$result = $query->execute(array(

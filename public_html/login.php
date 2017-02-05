@@ -134,7 +134,7 @@ $gTokenKey = '';
 $gTokenSecret = '';
 if (isset($_GET['oauth_verifier'])) {$oauthreturn=TRUE;}
 else {$oauthreturn=FALSE;}
-if (!(isset($_GET['logout']) && $_GET['logout'] === TRUE) && !$oauthreturn) {//if logout is set, don't reset the session
+if (!session_status() == PHP_SESSION_ACTIVE) {//simplify to check if an active session is going (prevents logout and OAuth issues)
 	session_name('UTRSLogin');
 	session_start();
 }

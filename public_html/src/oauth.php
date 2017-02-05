@@ -194,11 +194,8 @@ function fetchAccessToken() {
     }
 
     // Save the access token
-    session_name('UTRSLogin');
-    session_start();
     $_SESSION['tokenKey'] = $gTokenKey = $token->key;
     $_SESSION['tokenSecret'] = $gTokenSecret = $token->secret;
-    session_write_close();
 }
 
 

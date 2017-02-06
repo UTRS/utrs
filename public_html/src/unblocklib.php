@@ -151,18 +151,8 @@ function getLoggedInUsers(){
  * @param string $destination the page to go to once logged in ('home.php', 'mgmt.php', etc.)
  */
 function verifyLogin($destination = 'home.php'){
-	if(!loggedIn()){
-		$round = 1;
-		$forwardString = "";
-		foreach ($destination as $dkey => $dvalue) {
-			if (round===1) {
-				$forwardString .= $dkey . "=" . $dvalue;
-			}
-			else {
-				$forwardString .= "&".$dkey . "=" . $dvalue;
-			}
-		}
-		header("Location: " . getRootURL() . 'loginsplash.php?' . $forwardString);
+	if(!loggedIn()) {
+		header("Location: " . getRootURL() . 'loginsplash.php?' . $destination);
 		exit;
 	}
 	// if user has somehow lost access, kick them out

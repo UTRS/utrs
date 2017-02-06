@@ -154,12 +154,12 @@ function verifyLogin($destination = 'home.php'){
 	if(!loggedIn()){
 		$round = 1;
 		$forwardString = "";
-		foreach ($destination as $key => $value) {
+		foreach ($destination as $dkey => $dvalue) {
 			if (round===1) {
-				$forwardString .= $key . "=" . $value;
+				$forwardString .= $dkey . "=" . $dvalue;
 			}
 			else {
-				$forwardString .= "&".$key . "=" . $value;
+				$forwardString .= "&".$dkey . "=" . $dvalue;
 			}
 		}
 		header("Location: " . getRootURL() . 'loginsplash.php?' . $forwardString);

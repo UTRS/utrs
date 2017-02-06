@@ -237,7 +237,32 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 				}
             }
         }
-        header("Location: " . $_GET['destination']);
+        if(!empty($_GET)){
+        	$round = 1;
+			$forwardString = "";
+			$deferalPage = "";
+			foreach ($_GET as $key => $value) {
+				if ($key != "wiki") {
+					if ($key === "destination") {
+						$deferalPage = $value;
+					}
+					else if ($round === 1) {
+						$forwardString .= $key . "=" . $value;
+						$round = 2;
+					}
+					else {
+						$forwardString .= "&".$key . "=" . $value;
+					}
+				}
+			}	
+		}
+		else {$forwardString="";}
+        if ($deferalPage != "") {
+        	header("Location: " .$deferalPage."?". $forwardString);
+		}
+		else {
+			header("Location: home.php");
+		}
         exit;
     } else if ($is_admin === TRUE) {
         $errors = 'You need to have a confirmed email address set in MediaWiki to use UTRS.';

@@ -152,7 +152,17 @@ function getLoggedInUsers(){
  */
 function verifyLogin($destination = 'home.php'){
 	if(!loggedIn()){
-		header("Location: " . getRootURL() . 'loginsplash.php?destination=' . $destination);
+		$round = 1;
+		$forwardString = "";
+		foreach ($destination as $key => $value) {
+			if (round===1) {
+				$forwardString .= $key . "=" . $value;
+			}
+			else {
+				$forwardString .= "&".$key . "=" . $value;
+			}
+		}
+		header("Location: " . getRootURL() . 'loginsplash.php?' . $forwardString);
 		exit;
 	}
 	// if user has somehow lost access, kick them out

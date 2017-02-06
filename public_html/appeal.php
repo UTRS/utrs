@@ -23,7 +23,7 @@ require_once('sitemaintain.php');
 
 checkOnline();
 // make sure user is logged in, if not, kick them out
-verifyLogin('appeal.php?id=' . $_GET['id']);
+verifyLogin('appeal.php&id=' . $_GET['id']);
 
 $error = null;
 $errorMessages = '';

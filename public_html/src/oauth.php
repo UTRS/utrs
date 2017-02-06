@@ -86,7 +86,7 @@ function doAuthorizationRedirect($destinationURL) {
         'format' => 'json',
         
         // OAuth information
-        'oauth_callback' => $CONFIG['site_root'].'login.php?wiki='.$wiki."&destination=".$destinationURL, // Must be "oob" or something prefixed by the configured callback URL
+        'oauth_callback' => $CONFIG['site_root'].'login.php?'.$destinationURL, // Must be "oob" or something prefixed by the configured callback URL
         'oauth_consumer_key' => $gConsumerKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),

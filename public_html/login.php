@@ -30,11 +30,14 @@ $logout = '';
 if(isset($_GET['logout'])){
 	$logout = true;
 }
-if(isset($_POST['destination'])){
-	$destination = $_POST['destination'];
-}
-else if(isset($_GET['destination'])){
-	$destination = $_GET['destination'];
+if(!empty($_GET)){
+	$round = 1;
+	$forwardString = "";
+	foreach ($_GET as $key => $value) {
+		if (!(strpos($key, "oauth")!==false)) {
+			$forwardString .= "&".$key . "=" . $value;
+		}
+	}
 }
 else{
 	$destination = getRootURL() . 'home.php';
@@ -179,10 +182,10 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
         $db = connectToDB(true);
         $query = $db->prepare('
                 SELECT userID FROM user
-                WHERE username = :username');
+                WHERE wikiAccount = :wikiAccount');
 
         $result = $query->execute(array(
-                ':username'	=> $username));
+                ':wikiAccount'	=> $username));
 
         if($result === false){
                 $error = var_export($query->errorInfo(), true);
@@ -231,7 +234,32 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 				}
             }
         }
-        header("Location: " . "home.php");
+        if(!empty($_GET)){
+        	$round = 1;
+			$forwardString = "";
+			$deferalPage = "";
+			foreach ($_GET as $key => $value) {
+				if ($key != "wiki" && !(strpos($key, "oauth")!==false))  {
+					if ($key === "destination") {
+						$deferalPage = $value;
+					}
+					else if ($round === 1) {
+						$forwardString .= $key . "=" . $value;
+						$round = 2;
+					}
+					else {
+						$forwardString .= "&".$key . "=" . $value;
+					}
+				}
+			}	
+		}
+		else {$forwardString="";}
+        if ($deferalPage != "") {
+        	header("Location: " .$deferalPage."?". $forwardString);
+		}
+		else {
+			header("Location: home.php");
+		}
         exit;
     } else if ($is_admin === TRUE) {
         $errors = 'You need to have a confirmed email address set in MediaWiki to use UTRS.';
@@ -240,7 +268,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
     }
 
 } else if (!$logout) {
-    doAuthorizationRedirect("&destination=".$returnURL);
+    doAuthorizationRedirect($forwardString);
 }
 
 session_write_close();
@@ -257,7 +285,7 @@ if(isset($_POST['login'])){
 
 		debug('User: ' . $user . '  Password hash: ' . $password . '<br/>');
 
-		$query = $db->prepare('SELECT passwordHash FROM user WHERE username = :username');
+		$query = $db->prepare('SELECT passwordHash FROM user WHERE wikiAccount = :username');
 
 		$result = $query->execute(array(
 			':username'	=> $user));
@@ -335,7 +363,29 @@ if(isset($_POST['login'])){
 }
 // if just coming here for the first time, and logged in, go to home/destination
 else if(loggedIn()){
-	header("Location: " . $destination);
+	if ($forwardString) {
+		$round = 1;
+		$forwardString = "";
+		foreach ($_GET as $key => $value) {
+			if (round===1) {
+				if ($key === "destination") {
+					continue;
+				}
+				else {
+					header("Location: home.php");
+					exit;
+				}
+				$forwardString .= $key . "=" . $value;
+			}
+			else {
+				$forwardString .= "&".$key . "=" . $value;
+			}
+		}
+	header("Location: ".$_GET['destination']."?".$forwardString);
+	}
+	else {
+		header("Location: home.php");
+	}
 	exit;
 }
 

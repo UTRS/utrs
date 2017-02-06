@@ -49,7 +49,7 @@ function loggedIn(){
 			$db = connectToDB(true);
             $query = $db->prepare('
 				SELECT userID FROM user
-				WHERE username = :username');
+				WHERE wikiAccount = :username');
 
 			$result = $query->execute(array(
 				':username'	=> $user));
@@ -79,7 +79,7 @@ function loggedIn(){
 
 		$query = $db->prepare('
 			SELECT userID FROM user
-			WHERE username = :username
+			WHERE wikiAccount = :username
 			  AND passwordHash = :passwordHash');
 
 		$result = $query->execute(array(
@@ -151,7 +151,7 @@ function getLoggedInUsers(){
  * @param string $destination the page to go to once logged in ('home.php', 'mgmt.php', etc.)
  */
 function verifyLogin($destination = 'home.php'){
-	if(!loggedIn()){
+	if(!loggedIn()) {
 		header("Location: " . getRootURL() . 'loginsplash.php?destination=' . $destination);
 		exit;
 	}

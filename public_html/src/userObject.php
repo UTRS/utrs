@@ -59,7 +59,7 @@ class UTRSUser{
 			$this->wikiAccount = $vars['wikiAccount'];
 			$this->acceptToS = 1;
 			$this->replyNotify = 1;
-			$this->passwordHash = hash("sha512", $vars['password']);
+			$this->passwordHash = "xxx";
 			$this->closed = 0;
 			$this->diff = $vars['diff'];
             if ($oauth !== NULL) {
@@ -109,7 +109,7 @@ class UTRSUser{
 		
 		debug('Insert complete <br/>');
 
-		$query = $db->prepare("SELECT userID, registered FROM user WHERE username = :username");
+		$query = $db->prepare("SELECT userID, registered FROM user WHERE wikiAccount = :username");
 
 		$result = $query->execute(array(
 			':username'	=> $this->username));
@@ -160,7 +160,7 @@ class UTRSUser{
 	public static function getUserByUsername($username){
 		$db = connectToDB();
 		
-		$query = $db->prepare('SELECT * FROM user WHERE username = :username');
+		$query = $db->prepare('SELECT * FROM user WHERE wikiAccount = :username');
 		
 		$result = $query->execute(array(
 			':username'	=> $username));
@@ -229,7 +229,7 @@ class UTRSUser{
 	}
 	
 	public function isOversighter(){
-		return $this->oversight;
+		return $this->oversighter;
 	}
 	
 	public function isWMF(){
@@ -516,7 +516,7 @@ class UTRSUser{
 		
 		$query = $db->prepare("
 			UPDATE user
-			SET username = :username
+			SET wikiAccount = :username
 			WHERE userID = :userID");
 
 		$result = $query->execute(array(

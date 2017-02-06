@@ -152,7 +152,7 @@ function getLoggedInUsers(){
  */
 function verifyLogin($destination = 'home.php'){
 	if(!loggedIn()) {
-		header("Location: " . getRootURL() . 'loginsplash.php?' . $destination);
+		header("Location: " . getRootURL() . 'loginsplash.php?destination=' . $destination);
 		exit;
 	}
 	// if user has somehow lost access, kick them out

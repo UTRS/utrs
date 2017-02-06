@@ -239,7 +239,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 			$forwardString = "";
 			$deferalPage = "";
 			foreach ($_GET as $key => $value) {
-				if ($key != "wiki") {
+				if ($key != "wiki" && (strpos($key, "oauth")!==false))  {
 					if ($key === "destination") {
 						$deferalPage = $value;
 					}

@@ -34,12 +34,7 @@ if(!empty($_GET)){
 	$round = 1;
 	$forwardString = "";
 	foreach ($_GET as $key => $value) {
-		if ($round===1) {
-			$forwardString .= $key . "=" . $value;
-		}
-		else {
-			$forwardString .= "&".$key . "=" . $value;
-		}
+		$forwardString .= "&".$key . "=" . $value;
 	}
 }
 else{

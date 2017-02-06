@@ -34,7 +34,7 @@ if(!empty($_GET)){
 	$round = 1;
 	$forwardString = "";
 	foreach ($_GET as $key => $value) {
-		if (!strpos($key, "oauth")) {
+		if (!(strpos($key, "oauth")!==false)) {
 			$forwardString .= "&".$key . "=" . $value;
 		}
 	}

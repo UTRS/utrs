@@ -5,7 +5,12 @@ require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('UTRSBot.class.php');
-require_once("includes/Peachy/Init.php");
+if (!strpos($_SERVER['REQUEST_URI'],"src")) {
+	require_once("includes/Peachy/Init.php");
+}
+else {
+	require_once("../includes/Peachy/Init.php");
+}
 
 
 /**

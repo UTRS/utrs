@@ -243,7 +243,7 @@ else{
 <?php
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
 echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
-	 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" /> " .
+	 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" " . ($approved ? "checked=\"checked\"" : "" ) . " /> " .
 	 "\n</td></tr>";
 echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
      "id=\"active\" type=\"checkbox\" " . ($active ? "checked=\"checked\"" : "" ) . " disabled />\n</td></tr>";

@@ -242,14 +242,11 @@ else{
 			<table>
 <?php
 echo "<form name=\"accessControl\" id=\"accessControl\" method=\"POST\" action=\"userMgmt.php?userId=" . $userId . "\">\n";
-// if not approved, require that the account be approved before any other changes are made
-if(!$approved){
-	echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
-		 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" /> " .
-		 "\n</td></tr>";
-}
+echo "<tr><td><label name=\"approvedLabel\" id=\"approvedLabel\" for=\"approved\" class=\"required\">Approve this account: " .
+	 "</label></td> &#09; <td><input type=\"checkbox\" name=\"approved\" id=\"approved\" /> " .
+	 "\n</td></tr>";
 echo "<tr><td><label name=\"activeLabel\" id=\"activeLabel\" for=\"active\">Activate account:</label> </td><td>&#09; <input name=\"active\" " .
-     "id=\"active\" type=\"checkbox\" onchange=\"toggleRequired()\" " . ($active ? "checked=\"checked\"" : "" ) . " />\n</td></tr>";
+     "id=\"active\" type=\"checkbox\" " . ($active ? "checked=\"checked\"" : "" ) . " disabled />\n</td></tr>";
 echo "<tr><td><label name=\"adminLabel\" id=\"adminLabel\" for=\"admin\">Tool administrator:</label> </td><td>&#09; <input name=\"admin\" " .
 	 "id=\"admin\" type=\"checkbox\"  onchange=\"toggleRequired()\"" . ($admin ? "checked=\"checked\"" : "") . " />\n</td></tr>";
 echo "<tr><td><label name=\"developerLabel\" id=\"developerLabel\" for=\"developer\">Tool developer:</label> </td><td>&#09; " .

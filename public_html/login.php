@@ -181,7 +181,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 
         $db = connectToDB(true);
         $query = $db->prepare('
-                SELECT userID FROM user
+                SELECT userID,approved,active FROM user
                 WHERE wikiAccount = :wikiAccount');
 
         $result = $query->execute(array(
@@ -208,6 +208,29 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
             debug('object created<br/>');
         } else {
             $user = UTRSUser::getUserById($data['userID']);
+			if (!$user->isApproved()) {
+				throw UTRSCredentialsException("Your UTRS account has been suspended. Please contact a tool admin to regain access.");
+			}
+			if (!$user->isActive()) {
+				$OAuthBotID = UTRSUser::getUserByUsername("UTRS OAuth Bot")->getUserId();
+                // XXX: Logging?
+                $query = $db->prepare("
+                        UPDATE user
+                        SET active = :active
+                        WHERE userID = :userID"
+				);
+                $result = $query->execute(array(
+                        ':active' => TRUE,
+                        ':userID' => (int)$data['userID']));
+                if(!$result){
+                    $error = var_export($query->errorInfo(), true);
+                    debug('ERROR: ' . $error . '<br/>');
+                    throw new UTRSDatabaseException($error);
+                }
+				else {
+					UserMgmtLog::insert("re-enabled account access", "to match onwiki sysop status", "OAuth Authentication", (int)$data['userID'], $OAuthBotID,0);
+				}
+			}
             if ($user->isCheckuser() !== $is_check || $user->getEmail() !== $payload->email || $user->isOversighter() !== $is_os || $user->isWMF() !== $is_wmf) {
                 $OAuthBotID = UTRSUser::getUserByUsername("UTRS OAuth Bot")->getUserId();
                 // XXX: Logging?

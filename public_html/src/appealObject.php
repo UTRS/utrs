@@ -5,7 +5,10 @@ require_once('model.php');
 require_once('exceptions.php');
 require_once('unblocklib.php');
 require_once('UTRSBot.class.php');
-if (!strpos($_SERVER['REQUEST_URI'],"src")) {
+if (!isset($_SERVER['REQUEST_URI'])){
+    #Its the CLI
+}
+else if (!strpos($_SERVER['REQUEST_URI'],"src")) {
 	require_once("includes/Peachy/Init.php");
 }
 else {

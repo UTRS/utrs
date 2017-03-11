@@ -30,3 +30,6 @@ config*
 
 .idea/
 public_html/status.php
+/nbproject/private/
+*.properties
+nbproject/project.xml

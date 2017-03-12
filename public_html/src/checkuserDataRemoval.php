@@ -14,8 +14,8 @@ try{
 	$db = connectToDB();
 	
 	// appeals closed more than six days ago
-	$closedAppealsSubquery = "SELECT DISTINCT appealID FROM actionAppealLog WHERE " .
-		"comment = 'Closed' AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
+	$closedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE " .
+		"status = 'Closed' AND timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 6 DAY)";
 
     // appeals that are unverified for more than 6 days
     $unverifiedAppealsSubquery = "SELECT DISTINCT appealID FROM appeal WHERE status = 'Unverified' " .

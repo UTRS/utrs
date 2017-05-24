@@ -87,7 +87,7 @@ class UTRSBot
                 
                 $content .= "}}--~~~~";
                 
-                $page->append($content, "Notifing blocking admin for [[User:" . $username . "|" . $username . "]]'s UTRS Appeal #" . $templateVars[0], false, true);
+                $page->append($content, "Notifying blocking admin for [[User:" . $username . "|" . $username . "]]'s UTRS Appeal #" . $templateVars[0], false, true);
                 
             }
         }

@@ -282,7 +282,7 @@ if (isset($_GET['action']) && isset($_GET['value']) && $_GET['action'] == "statu
 					//Log admin message
 					$log->addNewItem($adminmessage);
 					//Post admin message on wiki
-					if ($appeal->isAutoblock()) {
+					if ($appeal->isAutoblock() && !$appeal->hasAccount()) {
 				    	$bot->notifyAdmin($appeal->getIP(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));
 					} else {
 				    	$bot->notifyAdmin($appeal->getCommonName(), array($appeal->getID(), $appeal->getCommonName(), $time, $appeal->getHandlingAdmin()->getUsername(), $adminmessage));

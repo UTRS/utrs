@@ -82,8 +82,8 @@ if(isset($_POST["submit"])){
          else{
             $message .= " If you still wish to appeal your block, you may visit us on IRC at " . 
                "<a href=\"http://webchat.freenode.net/?channels=wikipedia-en-unblock\">#wikipedia-en-unblock</a> " .
-                "(if you haven't already done so) or email the Ban Appeals Subcommittee at " .
-               "<tt>arbcom-appeals-en@lists.wikimedia.org</tt> .";
+                "(if you haven't already done so) or email the Arbitration Committee at " .
+               "<tt>arbcom-l@lists.wikimedia.org</tt> .";
          }
          throw new UTRSCredentialsException($message);
       }

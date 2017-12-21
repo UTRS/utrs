@@ -172,7 +172,7 @@ class Log {
 				$dots = "";
 			}
 			if ($data['protected'] && !$higherPerms){
-				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the relevant permissions to view this comment.")),0,150)."</font>";
+				$safeCmt = "<font color=\"red\">".substr(sanitizeText(str_replace("\\r\\n", " ", "You do not have the necessary permissions to view this comment or log entry.")),0,150)."</font>";
 			}
 			else {
 				$safeCmt = substr(sanitizeText(str_replace("\\r\\n", " ", $data['comment'])),0,150);

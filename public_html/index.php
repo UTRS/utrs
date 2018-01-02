@@ -91,10 +91,10 @@ if(isset($_POST["submit"])){
         throw new UTRSValidationException('The username you entered ('.$wikiAccount.') is not currently blocked. Please verify that you are blocked by following the instructions above.');
       }
       elseif ($registered && $autoblock  && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. Is it your account that is blocked?');
+        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you are affected by an IPv6 block, please send a message to the mailing list instead (see at the bottom of the page). Is it your account that is blocked?');
       }
       elseif (!$registered && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
+        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you are affected by an IPv6 block, please send a message to the mailing list instead (see at the bottom of the page). If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
       }
       if ($registered && !Appeal::verifyNoPublicAppeal($wikiAccount)) {
         throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');

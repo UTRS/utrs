@@ -102,7 +102,7 @@ try{
       
       //Email notification to the admin handling the appeal
       
-      if ($admin->replyNotify()) {
+      if ($admin && $admin->replyNotify()) {
          $email = $admin->getEmail();
          $headers = "From: Unblock Review Team <noreply-unblock@toolserver.org>\r\n";
          $headers .= "MIME-Version: 1.0\r\n";

@@ -48,10 +48,10 @@ if(isset($_POST["submit"])){
       $email = $_POST["appeal_email"];
       $registered = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
       $wikiAccount = (isset($_POST["appeal_wikiAccountName"]) ? $_POST["appeal_wikiAccountName"] : null);
-      if (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 1) {
+      if (isset($_POST["appeal_autoBlock"]) && $_POST["appeal_autoBlock"] == 1) {
         $autoblock = true;      
       }
-      if (!isset($_POST["appeal_autoblock"]) || (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 0)) {
+      if (!isset($_POST["appeal_autoBlock"]) || (isset($_POST["appeal_autoBlock"]) && $_POST["appeal_autoBlock"] == 0)) {
         $autoblock = false;      
       }
        
@@ -128,18 +128,18 @@ if(isset($_POST["submit"])){
    catch (UTRSValidationException $ex){
    	  $errorMessages = $ex->getMessage() . $errorMessages;
    	  $hasAccount = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
-   	  $autoBlock = (isset($_POST["appeal_autoblock"]) ? ($_POST["appeal_autoblock"] ? true : false) : false);
+   	  $autoBlock = (isset($_POST["appeal_autoBlock"]) ? ($_POST["appeal_autoBlock"] ? true : false) : false);
    }
    catch(UTRSException $ex){
       $errorMessages = $ex->getMessage() . $errorMessages;
       $hasAccount = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
-      $autoBlock = (isset($_POST["appeal_autoblock"]) ? ($_POST["appeal_autoblock"] ? true : false) : false);
+      $autoBlock = (isset($_POST["appeal_autoBlock"]) ? ($_POST["appeal_autoBlock"] ? true : false) : false);
       // TODO: not sure how to include the other fields due to the javascript
    }
    catch(ErrorException $ex){
       $errorMessages = $ex->getMessage() . $errorMessages;
       $hasAccount = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
-      $autoBlock = (isset($_POST["appeal_autoblock"]) ? ($_POST["appeal_autoblock"] ? true : false) : false);
+      $autoBlock = (isset($_POST["appeal_autoBlock"]) ? ($_POST["appeal_autoBlock"] ? true : false) : false);
    }
 }
 
@@ -226,7 +226,7 @@ echo '<div id="accountNameDiv" hidden><label id="accountNameLabel" for="accountN
 //What has been blocked
 echo '<div id="autoBlockDiv" hidden><label id="autoBlockLabel" for="autoBlock" class="required">What has been blocked?</label> &#09; <input id="autoBlockN" type="radio" name="appeal_autoBlock" value="0" onClick="accountBlock()" ' . (isset($_POST['appeal_autoBlock']) ? ($autoBlock  ? 'checked="checked"' : '') : "") . '> My Account &#09; <input id="autoblockY" type="radio" name="appeal_autoBlock" value="1" onClick="noAccountBlock()" ' . (isset($_POST['appeal_autoBlock']) ? (!$autoblock ? 'checked="checked"' : '') : '') . '> Something else (my account is <b>NOT</b> directly blocked<br /><br /></div>'; //Hidden text field, to be flipped by js
 //New autoblock field
-echo '<div id="autoblockIDDiv" hidden><label id="autoblockIDLabel" for="autoblockID">If you have one, what is the reference number associated with your block?</label> <input id="autoblockID" type="text" name="appeal_autoblockID" value="' . posted('appeal_autoblockID') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
+echo '<div id="autoblockIDDiv" hidden><label id="autoblockIDLabel" for="autoblockID">If you have one, what is the reference number associated with your block?</label> <input id="autoblockID" type="text" name="appeal_autoBlockID" value="' . posted('appeal_autoBlockID') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<div id="ipv6div" hidden><label id="ipv6addressLabel" for="ipv6address">What is your IPv6 Address</label> <input id="ipv6address" type="text" name="appeal_ipv6address" value="' . posted('appeal_ipv6address') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';

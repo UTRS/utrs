@@ -148,10 +148,24 @@ var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function hasAccount(){
    document.getElementById(\"accountNameDiv\").style.display= 'block';
+   document.getElementById(\"autoBlockDiv\").style.display= 'block';
+   document.getElementById(\"accountNameDiv\").style.display= 'none';
 }
 
 function noAccount() {
    document.getElementById(\"accountNameDiv\").style.display= 'none';
+   document.getElementById(\"autoBlockDiv\").style.display= 'none';
+   document.getElementById(\"accountNameDiv\").style.display= 'block';
+}
+
+function accountBlock() {
+   document.getElementById(\"autoblockIDDiv\").style.display= 'block';
+   document.getElementById(\"autoBlockDiv\").style.display= 'block';
+}
+
+function noAccountBlock() {
+   document.getElementById(\"autoblockIDDiv\").style.display= 'none';
+   document.getElementById(\"autoBlockDiv\").style.display= 'none';
 } " . (isset($_POST['appeal_hasAccount']) ? "
 
 window.onload = function ()

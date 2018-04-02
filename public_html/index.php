@@ -151,12 +151,14 @@ function hasAccount(){
    document.getElementById(\"accountNameDiv\").style.display= 'block';
    document.getElementById(\"autoBlockDiv\").style.display= 'block';
    document.getElementById(\"accountNameTDiv\").style.display= 'none';
+   if (autoblock) { document.getElementById(\"autoblockIDDiv\").style.display= 'block'; }
 }
 
 function noAccount() {
    document.getElementById(\"accountNameDiv\").style.display= 'none';
    document.getElementById(\"autoBlockDiv\").style.display= 'none';
    document.getElementById(\"accountNameTDiv\").style.display= 'block';
+   document.getElementById(\"autoblockIDDiv\").style.display= 'none';
 }
 
 function accountBlock() {

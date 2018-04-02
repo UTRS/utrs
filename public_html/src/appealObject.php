@@ -146,6 +146,11 @@ class Appeal extends Model {
    protected $useragent = false;
 
    /**
+    * Autoblock ID
+    */
+   protected $autoblockID;
+   
+   /**
     * Email verification token
     */
    protected $emailToken;
@@ -168,6 +173,7 @@ class Appeal extends Model {
       'handlingAdmin'      => 'handlingAdmin',
       'oldHandlingAdmin'   => 'oldHandlingAdmin',
       'lastLogId'    => 'lastLogId',
+      'autoblockID'    => 'autoblockID',
       'emailToken'      => 'emailToken');
 
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
@@ -371,11 +377,11 @@ class Appeal extends Model {
          INSERT INTO appeal
          (email, ip, wikiAccountName, autoblock, hasAccount,
             blockingAdmin, appealText, intendedEdits,
-            blockReason, otherInfo, status, emailToken)
+            blockReason, otherInfo, status, emailToken, autoblockID)
          VALUES
          (:email, :ip, :wikiAccountName, :autoblock, :hasAccount,
             :blockingAdmin, :appealText, :intendedEdits,
-            :blockReason, :otherInfo, :status, :emailToken)");
+            :blockReason, :otherInfo, :status, :emailToken, :autoblockID)");
 
       $result = $query->execute(array(
          ':email'    => $this->emailAddress,
@@ -389,6 +395,7 @@ class Appeal extends Model {
          ':blockReason' => $this->blockReason,
          ':otherInfo'      => $this->otherInfo,
          ':status'      => $this->status,
+         ':autoblockID'      => $this->autoblockID,
          ':emailToken'     => $this->emailToken));
 
       if(!$result){

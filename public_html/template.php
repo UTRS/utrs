@@ -2,7 +2,7 @@
 require_once('src/unblocklib.php');
 require_once('src/noticeObject.php');
 
-function skinHeader($script = '', $adminNav = false, $recaptcha = false) {
+function skinHeader($script = '', $recaptcha = false, $adminNav = false) {
 
 $loggedIn = loggedIn();
 

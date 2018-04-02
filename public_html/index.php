@@ -5,7 +5,6 @@ ini_set('display_errors', 'On');
 
 require_once('src/network.php');
 forceHTTPS();
-require_once('recaptchalib.php');
 require_once('template.php');
 require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
@@ -43,20 +42,7 @@ if(isset($_POST["submit"])){
    debug('form submitted <br/>');
    
    try{
-      if (isset($privatekey)) {
-         // verify captcha
-         $resp = recaptcha_check_answer($privatekey,
-               $_SERVER["REMOTE_ADDR"],
-               $_POST["recaptcha_challenge_field"],
-               $_POST["recaptcha_response_field"]);
-            
-         if(!$resp->is_valid) {
-            $captchaErr = $resp->error;
-            throw new UTRSValidationException('<br />The response you provided to the captcha was not correct. Please try again.');
-         }
-
-         debug('captcha valid <br/>');
-      }
+      
       
       $ip = Appeal::getIPFromServer();
       $email = $_POST["appeal_email"];
@@ -180,7 +166,7 @@ window.onload = function ()
    else{
       noAccount();
    }
-}; " : "" ));
+}; " : "" ), $recaptcha=true);
 ?>
 <center><b>Welcome to the Unblock Ticket Request System.</b>
 <div id="inputBox">
@@ -236,18 +222,10 @@ echo '<textarea id="Other" maxlength="2048" name="appeal_otherInfo" rows="3" >' 
 echo '<span id="sizeOther"></span>';
 echo '<br /><br />';
 
-if (isset($privatekey)) {
-   echo '<span class="overridePre">';
-   if($captchaErr == null){
-      echo recaptcha_get_html($publickey, null, true);
-   }
-   else{
-      echo recaptcha_get_html($publickey, $captchaErr, true);
-   }
-   echo '</span>';
-}
-
 ?>
+
+<div class="g-recaptcha" data-sitekey="<?php echo $publickey; ?>"></div>
+
 <small>
 <p>By submitting this unblock request, you are consenting to allow us to collect information about
 your computer and that you agree with our <a href="privacy.php">Privacy Policy</a>.  This information

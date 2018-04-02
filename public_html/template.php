@@ -2,7 +2,7 @@
 require_once('src/unblocklib.php');
 require_once('src/noticeObject.php');
 
-function skinHeader($script = '', $adminNav = false) {
+function skinHeader($script = '', $adminNav = false, $recaptcha = false) {
 
 $loggedIn = loggedIn();
 
@@ -40,6 +40,9 @@ if($loggedIn){
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
 <?php if($script){
    echo "<script type=\"text/javascript\">" . $script . "</script>";
+}
+if($recaptcha){
+   echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
 }
 ?>
 <style>

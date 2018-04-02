@@ -76,10 +76,10 @@ if(isset($_POST["submit"])){
         throw new UTRSValidationException('The username you entered ('.$wikiAccount.') is not currently blocked. Please verify that you are blocked by following the instructions above.');
       }
       elseif ($registered && $autoblock  && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. Is it your account that is blocked?');
+        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. Is it your account that is blocked or is your IPv6 address blocked? <br /><button type="button" onclick="showipv6()">Enter IPv6 address</button>');
       }
       elseif (!$registered && !Appeal::verifyBlock($ip, FALSE)) {
-        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?".');
+        throw new UTRSValidationException('Your IP Address ('.$ip.') is not currently blocked. If you have an account, please select \'Yes\' to "Do you have an account on Wikipedia?". Is your IPv6 address blocked? <br /><button type="button" onclick="showipv6()">Enter IPv6 address</button>');
       }
       if ($registered && !Appeal::verifyNoPublicAppeal($wikiAccount)) {
         throw new UTRSValidationException('You are currently appealing your block on your talkpage. The UTRS team does not hear appeals already in the process of being reviewed.');
@@ -151,14 +151,17 @@ function hasAccount(){
    document.getElementById(\"accountNameDiv\").style.display= 'block';
    document.getElementById(\"autoBlockDiv\").style.display= 'block';
    document.getElementById(\"accountNameTDiv\").style.display= 'none';
-   if (autoblock) { document.getElementById(\"autoblockIDDiv\").style.display= 'block'; }
 }
 
 function noAccount() {
    document.getElementById(\"accountNameDiv\").style.display= 'none';
    document.getElementById(\"autoBlockDiv\").style.display= 'none';
    document.getElementById(\"accountNameTDiv\").style.display= 'block';
-   document.getElementById(\"autoblockIDDiv\").style.display= 'none';
+   document.getElementById(\"autoblockIDDiv\").style.display= 'block';
+}
+
+function showipv6() {
+   document.getElementById(\"ipv6div\").style.display= 'block';
 }
 
 function accountBlock() {
@@ -221,7 +224,8 @@ echo '<div id="accountNameDiv" hidden><label id="accountNameLabel" for="accountN
 //What has been blocked
 echo '<div id="autoBlockDiv" hidden><label id="autoBlockLabel" for="autoBlock" class="required">What has been blocked?</label> &#09; <input id="autoBlockN" type="radio" name="appeal_autoBlock" value="0" onClick="accountBlock()" ' . (isset($_POST['appeal_autoBlock']) ? ($autoBlock  ? 'checked="checked"' : '') : "") . '> My Account &#09; <input id="autoblockY" type="radio" name="appeal_autoBlock" value="0" onClick="noAccountBlock()" ' . (isset($_POST['appeal_autoBlock']) ? (!$autoblock ? 'checked="checked"' : '') : '') . '> Something else (my account is <b>NOT</b> directly blocked<br /><br /></div>'; //Hidden text field, to be flipped by js
 //New autoblock field
-echo '<div id="autoblockIDDiv" hidden><label id="autoblockIDLabel" for="autoblockID" class="required">What is the reference number associated with your block?</label> <input id="autoblockID" type="text" name="appeal_autoblockID" value="' . posted('appeal_autoblockID') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
+echo '<div id="autoblockIDDiv" hidden><label id="autoblockIDLabel" for="autoblockID">If you have one, what is the reference number associated with your block?</label> <input id="autoblockID" type="text" name="appeal_autoblockID" value="' . posted('appeal_autoblockID') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
+echo '<div id="ipv6div" hidden><label id="ipv6addressLabel" for="ipv6address">What is your IPv6 Address</label> <input id="ipv6address" type="text" name="appeal_ipv6address" value="' . posted('appeal_ipv6address') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<div id="accountNameTDiv" hidden><label id="accountNameLabel" for="accountName">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you would like to use here.</label> <input id="accountName" type="text" name="appeal_wikiAccountName" value="' . posted('appeal_wikiAccountName') . '" ><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';

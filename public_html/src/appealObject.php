@@ -151,6 +151,14 @@ class Appeal extends Model {
    protected $autoblockID;
    
    /**
+    * Autoblock ID
+    */
+   protected $ipv6 = false;
+   /**
+    * Supposed IPv6 address
+    */
+   protected $ipv6address;
+   /**
     * Email verification token
     */
    protected $emailToken;
@@ -377,11 +385,11 @@ class Appeal extends Model {
          INSERT INTO appeal
          (email, ip, wikiAccountName, autoblock, hasAccount,
             blockingAdmin, appealText, intendedEdits,
-            blockReason, otherInfo, status, emailToken, autoblockID)
+            blockReason, otherInfo, status, emailToken, autoblockID, ipv6, ipv6address)
          VALUES
          (:email, :ip, :wikiAccountName, :autoblock, :hasAccount,
             :blockingAdmin, :appealText, :intendedEdits,
-            :blockReason, :otherInfo, :status, :emailToken, :autoblockID)");
+            :blockReason, :otherInfo, :status, :emailToken, :autoblockID, :ipv6, :ipv6address)");
 
       $result = $query->execute(array(
          ':email'    => $this->emailAddress,
@@ -396,6 +404,8 @@ class Appeal extends Model {
          ':otherInfo'      => $this->otherInfo,
          ':status'      => $this->status,
          ':autoblockID'      => $this->autoblockID,
+         ':ipv6'            => $this->ipv6,
+         ':ipv6address'     => $this->ipv6address,
          ':emailToken'     => $this->emailToken));
 
       if(!$result){

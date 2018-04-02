@@ -143,10 +143,9 @@ if(isset($_POST["submit"])){
    }
 }
 
-skinHeader("var accountNameInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\" class=\\\"required\\\">What is the name of your account?</label> <input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
-var autoBlockInput = \"<label id=\\\"autoBlockLabel\\\" for=\\\"autoBlock\\\" class=\\\"required\\\">What has been blocked?</label> &#09; <input id=\\\"autoBlockN\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"0\\\" " . ($hasAccount ? ($autoBlock ? "" : "checked=\\\"checked\\\"") : "") . " /> My account &#09; <input id=\\\"autoBlockY\\\" type=\\\"radio\\\" name=\\\"appeal_autoblock\\\" value=\\\"1\\\" " . ($hasAccount ? ($autoBlock ? "checked=\\\"checked\\\"" : "") : "") . " /> My IP address or range (my account is not blocked)<br />\";
+skinHeader("
 var desiredAccountInput = \"<label id=\\\"accountNameLabel\\\" for=\\\"accountName\\\">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you'd like to use here.</label><br/><input id=\\\"accountName\\\" type=\\\"text\\\" name=\\\"appeal_wikiAccountName\\\" value=\\\"" . posted('appeal_wikiAccountName') . "\\\"/><br />\";
-var registered = " . ($hasAccount ? "true" : "false") . ";
+
 
 function hasAccount(){
    var span = document.getElementById(\"variableQuestionSection\");
@@ -201,10 +200,17 @@ if($errorMessages){
 }
 
 echo '<form name="unblockAppeal" id="unblockAppeal" action="index.php" method="POST">';
+//email
 echo '<label id="emailLabel" for="accountName" class="required">What is your email address? <b>If you do not supply a deliverable email address, we will be unable to reply to your appeal and therefore it will not be considered.<br /><font color=red>Note: There is inconsistent delivery to Microsoft email services (such as: live.com, hotmail.com, outlook.com, etc.). If you use one of these services, we can not guarantee that you will recieve a confirmation email. Please avoid using these services.</font></b></label> <input id="email" type="text" name="appeal_email" value="' . posted('appeal_email') . '"/><br /><br />';
+//Do you have an account
 echo '<label id="registeredLabel" for="registered" class="required">Do you have an account on Wikipedia?</label> &#09; <input id="registeredY" type="radio" name="appeal_hasAccount" value="1" onClick="hasAccount()" ' . (isset($_POST['appeal_hasAccount']) ? ($hasAccount ? 'checked="checked"' : '') : "") . ' /> Yes &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccount()" ' . (isset($_POST['appeal_hasAccount']) ? (!$hasAccount ? 'checked="checked"' : '') : '') . ' /> No<br /><br />';
+//Account name
+echo '<label id="accountNameLabel" for="accountName" class="required">What is the name of your account?</label> <input id="accountName" type="text" name="appeal_wikiAccountName" value="' . posted('appeal_wikiAccountName') . '"><br /><br />';//Hidden text field, to be flipped by js
+//What has been blocked
+echo '<label id="autoBlockLabel" for="autoBlock" class="required">What has been blocked?</label> &#09; <input id="autoBlockN" type="radio" name="appeal_autoblock" value="0" onClick="accountBlock()" ' . (isset($_POST['appeal_autoblock']) ? ($autoBlock  ? 'checked="checked"' : '') : "") . ' /> My Account &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccountBlock()" ' . (isset($_POST['appeal_autoblock']) ? (!$appeal_autoblock ? 'checked="checked"' : '') : '') . ' /> Something else (my account is <b>NOT</b> directly blocked<br /><br />'; //Hidden text field, to be flipped by js
+//New autoblock field
+echo '<label id="autoblockIDLabel" for="autoblockID" class="required">What is the name of your account?</label> <input id="autoblockID" type="text" name="appeal_wikiAccountName" value="' . posted('appeal_wikiAccountName') . '"><br /><br />';//Hidden text field, to be flipped by js
 echo '<span id="variableQuestionSection"></span><br />';
-echo '<!--<label id="blockingAdminLabel" for="blockingAdmin">According to your block message, which administrator placed this block?</label>  --><input id="blockingAdmin" type="hidden" name="appeal_blockingAdmin" value="No one"/><!--<br /><br />-->';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
 echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea>';
 echo '<span id="sizeAppeal"></span>';

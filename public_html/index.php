@@ -146,18 +146,20 @@ if(isset($_POST["submit"])){
 skinHeader("
 var registered = " . ($hasAccount ? "true" : "false") . ";
 var autoBlock = " . ($autoBlock ? "true" : "false") . ";
+var usernameReq = 'We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you would like to use here.';
+var wikiAccountReq = 'What is the name of your account?';
 
 function hasAccount(){
    document.getElementById(\"accountNameDiv\").style.display= 'block';
    document.getElementById(\"autoBlockDiv\").style.display= 'block';
-   document.getElementById(\"accountNameTDiv\").style.display= 'none';
+   document.getElementById(\"accountNameLabel\").innerHTML = wikiAccountReq;
 }
 
 function noAccount() {
-   document.getElementById(\"accountNameDiv\").style.display= 'none';
+   document.getElementById(\"accountNameDiv\").style.display= 'block';
    document.getElementById(\"autoBlockDiv\").style.display= 'none';
-   document.getElementById(\"accountNameTDiv\").style.display= 'block';
    document.getElementById(\"autoblockIDDiv\").style.display= 'block';
+   document.getElementById(\"accountNameLabel\").innerHTML = usernameReq;
 }
 
 function showipv6() {

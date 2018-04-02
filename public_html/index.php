@@ -159,13 +159,11 @@ function noAccount() {
 }
 
 function accountBlock() {
-   document.getElementById(\"autoblockIDDiv\").style.display= 'block';
-   document.getElementById(\"autoBlockDiv\").style.display= 'block';
+   document.getElementById(\"autoblockIDDiv\").style.display= 'none';
 }
 
 function noAccountBlock() {
-   document.getElementById(\"autoblockIDDiv\").style.display= 'none';
-   document.getElementById(\"autoBlockDiv\").style.display= 'none';
+   document.getElementById(\"autoblockIDDiv\").style.display= 'block';
 } " . (isset($_POST['appeal_hasAccount']) ? "
 
 window.onload = function ()

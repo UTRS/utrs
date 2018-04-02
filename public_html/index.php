@@ -149,13 +149,13 @@ var registered = " . ($hasAccount ? "true" : "false") . ";
 function hasAccount(){
    document.getElementById(\"accountNameDiv\").style.display= 'block';
    document.getElementById(\"autoBlockDiv\").style.display= 'block';
-   document.getElementById(\"accountNameDiv\").style.display= 'none';
+   document.getElementById(\"accountNameTDiv\").style.display= 'none';
 }
 
 function noAccount() {
    document.getElementById(\"accountNameDiv\").style.display= 'none';
    document.getElementById(\"autoBlockDiv\").style.display= 'none';
-   document.getElementById(\"accountNameDiv\").style.display= 'block';
+   document.getElementById(\"accountNameTDiv\").style.display= 'block';
 }
 
 function accountBlock() {
@@ -221,7 +221,7 @@ echo '<div id="accountNameDiv" hidden><label id="accountNameLabel" for="accountN
 echo '<div id="autoBlockDiv" hidden><label id="autoBlockLabel" for="autoBlock" class="required">What has been blocked?</label> &#09; <input id="autoBlockN" type="radio" name="appeal_autoblock" value="0" onClick="accountBlock()" ' . (isset($_POST['appeal_autoblock']) ? ($autoBlock  ? 'checked="checked"' : '') : "") . '> My Account &#09; <input id="registeredN" type="radio" name="appeal_hasAccount" value="0" onClick="noAccountBlock()" ' . (isset($_POST['appeal_autoblock']) ? (!$appeal_autoblock ? 'checked="checked"' : '') : '') . '> Something else (my account is <b>NOT</b> directly blocked<br /><br /></div>'; //Hidden text field, to be flipped by js
 //New autoblock field
 echo '<div id="autoblockIDDiv" hidden><label id="autoblockIDLabel" for="autoblockID" class="required">What is the reference number associated with your block?</label> <input id="autoblockID" type="text" name="appeal_autoblockID" value="' . posted('appeal_autoblockID') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
-echo '<div id="accountNameDiv" hidden><label id="accountNameLabel" for="accountName">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you would like to use here.</label> <input id="accountName" type="text" name="appeal_wikiAccountName" value="' . posted('appeal_wikiAccountName') . '" ><br /><br /></div>';//Hidden text field, to be flipped by js
+echo '<div id="accountNameTDiv" hidden><label id="accountNameLabel" for="accountName">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you would like to use here.</label> <input id="accountName" type="text" name="appeal_wikiAccountName" value="' . posted('appeal_wikiAccountName') . '" ><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
 echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea>';

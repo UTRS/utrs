@@ -147,13 +147,11 @@ skinHeader("
 var registered = " . ($hasAccount ? "true" : "false") . ";
 
 function hasAccount(){
-   var span = document.getElementById(\"variableQuestionSection\");
-   span.innerHTML = accountNameInput + \"\\n\" + autoBlockInput;
+   document.getElementById(\"accountNameDiv\").setAttribute(\"hidden\",'');
 }
 
 function noAccount() {
-   var span = document.getElementById(\"variableQuestionSection\");
-   span.innerHTML = desiredAccountInput;
+   document.getElementById(\"accountNameDiv\").removeAttribute(\"hidden\");
 } " . (isset($_POST['appeal_hasAccount']) ? "
 
 window.onload = function ()

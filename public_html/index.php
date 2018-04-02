@@ -228,7 +228,6 @@ echo '<div id="autoBlockDiv" hidden><label id="autoBlockLabel" for="autoBlock" c
 //New autoblock field
 echo '<div id="autoblockIDDiv" hidden><label id="autoblockIDLabel" for="autoblockID">If you have one, what is the reference number associated with your block?</label> <input id="autoblockID" type="text" name="appeal_autoblockID" value="' . posted('appeal_autoblockID') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<div id="ipv6div" hidden><label id="ipv6addressLabel" for="ipv6address">What is your IPv6 Address</label> <input id="ipv6address" type="text" name="appeal_ipv6address" value="' . posted('appeal_ipv6address') . '"><br /><br /></div>';//Hidden text field, to be flipped by js
-echo '<div id="accountNameTDiv" hidden><label id="accountNameLabel" for="accountName">We may be able to create an account for you which you can use to avoid problems like this in the future. If you would like for us to make an account for you, please enter the username you would like to use here.</label><br /> <input id="accountName" type="text" name="appeal_wikiAccountName" value="' . posted('appeal_wikiAccountName') . '" ><br /><br /></div>';//Hidden text field, to be flipped by js
 echo '<span id="variableQuestionSection"></span><br />';
 echo '<label id="appealLabel" for="appeal" class="required">Why do you believe you should be unblocked?</label><br /><br />';
 echo '<textarea id="Appeal" maxlength="4060" name="appeal_appealText" rows="5" >' . posted('appeal_appealText') . '</textarea>';

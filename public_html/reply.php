@@ -149,12 +149,12 @@ else{
 	}
 
 	if(!$submitted || $errors ){
-			echo '<form name="sendReply" id="sendReply" method="POST" action="reply.php?id=' . $_GET['id'] . '&confirmEmail=' .  $_GET['confirmEmail'] ' . "><textarea rows="15" cols="60" name="reply" id="reply" maxlength="2048">';
-			if(isset($_POST['reply'])){ echo $_POST['reply']; }
-			echo '</textarea><p id="sizereply"></p><input name="submit" id="submit" type="submit" value="Send Reply" /></form>';
-			// Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k.
-			// TODO: Actually check the size of the reply
-		} // closes if(!isset($_POST['submit']) | $errors )
+		echo '<form name="sendReply" id="sendReply" method="POST" action="reply.php?id=' . $_GET['id'] . '&confirmEmail=' .  $_GET['confirmEmail'] ' . "><textarea rows="15" cols="60" name="reply" id="reply" maxlength="2048">';
+		if(isset($_POST['reply'])){ echo $_POST['reply']; }
+		echo '</textarea><p id="sizereply"></p><input name="submit" id="submit" type="submit" value="Send Reply" /></form>';
+		// Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k.
+		// TODO: Actually check the size of the reply
+	} // closes if(!isset($_POST['submit']) | $errors )
 
 } // closes else from if(!$accessGranted)
 

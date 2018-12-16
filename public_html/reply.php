@@ -135,39 +135,29 @@ if(!$accessGranted){
    displayError($errors);
 }
 else{
-?>
+	echo '<h3>Post a reply to your appeal</h3>';
 
-<h3>Post a reply to your appeal</h3>
+	if(!$submitted || $errors ){ 
+		echo '<p>Welcome back,' . $appeal->getCommonName(); . '. You may use the form below to respond to any emails you have received from the administrator(s) reviewing your block. Posting a response with this form will flag your appeal for further attention from whoever is currently reviewing it, so if you believe your appeal has been heavily delayed, you can post a response to bring attention to it again.</p>';
+	} // closes if(!$submitted | $errors )
 
-<?php if(!$submitted || $errors ){ ?>
-<p>Welcome back, <?php echo $appeal->getCommonName(); ?>. You may use the form below to respond to any emails
-you have received from the administrator(s) reviewing your block. Posting a response with this form will flag
-your appeal for further attention from whoever is currently reviewing it, so if you believe your appeal has 
-been heavily delayed, you can post a response to bring attention to it again.</p>
+	if($submitted && !$errors){
+	   displaySuccess("Your response has been successfully posted. We will be in touch with you again soon.");
+	}
+	else if($errors){
+	   displayError($errors);
+	}
 
-<?php } // closes if(!$submitted | $errors )
-
-if($submitted && !$errors){
-   displaySuccess("Your response has been successfully posted. We will be in touch with you again soon.");
-}
-else if($errors){
-   displayError($errors);
-}
-
-if(!$submitted || $errors ){
-?>
-<form name="sendReply" id="sendReply" method="POST" action="reply.php?id=<?php echo $_GET['id'];?>&confirmEmail=<?php echo $_GET['confirmEmail'];?>">
-<?php // Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k. ?>
-<textarea rows="15" cols="60" name="reply" id="reply" maxlength="2048"><?php if(isset($_POST['reply'])){echo $_POST['reply'];}?></textarea>
-echo '<p id="sizereply"></p>';
-<input name="submit" id="submit" type="submit" value="Send Reply" />
-</form>
-<?php 
-} // closes if(!isset($_POST['submit']) | $errors )
+	if(!$submitted || $errors ){
+			echo '<form name="sendReply" id="sendReply" method="POST" action="reply.php?id=' . $_GET['id'] . '&confirmEmail=' .  $_GET['confirmEmail'] ' . "><textarea rows="15" cols="60" name="reply" id="reply" maxlength="2048">';
+			if(isset($_POST['reply'])){ echo $_POST['reply']; }
+			echo '</textarea><p id="sizereply"></p><input name="submit" id="submit" type="submit" value="Send Reply" /></form>';
+			// Yes i'm being an ass and limiting the reply to 2048 charecters while admins can send much larger emails of 10k.
+			// TODO: Actually check the size of the reply
+		} // closes if(!isset($_POST['submit']) | $errors )
 
 } // closes else from if(!$accessGranted)
-?>
-<?php
+
 skinFooter();
 
 ?>

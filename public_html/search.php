@@ -80,24 +80,28 @@ if ($_POST || $_GET) {
 			SELECT DISTINCT
 				a.appealID,
 				MATCH (
-					a.appealID,
 					a.email,
 					a.wikiAccountName,
 					a.blockingAdmin,
 					a.appealText,
 					a.intendedEdits,
-					a.otherInfo,
+					a.otherInfo
+				) AGAINST(:searchterms IN BOOLEAN MODE) AS appeal_score,
+				MATCH (
 					c.comment
-				) AGAINST(:searchterms IN BOOLEAN MODE) AS score
+				) AGAINST(:searchterms2 IN BOOLEAN MODE) AS comment_score
 			FROM appeal AS a, comment AS c
 
 			WHERE a.appealID = c.appealID
 
-			HAVING score > 0.2
-			ORDER BY score DESC");
+			HAVING (appeal_score + comment_score) > 0.2
+			OR a.appealID = :searchterms3
+			ORDER BY (appeal_score + comment_score) DESC");
 
 		$result = $query->execute(array(
-			':searchterms'		=> $search_terms));
+			':searchterms'		=> $search_terms,
+			':searchterms2'		=> $search_terms,
+			':searchterms3'		=> $search_terms));
 	}
 
 	if(!$result){
@@ -112,7 +116,7 @@ if ($_POST || $_GET) {
 		$found_any = true;
 
 		$appeal = Appeal::getAppealByID($data['appealID']);
-		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . $data['score'] . "</div>";
+		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . ($data['appeal_score'] + $data['comment_score']) . "</div>";
 		echo "<div class=\"search_body\"><i>" . $appeal->getAppeal() . "</i></div>";
 	}
 	$query->closeCursor();

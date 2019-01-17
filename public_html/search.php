@@ -116,7 +116,12 @@ if ($_POST || $_GET) {
 		$found_any = true;
 
 		$appeal = Appeal::getAppealByID($data['appealID']);
-		echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . ($data['appeal_score'] + $data['comment_score']) . "</div>";
+		if(isset($data['comment_score'])) { //for non-appeal id searches
+			echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . ($data['appeal_score'] + $data['comment_score']) . "</div>";
+		}
+		else {//for appeal id only search
+			echo "<div class=\"search_header\"><a href=\"appeal.php?id=" . $appeal->getID() . "\">" . $appeal->getCommonName() . "</a> - Score: " . ($data['score']) . "</div>";
+		}
 		echo "<div class=\"search_body\"><i>" . $appeal->getAppeal() . "</i></div>";
 	}
 	$query->closeCursor();

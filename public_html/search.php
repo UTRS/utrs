@@ -110,7 +110,7 @@ if ($_POST || $_GET) {
 	}
 
 	echo "<h2>Results</h2>";
-
+	echo $data;
 	$found_any = false;
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$found_any = true;

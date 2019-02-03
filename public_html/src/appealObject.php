@@ -223,7 +223,11 @@ class Appeal extends Model {
       else {
       	$blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
       }
-	  $appeal->blockingAdmin = $blockinfo['by'];
+	  try {$appeal->blockingAdmin = $blockinfo['by'];}
+      catch (Exception $e) {
+          $appeal->blockingAdmin = "Unknown";
+      }
+	  
 	  
 
       // False means "uncached", getUserAgent() will fetch it when

@@ -223,8 +223,10 @@ class Appeal extends Model {
       else {
       	$blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
       }
-	  try {$appeal->blockingAdmin = $blockinfo['by'];}
-      catch (Exception $e) {
+	if (array_key_exists("by",$blockinfo)) {
+		$appeal->blockingAdmin = $blockinfo['by'];
+	}
+      else {
           $appeal->blockingAdmin = "Unknown";
       }
 	  

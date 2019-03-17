@@ -26,7 +26,7 @@ class Appeal extends Model {
     * IP addresses belonging to the Toolserver that may get in the way
     * of identifying the requestor's IP
     */
-   public static $TOOLSERVER_IPS = '91.198.174.197,91.198.174.204,185.15.59.204,185.15.59.197,10.4.1.89,tools.wmflabs.org,10.4.0.78,10.68.16.65,dynamicproxy-gateway.eqiad.wmflabs,10.68.21.68,novaproxy-01.project-proxy.eqiad.wmflabs';
+   public static $TOOLSERVER_IPS = '91.198.174.197,91.198.174.204,185.15.59.204,185.15.59.197,10.4.1.89,tools.wmflabs.org,10.4.0.78,10.68.16.65,dynamicproxy-gateway.eqiad.wmflabs,10.68.21.68,novaproxy-01.project-proxy.eqiad.wmflabs,proxy-01.project-proxy.eqiad.wmflabs,172.16.0.164';
    /**
     * The appeal has not yet passed email verification
     */
@@ -223,7 +223,13 @@ class Appeal extends Model {
       else {
       	$blockinfo = $objPeachy->initUser( $appeal->getCommonName() )->get_blockinfo();
       }
-	  $appeal->blockingAdmin = $blockinfo['by'];
+	if (array_key_exists("by",$blockinfo)) {
+		$appeal->blockingAdmin = $blockinfo['by'];
+	}
+      else {
+          $appeal->blockingAdmin = "Unknown";
+      }
+	  
 	  
 
       // False means "uncached", getUserAgent() will fetch it when

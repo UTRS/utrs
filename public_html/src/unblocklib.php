@@ -38,7 +38,7 @@ function posted($key) {
 	return '';
 }
 
-function loggedIn(){	
+function loggedIn(){
 	if(!isset($_SESSION)){
 		session_name('UTRSLogin');
 		session_start();
@@ -61,7 +61,7 @@ function loggedIn(){
             }
 			$data = $query->fetch(PDO::FETCH_ASSOC);
 			$query->closeCursor();
-			
+
 			if (!isset($data['userID']) || $data['userID'] === "" || $data['userID'] === NULL) {
 				debug('ERROR: UserID not set or null from database in loggedIn() in file unblocklib.php<br/>');
 				throw new UTRSValidationException("UserID not set from database while attempting to check logged in status.");
@@ -123,26 +123,26 @@ function registerLogin($userID, $db){
 
 function getLoggedInUsers(){
 	$db = connectToDB();
-		
+
 	// Clear old users: Trash collection
 	$query = $db->exec("DELETE FROM loggedInUsers WHERE lastPageView < SUBTIME(NOW(), '0:5:0')");
-	
+
 	// should be within the last five minutes, I think
 	$query = $db->query("SELECT userID FROM loggedInUsers");
-	
+
 	if($query === false){
 		$error = var_export($db->errorInfo(), true);
 		debug('ERROR: ' . $error . '<br/>');
 		throw new UTRSDatabaseException($error);
 	}
-	
+
 	$users = array();
-	
+
 	while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
 		$user = UTRSUser::getUserById($data['userID']);
 		$users[] = "<a href=\"userMgmt.php?userId=" . $user->getUserId() . "\">" . $user->getUsername() . "</a>";
 	}
-	
+
 	return implode(', ', $users);
 }
 
@@ -160,8 +160,8 @@ function verifyLogin($destination = 'home.php'){
 	if(!$user->isApproved() | !$user->isActive()){
 			header("Location: " . getRootURL() . 'logout.php');
 			exit;
-	} else {	
-		if (!$user->getAcceptToS() && !strpos($_SERVER['REQUEST_URI'], "accepttos.php")) { 
+	} else {
+		if (!$user->getAcceptToS() && !strpos($_SERVER['REQUEST_URI'], "accepttos.php")) {
 			header("Location: " . getRootURL() . 'accepttos.php');
 			exit;
 		}
@@ -176,7 +176,7 @@ function verifyLogin($destination = 'home.php'){
  * -2 - Only oversight may view this
  * -1 - Only checkusers may view this
  *  0 - Any approved user, including inactive ones, can view (or above)
- *  1 - Only active users may view this 
+ *  1 - Only active users may view this
  *  2 - Only tool administrators may view this (or above)
  *  3 - Only tool developers may view this
  * Invalid arguments will result in an exception.
@@ -184,19 +184,19 @@ function verifyLogin($destination = 'home.php'){
  */
 function verifyAccess($level){
 	// validate
-	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] & 
+	if($level !== $GLOBALS['CHECKUSER'] & $level !== $GLOBALS['APPROVED'] & $level !== $GLOBALS['ACTIVE'] &
 			$level !== $GLOBALS['ADMIN'] & $level !== $GLOBALS['DEVELOPER'] & $level !== $GLOBALS['WMF'] & $level !== $GLOBALS['OVERSIGHT']){
 		throw new UTRSIllegalArgumentException($level, '-3, -2, -1, 0, 1, 2, or 3', 'verifyAccess()');
 	}
-	
+
 	$user = getCurrentUser();
 	if($user == null){
 		return false;
 	}
-	
+
 	switch($level){
-		case $GLOBALS['WMF']: return $user->isWMF(); 
-		case $GLOBALS['OVERSIGHT']: return ($user->isOversighter() | $user->isWMF()); 
+		case $GLOBALS['WMF']: return $user->isWMF();
+		case $GLOBALS['OVERSIGHT']: return ($user->isOversighter() | $user->isWMF());
 		case $GLOBALS['CHECKUSER']: return ($user->isCheckuser() | $user->isWMF()); // doesn't cascase up like others
 		case $GLOBALS['APPROVED']: return $user->isApproved(); // will never be set back to zero, so don't need to check rest
 		case $GLOBALS['ACTIVE']: return ($user->isActive()); // on second thought, it should be possible to disable admins and devs too
@@ -394,8 +394,8 @@ function validEmail($email)
 			}
 			// if last
 			else if($i == ($length - 1)){
-				return false; // can't be last, as that escapes the @, 
-				              // making the address not actually have an @ 
+				return false; // can't be last, as that escapes the @,
+				              // making the address not actually have an @
 			}
 			else{
 				$escapeNext = true;
@@ -433,14 +433,14 @@ function validEmail($email)
 	$domain = preg_replace("/\(.*?\)/", "", $domain);
 	// IP address wrapped in [] (e.g. [127.0.0.1])
 	if(!(preg_match("/^\[((2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3,3}".
-	   "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\]$/", $domain)) && 
+	   "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9][0-9]|[0-9])\]$/", $domain)) &&
 		!(preg_match("/^[a-zA-Z0-9-]+?(\.[a-zA-Z0-9-]+?){0,}$/", $domain))){
 		return false;
 	}
 	else if(strlen($domain) > 255){
 		return false;
 	}
-	
+
 	return true; // yay!
 }
 
@@ -477,13 +477,18 @@ function convHTML2UTF16($text) {
 		//Get specific template
 		$matches = array();
 		$found = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-		
+
 		//Don't even fucking asks how or why this works or how the fuck I came up with it.  Just leave it be.
 		for ($i = 0; $i < count($matches[0]); $i++) {
 			$text = str_replace($matches[0][$i][0], utf8_encode(json_decode("\"\u" . dechex($matches[1][$i][0]) . "\"")), $text);
 		}
-				
-		return $text;		
+
+		return $text;
+}
+
+function getTLD(String $domain) {
+      $host_names = explode(".", $host);
+      return $host_names[count($host_names)-2] . "." . $host_names[count($host_names)-1];
 }
 
 

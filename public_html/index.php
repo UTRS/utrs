@@ -10,7 +10,7 @@ require_once('src/unblocklib.php');
 require_once('src/exceptions.php');
 require_once('src/appealObject.php');
 require_once('src/banObject.php');
-require_once('src/logObject.php');  
+require_once('src/logObject.php');
 require_once('sitemaintain.php');
 
 checkOnline();
@@ -38,35 +38,35 @@ $success = false;
 
 // Handle submitted form
 if(isset($_POST["submit"])){
-   
+
    debug('form submitted <br/>');
-   
+
    try{
-      
-      
+
+
       $ip = Appeal::getIPFromServer();
       $email = $_POST["appeal_email"];
       $registered = (isset($_POST["appeal_hasAccount"]) ? ($_POST["appeal_hasAccount"] ? true : false) : false);
       $wikiAccount = (isset($_POST["appeal_wikiAccountName"]) ? $_POST["appeal_wikiAccountName"] : null);
       if (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 1) {
-        $autoblock = true;      
+        $autoblock = true;
       }
       if (!isset($_POST["appeal_autoblock"]) || (isset($_POST["appeal_autoblock"]) && $_POST["appeal_autoblock"] == 0)) {
-        $autoblock = false;      
+        $autoblock = false;
       }
-       
+
       $ban = Ban::isBanned($ip, $email, $wikiAccount);
       if($ban){
          $expiry = $ban->getExpiry();
          $avoidable = strcmp($ban->getTarget(), $wikiAccount) == 0 && !$registered;
-         $message = ($ban->isIP() ? "Your IP address" : $ban->getTarget()) . " has been banned " . 
+         $message = ($ban->isIP() ? "Your IP address" : $ban->getTarget()) . " has been banned " .
             ($expiry ? "until " . $expiry : "indefinitely") . " by " . $ban->getAdmin()->getUsername() .
             " for the reason '" . $ban->getReason() . "'.";
          if($avoidable){
             $message .= " You may be able to resubmit your appeal by selecting a different username.";
          }
          else{
-            $message .= " If you still wish to appeal your block, you may visit us on IRC at " . 
+            $message .= " If you still wish to appeal your block, you may visit us on IRC at " .
                "<a href=\"http://webchat.freenode.net/?channels=wikipedia-en-unblock\">#wikipedia-en-unblock</a> " .
                 "(if you haven't already done so).";
          }
@@ -117,13 +117,32 @@ if(isset($_POST["submit"])){
          "did not file an appeal then simply do nothing, and the appeal will be deleted.<br /><br />" .
          "<a href=\"" . htmlspecialchars($confirmURL) . "\">" . htmlspecialchars($confirmURL) . "</a>";
 
-      mail($appeal->getEmail(), "Unblock appeal email address confirmation", $body, $headers);
+      // We're going to do a quick check to determine if the user is using malicious domains
+      $domain = getTLD(explode("@", $appeal->getEmail())[1]);
+      $bad_domains = ["mailinator.com", "freedom.com"];
+      $make_invalid = false;
+      foreach (dns_get_record($domain) as $record) {
+        if (in_array(getTLD($record["target"]), $bad_domains)) {
+          $make_invalid = true;
+        }
+      }
+
+      if (!$make_invalid) {
+        mail($appeal->getEmail(), "Unblock appeal email address confirmation", $body, $headers);
+      }
 
       $success = true;
-      
+
       $log = Log::getCommentsByAppealId($appeal->getID());
       $log->addNewItem("Appeal Created", 1);
       Log::ircNotification("\x033New appeal has been created for\x032 " . $appeal->getCommonName() . " \x033(\x032 " . $appeal->getID() . " \x033) URL: " . getRootURL() . "appeal.php?id=" . $appeal->getID(), 1);
+
+      //If it's from a bad domain, retroactively mark it invalid
+      if ($make_invalid) {
+        $appeal->setStatus(Appeal::$STATUS_INVALID);
+        $appeal->update();
+        $log->addNewItem("Appeal invalid due to domain registrar", 1);
+      }
    }
    catch (UTRSValidationException $ex){
    	  $errorMessages = $ex->getMessage() . $errorMessages;
@@ -175,14 +194,14 @@ if($success){
    displaySuccess("Your appeal has been recorded and is pending email address verification.  Please check your email inbox for a message from UTRS.  If you can't find such a message in your inbox, please check your junk mail folder.");
 } else {
 ?>
-<p>If you are presently blocked from editing on Wikipedia (which you may verify by 
+<p>If you are presently blocked from editing on Wikipedia (which you may verify by
 clicking <a href="http://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=edit">here</a>), you may fill out
-the form below to have an administrator review your block. Please complete all fields labelled in 
+the form below to have an administrator review your block. Please complete all fields labelled in
 <span class="required">red text</span>, as these are required in order for us to complete a full review of your block.</p>
 
 <p>If you are having trouble editing a particular page or making a particular edit, but are able to edit the page
-linked in the previous paragraph, you may not be blocked, but instead could be having difficulty with 
-<a href="http://en.wikipedia.org/wiki/Wikipedia:Protection policy">page protection</a> or the 
+linked in the previous paragraph, you may not be blocked, but instead could be having difficulty with
+<a href="http://en.wikipedia.org/wiki/Wikipedia:Protection policy">page protection</a> or the
 <a href="http://en.wikipedia.org/wiki/Wikipedia:Edit filter">edit filter</a>. For more information, and instructions on
 how to receive assistance, please see those links.</p>
 
@@ -195,7 +214,7 @@ how to receive assistance, please see those links.</p>
                              "to continue. Thank you!");?>
 </noscript>
 
-<?php 
+<?php
 if($errorMessages){
    displayError($errorMessages);
 }
@@ -250,7 +269,7 @@ echo '</form>';
 
 <p>Please remember that Wikipedia administrators are volunteers; it may take some time for your appeal to be reviewed, and a courteous appeal will be met with a courteous response. If you feel it is taking too long for your appeal to be reviewed, you can usually appeal your block on your user talk page (<a href="http://en.wikipedia.org/wiki/Special:Mytalk">located here</a>) by copying this text and pasting it in a new section on the bottom of your page: <b><tt>{{unblock|1=your reason here}}</tt></b> Be sure to replace "your reason here" with your appeal.</p>
 </div></center>
-<?php 
+<?php
 
 skinFooter();
 ?>

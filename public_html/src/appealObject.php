@@ -18,10 +18,10 @@ else {
 
 /**
  * This class contains information relevant to a single unblock appeal.
- * 
+ *
  */
 class Appeal extends Model {
-   
+
    /**
     * IP addresses belonging to the Toolserver that may get in the way
     * of identifying the requestor's IP
@@ -72,7 +72,7 @@ class Appeal extends Model {
     * Email blacklist in regex form
     */
    public static $EMAIL_BLACKLIST = '~@(wiki(p|m)edia|mailinator)~';
-   
+
    /**
     * Database ID number
     */
@@ -139,7 +139,7 @@ class Appeal extends Model {
     * Status of the appeal
     */
    protected $status;
-   
+
    /**
     * User agent
     */
@@ -171,7 +171,7 @@ class Appeal extends Model {
       'emailToken'      => 'emailToken');
 
    private static $badAccountCharacters = '# / | [ ] { } < > @ % : $';
-     
+
    private static $config = "UTRSBot";
 
    public static function getColumnMap() {
@@ -181,7 +181,7 @@ class Appeal extends Model {
    public static function getColumnsForSelect($table_alias = 'appeal') {
       return parent::getColumnsForSelectBase(array_keys(self::$columnMap), 'appeal_', $table_alias);
    }
-   
+
    /**
     * Build a Appeal object. If $fromDB is true, the mappings in $values
     * will be assumed to be those from the database; additionally,
@@ -189,7 +189,7 @@ class Appeal extends Model {
     * the DB. Otherwise, the mappings in $values will be assumed to be those
     * from the appeals form; values will be validated, and the object
     * will be inserted into the DB on completion.
-    * 
+    *
     * @param array $values the information to include in this appeal
     * @param boolean $fromDB is this from the database?
     */
@@ -204,16 +204,16 @@ class Appeal extends Model {
    }
 
    public static function newUntrusted($values) {
-	   
+
       $objPeachy = Peachy::newWiki( self::$config );
-	  
+
       $appeal = new Appeal($values);
 
       $appeal->ipAddress = self::getIPFromServer();
       $appeal->status = self::$STATUS_UNVERIFIED;
       $appeal->handlingAdmin = null;
       $appeal->handlingAdminObject = null;
-	  
+
 	  //Get blocking admin from API
 	  // WARNING: These need to be the raw values to get the appropriate block information from
 	  // the API. DO NOT CHANGE.
@@ -229,8 +229,8 @@ class Appeal extends Model {
       else {
           $appeal->blockingAdmin = "Unknown";
       }
-	  
-	  
+
+
 
       // False means "uncached", getUserAgent() will fetch it when
       // called, if the user has permission.
@@ -254,7 +254,7 @@ class Appeal extends Model {
    public function populate($map) {
       $this->populateFromMap(self::$columnMap, 'appeal_', $map);
    }
-   
+
    public static function getIPFromServer(){
       $ip = $_SERVER["REMOTE_ADDR"]; // default address
 
@@ -268,20 +268,20 @@ class Appeal extends Model {
             $ip = $sourceip;
          }
       }
-      
+
       return $ip;
    }
-   
+
    public static function getAppealByID($id){
       $db = connectToDB();
-      
+
       $query = $db->prepare("
          SELECT " . self::getColumnsForSelect() . " FROM appeal
          WHERE appealID = :appealID");
 
       $result = $query->execute(array(
          ':appealID' => $id));
-      
+
       if(!$result){
          $error = var_export($query->errorInfo(), true);
          throw new UTRSDatabaseException($error);
@@ -293,61 +293,61 @@ class Appeal extends Model {
       if ($values === false) {
          throw new UTRSDatabaseException('No results were returned for appeal ID ' . $id);
       }
-      
+
       return self::newTrusted($values);
    }
    public function checkRevealLog($userID,$item) {
    	$appealID = $this->appealID;
    	$db = connectToDB();
-   	
+
    	$query = $db->prepare("
          SELECT revealID FROM revealFlags
          WHERE appealID = :appealID AND item = :item AND toUser = :touser");
-   	
+
    	$result = $query->execute(array(
    			':appealID' => $appealID,':item' => $item, ':touser' => $userID));
-   	
+
    	if(!$result){
    		$error = var_export($query->errorInfo(), true);
    		throw new UTRSDatabaseException($error);
    	}
-   	
+
    	$values = $query->fetch(PDO::FETCH_ASSOC);
    	$query->closeCursor();
-   	
+
    	if ($values === false) {
    		return False;
    	}
-   	
+
    	return True;
    }
    public function insertRevealLog($userID,$item) {
    	$appealID = $this->appealID;
    	$db = connectToDB();
-   
+
    	$query = $db->prepare("
          INSERT INTO revealFlags (appealID, item, toUser) VALUES (:appealID, :item, :toUser)");
-   
+
    	$result = $query->execute(array(
    			':appealID' => $appealID,':item' => $item, ':toUser' => $userID));
-   
+
    	if(!$result){
    		$error = var_export($query->errorInfo(), true);
    		throw new UTRSDatabaseException($error);
    	}
-   
+
    	return;
    }
    public static function getCheckUserData($appealID) {
    	  //Check reveal
       if (verifyAccess($GLOBALS['CHECKUSER']) || verifyAccess($GLOBALS['DEVELOPER'])) {
          $db = connectToDB();
-         
+
          $query = $db->prepare("SELECT useragent FROM cuData WHERE appealID = :appealID");
-         
+
          $result = $query->execute(array(
             ':appealID' => $appealID));
-         
+
          if(!$result){
             $error = var_export($query->errorInfo(), true);
             throw new UTRSDatabaseException($error);
@@ -363,16 +363,16 @@ class Appeal extends Model {
 
       return null;
    }
-   
+
    public function insert(){
       $this->validate();
 
       debug('In insert for Appeal <br/>');
-      
+
       $db = connectToDB();
-      
+
       debug('Database connected <br/>');
-      
+
       $query = $db->prepare("
          INSERT INTO appeal
          (email, ip, wikiAccountName, autoblock, hasAccount,
@@ -402,15 +402,15 @@ class Appeal extends Model {
          debug('ERROR: ' . $error . '<br/>');
          throw new UTRSDatabaseException($error);
       }
-      
+
       debug('Insert complete <br/>');
-      
+
       $this->appealID = $db->lastInsertId();
-      
+
       debug('Getting timestamp <br/>');
-      
+
       $query = $db->prepare('SELECT timestamp FROM appeal WHERE appealID = :appealID');
-      
+
       $result = $query->execute(array(
          ':appealID' => $this->appealID));
 
@@ -418,7 +418,7 @@ class Appeal extends Model {
       $query->closeCursor();
 
       $this->timestamp = $row["timestamp"];
-      
+
       debug('Primary insert complete. Beginning useragent retrieval.<br/>');
 
       $query = $db->prepare('
@@ -438,21 +438,21 @@ class Appeal extends Model {
       $result = $query->execute(array(
          ':appealID' => $this->appealID,
          ':useragent'   => $cuData));
-      
+
       if(!$result){
          $error = var_export($query->errorInfo(), true);
          debug('ERROR: ' . $error . '<br/>');
          throw new UTRSDatabaseException($error);
       }
-      
+
       debug('Exiting insert <br/>');
    }
-   
+
    public function update() {
       debug('In update function');
-      
+
       $db = connectToDB();
-      
+
       debug('connected to database');
 
       $query = $db->prepare('
@@ -467,22 +467,22 @@ class Appeal extends Model {
          ':oldHandlingAdmin'  => $this->oldHandlingAdmin,
          ':status'      => $this->status,
          ':appealID'    => $this->appealID));
-      
+
       if(!$result){
          $error = var_export($query->errorInfo(), true);
          debug('ERROR: ' . $error . '<br/>');
          throw new UTRSDatabaseException($error);
       }
-      
+
       debug("Update complete");
-   
+
    }
-   
+
    public function validate(){
       debug('Entering validate for Appeal <br/>');
       $errorMsgs = "";
       $emailErr = false;
-      
+
       // confirm that all required fields exist
       if(!isset($this->emailAddress) || strcmp(trim($this->emailAddress), '') == 0 ){
          $emailErr = true;
@@ -511,7 +511,7 @@ class Appeal extends Model {
       if(!isset($this->intendedEdits) || strcmp(trim($this->intendedEdits), '') == 0){
          $errorMsgs .= "<br />You have not told us what edits you wish to make once unblocked.";
       }
-      
+
       // validate fields
       if(!$emailErr){
          $email = $this->emailAddress;
@@ -538,29 +538,29 @@ class Appeal extends Model {
             }
          }
       }
-      
+
       // TODO: add queries to check if account exists or not
-      
+
       if($errorMsgs){ // empty string is falsy
          debug('Validation errors: ' . $errorMsgs . ' <br/>');
          throw new UTRSValidationException($errorMsgs);
       }
-      
+
       debug('Exiting Appeal <br/>');
    }
-   
+
    public function getID(){
       return $this->appealID;
    }
-   
+
    public function getIP(){
       return $this->ipAddress;
    }
-   
+
    public function getAccountName(){
       return $this->accountName;
    }
-   
+
    public function getCommonName() {
       if ($this->accountName  && $this->hasAccount) {
          return $this->accountName;
@@ -568,7 +568,7 @@ class Appeal extends Model {
          return $this->ipAddress;
       }
    }
-   
+
    public function getUserPage() {
       if ($this->accountName && $this->hasAccount) {
          return "User:" . $this->accountName;
@@ -576,43 +576,43 @@ class Appeal extends Model {
          return "Special:Contributions/" . $this->ipAddress;
       }
    }
-   
+
    public function getEmail(){
       return $this->emailAddress;
    }
-   
+
    public function hasAccount(){
       return $this->hasAccount;
    }
-   
+
    public function isAutoblock(){
       return $this->isAutoBlock;
    }
-   
+
    public function getBlockingAdmin(){
       return $this->blockingAdmin;
    }
-   
+
    public function getAppeal(){
       return $this->appeal;
    }
-   
+
    public function getIntendedEdits(){
       return $this->intendedEdits;
    }
-   
+
    public function getBlockReason(){
       return $this->blockReason;
    }
-   
+
    public function getOtherInfo(){
       return $this->otherInfo;
    }
-   
+
    public function getTimestamp(){
       return $this->timestamp;
    }
-   
+
    public function getHandlingAdmin(){
       if (!is_null($this->handlingAdminObject)) {
          return $this->handlingAdminObject;
@@ -637,15 +637,15 @@ class Appeal extends Model {
 
       return null;
    }
-   
+
    public function getOldHandlingAdmin(){
       return $this->oldHandlingAdmin;
    }
-   
+
    public function getStatus(){
       return $this->status;
    }
-   
+
    public function getUserAgent() {
       if ($this->useragent !== false) {
          return $this->useragent;
@@ -658,11 +658,11 @@ class Appeal extends Model {
    public function getEmailToken() {
       return $this->emailToken;
    }
-   
+
    public static function getAppealCountByIP($ip) {
-      
+
       $db = connectToDB();
-      
+
       $query = $db->prepare("
          SELECT COUNT(*) as count
          FROM appeal
@@ -674,17 +674,17 @@ class Appeal extends Model {
          ':ip'    => $ip,
          ':md5ip' => md5($ip),
          ':iptwo' => $ip)); // This is bound twice on purpose. -- cdhowie
-      
+
       if(!$result){
          return 0;
       }
-      
+
       $count = $query->fetchColumn();
       $query->closeCursor();
 
       return $count;
    }
-   
+
    public function setStatus($newStatus){
       // TODO: query to check if status is closed; if so, whoever's reopening
       // should be a tool admin
@@ -703,20 +703,20 @@ class Appeal extends Model {
          throw new UTRSIllegalModificationException("The status you provided is invalid.");
       }
    }
-   
+
    public function setHandlingAdmin($admin, $saveadmin = 0){
       if($this->getHandlingAdminId() != null && $admin != null){
          throw new UTRSIllegalModificationException("This request is already reserved. "
            . "If the person holding this ticket seems to be unavailable, ask a tool "
            . "admin to break their reservation.");
       }
-      
+
       if ($this->getHandlingAdminId() == null && $admin == null) {
          return false;
       }
-      // TODO: Add a check to ensure that each person is only handling one 
+      // TODO: Add a check to ensure that each person is only handling one
       // at a time? Or allow multiple reservations?
-      
+
       // TODO: query to modify the row
       if ($saveadmin == 1 && $this->getHandlingAdminId() != NULL) {
          $this->oldHandlingAdmin = $this->getHandlingAdminId();
@@ -727,7 +727,7 @@ class Appeal extends Model {
 
       return true;
    }
-   
+
    public function returnHandlingAdmin() {
        if ($this->oldHandlingAdmin != NULL) {
          $this->handlingAdmin = $this->oldHandlingAdmin;
@@ -736,15 +736,15 @@ class Appeal extends Model {
          $this->oldHandlingAdmin = null;
        }
    }
-   
+
    public function getLastLogId() {
       return $this->lastLogId;
    }
-   
+
    public function updateLastLogId($log_id) {
-      
+
       $db = ConnectToDB();
-      
+
       $query = $db->prepare("
          UPDATE appeal
          SET lastLogId = :lastLogId
@@ -782,7 +782,7 @@ class Appeal extends Model {
 	  $bot = new UTRSBot();
 	  $time = date('M d, Y H:i:s', time());
 	  $bot->notifyUser($this->getCommonName(), array($this->appealID, $time));
-	  
+
 	  /* Change object and clean up */
       $this->status = self::$STATUS_NEW;
       $this->emailToken = null;
@@ -795,8 +795,8 @@ class Appeal extends Model {
 	      if (isset($data["query"]["users"][0]["blockid"])) {
 	        $checkFound=True;
 	      }
-	      if (!$checkFound) { 
-	        return False; 
+	      if (!$checkFound) {
+	        return False;
 	      }
 	      return True;
       }
@@ -820,18 +820,18 @@ class Appeal extends Model {
       $reviewSearch = preg_match($param,$data);
       if ($reviewSearch !== 0) {
         $review = count(preg_match("^.*\{\{(U|u)nblock.*reviewed^",strtolower($data)));
-        $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data)); 
+        $unblock = count(preg_match("^.*\{\{(U|u)nblock^",$data));
         if ($review<$unblock) {
           //throw new UTRSValidationException("Review count: ".$review.", Unblock count:".$unblock);
           return False;
         }
-        else { 
-          return True; 
+        else {
+          return True;
         }
       }
       else {
-        //throw new UTRSValidationException("No unblock data found."); 
-        return True; 
+        //throw new UTRSValidationException("No unblock data found.");
+        return True;
       }
    }
    public static function activeAppeal($email,$wikiAccount) {
@@ -855,41 +855,41 @@ class Appeal extends Model {
 
       $values = $query->fetch(PDO::FETCH_ASSOC);
       $query->closeCursor();
-      
+
       if ($values) {
         return True;
       }
       else {
         return False;
-      }      
-          
-      
+      }
+
+
    }
-   
+
    public function sendWMF() {
-	   
+
 		//TO Address
 		$email		= "ca@wikimedia.org";
-		
+
 		//Headeers and FROm address
 		$headers	= "From: Unblock Review Team <noreply-unblock@utrs.wmflabs.org>\r\n";
 		$headers	.= "MIME-Version: 1.0\r\n";
 		$headers	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-		
+
 		//BODY
 		$body		= "This is an email from the Unblock Ticket Request System.  Please do not reply to this email, replies will go to an unmonitored email box." .
-						"<br><br>" . 
+						"<br><br>" .
 						"Assistance is requested from a Wikimedia Foundation staff member on " .
 						"<a href=\"https://utrs.wmflabs.org/appeal.php?id=" . $this->getID() . ">UTRS Ticket #" . $this->getID() . "</a>." .
 						"<br><br>" .
 						"This email was generated automatically because an administrator requested WMF assistance via the UTRS interface.";
-						
+
 		//SUBJECT
 		$subject = "WMF Assistance requested on unblock appeal #" . $this->getID();
-		
+
 		//MAIL
 		mail($email, $subject, $body, $headers);
-	   
+
    }
 }
 

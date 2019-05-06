@@ -173,7 +173,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 		$errors = 'You are currently blocked from editing. To appeal your block, please use <a href="'.$CONFIG['site_root'].'">the appeal form</a>';
 	}
     else if (
-	($is_admin === TRUE && $payload->confirmed_email === TRUE) || //main site
+	(isset($is_admin) && $is_admin === TRUE && $payload->confirmed_email === TRUE) || //main site
 	((strpos($CONFIG['site_root'], 'beta') !== false || strpos($CONFIG['site_root'], 'alpha')) && $payload->confirmed_email === TRUE) //dev branch
 	) {
         $_SESSION['user'] = $username;
@@ -284,7 +284,7 @@ if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {
 			header("Location: home.php");
 		}
         exit;
-    } else if ($is_admin === TRUE) {
+    } else if (isset($is_admin) && $is_admin === TRUE) {
         $errors = 'You need to have a confirmed email address set in MediaWiki to use UTRS.';
     } else {
         $errors = 'Only administrators can review requests on UTRS.';

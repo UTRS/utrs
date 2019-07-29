@@ -71,8 +71,11 @@ class Appeal extends Model {
    /**
     * Email blacklist in regex form
     */
-   public static $EMAIL_BLACKLIST = '~@(wiki(p|m)edia|mailinator)~';
-   
+   public static $EMAIL_BLACKLIST = '~@(wiki(p|m)edia|mailinator|yandex|hackerous-tiger)~';
+   /**
+    * Email blacklist in regex form
+    */
+   public static $EMAIL_TLD_WHITELIST = '~@~.(ca|com|org|edu|us|au|in|de)';
    /**
     * Database ID number
     */
@@ -527,6 +530,9 @@ class Appeal extends Model {
                $errorMsgs .= "<br />The email address you have entered is blacklisted. You must enter an email address that you own.";
             }
          }
+         if(!preg_match(Appeal::$EMAIL_TLD_WHITELIST, $email, $matches)){
+            $errorMsgs .= "<br />Due to excessive spam that is occuring within our system, this email address is not allowed. Please try appealing from a more popular domain.";
+            }
       }
 
       if (isset($this->accountName)) {
@@ -861,6 +867,34 @@ class Appeal extends Model {
       }
       else {
         return False;
+      }      
+          
+      
+   }
+   
+   public static function noSpamCheck($ip) {
+      $db = ConnectToDB();
+	if (isset($wikiAccount)) {
+      $query = $db->prepare("
+         SELECT * FROM appeal
+         WHERE ip =\"".$ip."\";");
+	}
+      $result = $query->execute();
+      if(!$result){
+         $error = var_export($query->errorInfo(), true);
+         throw new UTRSDatabaseException($error);
+      }
+      
+
+      $values = $query->fetch(PDO::FETCH_ASSOC);
+      $query->closeCursor();
+      
+      if ($values) {
+         $error = "An attempt to spam our system with excessive appeals has been detected. You are not able to file an appeal until 7 days after your first appeal.";
+         throw new UTRSSpamException($error);
+      }
+      else {
+        return True;
       }      
           
       

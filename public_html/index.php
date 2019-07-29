@@ -72,6 +72,9 @@ if(isset($_POST["submit"])){
          }
          throw new UTRSCredentialsException($message);
       }
+      if (!Appeal::noSpamCheck($ip)) {
+          throw new UTRSValidationException('Our spam prevention system is not working right now. Please try again later.');
+      }
       if ($registered && !$autoblock && !Appeal::verifyBlock($wikiAccount, TRUE)) {
         throw new UTRSValidationException('The username you entered ('.$wikiAccount.') is not currently blocked. Please verify that you are blocked by following the instructions above.');
       }

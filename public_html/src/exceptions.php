@@ -45,4 +45,11 @@ class UTRSIllegalArgumentException extends UTRSException{
 	}
 }
 
+class UTRSSpamException extends UTRSException{	
+	public function __construct($errorMsg){
+		$message = "<b>You were prevented from filing this appeal: </b>" . $errorMsg;
+		parent::__construct($message, 10006, null);
+	}
+}
+
 ?>

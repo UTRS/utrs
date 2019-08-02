@@ -874,11 +874,9 @@ class Appeal extends Model {
    
    public static function noSpamCheck($ip) {
       $db = ConnectToDB();
-	if (isset($wikiAccount)) {
       $query = $db->prepare("
          SELECT * FROM appeal
          WHERE ip =\"".$ip."\";");
-	}
       $result = $query->execute();
       if(!$result){
          $error = var_export($query->errorInfo(), true);

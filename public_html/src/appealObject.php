@@ -75,7 +75,7 @@ class Appeal extends Model {
    /**
     * Email blacklist in regex form
     */
-   public static $EMAIL_TLD_WHITELIST = '~@~.(ca|com|org|edu|us|au|in|de)';
+   public static $EMAIL_TLD_WHITELIST = '~@~\.(ca|com|org|edu|us|au|in|de)';
    /**
     * Database ID number
     */

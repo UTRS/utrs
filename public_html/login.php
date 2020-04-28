@@ -57,7 +57,7 @@ debug('Destination: ' . $destination . '  Logout: ' . $logout . '</br>');
  * Set this to the Special:OAuth/authorize URL. 
  * To work around MobileFrontend redirection, use /wiki/ rather than /w/index.php.
  */
-$mwOAuthAuthorizeUrl = 'https://www.mediawiki.org/wiki/Special:OAuth/authorize';
+$mwOAuthAuthorizeUrl = 'https://en.wikipedia.org/wiki/Special:OAuth/authorize';
 
 /**
  * Set this to the Special:OAuth URL. 
